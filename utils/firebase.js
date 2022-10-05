@@ -1,21 +1,22 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore"
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyC7PFdISQmK8pmiqhCTrn_-VCYYNuHtET8",
-  authDomain: "voluntree-ba18c.firebaseapp.com",
-  databaseURL: "https://voluntree-ba18c-default-rtdb.firebaseio.com",
-  projectId: "voluntree-ba18c",
-  storageBucket: "voluntree-ba18c.appspot.com",
-  messagingSenderId: "609827239947",
-  appId: "1:609827239947:web:30bc25bd51583d701f6f0e",
-  measurementId: "G-9GEJ31G9R8",
+  apiKey: "AIzaSyCtcIyLmDS6DNqN129FWGm1n7dRJc6rAmc",
+  authDomain: "voluntreepin.firebaseapp.com",
+  projectId: "voluntreepin",
+  storageBucket: "voluntreepin.appspot.com",
+  messagingSenderId: "703871649919",
+  appId: "1:703871649919:web:4c6e1656614d08f25a174a",
+  measurementId: "G-Q7KQY4E2Y8",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-
-export default app;
+export const db = getFirestore(app);
