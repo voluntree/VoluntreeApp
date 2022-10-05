@@ -4,6 +4,9 @@ import { TailwindProvider } from 'tailwindcss-react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './screens/HomeScreen';
+import app from './utils/firebase'
+import firebaseAuth from 'firebase-auth';
+import firebase from '@react-native-firebase/app'
 
 const Stack = createNativeStackNavigator();
 
