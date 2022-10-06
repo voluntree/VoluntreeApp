@@ -8219,16 +8219,6 @@ react-native-gradle-plugin@^0.0.7:
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz"
   integrity sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==
 
-react-native-heroicons@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-heroicons/-/react-native-heroicons-3.2.0.tgz#34852039e21099b5a864f7f9f9805c8735584e52"
-  integrity sha512-M5jlhReLBALrmeKIjH1qgF3OCNphfw8xKpRlHpX8OH4zgsC3L6+Lt+c4/hNxSbxUIN2+s8XC0eK/NZLku14IzA==
-
-react-native-ionicons@^4.6.5:
-  version "4.6.5"
-  resolved "https://registry.yarnpkg.com/react-native-ionicons/-/react-native-ionicons-4.6.5.tgz#b792ec8896381e67ff237eba955e38afe7ceb7a4"
-  integrity sha512-s2Ia7M5t609LE9LWygMj3ALVPUlKhK7R9XcMb67fP4EYJv0oLcwg5pc+8ftv9XXaUuTW/WgL3zJlBYxAvtvMJg==
-
 react-native-maps@0.31.1:
   version "0.31.1"
   resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-0.31.1.tgz"

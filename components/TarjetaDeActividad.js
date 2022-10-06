@@ -1,8 +1,15 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import foto from '../images/bosqueSoleado.jpg';
+import {Icon} from "react-native-elements";
 
 const TarjetaDeActividad = () => {
+
+const[corazon, setEstado] = useState("heart");
+
+  const añadirFav = ()=> {
+    setEstado("heart-fill")
+  }
 
   return (
     <TouchableOpacity>
@@ -19,6 +26,12 @@ const TarjetaDeActividad = () => {
         />
         <View className="justify-between flex-row items-center pr-2">
           <Text className="m-2">TarjetaDeActividad</Text>
+          <Icon 
+            name = {corazon}
+            type = 'octicon'
+            color = '#517FA4'
+            onPress = {añadirFav}
+          />
         </View>
       </View>
     </TouchableOpacity>
