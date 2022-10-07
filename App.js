@@ -5,6 +5,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "./screens/HomeScreen";
 import FixedHeader from "./components/FixedHeader";
+import { TabNavigator } from "./components/TabNavigator";
+import TarjetaDeActividad from "./components/TarjetaDeActividad";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -12,12 +14,10 @@ export default function App() {
     <>
       <FixedHeader></FixedHeader>
       <NavigationContainer>
-        <TailwindProvider>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-          </Stack.Navigator>
-        </TailwindProvider>
-      </NavigationContainer>
+      <TailwindProvider>
+        <TabNavigator/>
+      </TailwindProvider>
+    </NavigationContainer>
     </>
   );
 }
