@@ -8,6 +8,8 @@ import { doc, setDoc } from "firebase/firestore";
 import {db} from '../utils/firebase';
 import { useState } from 'react';
 import TarjetaDeActividad from '../components/TarjetaDeActividad';
+import FixedHeader from '../components/FixedHeader';
+
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -23,6 +25,7 @@ const HomeScreen = () => {
   return (
     <TailwindProvider>
       <SafeAreaView className = "bg-white h-full items-center pt-5">
+      <FixedHeader/>
         <TarjetaDeActividad/>
       </SafeAreaView>
     </TailwindProvider>
