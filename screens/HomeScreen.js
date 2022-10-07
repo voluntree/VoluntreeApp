@@ -10,9 +10,6 @@ import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView from "react-native-maps";
 import { TailwindProvider } from "tailwindcss-react-native";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../utils/firebase";
-import { useState } from "react";
 import TarjetaDeActividad from "../components/TarjetaDeActividad";
 
 const HomeScreen = () => {
@@ -28,8 +25,9 @@ const HomeScreen = () => {
     <TailwindProvider>
       <SafeAreaView className="bg-white h-full items-center pt-5">
         <ScrollView>
-          <View><TarjetaDeActividad /></View>
-          
+          <View>
+            <TarjetaDeActividad />
+          </View>
         </ScrollView>
       </SafeAreaView>
     </TailwindProvider>
