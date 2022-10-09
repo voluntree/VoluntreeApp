@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="bg-white h-full items-center pt-5">
+      <SafeAreaView className="bg-fondo h-full items-center pt-5">
         <ScrollView>
           <View>
             <TarjetaDeActividad />

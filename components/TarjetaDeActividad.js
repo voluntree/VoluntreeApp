@@ -14,7 +14,7 @@ const[corazon, setEstado] = useState("heart");
   return (
     <TouchableOpacity>
       <View className="rounded-t-[15px] rounded-b-[15px] bg-zinc-300">
-        <View className="rounded-tl-[15px] rounded-br-[15px] absolute z-10 w-fit bg-lime-700">
+        <View className="rounded-tl-[15px] rounded-br-[15px] absolute z-10 w-fit bg-pinTarjeta-reforestacion">
           <Text className="pl-2 pr-2 text-white font-semibold">
             Reforestacion
           </Text>

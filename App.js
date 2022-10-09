@@ -12,9 +12,10 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <>
-      <FixedHeader></FixedHeader>
+      
       <NavigationContainer>
       <TailwindProvider>
+        <FixedHeader></FixedHeader>
         <TabNavigator/>
       </TailwindProvider>
     </NavigationContainer>

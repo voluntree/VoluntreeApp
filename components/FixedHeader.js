@@ -1,17 +1,21 @@
 import { Header, Icon } from "react-native-elements";
 import { TouchableOpacity, View } from "react-native";
+import {theme} from "../tailwind.config"
 
 const FixedHeader = () => {
   return (
     <View>
       <Header
-        backgroundColor="#FFFBFE"
+        backgroundColor = {theme.colors.bottomTabs}
         barStyle="light-content"
         centerComponent={{
           text: "Voluntree",
           style: { color: "#333" },
-        }}
-        containerStyle={{ width: 360 }}
+        }
+        }
+        containerStyle={
+          {justifyContent: "space-between"}
+        }
         leftComponent={
           <View>
             <TouchableOpacity>
