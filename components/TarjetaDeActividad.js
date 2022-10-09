@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import foto from '../images/bosqueSoleado.jpg';
 import {Icon} from "react-native-elements";
 
+
 const TarjetaDeActividad = () => {
 
 const[corazon, setEstado] = useState("heart");
@@ -13,7 +14,10 @@ const[corazon, setEstado] = useState("heart");
 
   return (
     <TouchableOpacity>
-      <View className="rounded-t-[15px] rounded-b-[15px] bg-zinc-300">
+      <View
+        
+        className="rounded-t-[15px] rounded-b-[15px]"
+      >
         <View className="rounded-tl-[15px] rounded-br-[15px] absolute z-10 w-fit bg-pinTarjeta-reforestacion">
           <Text className="pl-2 pr-2 text-white font-semibold">
             Reforestacion
@@ -24,13 +28,13 @@ const[corazon, setEstado] = useState("heart");
           source={foto}
           style={styles.fotoTarjeta}
         />
-        <View className="justify-between flex-row items-center pr-2">
+        <View className="justify-between flex-row items-center pr-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
           <Text className="m-2">TarjetaDeActividad</Text>
-          <Icon 
-            name = {corazon}
-            type = 'octicon'
-            color = '#517FA4'
-            onPress = {añadirFav}
+          <Icon
+            name={corazon}
+            type="octicon"
+            color="#517FA4"
+            onPress={añadirFav}
           />
         </View>
       </View>

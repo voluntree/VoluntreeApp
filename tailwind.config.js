@@ -10,7 +10,7 @@ module.exports = {
       pinTarjeta: {
         reforestacion: "#2a8c4a",
       },
-      fondo: "#b9fae5",
+      fondoTarjeta: "#edfcf8",
     },
   },
 };

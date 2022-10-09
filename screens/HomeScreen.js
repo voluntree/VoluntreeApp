@@ -5,8 +5,9 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+
 import React, { useLayoutEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView from "react-native-maps";
 import { TailwindProvider } from "tailwindcss-react-native";
@@ -23,7 +24,7 @@ const HomeScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="bg-fondo h-full items-center pt-5">
+      <SafeAreaView className="bg-[#d8fde2] h-full items-center pt-5">
         <ScrollView>
           <View>
             <TarjetaDeActividad />

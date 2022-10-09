@@ -10,15 +10,14 @@ import TarjetaDeActividad from "./components/TarjetaDeActividad";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
-    <>
-      
-      <NavigationContainer>
+    <NavigationContainer>
       <TailwindProvider>
-        <FixedHeader></FixedHeader>
+        <FixedHeader />
         <TabNavigator/>
       </TailwindProvider>
     </NavigationContainer>
-    </>
   );
 }
