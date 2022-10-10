@@ -9,6 +9,7 @@ module.exports = {
       bottomTabs: "#2ca880",
       pinTarjeta: {
         reforestacion: "#2a8c4a",
+        limpiezaCostas: "#831843",
       },
       fondoTarjeta: "#edfcf8",
     },
