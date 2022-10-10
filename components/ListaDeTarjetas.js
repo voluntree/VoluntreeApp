@@ -32,7 +32,6 @@ const ListaDeTarjetas = () => {
           imagen = {item.imagen}
         />
       }
-      ItemSeparatorComponent={() => <View className="mt-5"></View>}
     />
   );
 }
