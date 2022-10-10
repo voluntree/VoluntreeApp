@@ -26,23 +26,6 @@ const TarjetaDeActividad = (props) => {
   );
   getDownloadURL(reference).then((path) => {
     setUri(path)
-  
-  /*setUrl(path)).catch((error) => {
-    switch (error.code) {
-      case "storage/object-not-found":
-        // File doesn't exist
-        break;
-      case "storage/unauthorized":
-        // User doesn't have permission to access the object
-        break;
-      case "storage/canceled":
-        // User canceled the upload
-        break;
-
-      case "storage/unknown":
-        // Unknown error occurred, inspect the server response
-        break;
-    }*/
   })
 
   const añadirFav = ()=> {
@@ -58,11 +41,12 @@ const TarjetaDeActividad = (props) => {
 
         <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
           <View className="items-center flex-row space-x-2">
-            <View className="bg-slate-400 relative">
-              <Text className="pl-3 text-slate-300">{date} ·</Text>
+            <View className="bg-[#aaaaaa] ml-3 rounded-full">
+              <Text className="text-slate-300 mx-1.5">{date}</Text>
             </View>
-            <View>
-              <Text className="text-slate-300">{props.duracion}</Text>
+            <Text> · </Text>
+            <View className="bg-[#aaaaaa] ml-3 rounded-full">
+              <Text className="text-slate-300 mx-3">{props.duracion}</Text>
             </View>
           </View>
           <Icon

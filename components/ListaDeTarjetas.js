@@ -19,7 +19,7 @@ const ListaDeTarjetas = () => {
   
 
   return (
-    <FlatList
+    <FlatList className = "z-0"
       data={actividades}
       keyExtractor={(item) => item.id}
       renderItem={ ({item, index}) => 

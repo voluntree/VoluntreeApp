@@ -6,32 +6,28 @@ const FixedHeader = () => {
   return (
     <View>
       <Header
-        backgroundColor = {theme.colors.bottomTabs}
+        backgroundColor={theme.colors.bottomTabs}
         barStyle="light-content"
         centerComponent={{
           text: "Voluntree",
-          style: {color: "#333",
-          fontWeight : 'bold',
-          fontSize: 20,
-          },
-        }
-        }
-        containerStyle={
-          {justifyContent: "space-between"}
-        }
+          style: { color: "#333", fontWeight: "bold", fontSize: 20 },
+        }}
+        containerStyle={{ justifyContent: "space-between" }}
         leftComponent={
           <View>
-            <TouchableOpacity>
+            <TouchableOpacity className="pt-2">
               <Icon name="menu" color="black" />
             </TouchableOpacity>
           </View>
         }
         placement="center"
-        rightComponent={<View>
-          <TouchableOpacity>
-            <Icon name="settings" color="black" />
-          </TouchableOpacity>
-        </View>}
+        rightComponent={
+          <View>
+            <TouchableOpacity className="pt-2">
+              <Icon name="settings" color="black" />
+            </TouchableOpacity>
+          </View>
+        }
       ></Header>
     </View>
   );

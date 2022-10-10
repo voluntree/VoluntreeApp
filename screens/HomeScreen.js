@@ -13,6 +13,8 @@ import MapView from "react-native-maps";
 import { TailwindProvider } from "tailwindcss-react-native";
 import TarjetaDeActividad from "../components/TarjetaDeActividad";
 import ListaDeTarjetas from "../components/ListaDeTarjetas";
+import ListaFiltros from "../components/ListaFiltros";
+import Buscador from "../components/Buscador";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -26,9 +28,11 @@ const HomeScreen = () => {
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
-          <View>
-            <ListaDeTarjetas/>
-          </View>
+        <View className="mx-3 ">
+          <Buscador/>
+          <ListaFiltros className="z-10" />
+          <ListaDeTarjetas className="z-20" />
+        </View>
       </SafeAreaView>
     </TailwindProvider>
   );
