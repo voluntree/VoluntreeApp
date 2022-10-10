@@ -4,9 +4,10 @@ import foto from '../images/bosqueSoleado.jpg';
 import {Icon} from "react-native-elements";
 
 
-const TarjetaDeActividad = () => {
+const TarjetaDeActividad = (tarjeta) => {
 
-const[corazon, setEstado] = useState("heart");
+  
+  const[corazon, setEstado] = useState("heart");
 
   const añadirFav = ()=> {
     setEstado("heart-fill")
@@ -29,7 +30,7 @@ const[corazon, setEstado] = useState("heart");
           style={styles.fotoTarjeta}
         />
         <View className="justify-between flex-row items-center pr-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
-          <Text className="m-2">TarjetaDeActividad</Text>
+          <Text className="m-2">{tarjeta.descripcion}</Text>
           <Icon
             name={corazon}
             type="octicon"
