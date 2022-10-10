@@ -6,11 +6,12 @@ module.exports = {
   ],
   theme: {
     colors: {
-      bottomTabs: "#2ca880",
+      bottomTabs: "#00BFA5",
       pinTarjeta: {
         reforestacion: "#2a8c4a",
         limpiezaCostas: "#831843",
       },
+      fondo: '#A7FFEB',
       fondoTarjeta: "#edfcf8",
     },
   },

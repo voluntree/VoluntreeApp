@@ -41,38 +41,30 @@ const TarjetaDeActividad = (props) => {
   }
 
   return (
-    <TouchableOpacity>
-      <View className="rounded-t-[15px] rounded-b-[15px]">
-        <View className="rounded-tl-[15px] rounded-br-[15px] absolute z-10 w-fit bg-pinTarjeta-reforestacion">
-          <Text className="pl-2 pr-2 text-white font-semibold">
-            {props.tipo}
-          </Text>
-        </View>
+    <TouchableOpacity className = "rounded-t-[15px] rounded-b-[15px] w-96">
         <Image
-          className="rounded-t-[15px]"
+          className="rounded-t-[15px] h-48 w-82 "
           source={{uri: uri}}
-          style={styles.fotoTarjeta}
         />
-        <View className="w-30 justify-end flex-row items-center pr-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
+        <View className="justify-end w-full pr-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
           <Icon
             name={corazon}
             type="octicon"
             color="#517FA4"
             onPress={añadirFav}
           />
+          <Text className="m-2 bg-[#ffffff] w-screen">{props.descripcion}</Text>
         </View>
-        <View>
-          <Text className="m-2 bg-[#ffffff]">{props.descripcion}</Text>
-        </View>
-      </View>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
     fotoTarjeta: {
+        maxWidth: '100%',
+        maxHeight: '100%',
         width: 350,
-        height: 180,
+        height: 180
     }
 })
 

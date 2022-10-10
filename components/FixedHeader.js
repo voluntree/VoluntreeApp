@@ -10,7 +10,10 @@ const FixedHeader = () => {
         barStyle="light-content"
         centerComponent={{
           text: "Voluntree",
-          style: { color: "#333" },
+          style: {color: "#333",
+          fontWeight : 'bold',
+          fontSize: 20,
+          },
         }
         }
         containerStyle={
