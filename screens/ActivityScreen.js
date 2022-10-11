@@ -1,7 +1,7 @@
 import React from "react";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { TouchableOpacity, View, SafeAreaView } from "react-native";
-import { getDownloadURL, ref} from 'firebase/storage';
+import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon, ListItem } from "react-native-elements";
 
 function ActivityScreen(props) {
@@ -19,8 +19,8 @@ function ActivityScreen(props) {
     "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
   );
   getDownloadURL(reference).then((path) => {
-    setUri(path)
-  })
+    setUri(path);
+  });
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
@@ -29,39 +29,27 @@ function ActivityScreen(props) {
 
           <View>
             <TouchableOpacity>
-              <Icon name="arrow-left" color="black" />
+              <Icon name="arrow-left" color="white" />
             </TouchableOpacity>
             <TouchableOpacity>
-              <Icon name="star" color="black" />
+              <Icon name="star" color="white" />
             </TouchableOpacity>
           </View>
 
-          <ListItem icon>
-            <Left>
-              <Icon name="location" />
-            </Left>
-            <Body style={{ borderBottomColor: "transparent" }}>
-              <Text>{actividad.ubicacion}</Text>
-            </Body>
-          </ListItem>
+          <View className="flex-row items-center">
+            <Icon name="location" />
+            <Text>{actividad.ubicacion}</Text>
+          </View>
 
-          <ListItem icon>
-            <Left>
-              <Icon name="location" />
-            </Left>
-            <Body style={{ borderBottomColor: "transparent" }}>
-              <Text>{date}</Text>
-            </Body>
-          </ListItem>
+          <View className="flex-row items-center">
+            <Icon name="location" />
+            <Text>{date}</Text>
+          </View>
 
-          <ListItem icon>
-            <Left>
-              <Icon name="location" />
-            </Left>
-            <Body style={{ borderBottomColor: "transparent" }}>
-              <Text>{actividad.descripcion}</Text>
-            </Body>
-          </ListItem>
+          <View className="flex-row items-center">
+            <Icon name="location" />
+            <Text>{actividad.descripcion}</Text>
+          </View>
 
           <Button title="Participa" />
         </View>
