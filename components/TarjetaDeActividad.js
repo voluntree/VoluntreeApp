@@ -35,9 +35,9 @@ const TarjetaDeActividad = (props) => {
   return (
     <TouchableOpacity className="rounded-t-[15px] rounded-b-[15px] w-96 py-4">
       <Image className="rounded-t-[15px] h-48 w-82 " source={{ uri: uri }} />
-      <View className="justify-between w-full pr-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
-        <Text className="ml-3 text-xl font-bold">{props.titulo}</Text>
-        <Text className="ml-3 bg-[#ffffff] w-screen">{props.descripcion}</Text>
+      <View className="justify-between w-full bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
+        <Text className="text-xl font-bold">{props.titulo}</Text>
+        <Text className=" bg-[#ffffff] w-screen">{props.descripcion}</Text>
 
         <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
           <View className="items-center flex-row space-x-2">
