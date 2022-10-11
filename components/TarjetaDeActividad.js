@@ -35,17 +35,17 @@ const TarjetaDeActividad = (props) => {
   return (
     <TouchableOpacity className="rounded-t-[15px] rounded-b-[15px] w-96 py-4">
       <Image className="rounded-t-[15px] h-48 w-82 " source={{ uri: uri }} />
-      <View className="justify-between w-full bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
-        <Text className="text-xl font-bold">{props.titulo}</Text>
-        <Text className=" bg-[#ffffff] w-screen">{props.descripcion}</Text>
+      <View className="justify-between px-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
+        <Text className="text-xl pl-1.5 font-bold">{props.titulo}</Text>
+        <Text className=" bg-[#ffffff] pl-1.5">{props.descripcion}</Text>
 
         <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
-          <View className="items-center flex-row space-x-2">
-            <View className="bg-[#aaaaaa] ml-3 rounded-full">
+          <View className="items-center flex-row ml-1">
+            <View className="bg-[#aaaaaa]  rounded-full">
               <Text className="text-slate-300 mx-1.5">{date}</Text>
             </View>
             <Text> · </Text>
-            <View className="bg-[#aaaaaa] ml-3 rounded-full">
+            <View className="bg-[#aaaaaa] rounded-full">
               <Text className="text-slate-300 mx-3">{props.duracion}</Text>
             </View>
           </View>
@@ -62,13 +62,6 @@ const TarjetaDeActividad = (props) => {
   );
 }
 
-const styles = StyleSheet.create({
-    fotoTarjeta: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        width: 350,
-        height: 180
-    }
-})
+
 
 export default TarjetaDeActividad

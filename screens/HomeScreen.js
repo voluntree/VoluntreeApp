@@ -28,7 +28,7 @@ const HomeScreen = () => {
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
-          <Buscador className = "pl-2"/>
+          <Buscador/>
           <ListaFiltros/>
           <ListaDeTarjetas/>
       </SafeAreaView>
