@@ -32,7 +32,7 @@ const TarjetaDeActividad = (props) => {
 
   return (
     <TouchableOpacity>
-      <View className="rounded-t-[15px] rounded-b-[15px] w-fit mx-1 py-4">
+      <View className="rounded-t-[15px] rounded-b-[15px] w-fit mx-2 py-4">
         <View className="w-full">
           <Image
             className="rounded-t-[15px] h-48 w-82 object-scale-down"
