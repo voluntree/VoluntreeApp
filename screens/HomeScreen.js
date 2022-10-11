@@ -15,6 +15,7 @@ import TarjetaDeActividad from "../components/TarjetaDeActividad";
 import ListaDeTarjetas from "../components/ListaDeTarjetas";
 import ListaFiltros from "../components/ListaFiltros";
 import Buscador from "../components/Buscador";
+import ActivityScreen from "./ActivityScreen";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -24,6 +25,8 @@ const HomeScreen = () => {
       headerShown: false,
     });
   }, []);
+
+  
 
   return (
     <TailwindProvider>
