@@ -31,12 +31,9 @@ const HomeScreen = () => {
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
-        <View className="mx-3 ">
-          <Buscador/>
-          <ListaFiltros className="z-10" />
-          <ListaDeTarjetas className="z-20" />
-          {/* <ActivityScreen/> */}
-        </View>
+          <Buscador className = "pl-2"/>
+          <ListaFiltros/>
+          <ListaDeTarjetas/>
       </SafeAreaView>
     </TailwindProvider>
   );
