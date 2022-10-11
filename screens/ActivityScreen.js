@@ -1,4 +1,3 @@
-import React from "react";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { TouchableOpacity, View, SafeAreaView } from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
