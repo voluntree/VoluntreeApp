@@ -31,6 +31,7 @@ const ListaDeTarjetas = () => {
           duracion={item.duracion}
           imagen = {item.imagen}
         />
+        
       }
     />
   );
