@@ -7,17 +7,19 @@ import HomeScreen from "./screens/HomeScreen";
 import FixedHeader from "./components/FixedHeader";
 import { TabNavigator } from "./components/TabNavigator";
 import TarjetaDeActividad from "./components/TarjetaDeActividad";
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
-
   return (
-    <NavigationContainer>
-      <TailwindProvider>
-        <FixedHeader />
-        <TabNavigator/>
-      </TailwindProvider>
-    </NavigationContainer>
+    
+      <NavigationContainer>
+        <TailwindProvider>
+          <FixedHeader />
+          <TabNavigator/>
+        </TailwindProvider>
+      </NavigationContainer>
+    
   );
 }
