@@ -16,6 +16,7 @@ import ListaDeTarjetas from "../components/ListaDeTarjetas";
 import ListaFiltros from "../components/ListaFiltros";
 import Buscador from "../components/Buscador";
 import ActivityScreen from "./ActivityScreen";
+import FixedHeader from "../components/FixedHeader";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -26,10 +27,9 @@ const HomeScreen = () => {
     });
   }, []);
 
-  
-
   return (
     <TailwindProvider>
+      {/* <FixedHeader/> */}
       <SafeAreaView className="h-full items-center">
           <Buscador/>
           <ListaFiltros/>

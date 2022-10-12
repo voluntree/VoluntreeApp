@@ -3,23 +3,23 @@ import { StyleSheet, Text, View } from "react-native";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import HomeScreen from "./screens/HomeScreen";
+
 import FixedHeader from "./components/FixedHeader";
 import { TabNavigator } from "./components/TabNavigator";
-import TarjetaDeActividad from "./components/TarjetaDeActividad";
+import AppNavigator from "./components/AppNavigator";
+
 
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    
-      <NavigationContainer>
-        <TailwindProvider>
-          <FixedHeader />
-          <TabNavigator/>
-        </TailwindProvider>
-      </NavigationContainer>
-    
+    <NavigationContainer>
+      <TailwindProvider>
+        <FixedHeader />
+        <TabNavigator/>
+        {/* <AppNavigator/> */}
+      </TailwindProvider>
+    </NavigationContainer>
   );
 }
