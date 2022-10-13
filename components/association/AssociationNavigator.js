@@ -91,7 +91,7 @@ export function AssociationNavigator(){
               <View className="items-center justify-center">
                 <View>
                   <Image
-                    source={require("../../icons/add.png")}
+                    source={require("../../icons/plus.png")}
                     resizeMode="contain"
                     style={{ width: 30, height: 26 }}
                   ></Image>
