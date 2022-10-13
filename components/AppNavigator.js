@@ -6,6 +6,7 @@ import LoginScreen from "../screens/login/LoginScreen";
 import {TabNavigator} from "./TabNavigator";
 import HomeAssociation from "../screens/association/HomeAssociation";
 import { AssociationNavigator } from "./association/AssociationNavigator";
+import AssociationTab from "./association/AssociationTab";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -13,7 +14,7 @@ const AppNavigator = () => (
     <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
         <Screen name='Login' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>
-        <Screen name='AssociationHome' component={AssociationNavigator}></Screen>
+        <Screen name='AssociationHome' component={AssociationTab}></Screen>
     </Navigator>   
 )
 
