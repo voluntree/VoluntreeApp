@@ -29,7 +29,7 @@ const HomeScreen = () => {
 
   return (
     <TailwindProvider>
-      {/* <FixedHeader/> */}
+      <FixedHeader/>
       <SafeAreaView className="h-full items-center">
           <Buscador/>
           <ListaFiltros/>
