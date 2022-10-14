@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Image, Animated} from 'react-native';
 import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/user/HomeScreen';
 import { theme } from '../tailwind.config';
 
 

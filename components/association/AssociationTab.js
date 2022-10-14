@@ -6,6 +6,7 @@ import HomeAssociation from "../../screens/association/HomeAssociation";
 import NewsAssociation from "../../screens/association/NewsAssociation";
 import InboxAssociation from "../../screens/association/InboxAssociation";
 import ProfileAssociation from "../../screens/association/ProfileAssociation";
+import PostActivity from "../../screens/association/PostActivity";
 
 const Tab = createBottomTabNavigator();
 
@@ -33,10 +34,8 @@ const CustomTabBarButton = ({children, onPress}) => (
 const AssociationTab = () => {
     return (
         <Tab.Navigator 
-            tabBarOptions={{
-                showLabel: false,
-            }}
             screenOptions={{
+                tabBarShowLabel: false,
                 tabBarStyle: {
                     position: 'absolute',
                     bottom: 15,
@@ -82,7 +81,7 @@ const AssociationTab = () => {
                     </View>
                 ),
             }}/>
-            <Tab.Screen name="Post" component={NewsAssociation} 
+            <Tab.Screen name="Nueva Oferta" component={PostActivity} 
             options={{
                 tabBarIcon: ({focused}) => (
                     <Image

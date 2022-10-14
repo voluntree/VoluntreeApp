@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon, ListItem } from "react-native-elements";
-import { storage } from "../utils/firebase";
+import { storage } from "../../utils/firebase";
 import { useState, useEffect } from "react";
 
 const ActivityScreen = (props) => {

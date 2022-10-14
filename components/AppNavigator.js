@@ -1,11 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
 
 import LoginScreen from "../screens/login/LoginScreen";
 import {TabNavigator} from "./TabNavigator";
-import HomeAssociation from "../screens/association/HomeAssociation";
-import { AssociationNavigator } from "./association/AssociationNavigator";
 import AssociationTab from "./association/AssociationTab";
 
 const { Navigator, Screen } = createNativeStackNavigator();
