@@ -5,7 +5,7 @@ import { collection, query, where, getDocs, doc, onSnapshot, firestore} from "fi
 import {ref, getDownloadURL} from "firebase/storage";
 import TarjetaDeActividad from "./TarjetaDeActividad"
 
-const ListaDeTarjetas = () => {
+const ListaDeTarjetas = (props) => {
   
   const [actividades, setActividades] = useState([]);
 
@@ -16,8 +16,10 @@ const ListaDeTarjetas = () => {
 
   return (
     <FlatList
-      data={actividades}
-      keyExtractor={(item) => item.id}
+      data={actividades.filter((item) => {
+        return item.titulo.toLowerCase().includes(props.valor.toLowerCase())
+      })}
+      keyExtractor={(item) => item.titulo}
       renderItem={ ({item, index}) => 
         <TarjetaDeActividad
           tipo = {item.tipo}

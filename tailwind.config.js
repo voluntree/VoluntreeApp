@@ -7,6 +7,7 @@ module.exports = {
   theme: {
     colors: {
       bottomTabs: "#00BFA5",
+      focusBottomTabs:"#128978",
       pinTarjeta: {
         reforestacion: "#2a8c4a",
         limpiezaCostas: "#831843",

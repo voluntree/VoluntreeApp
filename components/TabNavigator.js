@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, Animated} from 'react-native';
-import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import { theme } from '../tailwind.config';
+import MyActivitiesScreen from '../screens/MyActivitiesScreen';
 
 
 const Tab = createBottomTabNavigator()
@@ -23,12 +23,6 @@ export function TabNavigator(){
         fontSize: 12, 
         fontWeight: 'bold', 
         color: 'white'
-      },
-      buttonOnFocus: {
-        width: 60,
-        height: 30,  
-        alignItems: 'center', 
-        borderRadius: 5
       }
     })
 
@@ -39,18 +33,14 @@ export function TabNavigator(){
           component={HomeScreen}
           options={{
             tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center">
-                <View
-                  style={[
-                    styles.buttonOnFocus,
-                    { backgroundColor: focused ? "#8bb3ff" : null },
-                  ]}
-                >
+              <View className="items-center justify-center bg-transparent">
+                <View className="w-[60px] h-[30px] items-center rounded-lg" 
+                      style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
                   <Image
                     source={require("../icons/home.png")}
                     resizeMode="contain"
                     style={{ width: 25, height: 25 }}
-                  ></Image>
+                  />
                 </View>
                 <Text style={styles.tabText}>HOME</Text>
               </View>
@@ -63,12 +53,8 @@ export function TabNavigator(){
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  style={[
-                    styles.buttonOnFocus,
-                    { backgroundColor: focused ? "#8bb3ff" : null },
-                  ]}
-                >
+                <View className="w-[60px] h-[30px] items-center rounded-lg" 
+                      style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
                   <Image
                     source={require("../icons/news.png")}
                     resizeMode="contain"
@@ -86,12 +72,8 @@ export function TabNavigator(){
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  style={[
-                    styles.buttonOnFocus,
-                    { backgroundColor: focused ? "#8bb3ff" : null },
-                  ]}
-                >
+                <View className="w-[60px] h-[30px] items-center rounded-lg" 
+                      style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
                   <Image
                     source={require("../icons/shop.png")}
                     resizeMode="contain"
@@ -109,12 +91,8 @@ export function TabNavigator(){
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  style={[
-                    styles.buttonOnFocus,
-                    { backgroundColor: focused ? "#8bb3ff" : null },
-                  ]}
-                >
+                <View className="w-[60px] h-[30px] items-center rounded-lg" 
+                      style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
                   <Image
                     source={require("../icons/inbox.png")}
                     resizeMode="contain"
@@ -128,16 +106,12 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Perfil"
-          component={HomeScreen}
+          component={MyActivitiesScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  style={[
-                    styles.buttonOnFocus,
-                    { backgroundColor: focused ? "#8bb3ff" : null },
-                  ]}
-                >
+                <View className="w-[60px] h-[30px] items-center rounded-lg" 
+                      style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
                   <Image
                     source={require("../icons/profile.png")}
                     resizeMode="contain"
