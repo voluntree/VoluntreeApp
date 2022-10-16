@@ -29,9 +29,11 @@ const ActivityScreen = () => {
       const base_url = "https://eu1.locationiq.com/v1/reverse";
       const getAddress = async (lat, lng) => {
         console.log({ lat, lng });
-        await fetch(`${base_url}?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`)
-          .then((resp) => {resp = resp.json()}).then(data => console.log(data))
-          .catch(console.error);
+        let response = await fetch(
+          `${base_url}?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
+        );
+        let data = await response.json();
+        setUbicacion(data.display_name);
       };
 
       getAddress(act.ubicacion.latitude, act.ubicacion.longitude).catch(
@@ -80,9 +82,11 @@ const ActivityScreen = () => {
             <Text>{actividad.descripcion}</Text>
           </View>
 
-          <View className="flex-row items-center pb-5 space-x-1">
-            <Icon name="location" type="octicon" color="black" />
-            <Text>Ubicacion:</Text>
+          <View className="flex-col items-start pb-5 space-x-1">
+            <View className="flex-row space-x-1">
+              <Icon name="location" type="octicon" color="black" />
+              <Text>Ubicacion:</Text>
+            </View>
             <Text>{ubicacion}</Text>
           </View>
 
