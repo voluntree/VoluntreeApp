@@ -1,16 +1,29 @@
 import { TailwindProvider } from "tailwindcss-react-native";
-import { TouchableOpacity, View, Text, Image } from "react-native";
+import { TouchableOpacity, View, Text, Image, ScrollView, Alert } from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
 import { storage, db } from "../utils/firebase";
 import { useState, useEffect } from "react";
-import { collection, onSnapshot, docs, doc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  docs,
+  doc,
+  addDoc,
+  setDoc,
+} from "firebase/firestore";
+import MapView from "react-native-maps";
+import { Marker } from "react-native-maps";
 
 const ActivityScreen = () => {
   const [actividad, setActividad] = useState({});
   const [fecha, setFecha] = useState();
   const [uri, setUri] = useState();
   const [ubicacion, setUbicacion] = useState();
+  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
+  const base_url = "https://eu1.locationiq.com";
+  const [img, setImg] = useState();
+  const [region, setRegion] = useState({});
 
   useEffect(() => {
     const refr = collection(db, "actividades");
@@ -23,17 +36,23 @@ const ActivityScreen = () => {
         `gs://voluntreepin.appspot.com/cardImages/${act.imagen}`
       );
       await getDownloadURL(reference)
-        .then((x) => setUri(x))
+        .then((x) => {
+          setUri(x);
+        })
         .catch(console.error);
-      const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
-      const base_url = "https://eu1.locationiq.com/v1/reverse";
+
       const getAddress = async (lat, lng) => {
-        console.log({ lat, lng });
         let response = await fetch(
-          `${base_url}?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
+          `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
         );
         let data = await response.json();
         setUbicacion(data.display_name);
+        setRegion({
+          latitude: lat,
+          longitude: lng,
+          latitudeDelta: 0.006,
+          longitudeDelta: 0.00021,
+        });
       };
 
       getAddress(act.ubicacion.latitude, act.ubicacion.longitude).catch(
@@ -49,26 +68,65 @@ const ActivityScreen = () => {
     day: "numeric",
   };
 
+  const inscribirUsuario = () => {
+    const participantsActivityRef = doc(
+      db,
+      "voluntarios/Catalin/actividades",
+      actividad.titulo
+    );
+    const activityParticipantsRef = doc(
+      db,
+      `actividades/${actividad.titulo}/participantes`,
+      "Catalin"
+    );
+    const actRef = doc(db, "actividades", actividad.titulo);
+    const participantRef = doc(db, "voluntarios", "Catalin");
+    let data1 = { actividad: actRef.path };
+    let data2 = { participante: participantRef.path };
+
+    console.log(
+      participantsActivityRef.path,
+      "+",
+      activityParticipantsRef.path
+    );
+    setDoc(participantsActivityRef, data1)
+      .then(() => console.log("1 exito"))
+      .catch((e) => console.log(e));
+    setDoc(activityParticipantsRef, data2)
+      .then(() =>
+        Alert.alert("Inscripción existosa", "Se ha inscrito correctamente a la actividad " + actividad.titulo, [
+          {
+            text: "Cancelar",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => console.log("OK Pressed") },
+        ])
+      )
+      .catch((e) => console.log(e));
+  };
+
   return (
     <TailwindProvider>
-      <View className="flex-col h-max w-100">
-        <View className="flex-row bg-[#3333332d] float w-100 h-10 items-center justify-between">
+      <ScrollView className="flex-col h-max w-100 bg-[white]">
+        <View className="flex-row bg-transparent mt-0 absolute w-full z-10 top-0 h-14 items-center justify-between">
           <View className="ml-2">
-            <TouchableOpacity>
+            <TouchableOpacity className="w-10 h-10">
               <Icon name="arrow-left" type="octicon" color="white" />
             </TouchableOpacity>
           </View>
           <View className="mr-2">
-            <TouchableOpacity>
+            <TouchableOpacity className="w-10 h-10">
               <Icon name="star" type="octicon" color="white" />
             </TouchableOpacity>
           </View>
         </View>
 
-        <Image className="w-100" source={{ uri }} />
+        <Image className="w-100 h-52 px-1 relative" source={{ uri: uri }} />
 
-        <View className="mx-3 pt-5">
-          <View className="flex-row space-x-1 items-center pb-5">
+        <View className="mx-3 pt-5 relative">
+          <Text className="font-extrabold text-2xl ">{actividad.titulo}</Text>
+          <View className="flex-row space-x-1 items-center py-5">
             <Icon name="calendar" type="octicon" color="black" />
             <Text>Fecha:</Text>
             <Text>{fecha}</Text>
@@ -87,12 +145,22 @@ const ActivityScreen = () => {
               <Icon name="location" type="octicon" color="black" />
               <Text>Ubicacion:</Text>
             </View>
-            <Text>{ubicacion}</Text>
+            <Text className="text-[black]">{ubicacion}</Text>
           </View>
 
-          <Button title="Participa" />
+          {region.latitude != undefined ? (
+            <MapView className="w-100 h-44 pb-5" initialRegion={region}>
+              <Marker coordinate={region} />
+            </MapView>
+          ) : (
+            <Text>Loading map...</Text>
+          )}
+
+          <View className="my-5">
+            <Button title="Participa" onPress={inscribirUsuario} />
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </TailwindProvider>
   );
 };

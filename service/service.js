@@ -32,11 +32,36 @@ export async function getActivityById(id) {
     const docRef = doc(db, "actividades", id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return docSnap.data()
+      return docSnap.data();
     } else {
       console.log("Document does not exist");
     }
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function inscribirUsuarioEnActividad(activityID, userID) {
+  try {
+    const participantsActivityRef = doc(
+      db,
+      `voluntarios/${userID}/actividades`,
+      actividad.titulo
+    );
+    const activityParticipantsRef = doc(
+      db,
+      `actividades/${activityID}/participantes`,
+      "Catalin"
+    );
+    const actRef = doc(db, "actividades", activityID);
+    const participantRef = doc(db, "voluntarios", userID);
+    let data1 = { actividad: actRef.path };
+    let data2 = { participante: participantRef.path };
+    
+    setDoc(participantsActivityRef, data1);
+    setDoc(activityParticipantsRef, data2);
+
+  } catch (error) {
+    console.log(e);
   }
 }

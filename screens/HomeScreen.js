@@ -9,7 +9,6 @@ import {
 import React, { useLayoutEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MapView from "react-native-maps";
 import { TailwindProvider } from "tailwindcss-react-native";
 import TarjetaDeActividad from "../components/TarjetaDeActividad";
 import ListaDeTarjetas from "../components/ListaDeTarjetas";
