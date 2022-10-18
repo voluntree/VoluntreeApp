@@ -20,43 +20,38 @@ import { getActivityById } from "../service/service";
 const ListaActividadesAsociacion = () => {
 
   const[actividades, setActividades] = useState([]);
-  const documentos = [];
+
+  const currentUser = {
+    name : "Green Peace",
+    cif : "G98347432",
+  }
+
+  const q =query(collection(db, "actividades"), where("asociacion", "==", currentUser.name))
 
   useEffect(() => {
-    onSnapshot(
-      collection(db, "asociaciones", "Green Peace", "actividades"),
-      (snapshot) => (
-        {
-          id: snapshot.id,
-        },
-        setActividades(snapshot.docs.map((doc) => doc.data()))
-        
-      )
-    );
-      actividades.forEach(async (actividad) => {
-        const docRef = doc(db, "actividades", actividad.nombre);
-        const docSnap = await getDoc(docRef);
-        documentos.push(docSnap.data());
-      });
-    
+    const getActividades = async () => { 
+      await getDocs(q).then((actividad) => {
+        let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
+        setActividades(actividadData)
+      })
+    }
+    getActividades();
   }, [])
 
-  const renderItems = (item) => (
-    <ActividadAsociacion
-      titulo={item.titulo}
-      descripcion={item.descripcion}
-      tipo={item.tipo}
-      fecha={item.fecha}
-      duracion={item.duracion}
-      imagen={item.imagen}
-    />
-  );
+  
 
   return (
     <FlatList
-      data={documentos}
+      data={actividades}
       keyExtractor={(item) => item.id}
-      renderItem={renderItems}
+      renderItem={({ item, index }) => (
+        <ActividadAsociacion
+          titulo={item.titulo}
+          descripcion={item.descripcion}
+          tipo={item.tipo}
+          imagen={item.imagen}
+        />
+      )}
     />
   );
 };

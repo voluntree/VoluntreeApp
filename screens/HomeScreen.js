@@ -25,7 +25,6 @@ const HomeScreen = () => {
   const [SearchText, setSearchText] = useState("");
 
     const handleSearchTextChange = (text) => {
-      console.log(text);
       setSearchText(text);
     };
 
