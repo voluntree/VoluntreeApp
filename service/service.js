@@ -69,7 +69,7 @@ export async function inscribirUsuarioEnActividad(activity, userID) {
       await updateDoc(doc(db, "actividades", activityID), {
         "num_participantes": increment(1),
       });
-    }
+    } else throw Error("Ya no quedan plazas para esta actividad.")
   } catch (error) {
     console.log(error);
   }
