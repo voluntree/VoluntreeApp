@@ -8,6 +8,8 @@ import {
   doc,
   onSnapshot,
   firestore,
+  deleteDoc,
+  setDoc,
 } from "firebase/firestore";
 
 const actividadesRef = collection(db, "actividades");
@@ -42,26 +44,36 @@ export async function getActivityById(id) {
 }
 
 export async function inscribirUsuarioEnActividad(activityID, userID) {
+  console.log(arguments)
   try {
     const participantsActivityRef = doc(
       db,
       `voluntarios/${userID}/actividades`,
-      actividad.titulo
+      activityID
     );
     const activityParticipantsRef = doc(
       db,
       `actividades/${activityID}/participantes`,
-      "Catalin"
+      userID
     );
     const actRef = doc(db, "actividades", activityID);
     const participantRef = doc(db, "voluntarios", userID);
     let data1 = { actividad: actRef.path };
     let data2 = { participante: participantRef.path };
     
-    setDoc(participantsActivityRef, data1);
-    setDoc(activityParticipantsRef, data2);
+    await setDoc(participantsActivityRef, data1);
+    await setDoc(activityParticipantsRef, data2);
 
   } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function desapuntarseDeActividad(activityID, userID){
+  try {
+    await deleteDoc(doc(db,`actividades/${activityID}/participantes/${userID}`))
+    await deleteDoc(doc(db,`voluntarios/${userID}/actividades/${activityID}`))
+  } catch (e) {
     console.log(e);
   }
 }

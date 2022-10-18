@@ -1,5 +1,12 @@
 import { TailwindProvider } from "tailwindcss-react-native";
-import { TouchableOpacity, View, Text, Image, ScrollView, Alert } from "react-native";
+import {
+  TouchableOpacity,
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Alert,
+} from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
 import { storage, db } from "../utils/firebase";
@@ -14,6 +21,10 @@ import {
 } from "firebase/firestore";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
+import {
+  desapuntarseDeActividad,
+  inscribirUsuarioEnActividad,
+} from "../service/service";
 
 const ActivityScreen = () => {
   const [actividad, setActividad] = useState({});
@@ -69,41 +80,20 @@ const ActivityScreen = () => {
   };
 
   const inscribirUsuario = () => {
-    const participantsActivityRef = doc(
-      db,
-      "voluntarios/Catalin/actividades",
-      actividad.titulo
-    );
-    const activityParticipantsRef = doc(
-      db,
-      `actividades/${actividad.titulo}/participantes`,
-      "Catalin"
-    );
-    const actRef = doc(db, "actividades", actividad.titulo);
-    const participantRef = doc(db, "voluntarios", "Catalin");
-    let data1 = { actividad: actRef.path };
-    let data2 = { participante: participantRef.path };
-
-    console.log(
-      participantsActivityRef.path,
-      "+",
-      activityParticipantsRef.path
-    );
-    setDoc(participantsActivityRef, data1)
-      .then(() => console.log("1 exito"))
-      .catch((e) => console.log(e));
-    setDoc(activityParticipantsRef, data2)
-      .then(() =>
-        Alert.alert("Inscripción existosa", "Se ha inscrito correctamente a la actividad " + actividad.titulo, [
+    inscribirUsuarioEnActividad(actividad.titulo, "Catalin").then(() =>
+      Alert.alert(
+        "Inscripción existosa",
+        "Se ha inscrito correctamente a la actividad " + actividad.titulo,
+        [
           {
             text: "Cancelar",
-            onPress: () => console.log("Cancel Pressed"),
             style: "cancel",
           },
-          { text: "OK", onPress: () => console.log("OK Pressed") },
-        ])
+          { text: "OK" },
+        ]
       )
-      .catch((e) => console.log(e));
+    );
+    //desapuntarseDeActividad(actividad.titulo, "Catalin").then(()=>console.log("exito")).catch(e =>console.log("e"))
   };
 
   return (
