@@ -8,10 +8,27 @@ import {
   doc,
   onSnapshot,
   firestore,
+  setDoc,
 } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
+
+//#region Actividades
+export async function getAllActivities() {
+  const activities = [];
+  try {
+    const actvs = await getDocs(actividadesRef);
+    actvs.forEach((act) => {
+      activities.push(act.data());
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return activities;
+  }
+}
 
 export async function getActivityById(id) {
   try {
@@ -26,3 +43,16 @@ export async function getActivityById(id) {
     console.log(error);
   }
 }
+
+// Guarda una actividad en la base de datos
+export async function saveActivity(activity) {
+  try {
+    const docRef = doc(db, "actividades", activity.title);
+    await setDoc(docRef, activity);
+    console.log('Actividad guardada');
+  } catch (error) {
+    console.error('Error al guardar la actividad', error);
+  }
+}
+
+//#endregion
