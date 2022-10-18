@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import { theme } from '../tailwind.config';
 import MyActivitiesScreen from '../screens/MyActivitiesScreen';
+import ActividadesAsociacion from './ActividadesAsociacion';
 
 
 const Tab = createBottomTabNavigator()
@@ -16,6 +17,7 @@ export function TabNavigator(){
         backgroundColor: theme.colors.bottomTabs,
         height:55
       },
+      headerShown: false,
     };
     
     const styles = StyleSheet.create({
@@ -49,7 +51,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Noticias"
-          component={HomeScreen}
+          component={ActividadesAsociacion}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
@@ -65,6 +67,8 @@ export function TabNavigator(){
               </View>
             ),
           }}
+          screenOptions={{
+          headerShown: false}}
         />
         <Tab.Screen
           name="Tienda"

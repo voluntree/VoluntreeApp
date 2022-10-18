@@ -13,7 +13,7 @@ const Buscador = (props) => {
   }
 
   return (
-    <View className="flex-row items-center my-3 space-x-3">
+    <View className="flex-row items-center my-3 justify-between">
       <View className="flex-row items-center w-fit rounded-full bg-[#d6d5d5] justify-between">
         <TextInput
           className="bg-[#d6d5d5] rounded-full w-3/4 h-8 px-5"
@@ -29,7 +29,7 @@ const Buscador = (props) => {
         />
       </View>
 
-      <Icon
+      <Icon className = "pl-2"
         name="filter"
         type="octicon"
         color={theme.colors.bottomTabs}
