@@ -16,14 +16,20 @@ const ActividadAsociacion = (props) => {
   });
 
   return (
-    <TouchableOpacity className = "px-2">
-      <View className="flex-row m-4 items-center space-x-2 h-24 bg-[#aaa]">
+    <TouchableOpacity className="px-2">
+      <View className="flex-row m-1.5 items-center space-x-2 h-24 rounded-r-[15px] rounded-l-[15px] bg-[#aaa]">
         <View>
           <Image className="h-24 w-24 rounded-l-[15px]" source={{ uri: uri }} />
         </View>
-        <View className="h-24 w-60">
-          <Text className="mt-0 pt-0">{props.titulo}</Text>
-          <Text className="text-xs">{props.descripcion}</Text>
+        <View className="h-20 w-64">
+          <Text className="text-sm">{props.titulo}</Text>
+          <Text
+            className="text-xs"
+            adjustsFontSizeToFit={true}
+            
+          >
+            {props.descripcion}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
