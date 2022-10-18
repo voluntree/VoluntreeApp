@@ -80,7 +80,7 @@ const ActivityScreen = () => {
   };
 
   const inscribirUsuario = () => {
-    inscribirUsuarioEnActividad(actividad.titulo, "Catalin").then(() =>
+    inscribirUsuarioEnActividad(actividad, "Catalin").then(() =>
       Alert.alert(
         "Inscripción existosa",
         "Se ha inscrito correctamente a la actividad " + actividad.titulo,

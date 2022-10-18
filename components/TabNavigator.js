@@ -44,7 +44,7 @@ export function TabNavigator(){
                     style={{ width: 25, height: 25 }}
                   />
                 </View>
-                {/* <Text style={styles.tabText}>HOME</Text> */}
+                 <Text style={styles.tabText}>HOME</Text>
               </View>
             ),
           }}
