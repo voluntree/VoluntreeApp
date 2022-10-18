@@ -2459,6 +2459,11 @@
   dependencies:
     "defer-to-connect" "^2.0.0"
 
+"@timwangdev/react-native-geocoder@^1.0.0-alpha.7":
+  "integrity" "sha512-Iba6/DICfCoeSbCkdvIhBveSS/03MgCoP+HDQHwaCottyhGYHEsp8DEADkJxCvm0QOVNQtpQq4ATPJMY3QCd4Q=="
+  "resolved" "https://registry.npmjs.org/@timwangdev/react-native-geocoder/-/react-native-geocoder-1.0.0-alpha.7.tgz"
+  "version" "1.0.0-alpha.7"
+
 "@types/cacheable-request@^6.0.1":
   "integrity" "sha512-B3xVo+dlKM6nnKTcmm5ZtY/OL8bOAOd2Olee9M1zft65ox50OzjEHW91sDiU9j6cvW8Ejg1/Qkf4xd2kugApUA=="
   "resolved" "https://registry.npmjs.org/@types/cacheable-request/-/cacheable-request-6.0.2.tgz"

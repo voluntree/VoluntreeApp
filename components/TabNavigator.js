@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import { theme } from '../tailwind.config';
 import MyActivitiesScreen from '../screens/MyActivitiesScreen';
+
 import ActividadAsociacion from './ActividadAsociacion';
 import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 
@@ -33,7 +34,7 @@ export function TabNavigator(){
       <Tab.Navigator {...{ screenOptions }}>
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={ActivityScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center bg-transparent">
