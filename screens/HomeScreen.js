@@ -17,6 +17,7 @@ import ListaFiltros from "../components/ListaFiltros";
 import Buscador from "../components/Buscador";
 import ActivityScreen from "./ActivityScreen";
 import FixedHeader from "../components/FixedHeader";
+import ListaActividadesAsociacion from "../components/ListaActividadesAsociacion";
 
 const HomeScreen = () => {
   const navigation = useNavigation();

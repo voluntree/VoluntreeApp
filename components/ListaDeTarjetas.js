@@ -13,10 +13,7 @@ const ListaDeTarjetas = (props) => {
     (onSnapshot(collection(db, "actividades"), (snapshot) => ({
        id: snapshot.id, 
       },setActividades(snapshot.docs.map(doc => doc.data())))))});
-
-  
-
-
+      
   return (
     <FlatList
       data={actividades.filter((item) => {
