@@ -11,7 +11,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import * as ImagePicker from "expo-image-picker";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -48,9 +47,8 @@ export async function getActivityById(id) {
 // Guarda una actividad en la base de datos
 export async function saveActivity(activity) {
   try {
-    const docRef = doc(db, "actividades", activity.titulo);
+    const docRef = doc(db, "actividades", activity.title);
     await setDoc(docRef, activity);
-    storeImage(activity.imagen);
     console.log('Actividad guardada');
   } catch (error) {
     console.error('Error al guardar la actividad', error);
@@ -58,23 +56,3 @@ export async function saveActivity(activity) {
 }
 
 //#endregion
-
-export async function pickImage() {
-  try {
-    let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Photo, 
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-    });
-    if (!result.cancelled) {
-      return result;
-    }
-  }
-  catch (error) {
-    console.log(error);
-  }
-}
-
-async function storeImage(uri) {
-}
