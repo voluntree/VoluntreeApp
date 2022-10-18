@@ -5,6 +5,9 @@ import HomeScreen from '../screens/HomeScreen';
 import { theme } from '../tailwind.config';
 import MyActivitiesScreen from '../screens/MyActivitiesScreen';
 import ActivityScreen from './../screens/ActivityScreen';
+import MisActividadesAsociacion from '../screens/association/MisActividadesAsociacion';
+import ActividadAsociacion from './ActividadAsociacion';
+import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 
 
 const Tab = createBottomTabNavigator()
@@ -17,6 +20,7 @@ export function TabNavigator(){
         backgroundColor: theme.colors.bottomTabs,
         height:55
       },
+      headerShown: false,
     };
     
     const styles = StyleSheet.create({
@@ -50,7 +54,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Noticias"
-          component={HomeScreen}
+          component={MisActividadesAsociacion}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">

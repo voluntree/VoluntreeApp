@@ -13,20 +13,6 @@ import {
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
 
-export async function getAllActivities() {
-  const activities = [];
-  try {
-    const actvs = await getDocs(actividadesRef);
-    actvs.forEach((act) => {
-      activities.push(act.data());
-    });
-  } catch (e) {
-    console.log(e);
-  } finally {
-    return activities;
-  }
-}
-
 export async function getActivityById(id) {
   try {
     const docRef = doc(db, "actividades", id);

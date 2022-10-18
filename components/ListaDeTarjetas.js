@@ -10,28 +10,28 @@ const ListaDeTarjetas = (props) => {
   const [actividades, setActividades] = useState([]);
 
   useEffect(() => {
-      (onSnapshot(collection(db, "actividades"), (snapshot) => ({
+    (onSnapshot(collection(db, "actividades"), (snapshot) => ({
        id: snapshot.id, 
-      },setActividades(snapshot.docs.map(doc => doc.data())))))})
-
+      },setActividades(snapshot.docs.map(doc => doc.data())))))});
+      
   return (
     <FlatList
       data={actividades.filter((item) => {
-        return item.titulo.toLowerCase().includes(props.valor.toLowerCase())
+        return item.titulo.toLowerCase().includes(props.valor.toLowerCase());
       })}
       keyExtractor={(item) => item.titulo}
-      renderItem={ ({item, index}) => 
+      renderItem={({ item, index }) => (
         <TarjetaDeActividad
-          tipo = {item.tipo}
+          tipo={item.tipo}
           descripcion={item.descripcion}
           titulo={item.titulo}
           fecha={item.fecha}
           duracion={item.duracion}
-          imagen = {item.imagen}
+          imagen={item.imagen}
+          
         />
-        
-      }
+      )}
     />
   );
 }
-export default ListaDeTarjetas
+export default ListaDeTarjetas;

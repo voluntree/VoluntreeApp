@@ -36,7 +36,7 @@ const TarjetaDeActividad = (props) => {
         <View className="w-full">
           <Image
             className="rounded-t-[15px] h-48 w-82 object-scale-down"
-            source={{ uri: uri }}
+            source={{uri : uri}}
           />
         </View>
         <View className="justify-between px-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
