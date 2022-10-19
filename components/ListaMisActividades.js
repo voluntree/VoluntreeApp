@@ -17,7 +17,7 @@ import { getActivityById } from "../service/service";
 
 
 
-const ListaActividadesAsociacion = (props) => {
+const ListaMisActividades = (props) => {
 
   const[actividades, setActividades] = useState([]);
 
@@ -45,11 +45,18 @@ const ListaActividadesAsociacion = (props) => {
     
 
   }
+  
+  const renderEmptyContainer = () => {
+    return (
+              <Text style={{marginTop: "90%"}}>No se han encontrado actividades</Text>
+            )
+  } 
 
   return (
     <FlatList
       data={listaResultados()}
       keyExtractor={(item) => item.id}
+      ListEmptyComponent = {renderEmptyContainer()}
       renderItem={({ item, index }) => (
         <TarjetaDeActividad
           tipo={item.tipo}
@@ -64,4 +71,4 @@ const ListaActividadesAsociacion = (props) => {
   );
 };
 
-export default ListaActividadesAsociacion;
+export default ListaMisActividades;
