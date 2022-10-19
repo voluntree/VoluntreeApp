@@ -16,20 +16,27 @@ const ActividadAsociacion = (props) => {
   });
 
   return (
-    <TouchableOpacity className="px-2">
-      <View className="flex-row m-1.5 items-center space-x-2 h-24 rounded-r-[15px] rounded-l-[15px] bg-[#aaa]">
-        <View>
-          <Image className="h-24 w-24 rounded-l-[15px]" source={{ uri: uri }} />
-        </View>
-        <View className="h-20 w-64">
-          <Text className="text-sm">{props.titulo}</Text>
-          <Text
-            className="text-xs"
-            adjustsFontSizeToFit={true}
-            
-          >
-            {props.descripcion}
+    <TouchableOpacity className="px-4 py-1.5">
+      <View className="relative shadow-2xl rounded-xl overflow-hidden">
+        <Image className="h-32 w-full" source={{ uri: uri }} />
+        <View className="h-32 w-full absolute bg-[#27272a] opacity-60"></View>
+
+        <View className="absolute w-full">
+          <Text className="text-2xl mt-1 text-center font-bold text-[#fffff1]">
+            {props.titulo}
           </Text>
+        </View>
+
+        <View className="absolute ml-72 pl-10 mt-20">
+          <TouchableOpacity className="bg-[#e62344] w-10 h-10 rounded-lg">
+            <Icon
+              className="pt-1"
+              name="delete"
+              type="material"
+              color="#ffffff"
+              size={28}
+            />
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableOpacity>
