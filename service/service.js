@@ -11,6 +11,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
+import { launchImageLibrary } from "react-native-image-picker";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -56,3 +57,17 @@ export async function saveActivity(activity) {
 }
 
 //#endregion
+
+export async function pickImage() {
+  try {
+    const result = await launchImageLibrary({
+      mediaType: 'photo'
+    });
+    if (!result.cancelled) {
+      return result;
+    }
+  }
+  catch (e) {
+    console.log(e);
+  }
+}

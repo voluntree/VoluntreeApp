@@ -11,21 +11,9 @@ import PostActivity from "../../screens/association/PostActivity";
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({children, onPress}) => (
-    <TouchableOpacity
-        style={{
-            top: -30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            ... styles.shadow
-        }}
-        onPress={onPress}
-    >
-        <View style={{
-            width: 70,
-            height: 70,
-            borderRadius: 35,
-            backgroundColor: '#e32f45'
-        }}>
+    <TouchableOpacity className='items-center justify-center bottom-7' onPress={onPress}>
+        
+        <View className='items-center justify-center w-16 h-16 bg-[#00BFA5] rounded-full'> 
             {children}
         </View>
     </TouchableOpacity>
@@ -52,32 +40,31 @@ const AssociationTab = () => {
             <Tab.Screen name="Home" component={HomeAssociation} 
             options={{
                 tabBarIcon: ({focused}) => (
-                    <View style={{alignItems:'center', justifyContent:'center'}}>
-                        <Image 
-                            source={require("../../icons/home.png")}
-                            resizeMode='contain'
-                            style={{ 
-                                width: 25, height: 25, 
-                                tintColor: focused ? '#e32f45' : '#748c94'
-                            }}
-                        />
-                        <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12 }}>Home</Text>
+                    <View className='items-center justify-center'>
+                        <Image
+                            source={require('../../icons/home.png')} 
+                            resizeMode='contain' 
+                            style={{
+                                width: 25, height: 25,
+                                tintColor: focused ? '#00BFA5' : '#748c94'}}/>
+                            
+                        <Text style={{color: focused ? '#00BFA5' : '#748c94', fontSize: 12 }}>Home</Text>
                     </View>
                 ),
             }} />
             <Tab.Screen name="News" component={NewsAssociation} 
             options={{
                 tabBarIcon: ({focused}) => (
-                    <View style={{alignItems:'center', justifyContent:'center'}}>
+                    <View className='items-center justify-center'>
                         <Image 
                             source={require("../../icons/news.png")}
                             resizeMode='contain'
                             style={{ 
                                 width: 25, height: 25, 
-                                tintColor: focused ? '#e32f45' : '#748c94'
+                                tintColor: focused ? '#00BFA5' : '#748c94'
                             }}
                         />
-                        <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12 }}>News</Text>
+                        <Text style={{color: focused ? '#00BFA5' : '#748c94', fontSize: 12 }}>News</Text>
                     </View>
                 ),
             }}/>
@@ -101,32 +88,32 @@ const AssociationTab = () => {
             <Tab.Screen name="Inbox" component={InboxAssociation} 
             options={{
                 tabBarIcon: ({focused}) => (
-                    <View style={{alignItems:'center', justifyContent:'center'}}>
+                    <View className='items-center justify-center'>
                         <Image 
                             source={require("../../icons/inbox.png")}
                             resizeMode='contain'
                             style={{ 
                                 width: 25, height: 25, 
-                                tintColor: focused ? '#e32f45' : '#748c94'
+                                tintColor: focused ? '#00BFA5' : '#748c94'
                             }}
                         />
-                        <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12 }}>Inbox</Text>
+                        <Text style={{color: focused ? '#00BFA5' : '#748c94', fontSize: 12 }}>Inbox</Text>
                     </View>
                 ),
             }}/>
             <Tab.Screen name="Profile" component={ProfileAssociation} 
             options={{
                 tabBarIcon: ({focused}) => (
-                    <View style={{alignItems:'center', justifyContent:'center'}}>
+                    <View className='items-center justify-center'>
                         <Image 
                             source={require("../../icons/profile.png")}
                             resizeMode='contain'
                             style={{ 
                                 width: 25, height: 25, 
-                                tintColor: focused ? '#e32f45' : '#748c94'
+                                tintColor: focused ? '#00BFA5' : '#748c94'
                             }}
                         />
-                        <Text style={{color: focused ? '#e32f45' : '#748c94', fontSize: 12 }}>Profile</Text>
+                        <Text style={{color: focused ? '#00BFA5' : '#748c94', fontSize: 12 }}>Profile</Text>
                     </View>
                 ),
             }}/>
