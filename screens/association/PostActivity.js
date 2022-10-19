@@ -2,7 +2,7 @@ import React, {useLayoutEffect} from "react";
 import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import ActivityForm from "../../components/association/ActivityForm";
+import CrearOferta from "../../components/association/CrearOferta";
 
 const PostActivity = () => {
     const navigation = useNavigation();
@@ -15,7 +15,7 @@ const PostActivity = () => {
 
     return (
         <View>
-            <ActivityForm/>
+            <CrearOferta/>
         </View>
     )
 }
