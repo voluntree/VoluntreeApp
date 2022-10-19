@@ -2275,15 +2275,17 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
-"@react-native-community/slider@4.2.3":
-  version "4.2.3"
-  resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.2.3.tgz"
-  integrity sha512-qPkrAy883tSPoRWgGZjqL5tYnd4AmNLYNtjvtD9G6JMYtImxK4ITa/W8zOEgR8UOrPde/t+VN0MMxL63HZZK1Q==
+"@react-native-community/datetimepicker@^6.5.2":
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/datetimepicker/-/datetimepicker-6.5.2.tgz#d2c0df9f2c6acce39f7e957743dd811547656098"
+  integrity sha512-9K3zhIH1zmpIGSG3GJTWLIoAx+sR4kJ1wqpGKMwWJ5IYXBsFxMdvGw023t0pz2CQStlnNbbNhnZY/HMYFBCsCg==
+  dependencies:
+    invariant "^2.2.4"
 
-"@react-native-firebase/app@~15.4.0":
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-15.4.0.tgz#616a6d13956fbed1ee010ca05b9e62969d19b5c5"
-  integrity sha512-1Xf1Q0x6x6dZamRjIpDLCvj4CUwozr1mvH3sc3A4J1avjGUwgqD0RR58DGd7r9akU+JmEXLHB84EZ9Aa68AHDg==
+"@react-native-community/slider@^4.3.2":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-4.3.2.tgz#85d027bfa04e23e197d1642c154311264d29f610"
+  integrity sha512-pKIx+l3yFQAVMcqGsnRcJAqZbVeR69CRbW85nZHhLuR/mOT0NbKWJIAEy7MC+e84DMTw0RJnEflRQO2/j8wcxQ==
   dependencies:
     "@expo/config-plugins" "^5.0.1"
     opencollective-postinstall "^2.0.1"
@@ -4454,17 +4456,13 @@ callsites@^2.0.0:
   resolved "https://registry.npmjs.org/caller-path/-/caller-path-2.0.0.tgz"
   integrity sha512-MCL3sf6nCSXOwCTzvPKhN18TU7AHTvdtam8DAogxcrJ8Rjfbbg7Lgng64H9Iy+vUV6VGFClN/TyxBkAebLRR4A==
   dependencies:
-    caller-callsite "^2.0.0"
+    pascal-case "^3.1.2"
+    tslib "^2.0.3"
 
-camelcase@^5.0.0:
-  version "5.3.1"
-  resolved "https://registry.npmjs.org/camelcase/-/camelcase-5.3.1.tgz"
-  integrity sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==
-
-camelcase@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.npmjs.org/camelcase/-/camelcase-4.1.0.tgz"
-  integrity sha512-FxAv7HpHrXbh3aPo4o2qxHay2lkLY3x5Mw3KeE4KQE8ysVfziWeRZDwcjauvwBSGEC/nXUPzZy8zeh4HokqOnw==
+camelcase-css@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/camelcase-css/-/camelcase-css-2.0.1.tgz"
+  integrity sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==
 
 camelcase@^5.0.0, camelcase@^5.3.1:
   version "5.3.1"
@@ -11453,6 +11451,13 @@ react-native-maps@0.31.1:
   dependencies:
     "@types/geojson" "^7946.0.7"
     deprecated-react-native-prop-types "^2.3.0"
+
+react-native-modal-datetime-picker@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-modal-datetime-picker/-/react-native-modal-datetime-picker-14.0.0.tgz#ca2c81a275ee3a23d9ad02113e76ed243c90781e"
+  integrity sha512-orI0BMgX9uooSZWYIILmMaZXqi8Ebr0vqsLUFL03zORpv9NvkBlLMQ8dZVdDxWUc1Lbx/N5DJskC16AOypPy8Q==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-permissions@^3.6.1:
   version "3.6.1"
