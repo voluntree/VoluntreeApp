@@ -21,7 +21,6 @@ import ListaActividadesAsociacion from "../components/ListaActividadesAsociacion
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-
   const [SearchText, setSearchText] = useState("");
 
     const handleSearchTextChange = (text) => {
@@ -44,7 +43,7 @@ const HomeScreen = () => {
           onSearchTextChange={handleSearchTextChange}
           valor={SearchText}
         />
-        <ListaDeTarjetas valor = {SearchText} />
+        <ListaDeTarjetas valor={SearchText} />
       </SafeAreaView>
     </TailwindProvider>
   );

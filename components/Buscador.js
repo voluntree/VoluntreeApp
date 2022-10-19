@@ -5,8 +5,11 @@ import React, { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
 import { theme } from "../tailwind.config";
 import { db } from "../utils/firebase";
+import ModalFiltros from "./ModalFiltros";
 
 const Buscador = (props) => {    
+
+  const[isModalOpen, setIsModalOpen] = useState(false)
 
   const handleChange = (valor) => {
     props.onSearchTextChange(valor)
@@ -35,9 +38,13 @@ const Buscador = (props) => {
           type="octicon"
           color={theme.colors.bottomTabs}
           size={24}
-          onPress={() => {console.log(props.valor)}}
+          onPress={() => setIsModalOpen(!isModalOpen)}
         />
       </View>
+      <ModalFiltros
+        isModalOpen = {isModalOpen}
+        setIsModalOpen = {setIsModalOpen}
+      />
     </View>
   );
 };

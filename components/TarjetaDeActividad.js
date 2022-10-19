@@ -36,7 +36,7 @@ const TarjetaDeActividad = (props) => {
         <View className="w-full">
           <Image
             className="rounded-t-[15px] h-48 w-82 object-scale-down"
-            source={{uri : uri}}
+            source={{ uri: uri }}
           />
         </View>
         <View className="justify-between px-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
@@ -45,11 +45,11 @@ const TarjetaDeActividad = (props) => {
 
           <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
             <View className="items-center flex-row ml-1">
-              <View className="bg-[#aaaaaa]  rounded-full">
+              <View className="bg-[#00bf9f83]  rounded-full">
                 <Text className="text-slate-300 mx-1.5">{date}</Text>
               </View>
               <Text> · </Text>
-              <View className="bg-[#aaaaaa] rounded-full">
+              <View className="bg-[#00bf9f83] rounded-full">
                 <Text className="mx-3">{props.duracion}</Text>
               </View>
             </View>
