@@ -1,16 +1,17 @@
 import React from "react";
-import { ScrollView, StyleSheet, Button, TextInput, View, Text, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, Button, TextInput, View, Text, TouchableOpacity, Image } from "react-native";
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
-import { pickImage } from "../../service/service";
+import { pickImage, saveActivity } from "../../service/service";
 
 const CrearOferta = () => {
     return (
         <ScrollView className="p-5 pt-20">
             <Formik
-                initialValues={{ title: '', type: '', participants: '', duration: '', description: '', image: '' }}
+                initialValues={{ titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
                 onSubmit={(values) => {
-                    //saveActivity(values);
+                    values.fecha = new Date();
+                    saveActivity(values);
                     console.log(values);
                 }}
             >
@@ -20,33 +21,39 @@ const CrearOferta = () => {
                             <View className='mr-2 space-y-5'>
                                 <TextInput className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2" 
                                     placeholder="Título" 
-                                    onChangeText={props.handleChange('title')} 
-                                    value={props.values.title} />
+                                    onChangeText={props.handleChange('titulo')} 
+                                    value={props.values.titulo} />
                                 <TextInput className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2" 
                                     placeholder="Tipo" 
-                                    onChangeText={props.handleChange('type')}
-                                    value={props.values.type} />
+                                    onChangeText={props.handleChange('tipo')}
+                                    value={props.values.tipo} />
                                 <View className='flex-row'>
                                     <TextInput className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2" 
                                         keyboardType="numeric" 
                                         placeholder="Participantes" 
-                                        onChangeText={props.handleChange('participants')} 
-                                        value={props.values.participants} />
+                                        onChangeText={props.handleChange('maxParticipantes')} 
+                                        value={props.values.maxParticipantes} />
                                     <TextInput className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2 ml-4" 
                                         keyboardType="numeric" 
                                         placeholder="Duración" 
-                                        onChangeText={props.handleChange('duration')} 
-                                        value={props.values.duration} />
+                                        onChangeText={props.handleChange('duracion')} 
+                                        value={props.values.duracion} />
                                 </View>
                             </View>
                             <View>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        pickImage(props);
+                                        pickImage().then((result) => {
+                                            props.setFieldValue('imagen', result.uri);
+                                        });
                                     }}
-                                    >
+                                    value={props.values.image}
+                                >
                                     <View className='w-40 h-40 items-center justify-center bg-[#d1d5db] rounded-md ml-2'>
-                                        <Text className="text-2xl font-bold text-center text-[#ffffff]">+</Text> 
+                                        {props.values.imagen ?
+                                            <Image className='w-40 h-28' source={{ uri: props.values.imagen }} /> 
+                                         : 
+                                            <Text className="text-2xl font-bold text-center text-[#ffffff]">+</Text> }
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -56,8 +63,8 @@ const CrearOferta = () => {
                             multiline={true} 
                             numberOfLines={10} 
                             placeholder="Descripción" 
-                            onChangeText={props.handleChange('description')} 
-                            value={props.values.description} />
+                            onChangeText={props.handleChange('descripcion')} 
+                            value={props.values.descripcion} />
                         <Button title='Crear' color='maroon' onPress={props.handleSubmit} />
                     </View>
                 )}
