@@ -25,51 +25,49 @@ import {
   desapuntarseDeActividad,
   inscribirUsuarioEnActividad,
 } from "../service/service";
+import { useNavigation, useRoute } from "@react-navigation/native";
+
 
 const ActivityScreen = () => {
-  const [actividad, setActividad] = useState({});
+  const navigation = useNavigation();
+  const route = useRoute();
+  const {actividad} = route.params;
   const [fecha, setFecha] = useState();
   const [uri, setUri] = useState();
   const [ubicacion, setUbicacion] = useState();
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
-  const [img, setImg] = useState();
   const [region, setRegion] = useState({});
 
-  useEffect(() => {
-    const refr = collection(db, "actividades");
-    onSnapshot(refr, async (snapshot) => {
-      const act = snapshot.docs[0].data();
-      setActividad(act);
-      setFecha(act.fecha.toDate().toLocaleString("es-ES", options));
-      const reference = ref(
-        storage,
-        `gs://voluntreepin.appspot.com/cardImages/${act.imagen}`
-      );
-      await getDownloadURL(reference)
-        .then((x) => {
-          setUri(x);
-        })
-        .catch(console.error);
+  useEffect(async () => {
+    setFecha(actividad.fecha.toDate().toLocaleString("es-ES", options));
+    const reference = ref(
+      storage,
+      `gs://voluntreepin.appspot.com/cardImages/${actividad.imagen}`
+    );
+    await getDownloadURL(reference)
+      .then((x) => {
+        setUri(x);
+      })
+      .catch(console.error);
 
-      const getAddress = async (lat, lng) => {
-        let response = await fetch(
-          `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
-        );
-        let data = await response.json();
-        setUbicacion(data.display_name);
-        setRegion({
-          latitude: lat,
-          longitude: lng,
-          latitudeDelta: 0.006,
-          longitudeDelta: 0.00021,
-        });
-      };
-
-      getAddress(act.ubicacion.latitude, act.ubicacion.longitude).catch(
-        console.error
+    const getAddress = async (lat, lng) => {
+      let response = await fetch(
+        `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
       );
-    });
+      let data = await response.json();
+      setUbicacion(data.display_name);
+      setRegion({
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: 0.006,
+        longitudeDelta: 0.00021,
+      });
+    };
+
+    getAddress(actividad.ubicacion.latitude, actividad.ubicacion.longitude).catch(
+      console.error
+    );
   }, []);
 
   const options = {

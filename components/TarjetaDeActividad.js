@@ -4,23 +4,25 @@ import { Icon } from "react-native-elements";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
+import { useNavigation } from "@react-navigation/native";
+import ActivityScreen from "./../screens/ActivityScreen";
 
 const TarjetaDeActividad = (props) => {
-  
+  const { actividad } = props;
   const options = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
-  
-  const date = props.fecha.toDate().toLocaleString("es-ES", options);
+
+  const date = actividad.fecha.toDate().toLocaleString("es-ES", options);
   const [corazon, setEstado] = useState("heart");
   const [uri, setUri] = useState();
 
   const reference = ref(
     storage,
-    "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
+    "gs://voluntreepin.appspot.com/cardImages/" + actividad.imagen
   );
   getDownloadURL(reference).then((path) => {
     setUri(path);
@@ -30,18 +32,25 @@ const TarjetaDeActividad = (props) => {
     setEstado("heart-fill");
   };
 
+  const navigation = useNavigation();
+
+  const openCard = (item) => {
+    navigation.setParams({ actividad: item });
+    navigation.navigate(ActivityScreen);
+  };
+
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={openCard(actividad)}>
       <View className="rounded-t-[15px] rounded-b-[15px] w-fit mx-2 py-4">
         <View className="w-full">
           <Image
             className="rounded-t-[15px] h-48 w-82 object-scale-down"
-            source={{uri : uri}}
+            source={{ uri: uri }}
           />
         </View>
         <View className="justify-between px-2 bg-[#ffffff] rounded-br-[15px] rounded-bl-[15px]">
-          <Text className="text-xl pl-1.5 font-bold">{props.titulo}</Text>
-          <Text className=" bg-[#ffffff] pl-1.5">{props.descripcion}</Text>
+          <Text className="text-xl pl-1.5 font-bold">{actividad.titulo}</Text>
+          <Text className=" bg-[#ffffff] pl-1.5">{actividad.descripcion}</Text>
 
           <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
             <View className="items-center flex-row ml-1">
@@ -50,7 +59,7 @@ const TarjetaDeActividad = (props) => {
               </View>
               <Text> · </Text>
               <View className="bg-[#aaaaaa] rounded-full">
-                <Text className="mx-3">{props.duracion}</Text>
+                <Text className="mx-3">{actividad.duracion}</Text>
               </View>
             </View>
             <Icon

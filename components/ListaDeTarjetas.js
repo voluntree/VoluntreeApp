@@ -22,13 +22,7 @@ const ListaDeTarjetas = (props) => {
       keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (
         <TarjetaDeActividad
-          tipo={item.tipo}
-          descripcion={item.descripcion}
-          titulo={item.titulo}
-          fecha={item.fecha}
-          duracion={item.duracion}
-          imagen={item.imagen}
-          
+          actividad={item}
         />
       )}
     />
