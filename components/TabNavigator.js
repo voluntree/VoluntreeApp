@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/user/HomeScreen';
 import { theme } from '../tailwind.config';
 import MyActivitiesScreen from '../screens/MyActivitiesScreen';
-import ActivityScreen from '../screens/ActivityScreen';
+import ActivityScreen from '../screens/user/ActivityScreen';
 import ActividadAsociacion from './ActividadAsociacion';
 import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 

@@ -2,7 +2,7 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import { TouchableOpacity, View, Text, Image } from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
-import { storage, db } from "../utils/firebase";
+import { storage, db } from "../../utils/firebase";
 import { useState, useEffect } from "react";
 import { collection, onSnapshot, docs, doc } from "firebase/firestore";
 
