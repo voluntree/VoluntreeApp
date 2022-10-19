@@ -34,13 +34,12 @@ const TarjetaDeActividad = (props) => {
 
   const navigation = useNavigation();
 
-  const openCard = (item) => {
-    navigation.setParams({ actividad: item });
-    navigation.navigate(ActivityScreen);
+  const openCard = () => {
+    navigation.push("Actividad", { actividad: actividad, uri: uri});
   };
 
   return (
-    <TouchableOpacity onPress={openCard(actividad)}>
+    <TouchableOpacity onPress={openCard}>
       <View className="rounded-t-[15px] rounded-b-[15px] w-fit mx-2 py-4">
         <View className="w-full">
           <Image

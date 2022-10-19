@@ -7,6 +7,7 @@ import MyActivitiesScreen from '../screens/MyActivitiesScreen';
 import ActivityScreen from '../screens/ActivityScreen';
 import ActividadAsociacion from './ActividadAsociacion';
 import ListaActividadesAsociacion from './ListaActividadesAsociacion';
+import HomeTabScreenStack from './../screens/HomeTabScreenStack';
 
 
 const Tab = createBottomTabNavigator()
@@ -34,8 +35,8 @@ export function TabNavigator(){
     return (
       <Tab.Navigator {...{ screenOptions }}>
         <Tab.Screen
-          name="Home"
-          component={ActivityScreen}
+          name="HomeTab"
+          component={HomeTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center bg-transparent">

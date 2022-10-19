@@ -7,8 +7,8 @@ const HomeTabScreenStack = () => {
     const HomeTabStack = createNativeStackNavigator();
   return (
     <HomeTabStack.Navigator>
-        <HomeTabStack.Screen component={HomeScreen}/>
-        <HomeTabStack.Screen component={ActivityScreen}/>
+        <HomeTabStack.Screen name="Home" component={HomeScreen}/>
+        <HomeTabStack.Screen name="Actividad" component={ActivityScreen}/>
     </HomeTabStack.Navigator>
   )
 }

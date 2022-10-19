@@ -10,7 +10,7 @@ import {
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
 import { storage, db } from "../utils/firebase";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import {
   collection,
   onSnapshot,
@@ -27,29 +27,19 @@ import {
 } from "../service/service";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-
 const ActivityScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {actividad} = route.params;
+  const { actividad, uri } = route.params;
   const [fecha, setFecha] = useState();
-  const [uri, setUri] = useState();
+
   const [ubicacion, setUbicacion] = useState();
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
 
-  useEffect(async () => {
+  useEffect(() => {
     setFecha(actividad.fecha.toDate().toLocaleString("es-ES", options));
-    const reference = ref(
-      storage,
-      `gs://voluntreepin.appspot.com/cardImages/${actividad.imagen}`
-    );
-    await getDownloadURL(reference)
-      .then((x) => {
-        setUri(x);
-      })
-      .catch(console.error);
 
     const getAddress = async (lat, lng) => {
       let response = await fetch(
@@ -65,9 +55,16 @@ const ActivityScreen = () => {
       });
     };
 
-    getAddress(actividad.ubicacion.latitude, actividad.ubicacion.longitude).catch(
-      console.error
-    );
+    getAddress(
+      actividad.ubicacion.latitude,
+      actividad.ubicacion.longitude
+    ).catch(console.error);
+  }, []);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
   }, []);
 
   const options = {
@@ -93,13 +90,18 @@ const ActivityScreen = () => {
     );
     //desapuntarseDeActividad(actividad.titulo, "Catalin").then(()=>console.log("exito")).catch(e =>console.log("e"))
   };
+  const goBack = () => {
+    try {
+      navigation.goBack();
+    } catch (error) {}
+  };
 
   return (
     <TailwindProvider>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
         <View className="flex-row bg-transparent mt-0 absolute w-full z-10 top-0 h-14 items-center justify-between">
           <View className="ml-2">
-            <TouchableOpacity className="w-10 h-10">
+            <TouchableOpacity onPress={goBack} className="w-10 h-10">
               <Icon name="arrow-left" type="octicon" color="white" />
             </TouchableOpacity>
           </View>

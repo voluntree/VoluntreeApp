@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import React, { useLayoutEffect, useState} from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
@@ -23,9 +23,9 @@ const HomeScreen = () => {
 
   const [SearchText, setSearchText] = useState("");
 
-    const handleSearchTextChange = (text) => {
-      setSearchText(text);
-    };
+  const handleSearchTextChange = (text) => {
+    setSearchText(text);
+  };
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,17 +33,15 @@ const HomeScreen = () => {
     });
   }, []);
 
-  
-
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
-        <ListaFiltros />
         <Buscador
           onSearchTextChange={handleSearchTextChange}
           valor={SearchText}
         />
-        <ListaDeTarjetas valor = {SearchText} />
+        <ListaFiltros />
+        <ListaDeTarjetas valor={SearchText} />
       </SafeAreaView>
     </TailwindProvider>
   );
