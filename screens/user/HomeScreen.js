@@ -11,13 +11,11 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MapView from "react-native-maps";
 import { TailwindProvider } from "tailwindcss-react-native";
-import TarjetaDeActividad from "../components/TarjetaDeActividad";
-import ListaDeTarjetas from "../components/ListaDeTarjetas";
-import ListaFiltros from "../components/ListaFiltros";
-import Buscador from "../components/Buscador";
+import TarjetaDeActividad from "../../components/TarjetaDeActividad";
+import ListaDeTarjetas from "../../components/ListaDeTarjetas";
+import ListaFiltros from "../../components/ListaFiltros";
+import Buscador from "../../components/Buscador";
 import ActivityScreen from "./ActivityScreen";
-import FixedHeader from "../components/FixedHeader";
-import ListaActividadesAsociacion from "../components/ListaActividadesAsociacion";
 
 const HomeScreen = () => {
   const navigation = useNavigation();

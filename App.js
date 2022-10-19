@@ -16,8 +16,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <TailwindProvider>
-        {/* <FixedHeader />
-        <TabNavigator/> */}
+        <FixedHeader />
+        {/*<TabNavigator/> */}
         <AppNavigator/>
       </TailwindProvider>
     </NavigationContainer>
