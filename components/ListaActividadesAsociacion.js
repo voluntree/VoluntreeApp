@@ -26,7 +26,7 @@ const ListaActividadesAsociacion = () => {
     cif : "G98347432",
   }
 
-  const q =query(collection(db, "actividades"), where("asociacion", "==", currentUser.name))
+  const q =query(collection(db, "actividades"))
 
   useEffect(() => {
     const getActividades = async () => { 

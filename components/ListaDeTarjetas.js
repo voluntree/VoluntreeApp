@@ -14,11 +14,18 @@ const ListaDeTarjetas = (props) => {
        id: snapshot.id, 
       },setActividades(snapshot.docs.map(doc => doc.data())))))});
       
+      const listaResultados = () => {
+        if(actividades.length != 0){
+          return actividades.filter((item) => {
+          return item.titulo.toLowerCase().includes(props.valor.toLowerCase())})
+        }else{
+          return []
+        }
+      }
+  
   return (
     <FlatList
-      data={actividades.filter((item) => {
-        return item.titulo.toLowerCase().includes(props.valor.toLowerCase());
-      })}
+      data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (
         <TarjetaDeActividad

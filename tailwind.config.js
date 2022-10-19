@@ -1,3 +1,4 @@
+const colors = require("tailwindcss/colors")
 module.exports = {
   content: [
     "./screens/**/*.{js,ts,jsx,tsx}",
@@ -7,12 +8,11 @@ module.exports = {
   theme: {
     colors: {
       bottomTabs: "#00BFA5",
-      focusBottomTabs:"#128978",
-      pinTarjeta: {
-        reforestacion: "#2a8c4a",
-        limpiezaCostas: "#831843",
-      },
-      fondo: '#A7FFEB',
+      tarjetAsociacion: colors.gray[900],
+      blanco: colors.white,
+      rojo: colors.red,
+      focusBottomTabs: "#128978",
+      fondo: "#A7FFEB",
       fondoTarjeta: "#edfcf8",
     },
   },
