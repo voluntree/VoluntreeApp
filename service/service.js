@@ -11,7 +11,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
-import * as ImagePicker from "expo-image-picker";
+import { Alert } from "react-native";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -50,31 +50,11 @@ export async function saveActivity(activity) {
   try {
     const docRef = doc(db, "actividades", activity.titulo);
     await setDoc(docRef, activity);
-    storeImage(activity.imagen);
     console.log('Actividad guardada');
+    Alert.alert('Nueva oferta de actividad creada');
   } catch (error) {
     console.error('Error al guardar la actividad', error);
   }
 }
 
 //#endregion
-
-export async function pickImage() {
-  try {
-    let result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Photo, 
-    allowsEditing: true,
-    aspect: [4, 3],
-    quality: 1,
-    });
-    if (!result.cancelled) {
-      return result;
-    }
-  }
-  catch (error) {
-    console.log(error);
-  }
-}
-
-async function storeImage(uri) {
-}

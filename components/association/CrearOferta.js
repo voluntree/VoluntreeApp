@@ -1,18 +1,73 @@
-import React from "react";
-import { ScrollView, StyleSheet, Button, TextInput, View, Text, TouchableOpacity, Image } from "react-native";
+import React, {useState, useEffect} from "react";
+import { ScrollView, StyleSheet, Button, TextInput, View, Text, TouchableOpacity, Image, Alert } from "react-native";
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
-import { pickImage, saveActivity } from "../../service/service";
+import * as ImagePicker from 'expo-image-picker';
+import { firebase } from "../../utils/firebase";
+import { storage, uploadBytes } from "../../utils/firebase";
+import {ref} from "firebase/storage";
+
+import { pickImage, saveActivity, storeImage } from "../../service/service";
 
 const CrearOferta = () => {
+    const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+    const [image, setImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            setHasGalleryPermission(galleryStatus.status === 'granted');
+        })();
+    }, []);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4,3],
+            quality: 1,
+        });
+
+        if(!result.cancelled) {
+            console.log(result);
+            setImage(result.uri);
+            return result;
+        }
+    };
+
+    if (hasGalleryPermission === false) {
+        <Text>No tiene acceso a la galería</Text>
+    }
+
+    const storeImage = async () => {
+        setUploading(true);
+        console.log(image);
+        const filename = image.substring(image.lastIndexOf('/') + 1);
+        const path = `cardImages/${filename}`;
+        const storageRef = ref(storage, path);
+        const img = await fetch(image);
+        const bytes = await img.blob();
+        
+        try {
+            await uploadBytes(storageRef, bytes);
+        }
+        catch(e) {
+            console.log(e);
+        }
+        setUploading(false);
+    }
+
     return (
         <ScrollView className="p-5 pt-20">
             <Formik
                 initialValues={{ titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
                 onSubmit={(values) => {
                     values.fecha = new Date();
+                    const filename = image.substring(image.lastIndexOf('/') + 1);
+                    values.imagen = filename;
+                    storeImage();
                     saveActivity(values);
-                    console.log(values);
                 }}
             >
                 {(props) => (
@@ -47,7 +102,7 @@ const CrearOferta = () => {
                                             props.setFieldValue('imagen', result.uri);
                                         });
                                     }}
-                                    value={props.values.image}
+                                    value={props.values.imagen}
                                 >
                                     <View className='w-40 h-40 items-center justify-center bg-[#d1d5db] rounded-md ml-2'>
                                         {props.values.imagen ?
