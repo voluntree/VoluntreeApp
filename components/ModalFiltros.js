@@ -93,7 +93,7 @@ const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
                       style={{ width: 280, height: 40 }}
                       minimumValue={0}
                       maximumValue={100}
-                      value={20}
+                      value={0}
                       onValueChange={(value) => setDistancia(parseInt(value))}
                       onSlidingStart={() => setSliding("Sliding")}
                       onSlidingComplete={() => setSliding("Inactive")}
@@ -145,7 +145,7 @@ const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
               </View>
             </View>
             <View className="items-end px-4 pt-4">
-              <TouchableOpacity onPress={() => setIsModalOpen(!setIsModalOpen)}>
+              <TouchableOpacity onPress={() => {setIsModalOpen(!setIsModalOpen), setText("-"), setDuracion("0")}}>
                 <Text className="font-bold text-xl">Filtrar</Text>
               </TouchableOpacity>
             </View>
