@@ -34,7 +34,7 @@ export function TabNavigator(){
       <Tab.Navigator {...{ screenOptions }}>
         <Tab.Screen
           name="Home"
-          component={ActivityScreen}
+          component={HomeScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center bg-transparent">
@@ -72,7 +72,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Tienda"
-          component={HomeScreen}
+          component={ActivityScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
