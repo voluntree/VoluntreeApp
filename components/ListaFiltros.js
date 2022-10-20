@@ -4,7 +4,7 @@ import Filtro from './Filtro';
 
 const ListaFiltros = () => {
   return (
-    <View className="w-full ml-4 mt-2">
+    <View className="mx-4">
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <Filtro
           imagen={require("../images/iconoLibros.jpg")}

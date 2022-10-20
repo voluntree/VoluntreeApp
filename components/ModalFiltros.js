@@ -5,6 +5,7 @@ import { Button, Icon } from 'react-native-elements'
 import { theme } from "../tailwind.config";
 import Slider from '@react-native-community/slider';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import ListaFiltros from './ListaFiltros';
 
 const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
 
@@ -80,29 +81,32 @@ const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
                 onPress={() => setIsModalOpen(!isModalOpen)}
               />
             </View>
-            <View className="pt-3">
-              <View className="bg-[#eee] p-1 rounded-lg mr-3">
-                <View className = "flex-row items-center justify-between pr-2">
-                  <Text className="font-bold pl-3.5">Distancia</Text>
-                  <Text className="text-xs">0 - {distancia} km</Text>
+            <View className="pl-4 align-middle">
+              <View className="pt-3">
+                <View className="rounded-lg mr-3">
+                  <View className="">
+                    <View className="pl-4 flex-row items-baseline">
+                      <Text className="font-bold text-base">Distancia: </Text>
+                      <Text className="">0 - {distancia} km</Text>
+                    </View>
+                    <Slider
+                      style={{ width: 280, height: 40 }}
+                      minimumValue={0}
+                      maximumValue={100}
+                      value={20}
+                      onValueChange={(value) => setDistancia(parseInt(value))}
+                      onSlidingStart={() => setSliding("Sliding")}
+                      onSlidingComplete={() => setSliding("Inactive")}
+                    />
+                  </View>
                 </View>
-                
-                <Slider
-                  style={{ width: 300, height: 40 }}
-                  minimumValue={0}
-                  maximumValue={100}
-                  value={20}
-                  onValueChange={(value) => setDistancia(parseInt(value))}
-                  onSlidingStart={() => setSliding("Sliding")}
-                  onSlidingComplete={() => setSliding("Inactive")}
-                />
-              </View>
-              <View>
-                <TouchableOpacity onPress={() => showDatePicker()}>
-                  <View className="space-x-2">
-                    <View className="flex-row items-center justify-between pr-6">
-                      <Text className="font-bold">Fecha</Text>
-                      <Text className="">{dateValue}</Text>
+                <View>
+                  <TouchableOpacity onPress={() => showDatePicker()}>
+                    <View className="pl-4 flex-row items-center justify-between pr-7">
+                      <View className="flex-row items-center">
+                        <Text className="font-bold text-base">Fecha: </Text>
+                        <Text>{text}</Text>
+                      </View>
                       <Icon
                         name="chevron-right"
                         type="octicon"
@@ -110,29 +114,34 @@ const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
                         size={22}
                       />
                     </View>
-                  </View>
-                </TouchableOpacity>
-                <Text className="text-xs">{text}</Text>
-              </View>
-              <DateTimePicker
-                isVisible={isVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-
-              <View className="pt-2">
-                <Text className="font-bold">Duracion</Text>
-                <Text className = "text-xs">{duracion}h</Text>
-                <Slider
-                  style={{ width: 300, height: 40 }}
-                  minimumValue={0}
-                  maximumValue={6}
-                  value={0}
-                  onValueChange={(value) => setDuracion(parseInt(value))}
-                  onSlidingStart={() => setSliding("Sliding")}
-                  onSlidingComplete={() => setSliding("Inactive")}
+                  </TouchableOpacity>
+                </View>
+                <DateTimePicker
+                  isVisible={isVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
                 />
+
+                <View className="pt-2">
+                  <View className="flex-row items-baseline">
+                    <Text className="pl-4 font-bold text-base">Duracion: </Text>
+                    <Text className="">{duracion}h</Text>
+                  </View>
+                  <Slider
+                    style={{ width: 280, height: 40 }}
+                    minimumValue={0}
+                    maximumValue={6}
+                    value={0}
+                    onValueChange={(value) => setDuracion(parseInt(value))}
+                    onSlidingStart={() => setSliding("Sliding")}
+                    onSlidingComplete={() => setSliding("Inactive")}
+                  />
+                </View>
+                <View>
+                  <Text className = "pl-4 font-bold text-base mb-2">Categoria:</Text>
+                  <ListaFiltros />
+                </View>
               </View>
             </View>
             <View className="items-end px-4 pt-4">
