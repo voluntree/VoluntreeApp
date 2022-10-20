@@ -59,7 +59,7 @@ const CrearOferta = () => {
     }
 
     return (
-        <ScrollView className="p-5 pt-20">
+        <ScrollView className="p-5 pt-18">
             <Formik
                 initialValues={{ titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
                 onSubmit={(values) => {
@@ -104,22 +104,23 @@ const CrearOferta = () => {
                                     }}
                                     value={props.values.imagen}
                                 >
-                                    <View className='w-40 h-40 items-center justify-center bg-[#d1d5db] rounded-md ml-2'>
+                                    <View className='w-40 h-40 items-center justify-center border-2 border-[#d1d5db] bg-[#e5e7eb] rounded-md ml-2'>
                                         {props.values.imagen ?
                                             <Image className='w-40 h-28' source={{ uri: props.values.imagen }} /> 
                                          : 
-                                            <Text className="text-2xl font-bold text-center text-[#ffffff]">+</Text> }
+                                            <Text className="text-4xl text-center text-[#ffffff]">+</Text> }
                                     </View>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         
-                        <TextInput className="align-top text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-6" 
+                        <TextInput className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-6" 
                             multiline={true} 
                             numberOfLines={10} 
                             placeholder="Descripción" 
                             onChangeText={props.handleChange('descripcion')} 
-                            value={props.values.descripcion} />
+                            value={props.values.descripcion} 
+                            style={{textAlignVertical: 'top'}}/>
                         <Button title='Crear' color='maroon' onPress={props.handleSubmit} />
                     </View>
                 )}
