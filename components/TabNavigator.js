@@ -20,6 +20,7 @@ export function TabNavigator(){
         height:55
       },
       headerShown: false,
+      tabBarHideOnKeyboard: true,
     };
     
     const styles = StyleSheet.create({

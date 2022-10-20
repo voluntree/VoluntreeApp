@@ -114,14 +114,14 @@ const CrearOferta = () => {
                             </View>
                         </View>
                         
-                        <TextInput className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-6" 
+                        <TextInput className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-64" 
                             multiline={true} 
                             numberOfLines={10} 
                             placeholder="Descripción" 
                             onChangeText={props.handleChange('descripcion')} 
                             value={props.values.descripcion} 
                             style={{textAlignVertical: 'top'}}/>
-                        <Button title='Crear' color='maroon' onPress={props.handleSubmit} />
+                        <Button title='Crear' color='#00BFA5' onPress={props.handleSubmit} />
                     </View>
                 )}
             </Formik>

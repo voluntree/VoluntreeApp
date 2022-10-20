@@ -34,7 +34,8 @@ const AssociationTab = () => {
                     borderRadius: 15,
                     height: 70,
                     ... styles.shadow
-                }
+                },
+                tabBarHideOnKeyboard: true,
             }}
         >
             <Tab.Screen name="Home" component={HomeAssociation} 
