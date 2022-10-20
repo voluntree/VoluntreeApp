@@ -140,7 +140,7 @@ const ModalFiltros = ({isModalOpen,setIsModalOpen}) => {
                 </View>
                 <View>
                   <Text className = "pl-4 font-bold text-base mb-2">Categoria:</Text>
-                  <ListaFiltros />
+                  <ListaFiltros/>
                 </View>
               </View>
             </View>
