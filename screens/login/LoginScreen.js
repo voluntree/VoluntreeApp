@@ -21,12 +21,10 @@ const LoginScreen = () => {
             <Button title="User" onPress={() => {navigation.navigate('UserHome')}}/>
         </View>
         <View>
-            <Button title="Association" onPress={() => {}}/>
+            <Button title="Association" onPress={() => {navigation.navigate('AssociationHome')}}/>
         </View>
     </View>
     )
 }   
-
-
 
 export default LoginScreen

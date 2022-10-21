@@ -13,9 +13,26 @@ import {
   updateDoc,
   increment,
 } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
+import { Alert } from "react-native";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
+
+//#region Actividades
+export async function getAllActivities() {
+  const activities = [];
+  try {
+    const actvs = await getDocs(actividadesRef);
+    actvs.forEach((act) => {
+      activities.push(act.data());
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return activities;
+  }
+}
 
 export async function getActivityById(id) {
   try {
@@ -81,3 +98,17 @@ export async function estaInscrito(userID, activityID){
   if (act.exists ) return true;
   else return false;
 }
+
+// Guarda una actividad en la base de datos
+export async function saveActivity(activity) {
+  try {
+    const docRef = doc(db, "actividades", activity.titulo);
+    await setDoc(docRef, activity);
+    console.log('Actividad guardada');
+    Alert.alert('Nueva oferta de actividad creada');
+  } catch (error) {
+    console.error('Error al guardar la actividad', error);
+  }
+}
+
+//#endregion

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, Animated} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/HomeScreen';
+import HomeScreen from '../screens/user/HomeScreen';
 import { theme } from '../tailwind.config';
 import MyActivitiesScreen from '../screens/MyActivitiesScreen';
-import ActivityScreen from '../screens/ActivityScreen';
+import ActivityScreen from '../screens/user/ActivityScreen';
 import ActividadAsociacion from './ActividadAsociacion';
 import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 import HomeTabScreenStack from './../screens/HomeTabScreenStack';
@@ -23,6 +23,7 @@ export function TabNavigator(){
         height:55
       },
       headerShown: false,
+      tabBarHideOnKeyboard: true,
     };
     
     const styles = StyleSheet.create({
@@ -75,7 +76,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Tienda"
-          component={HomeScreen}
+          component={ActivityScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">

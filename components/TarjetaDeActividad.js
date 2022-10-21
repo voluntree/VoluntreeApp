@@ -53,7 +53,7 @@ const TarjetaDeActividad = (props) => {
 
           <View className="justify-between pb-2 pr-2 pt-2 flex-row relative">
             <View className="items-center flex-row ml-1">
-              <View className="bg-[#aaaaaa]  rounded-full">
+              <View className="bg-[#00bf9f83]  rounded-full">
                 <Text className="text-slate-300 mx-1.5">{date}</Text>
               </View>
               <Text> · </Text>
