@@ -36,7 +36,6 @@ const HomeScreen = () => {
           onSearchTextChange={handleSearchTextChange}
           valor={SearchText}
         />
-        <ListaFiltros />
         <ListaDeTarjetas valor={SearchText} />
       </SafeAreaView>
     </TailwindProvider>
