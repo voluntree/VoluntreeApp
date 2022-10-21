@@ -74,3 +74,10 @@ export async function desapuntarseDeActividad(activityID, userID) {
     console.log(e);
   }
 }
+
+export async function estaInscrito(userID, activityID){
+  const actRef = doc(db, `voluntarios/${userID}/actividades/${activityID}`)
+  const act = await getDoc(actRef)
+  if (act.exists ) return true;
+  else return false;
+}

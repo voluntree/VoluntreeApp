@@ -24,6 +24,7 @@ import { Marker } from "react-native-maps";
 import {
   desapuntarseDeActividad,
   inscribirUsuarioEnActividad,
+  estaInscrito,
 } from "../service/service";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -74,18 +75,20 @@ const ActivityScreen = () => {
     day: "numeric",
   };
 
+  const usuarioInscrito = () => {
+    estaInscrito("Catalin", actividad.titulo);
+  };
+
+  const despuntarUsuario = () => {
+    desapuntarseDeActividad(actividad.titulo, "Catalin");
+  };
+
   const inscribirUsuario = () => {
     inscribirUsuarioEnActividad(actividad, "Catalin").then(() =>
       Alert.alert(
         "Inscripción existosa",
         "Se ha inscrito correctamente a la actividad " + actividad.titulo,
-        [
-          {
-            text: "Cancelar",
-            style: "cancel",
-          },
-          { text: "OK" },
-        ]
+        [{ text: "OK" }]
       )
     );
     //desapuntarseDeActividad(actividad.titulo, "Catalin").then(()=>console.log("exito")).catch(e =>console.log("e"))
@@ -146,9 +149,19 @@ const ActivityScreen = () => {
             <Text>Loading map...</Text>
           )}
 
-          <View className="my-5">
-            <Button title="Participa" onPress={inscribirUsuario} />
-          </View>
+          {estaInscrito ? (
+            <View className="my-5">
+              <Button title="Participa" onPress={inscribirUsuario} />
+            </View>
+          ) : (
+            <View className="my-5">
+              <Button
+                title="Desapuntarse"
+                className="bg-rojo-600"
+                onPress={despuntarUsuario}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </TailwindProvider>
