@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import MyActivitiesScreen from "./MyActivitiesScreen";
-import ActivityScreen from "./ActivityScreen";
 import ListaFiltros from "../components/ListaFiltros";
+import ActivityScreen from './user/ActivityScreen';
 
 const ProfileTabScreenStack = () => {
   const ProfileTabStack = createNativeStackNavigator();

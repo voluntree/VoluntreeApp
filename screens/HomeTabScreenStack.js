@@ -1,7 +1,8 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './HomeScreen';
-import ActivityScreen from './ActivityScreen';
+import HomeScreen from './user/HomeScreen';
+import ActivityScreen from './user/ActivityScreen';
+
 
 const HomeTabScreenStack = () => {
     const HomeTabStack = createNativeStackNavigator();
