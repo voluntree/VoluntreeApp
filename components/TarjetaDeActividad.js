@@ -5,7 +5,7 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
 import { useNavigation } from "@react-navigation/native";
-import ActivityScreen from "./../screens/ActivityScreen";
+
 
 const TarjetaDeActividad = (props) => {
   const { actividad } = props;

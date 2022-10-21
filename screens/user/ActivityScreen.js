@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
-import { storage, db } from "../utils/firebase";
+import { storage, db } from "../../utils/firebase";
 import { useState, useEffect, useLayoutEffect } from "react";
 import {
   collection,
@@ -21,12 +21,9 @@ import {
 } from "firebase/firestore";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-import {
-  desapuntarseDeActividad,
-  inscribirUsuarioEnActividad,
-  estaInscrito,
-} from "../service/service";
+
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { desapuntarseDeActividad, estaInscrito, inscribirUsuarioEnActividad } from "../../service/service";
 
 const ActivityScreen = () => {
   const navigation = useNavigation();
@@ -149,7 +146,7 @@ const ActivityScreen = () => {
             <Text>Loading map...</Text>
           )}
 
-          {estaInscrito ? (
+          {usuarioInscrito ? (
             <View className="my-5">
               <Button title="Participa" onPress={inscribirUsuario} />
             </View>
