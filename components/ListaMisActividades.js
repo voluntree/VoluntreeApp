@@ -30,7 +30,7 @@ const ListaMisActividades = (props) => {
       })
     }
     getActividades();
-  }, [])
+  }, [q])
 
   const listaResultados = () => {
     if (actividades.length != 0) {

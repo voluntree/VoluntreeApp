@@ -33,7 +33,7 @@ const ActivityScreen = () => {
   const route = useRoute();
   const { actividad, uri } = route.params;
   const [fecha, setFecha] = useState();
-
+  const [inscrito, setInscrito] = useState(false);
   const [ubicacion, setUbicacion] = useState();
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
@@ -48,6 +48,7 @@ const ActivityScreen = () => {
       );
       let data = await response.json();
       setUbicacion(data.display_name);
+      setInscrito(actividad.participantes.includes(currentUser))
       setRegion({
         latitude: lat,
         longitude: lng,
@@ -65,7 +66,7 @@ const ActivityScreen = () => {
     navigation.setOptions({
       headerShown: false,
     });
-  }, []);
+  }, [inscrito]);
 
   const options = {
     weekday: "long",
@@ -76,7 +77,7 @@ const ActivityScreen = () => {
 
   const usuarioInscrito = async () => {
     const bool = await estaInscrito(currentUser, actividad.titulo);
-    console.log("apuntado? ",bool);
+    console.log("apuntado? ", bool);
     return bool;
   };
 
@@ -86,24 +87,26 @@ const ActivityScreen = () => {
       "Desinscripción existosa",
       "Se ha desinscrito correctamente de la actividad " + actividad.titulo,
       [{ text: "OK" }]
-    )
-    goBack()
+    );
+    setInscrito(false);
+    goBack();
   };
 
   const inscribirUsuario = () => {
-    inscribirUsuarioEnActividad(actividad.titulo, currentUser)
+    inscribirUsuarioEnActividad(actividad.titulo, currentUser);
     Alert.alert(
       "Inscripción existosa",
       "Se ha inscrito correctamente a la actividad " + actividad.titulo,
       [{ text: "OK" }]
-    )
+    );
+    setInscrito(true);
   };
   const goBack = () => {
     try {
       navigation.goBack();
     } catch (error) {}
   };
- 
+
   return (
     <TailwindProvider>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
@@ -155,7 +158,7 @@ const ActivityScreen = () => {
             <Text>Loading map...</Text>
           )}
 
-          { !actividad.participantes.includes(currentUser)? (
+          {!inscrito ? (
             <View className="my-5">
               <Button title="Participa" onPress={inscribirUsuario} />
             </View>

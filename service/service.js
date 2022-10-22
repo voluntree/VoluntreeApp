@@ -53,7 +53,6 @@ export async function getActivityById(id) {
   }
 }
 
-
 export async function getActivityByTitle(title) {
   const actRef = query(actividadesRef, where("titulo", "==", title));
   const actSnap = await getDocs(actRef);
@@ -88,13 +87,16 @@ export async function desapuntarseDeActividad(activityID, userID) {
   const participantRef = doc(db, "voluntarios", userID);
   try {
     await runTransaction(db, async (t) => {
-      t.update(actRef, {
-        num_participantes: increment(-1),
-        participantes: arrayRemove(userID),
-      });
-      t.update(participantRef, {
-        actividades: arrayRemove(activityID),
-      });
+      const act = (await t.get(actRef)).data();
+      if (act.num_participantes > 0) {
+        t.update(actRef, {
+          num_participantes: increment(-1),
+          participantes: arrayRemove(userID),
+        });
+        t.update(participantRef, {
+          actividades: arrayRemove(activityID),
+        });
+      }
     });
   } catch (e) {
     console.log(e);
@@ -103,18 +105,21 @@ export async function desapuntarseDeActividad(activityID, userID) {
 
 // Guarda una actividad en la base de datos
 export async function saveActivity(activity) {
-  if (await getActivityByTitle(activity.titulo) == 0) {
+  if ((await getActivityByTitle(activity.titulo)) == 0) {
     try {
       const docRef = doc(db, "actividades", activity.titulo);
       await setDoc(docRef, activity);
-      console.log('Actividad guardada correctamente');
-      Alert.alert('Éxito', 'La oferta de actividad se ha creado correctamente');
+      console.log("Actividad guardada correctamente");
+      Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
     } catch (error) {
-      Alert.alert("Error", 'Ha ocurrido un error al guardar la actividad. Inténtelo de nuevo más tarde.');
-      console.error('Error al guardar la actividad', error);
+      Alert.alert(
+        "Error",
+        "Ha ocurrido un error al guardar la actividad. Inténtelo de nuevo más tarde."
+      );
+      console.error("Error al guardar la actividad", error);
     }
   } else {
-    Alert.alert("Error", 'Ya existe una actividad con ese título.');
+    Alert.alert("Error", "Ya existe una actividad con ese título.");
   }
 }
 
