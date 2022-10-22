@@ -21,9 +21,12 @@ import {
 } from "firebase/firestore";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { desapuntarseDeActividad, estaInscrito, inscribirUsuarioEnActividad } from "../../service/service";
+import {
+  desapuntarseDeActividad,
+  estaInscrito,
+  inscribirUsuarioEnActividad,
+} from "../../service/service";
 
 const ActivityScreen = () => {
   const navigation = useNavigation();
@@ -35,10 +38,10 @@ const ActivityScreen = () => {
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
+  const currentUser = "Catalin";
 
   useEffect(() => {
     setFecha(actividad.fecha.toDate().toLocaleString("es-ES", options));
-
     const getAddress = async (lat, lng) => {
       let response = await fetch(
         `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
@@ -52,7 +55,6 @@ const ActivityScreen = () => {
         longitudeDelta: 0.00021,
       });
     };
-
     getAddress(
       actividad.ubicacion.latitude,
       actividad.ubicacion.longitude
@@ -72,30 +74,36 @@ const ActivityScreen = () => {
     day: "numeric",
   };
 
-  const usuarioInscrito = () => {
-    estaInscrito("Catalin", actividad.titulo);
+  const usuarioInscrito = async () => {
+    const bool = await estaInscrito(currentUser, actividad.titulo);
+    console.log("apuntado? ",bool);
+    return bool;
   };
 
-  const despuntarUsuario = () => {
-    desapuntarseDeActividad(actividad.titulo, "Catalin");
+  const desapuntarUsuario = () => {
+    desapuntarseDeActividad(actividad.titulo, currentUser);
+    Alert.alert(
+      "Desinscripción existosa",
+      "Se ha desinscrito correctamente de la actividad " + actividad.titulo,
+      [{ text: "OK" }]
+    )
+    goBack()
   };
 
   const inscribirUsuario = () => {
-    inscribirUsuarioEnActividad(actividad, "Catalin").then(() =>
-      Alert.alert(
-        "Inscripción existosa",
-        "Se ha inscrito correctamente a la actividad " + actividad.titulo,
-        [{ text: "OK" }]
-      )
-    );
-    //desapuntarseDeActividad(actividad.titulo, "Catalin").then(()=>console.log("exito")).catch(e =>console.log("e"))
+    inscribirUsuarioEnActividad(actividad.titulo, currentUser)
+    Alert.alert(
+      "Inscripción existosa",
+      "Se ha inscrito correctamente a la actividad " + actividad.titulo,
+      [{ text: "OK" }]
+    )
   };
   const goBack = () => {
     try {
       navigation.goBack();
     } catch (error) {}
   };
-
+ 
   return (
     <TailwindProvider>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
@@ -116,6 +124,7 @@ const ActivityScreen = () => {
 
         <View className="mx-3 pt-5 relative">
           <Text className="font-extrabold text-2xl ">{actividad.titulo}</Text>
+
           <View className="flex-row space-x-1 items-center py-5">
             <Icon name="calendar" type="octicon" color="black" />
             <Text>Fecha:</Text>
@@ -146,7 +155,7 @@ const ActivityScreen = () => {
             <Text>Loading map...</Text>
           )}
 
-          {usuarioInscrito ? (
+          { !actividad.participantes.includes(currentUser)? (
             <View className="my-5">
               <Button title="Participa" onPress={inscribirUsuario} />
             </View>
@@ -155,7 +164,7 @@ const ActivityScreen = () => {
               <Button
                 title="Desapuntarse"
                 className="bg-rojo-600"
-                onPress={despuntarUsuario}
+                onPress={desapuntarUsuario}
               />
             </View>
           )}

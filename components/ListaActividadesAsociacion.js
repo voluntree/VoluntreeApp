@@ -15,30 +15,28 @@ import { View, Text, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
 import { getActivityById } from "../service/service";
 
-
-
 const ListaActividadesAsociacion = () => {
-
-  const[actividades, setActividades] = useState([]);
+  const [actividades, setActividades] = useState([]);
 
   const currentUser = {
-    name : "Green Peace",
-    cif : "G98347432",
-  }
+    name: "Green Peace",
+    cif: "G98347432",
+  };
 
-  const q =query(collection(db, "actividades"))
+  const q = query(collection(db, "actividades"));
 
   useEffect(() => {
-    const getActividades = async () => { 
+    const getActividades = async () => {
       await getDocs(q).then((actividad) => {
-        let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        setActividades(actividadData)
-      })
-    }
+        let actividadData = actividad.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setActividades(actividadData);
+      });
+    };
     getActividades();
-  }, [])
-
-  
+  }, []);
 
   return (
     <FlatList

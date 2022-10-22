@@ -9,7 +9,7 @@ const ActividadAsociacion = (props) => {
   const [uri, setUri] = useState();
   const reference = ref(
     storage,
-    "gs://voluntreepin.appspot.com/cardImages/" + props.imagen,
+    "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
   );
   getDownloadURL(reference).then((path) => {
     setUri(path);
