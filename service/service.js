@@ -18,6 +18,7 @@ import {
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
+import { connectStorageEmulator } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -45,30 +46,48 @@ export async function getActivityById(id) {
       return docSnap.data();
     } else {
       console.log("Document does not exist");
+      return null;
     }
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function inscribirUsuarioEnActividad(activityID, userID) {
-  const actRef = doc(db, "actividades", activityID);
-  const participantRef = doc(db, "voluntarios", userID);
+export async function getActivityByTitle(title) {
+  const actRef = query(actividadesRef, where("titulo", "==", title));
+  const actSnap = await getDocs(actRef);
+  const act = actSnap.docs.map((doc) => doc.data());
+  // console.log(act.length);
+  return act.length;
+}
+
+export async function inscribirUsuarioEnActividad(activity, userID) {
+  activityID = activity.titulo;
   try {
-    await runTransaction(db, async (t) => {
-      const activity = (await t.get(actRef)).data();
-      if (activity.num_participantes + 1 <= activity.max_participantes) {
-        t.update(actRef, {
-          num_participantes: increment(1),
-          participantes: arrayUnion(userID),
-        });
-        t.update(participantRef, {
-          actividades: arrayUnion(activityID),
-        });
-      } else throw Error("Ya no quedan plazas para esta actividad.");
-    });
-  } catch (e) {
-    console.log(e);
+    if (activity.num_participantes + 1 <= activity.max_participantes) {
+      const participantsActivityRef = doc(
+        db,
+        `voluntarios/${userID}/actividades`,
+        activityID
+      );
+      const activityParticipantsRef = doc(
+        db,
+        `actividades/${activityID}/participantes`,
+        userID
+      );
+      const actRef = doc(db, "actividades", activityID);
+      const participantRef = doc(db, "voluntarios", userID);
+      let data1 = { actividad: actRef.path };
+      let data2 = { participante: participantRef.path };
+
+      await setDoc(participantsActivityRef, data1);
+      await setDoc(activityParticipantsRef, data2);
+      await updateDoc(doc(db, "actividades", activityID), {
+        "num_participantes": increment(1),
+      });
+    } else throw Error("Ya no quedan plazas para esta actividad.")
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -92,13 +111,18 @@ export async function desapuntarseDeActividad(activityID, userID) {
 
 // Guarda una actividad en la base de datos
 export async function saveActivity(activity) {
-  try {
-    const docRef = doc(db, "actividades", activity.titulo);
-    await setDoc(docRef, activity);
-    console.log("Actividad guardada");
-    Alert.alert("Nueva oferta de actividad creada");
-  } catch (error) {
-    console.error("Error al guardar la actividad", error);
+  if (await getActivityByTitle(activity.titulo) == 0) {
+    try {
+      const docRef = doc(db, "actividades", activity.titulo);
+      await setDoc(docRef, activity);
+      console.log('Actividad guardada correctamente');
+      Alert.alert('Éxito', 'La oferta de actividad se ha creado correctamente');
+    } catch (error) {
+      Alert.alert("Error", 'Ha ocurrido un error al guardar la actividad. Inténtelo de nuevo más tarde.');
+      console.error('Error al guardar la actividad', error);
+    }
+  } else {
+    Alert.alert("Error", 'Ya existe una actividad con ese título.');
   }
 }
 

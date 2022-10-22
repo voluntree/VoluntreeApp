@@ -58,16 +58,39 @@ const CrearOferta = () => {
         setUploading(false);
     }
 
+    // function to check values
+    const correctData = (values) => {
+        if (values.titulo == '' || values.tipo == '' || values.maxParticipantes == '' || values.duracion == '' || values.descripcion == '' || values.imagen == '') {
+            Alert.alert("Error", "Por favor, rellene todos los campos");
+            return false;
+        }
+        if (values.maxParticipantes < 6 || values.maxParticipantes > 100) {
+            Alert.alert("Error", "El número de participantes debe estar entre 6 y 100");
+            return false;
+        }
+        if (values.duracion < 1 || values.duracion > 8) {
+            Alert.alert("Error", "La duración debe estar entre 1 y 8 horas");
+            return false;
+        }
+        if (values.descripcion.length > 600) {
+            Alert.alert("Error", "La descripción no puede tener más de 600 caracteres");
+            return false;
+        }
+        return true;
+    }
+
     return (
         <ScrollView className="p-5 pt-18">
             <Formik
-                initialValues={{ titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
+                initialValues={{ asociacion: 'Green Peace', titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
                 onSubmit={(values) => {
                     values.fecha = new Date();
-                    const filename = image.substring(image.lastIndexOf('/') + 1);
-                    values.imagen = filename;
-                    storeImage();
-                    saveActivity(values);
+                    values.imagen = image.substring(image.lastIndexOf('/') + 1);
+                    
+                    if (correctData(values)) {
+                        storeImage();
+                        saveActivity(values);
+                    }
                 }}
             >
                 {(props) => (
