@@ -53,6 +53,15 @@ export async function getActivityById(id) {
   }
 }
 
+
+export async function getActivityByTitle(title) {
+  const actRef = query(actividadesRef, where("titulo", "==", title));
+  const actSnap = await getDocs(actRef);
+  const act = actSnap.docs.map((doc) => doc.data());
+  // console.log(act.length);
+  return act.length;
+}
+
 export async function inscribirUsuarioEnActividad(activityID, userID) {
   const actRef = doc(db, "actividades", activityID);
   const participantRef = doc(db, "voluntarios", userID);
