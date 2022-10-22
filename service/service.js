@@ -53,41 +53,24 @@ export async function getActivityById(id) {
   }
 }
 
-export async function getActivityByTitle(title) {
-  const actRef = query(actividadesRef, where("titulo", "==", title));
-  const actSnap = await getDocs(actRef);
-  const act = actSnap.docs.map((doc) => doc.data());
-  // console.log(act.length);
-  return act.length;
-}
-
-export async function inscribirUsuarioEnActividad(activity, userID) {
-  activityID = activity.titulo;
+export async function inscribirUsuarioEnActividad(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID);
+  const participantRef = doc(db, "voluntarios", userID);
   try {
-    if (activity.num_participantes + 1 <= activity.max_participantes) {
-      const participantsActivityRef = doc(
-        db,
-        `voluntarios/${userID}/actividades`,
-        activityID
-      );
-      const activityParticipantsRef = doc(
-        db,
-        `actividades/${activityID}/participantes`,
-        userID
-      );
-      const actRef = doc(db, "actividades", activityID);
-      const participantRef = doc(db, "voluntarios", userID);
-      let data1 = { actividad: actRef.path };
-      let data2 = { participante: participantRef.path };
-
-      await setDoc(participantsActivityRef, data1);
-      await setDoc(activityParticipantsRef, data2);
-      await updateDoc(doc(db, "actividades", activityID), {
-        "num_participantes": increment(1),
-      });
-    } else throw Error("Ya no quedan plazas para esta actividad.")
-  } catch (error) {
-    console.log(error);
+    await runTransaction(db, async (t) => {
+      const activity = (await t.get(actRef)).data();
+      if (activity.num_participantes + 1 <= activity.max_participantes) {
+        t.update(actRef, {
+          num_participantes: increment(1),
+          participantes: arrayUnion(userID),
+        });
+        t.update(participantRef, {
+          actividades: arrayUnion(activityID),
+        });
+      } else throw Error("Ya no quedan plazas para esta actividad.");
+    });
+  } catch (e) {
+    console.log(e);
   }
 }
 
