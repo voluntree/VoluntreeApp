@@ -19,16 +19,18 @@ const ListaMisActividades = (props) => {
 
   const currentUser = "Catalin";
 
+ 
+  const q =query(collection(db, "actividades"), where("participantes", "array-contains", currentUser))
+
   useEffect(() => {
-    const getActividades = async (userID) => {
-      const colRef = collection(db, `voluntarios/${userID}/actividades`);
-      const resp = await getDocs(colRef);
-      let actividadesArray = [];
-      resp.forEach((doc) => actividadesArray.push(doc.data()));
-      setActividades(actividadesArray);
-    };
-    getActividades(currentUser);
-  }, []);
+    const getActividades = async () => { 
+      await getDocs(q).then((actividad) => {
+        let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
+        setActividades(actividadData)
+      })
+    }
+    getActividades();
+  }, [q])
 
   const listaResultados = () => {
     if (actividades.length != 0) {

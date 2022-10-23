@@ -8,7 +8,6 @@ import {getDistance} from "geolib";
 import {MapView} from 'react-native-maps';
 
 const ListaDeTarjetas = (props) => {
-  
   const [actividades, setActividades] = useState([]);
   const q = query(collection(db, "actividades"))
   useEffect(() => {
@@ -61,13 +60,10 @@ const ListaDeTarjetas = (props) => {
   return (
     <FlatList
       data={listaResultados()}
-      keyExtractor={(item) => item.titulo}
-      renderItem={({ item, index }) => (
-        <TarjetaDeActividad
-          actividad={item}
-        />
-      )}
+      keyExtractor={(item) => item.id}
+      ListEmptyComponent={renderEmptyContainer()}
+      renderItem={({ item, index }) => <TarjetaDeActividad actividad={item} />}
     />
   );
-}
+};
 export default ListaDeTarjetas;

@@ -76,7 +76,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Tienda"
-          component={ActivityScreen}
+          component={HomeTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
