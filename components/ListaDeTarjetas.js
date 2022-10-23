@@ -23,7 +23,7 @@ const ListaDeTarjetas = (props) => {
       });
     };
     getActividades();
-  }, [q]);
+  }, [actividades]);
 
   const listaResultados = () => {
     if (actividades.length != 0) {
