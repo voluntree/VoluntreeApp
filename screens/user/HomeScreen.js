@@ -19,9 +19,20 @@ const HomeScreen = () => {
   const navigation = useNavigation();
   const [SearchText, setSearchText] = useState("");
 
-  const handleSearchTextChange = (text) => {
-    setSearchText(text);
-  };
+  const[distancia,setDistancia] = useState(0);
+  const[sliding, setSliding] = useState('Inactive');
+
+  const [duracion, setDuracion] = useState(0);
+
+  const[mode, setMode] = useState('date')
+  const[dateValue, setDateValue] = useState();
+  const[text, setText] = useState('Vacío')
+  const[show, setShow] = useState(false);
+
+  const[isVisible, setIsVisible] = useState(false);
+  const[isModalOpen, setIsModalOpen] = useState(false)
+
+  const[categoriasActivas, setCategoriasActivas] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,10 +44,36 @@ const HomeScreen = () => {
     <TailwindProvider>
       <SafeAreaView className="h-full items-center">
         <Buscador
-          onSearchTextChange={handleSearchTextChange}
           valor={SearchText}
+          setSearchText = {setSearchText}
+          isModalOpen = {isModalOpen}
+          setIsModalOpen = {setIsModalOpen}
+          categoriasActivas = {categoriasActivas}
+          setCategoriasActivas = {setCategoriasActivas}
+          distancia = {distancia}
+          setDistancia = {setDistancia}
+          text = {text}
+          setText = {setText}
+          isVisible = {isVisible}
+          duracion = {duracion}
+          setDuracion = {setDuracion}
+          sliding = {sliding}
+          setSliding = {setSliding}
+          mode = {mode}
+          setMode = {setMode}
+          dateValue = {dateValue}
+          setDateValue = {setDateValue}
+          show = {show}
+          setShow = {setShow}
+          setIsVisible = {setIsVisible}
         />
-        <ListaDeTarjetas valor={SearchText} />
+        <ListaDeTarjetas 
+          searchText={SearchText}
+          distancia={distancia}
+          duracion={duracion}
+          categoriasActivas= {categoriasActivas}
+          fecha = {dateValue}
+         />
       </SafeAreaView>
     </TailwindProvider>
   );

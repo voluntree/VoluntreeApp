@@ -9,10 +9,9 @@ import ModalFiltros from "./ModalFiltros";
 
 const Buscador = (props) => {    
 
-  const[isModalOpen, setIsModalOpen] = useState(false)
-
-  const handleChange = (valor) => {
-    props.onSearchTextChange(valor)
+  const onCategoriasActivasChange = (lista) => {
+    props.setCategoriasActivas(lista)
+    console.log(lista)
   }
 
   return (
@@ -21,7 +20,7 @@ const Buscador = (props) => {
         <TextInput
           className="bg-[#d6d5d5] rounded-full w-3/4 h-10 px-4"
           placeholder="Buscar..."
-          onChangeText={(value) => handleChange(value)}
+          onChangeText={(value) => props.setSearchText(value,"searchText")}
         />
         <Icon
           className="pr-2 z-10"
@@ -38,12 +37,31 @@ const Buscador = (props) => {
           type="octicon"
           color={theme.colors.bottomTabs}
           size={24}
-          onPress={() => setIsModalOpen(!isModalOpen)}
+          onPress={() => props.setIsModalOpen(!props.isModalOpen)}
         />
       </View>
       <ModalFiltros
-        isModalOpen = {isModalOpen}
-        setIsModalOpen = {setIsModalOpen}
+        isModalOpen = {props.isModalOpen}
+        setIsModalOpen = {props.setIsModalOpen}
+        onCategoriasActivasChange = {onCategoriasActivasChange}
+        categoriasActivas = {props.categoriasActivas}
+        distancia = {props.distancia}
+        setDistancia = {props.setDistancia}
+        text = {props.text}
+        setText = {props.setText}
+        isVisible = {props.isVisible}
+        duracion = {props.duracion}
+        setDuracion = {props.setDuracion}
+        sliding = {props.sliding}
+        setSliding = {props.setSliding}
+        mode = {props.mode}
+        setMode = {props.setMode}
+        dateValue = {props.dateValue}
+        setDateValue = {props.setDateValue}
+        show = {props.show}
+        setShow = {props.setShow}
+        setIsVisible = {props.setIsVisible}
+        onFiltrosChange = {props.onFiltrosChange}
       />
     </View>
   );
