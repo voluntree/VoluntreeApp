@@ -11,7 +11,6 @@ const Buscador = (props) => {
 
   const onCategoriasActivasChange = (lista) => {
     props.setCategoriasActivas(lista)
-    console.log(lista)
   }
 
   return (

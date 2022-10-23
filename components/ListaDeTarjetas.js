@@ -45,7 +45,6 @@ const ListaDeTarjetas = (props) => {
               let d1 = new Date(props.fecha).toDateString()
               let d2 = item.fecha.toDate().toDateString()
               if(d1 == d2) {
-                console.log(d1, d2)
                 return item
               }
             })
