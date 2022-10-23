@@ -57,6 +57,12 @@ const ListaDeTarjetas = (props) => {
         }
       }
   
+      const renderEmptyContainer = () => {
+        return (
+          <Text style={{ marginTop: "90%" }}>No se han encontrado actividades</Text>
+        );
+      };
+
   return (
     <FlatList
       data={listaResultados()}
