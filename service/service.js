@@ -103,6 +103,27 @@ export async function desapuntarseDeActividad(activityID, userID) {
   }
 }
 
+export async function deleteActivity(activityID) {
+  try {
+    const actRef = doc(db, "actividades", activityID);
+    let actDoc = await getDoc(actRef);
+    if (actDoc.exists()) {
+      await runTransaction(db, async (t) => {
+        const activity = actDoc.data();
+        if (activity.participantes.length > 0)
+          await activity.participantes.forEach(async (participante) => {
+            t.update(doc(db, "voluntarios", participante), {
+              actividades: arrayRemove(activityID),
+            });
+          });
+        t.delete(actRef);
+      });
+    } else {
+      Error("Actividad ya eliminada");
+    }
+  } catch (error) {}
+}
+
 // Guarda una actividad en la base de datos
 export async function saveActivity(activity) {
   if ((await getActivityByTitle(activity.titulo)) == 0) {

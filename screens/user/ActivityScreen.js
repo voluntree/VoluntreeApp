@@ -166,7 +166,6 @@ const ActivityScreen = () => {
             <View className="my-5">
               <Button
                 title="Desapuntarse"
-                className="bg-rojo-600"
                 onPress={desapuntarUsuario}
               />
             </View>

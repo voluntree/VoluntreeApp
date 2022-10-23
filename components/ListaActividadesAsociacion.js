@@ -36,7 +36,7 @@ const ListaActividadesAsociacion = () => {
       });
     };
     getActividades();
-  }, []);
+  }, [actividades]);
 
   return (
     <FlatList

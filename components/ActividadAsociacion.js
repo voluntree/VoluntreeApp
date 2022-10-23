@@ -4,6 +4,7 @@ import { Icon } from "react-native-elements";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
+import { deleteActivity } from "../service/service";
 
 const ActividadAsociacion = (props) => {
   const [uri, setUri] = useState();
@@ -14,6 +15,9 @@ const ActividadAsociacion = (props) => {
   getDownloadURL(reference).then((path) => {
     setUri(path);
   });
+  const borrarActividad = () => {
+    deleteActivity(props.titulo);
+  }
 
   return (
     <TouchableOpacity className="px-4 py-1.5">
@@ -26,9 +30,8 @@ const ActividadAsociacion = (props) => {
             {props.titulo}
           </Text>
         </View>
-
-        <View className="absolute ml-72 pl-10 mt-20">
-          <TouchableOpacity className="bg-[#e62344] w-10 h-10 rounded-lg">
+        <View className="absolute ml-72 right-0 bottom-0 m-2">
+          <TouchableOpacity onPress={borrarActividad} className="bg-[#e62344] w-10 h-10 rounded-lg">
             <Icon
               className="pt-1"
               name="delete"
