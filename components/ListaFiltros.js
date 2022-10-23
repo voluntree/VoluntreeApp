@@ -2,7 +2,7 @@ import { View, Text, FlatList, ScrollView } from 'react-native'
 import React from 'react'
 import Filtro from './Filtro';
 
-const ListaFiltros = () => {
+const ListaFiltros = (props) => {
 
   const data = [
     {
@@ -37,6 +37,25 @@ const ListaFiltros = () => {
     },
   ];
 
+  const AddCategoria = (valor, activo) => {
+    let aux = props.lista
+    if(activo == true){
+      if(!aux.includes(valor)){
+        aux.push(valor)
+        props.onCategoriasActivasChange(aux)
+      }else{
+        props.onCategoriasActivasChange(aux)
+      }
+    }else{
+      aux = aux.filter(e => e != valor)
+      props.onCategoriasActivasChange(aux)
+    }
+  }
+
+  const isActivo = (texto) => {
+    return props.lista.includes(texto.toLowerCase())
+  }
+
   return (
     <FlatList
       data = {data}
@@ -45,6 +64,8 @@ const ListaFiltros = () => {
         <Filtro
           imagen = {item.imagen}
           texto = {item.texto}
+          AddCategoria = {AddCategoria}
+          isActivo = {isActivo(item.texto)}
         />
       )}
       numColumns = {3}
