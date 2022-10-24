@@ -3,13 +3,20 @@ import { ScrollView, StyleSheet, Button, TextInput, View, Text, TouchableOpacity
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from 'expo-image-picker';
+import {ref} from "firebase/storage";
+import { useRoute } from "@react-navigation/native";
+
 import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
-import {ref} from "firebase/storage";
 
-import { createActivity, pickImage, saveActivity, storeImage } from "../../service/service";
 
-const CrearOferta = () => {
+
+import { getActivityById, pickImage, storeImage, updateActivity } from "../../service/service";
+
+const Detalles = () => {
+    const route = useRoute();
+    const { actividad } = route.params;
+
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [image, setImage] = useState(null);
     const [uploading, setUploading] = useState(false);
@@ -82,6 +89,7 @@ const CrearOferta = () => {
     return (
         <ScrollView className="p-5 pt-18">
             <Formik
+            // Valores iniciales. Se hace uso de Green Peace como asociación por defecto hasta que se implemente el login.
                 initialValues={{ asociacion: 'Green Peace', titulo: '', tipo: '', maxParticipantes: '', duracion: '', descripcion: '', imagen: '', fecha: '', ubicacion:''}}
                 onSubmit={(values) => {
                     values.fecha = new Date();
@@ -89,7 +97,7 @@ const CrearOferta = () => {
                     
                     if (correctData(values)) {
                         storeImage();
-                        createActivity(values);
+                        updateActivity(values);
                     }
                 }}
             >
@@ -98,24 +106,25 @@ const CrearOferta = () => {
                         <View className='flex-row'>
                             <View className='mr-2 space-y-5'>
                                 <TextInput className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2" 
-                                    placeholder="Título" 
+                                    editable={false}
+                                    placeholder='Título'
                                     onChangeText={props.handleChange('titulo')} 
-                                    value={props.values.titulo} />
+                                    value={actividad.titulo}/>
                                 <TextInput className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2" 
-                                    placeholder="Tipo" 
+                                    placeholder='Tipo'
                                     onChangeText={props.handleChange('tipo')}
-                                    value={props.values.tipo} />
+                                    value={actividad.tipo}/>
                                 <View className='flex-row'>
                                     <TextInput className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2" 
                                         keyboardType="numeric" 
-                                        placeholder="Participantes" 
+                                        placeholder='Máx. participantes'
                                         onChangeText={props.handleChange('maxParticipantes')} 
-                                        value={props.values.maxParticipantes} />
+                                        value={actividad.maxParticipantes}/>
                                     <TextInput className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2 ml-4" 
                                         keyboardType="numeric" 
-                                        placeholder="Duración" 
+                                        placeholder='Duración'
                                         onChangeText={props.handleChange('duracion')} 
-                                        value={props.values.duracion} />
+                                        value={actividad.duracion}/>
                                 </View>
                             </View>
                             <View>
@@ -131,7 +140,7 @@ const CrearOferta = () => {
                                         {props.values.imagen ?
                                             <Image className='w-40 h-28' source={{ uri: props.values.imagen }} /> 
                                          : 
-                                            <Text className="text-4xl text-center text-[#ffffff]">+</Text> }
+                                            <Image className='w-40 h-28' source={actividad.imagen} />  }
                                     </View>
                                 </TouchableOpacity>
                             </View>
@@ -140,11 +149,12 @@ const CrearOferta = () => {
                         <TextInput className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-64" 
                             multiline={true} 
                             numberOfLines={10} 
-                            placeholder="Descripción" 
+                            placeholder='Descripción'
                             onChangeText={props.handleChange('descripcion')} 
-                            value={props.values.descripcion} 
+                            value={actividad.descripcion} 
                             style={{textAlignVertical: 'top'}}/>
-                        <Button title='Crear' color='#00BFA5' onPress={props.handleSubmit} />
+                        <Button title='Guardar cambios' color='#00BFA5' onPress={props.handleSubmit} />
+                        <Button title='Cancelar' color='#00BFA5' onPress={() => console.log(actividad)} />
                     </View>
                 )}
             </Formik>
@@ -152,4 +162,4 @@ const CrearOferta = () => {
     )
 }
 
-export default CrearOferta;
+export default Detalles;

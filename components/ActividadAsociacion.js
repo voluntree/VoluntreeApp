@@ -4,14 +4,23 @@ import { Icon } from "react-native-elements";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
-import { deleteActivity } from "../service/service";
+import { deleteActivity, getActivityById } from "../service/service";
+import { useNavigation } from "@react-navigation/native";
 
 const ActividadAsociacion = (props) => {
+  const [actividad, setActividad] = useState();
   const [uri, setUri] = useState();
   const reference = ref(
     storage,
     "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
   );
+
+  useEffect(() => {
+    getActivityById(props.titulo).then((res) => {
+      setActividad(res);
+    });
+  }, []);
+  
   getDownloadURL(reference).then((path) => {
     setUri(path);
   });
@@ -19,8 +28,14 @@ const ActividadAsociacion = (props) => {
     deleteActivity(props.titulo);
   }
 
+  const navigation = useNavigation();
+
+  async function openDetails () {
+    navigation.push("Details", { actividad: actividad });
+  };
+
   return (
-    <TouchableOpacity className="px-4 py-1.5">
+    <TouchableOpacity className="px-4 py-1.5" onPress={openDetails}>
       <View className="relative shadow-2xl rounded-xl overflow-hidden">
         <Image className="h-32 w-full" source={{ uri: uri }} />
         <View className="h-32 w-full absolute bg-[#27272a] opacity-60"></View>
