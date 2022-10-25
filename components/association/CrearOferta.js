@@ -174,7 +174,7 @@ const CrearOferta = () => {
                   }}
                   value={props.values.imagen}
                 >
-                  <View className="w-40 h-40 items-center justify-center border-2 border-[#d1d5db] bg-[#e5e7eb] rounded-md ml-2">
+                  <View className="w-32 max-w-max h-40 items-center justify-center border-2 border-[#d1d5db] bg-[#e5e7eb] rounded-md ml-2">
                     {props.values.imagen ? (
                       <Image
                         className="w-40 h-28"
@@ -191,7 +191,7 @@ const CrearOferta = () => {
             </View>
 
             <TextInput
-              className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-64"
+              className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 "
               multiline={true}
               numberOfLines={10}
               placeholder="Descripción"

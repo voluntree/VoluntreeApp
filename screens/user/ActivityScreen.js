@@ -7,24 +7,13 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import { getDownloadURL, ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
-import { storage, db } from "../../utils/firebase";
 import { useState, useEffect, useLayoutEffect } from "react";
-import {
-  collection,
-  onSnapshot,
-  docs,
-  doc,
-  addDoc,
-  setDoc,
-} from "firebase/firestore";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   desapuntarseDeActividad,
-  estaInscrito,
   inscribirUsuarioEnActividad,
 } from "../../service/service";
 
@@ -46,7 +35,7 @@ const ActivityScreen = () => {
       let response = await fetch(
         `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
       );
-      console.log("useffect activityScreen")
+      console.log("useffect activityScreen");
       let data = await response.json();
       setUbicacion(data.display_name);
       setInscrito(actividad.participantes.includes(currentUser));
@@ -102,7 +91,6 @@ const ActivityScreen = () => {
         [{ text: "OK" }]
       );
       setInscrito(true);
-      
     });
   };
   const goBack = () => {
@@ -131,7 +119,6 @@ const ActivityScreen = () => {
 
         <View className="mx-3 pt-5 relative">
           <Text className="font-extrabold text-2xl ">{actividad.titulo}</Text>
-
           <View className="flex-row space-x-1 items-center py-5">
             <Icon name="calendar" type="octicon" color="black" />
             <Text>Fecha:</Text>

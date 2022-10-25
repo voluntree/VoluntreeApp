@@ -26,15 +26,11 @@ const ListaActividadesAsociacion = () => {
   const q = query(collection(db, "actividades"));
 
   useEffect(() => {
-    const getActividades = async () => {
-      await getDocs(q).then((actividad) => {
-        let actividadData = actividad.docs.map((doc) => ({
-          ...doc.data(),id: doc.id
-        }));
-        console.log("useeffect listaActiviadadesAsociacion");
-        setActividades(actividadData);
-      });
-    };
+    const getActividades = async () => { 
+      onSnapshot(q, (snapshot)=>({
+        id: snapshot.id,
+      }, setActividades(snapshot.docs.map(doc=> doc.data()))))
+    }
     getActividades();
   }, []);
 
