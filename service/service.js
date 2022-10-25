@@ -90,7 +90,7 @@ export async function desapuntarseDeActividad(activityID, userID) {
   try {
     await runTransaction(db, async (t) => {
       const act = (await t.get(actRef)).data();
-      if (act.num_participantes > 0) {
+      if (act.num_participantes > 0 && act.participantes.includes(userID)) {
         t.update(actRef, {
           num_participantes: increment(-1),
           participantes: arrayRemove(userID),

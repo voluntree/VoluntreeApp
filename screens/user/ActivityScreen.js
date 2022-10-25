@@ -48,7 +48,7 @@ const ActivityScreen = () => {
       );
       let data = await response.json();
       setUbicacion(data.display_name);
-      setInscrito(actividad.participantes.includes(currentUser))
+      setInscrito(actividad.participantes.includes(currentUser));
       setRegion({
         latitude: lat,
         longitude: lng,
@@ -82,24 +82,26 @@ const ActivityScreen = () => {
   };
 
   const desapuntarUsuario = () => {
-    desapuntarseDeActividad(actividad.titulo, currentUser);
-    Alert.alert(
-      "Desinscripción existosa",
-      "Se ha desinscrito correctamente de la actividad " + actividad.titulo,
-      [{ text: "OK" }]
-    );
-    setInscrito(false);
-    goBack();
+    desapuntarseDeActividad(actividad.titulo, currentUser).then(() => {
+      Alert.alert(
+        "Desinscripción existosa",
+        "Se ha desinscrito correctamente de la actividad " + actividad.titulo,
+        [{ text: "OK" }]
+      );
+      setInscrito(false);
+      goBack();
+    });
   };
 
   const inscribirUsuario = () => {
-    inscribirUsuarioEnActividad(actividad.titulo, currentUser);
-    Alert.alert(
-      "Inscripción existosa",
-      "Se ha inscrito correctamente a la actividad " + actividad.titulo,
-      [{ text: "OK" }]
-    );
-    setInscrito(true);
+    inscribirUsuarioEnActividad(actividad.titulo, currentUser).then(() => {
+      Alert.alert(
+        "Inscripción existosa",
+        "Se ha inscrito correctamente a la actividad " + actividad.titulo,
+        [{ text: "OK" }]
+      );
+      setInscrito(true);
+    });
   };
   const goBack = () => {
     try {
@@ -155,7 +157,7 @@ const ActivityScreen = () => {
               <Marker coordinate={region} />
             </MapView>
           ) : (
-            <Text>Loading map...</Text>
+            <Text>No disponible</Text>
           )}
 
           {!inscrito ? (
@@ -164,10 +166,7 @@ const ActivityScreen = () => {
             </View>
           ) : (
             <View className="my-5">
-              <Button
-                title="Desapuntarse"
-                onPress={desapuntarUsuario}
-              />
+              <Button title="Desapuntarse" onPress={desapuntarUsuario} />
             </View>
           )}
         </View>

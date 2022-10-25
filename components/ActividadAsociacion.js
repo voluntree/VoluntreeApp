@@ -16,9 +16,9 @@ const ActividadAsociacion = (props) => {
   );
 
   useEffect(() => {
-    getActivityById(props.titulo).then((res) => {
-      setActividad(res);
-    });
+   // getActivityById(props.titulo).then((res) => {
+    //  setActividad(res);
+   // });
   }, []);
   
   getDownloadURL(reference).then((path) => {

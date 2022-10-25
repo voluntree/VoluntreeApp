@@ -18,7 +18,7 @@ const ListaDeTarjetas = (props) => {
       })
     }
     getActividades();
-  }, [actividades]);
+  }, []);
       
       const listaResultados = () => {
         let aux = actividades

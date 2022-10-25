@@ -29,8 +29,7 @@ const ListaActividadesAsociacion = () => {
     const getActividades = async () => {
       await getDocs(q).then((actividad) => {
         let actividadData = actividad.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
+          ...doc.data(),id: doc.id
         }));
         setActividades(actividadData);
       });
