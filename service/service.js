@@ -15,6 +15,7 @@ import {
   arrayUnion,
   arrayRemove,
   runTransaction,
+  addDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
@@ -53,6 +54,7 @@ export async function getActivityById(id) {
   }
 }
 
+// No usar, tengo que arreglarlo
 export async function getActivityByTitle(title) {
   const actRef = query(actividadesRef, where("titulo", "==", title));
   const actSnap = await getDocs(actRef);
@@ -88,7 +90,7 @@ export async function desapuntarseDeActividad(activityID, userID) {
   try {
     await runTransaction(db, async (t) => {
       const act = (await t.get(actRef)).data();
-      if (act.num_participantes > 0) {
+      if (act.num_participantes > 0 && act.participantes.includes(userID)) {
         t.update(actRef, {
           num_participantes: increment(-1),
           participantes: arrayRemove(userID),
@@ -124,8 +126,7 @@ export async function deleteActivity(activityID) {
   } catch (error) {}
 }
 
-// Guarda una actividad en la base de datos
-export async function saveActivity(activity) {
+export async function createActivity(activity) {
   if ((await getActivityByTitle(activity.titulo)) == 0) {
     try {
       const docRef = doc(db, "actividades", activity.titulo);
@@ -141,6 +142,18 @@ export async function saveActivity(activity) {
     }
   } else {
     Alert.alert("Error", "Ya existe una actividad con ese título.");
+  }
+}
+
+export async function updateActivity(activity) {
+  try {
+    const docRef = doc(db, "actividades", activity.titulo);
+    await updateDoc(docRef, activity);
+    console.log("Actividad actualizada correctamente");
+    Alert.alert("Éxito", "La oferta de actividad se ha actualizado correctamente");
+  } catch (error) {
+    Alert.alert('Error', 'Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde.')
+    console.error("Error al actualizar la actividad", error);
   }
 }
 

@@ -24,13 +24,12 @@ const ListaMisActividades = (props) => {
 
   useEffect(() => {
     const getActividades = async () => { 
-      await getDocs(q).then((actividad) => {
-        let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        setActividades(actividadData)
-      })
+      onSnapshot(q, (snapshot)=>({
+        id: snapshot.id,
+      }, setActividades(snapshot.docs.map(doc=> doc.data()))))
     }
     getActividades();
-  }, [actividades])
+  }, [])
 
   const listaResultados = () => {
     let aux = actividades
