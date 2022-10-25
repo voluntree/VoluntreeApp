@@ -14,6 +14,7 @@ const ListaDeTarjetas = (props) => {
     const getActividades = async () => { 
       await getDocs(q).then((actividad) => {
         let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
+        console.log("useeffect listatarjetas")
         setActividades(actividadData)
       })
     }

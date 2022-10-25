@@ -46,6 +46,7 @@ const ActivityScreen = () => {
       let response = await fetch(
         `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
       );
+      console.log("useffect activityScreen")
       let data = await response.json();
       setUbicacion(data.display_name);
       setInscrito(actividad.participantes.includes(currentUser));
@@ -101,6 +102,7 @@ const ActivityScreen = () => {
         [{ text: "OK" }]
       );
       setInscrito(true);
+      
     });
   };
   const goBack = () => {

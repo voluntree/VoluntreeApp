@@ -34,7 +34,7 @@ const CrearOferta = () => {
       const galleryStatus =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
-    })();
+    });
   }, []);
 
   const pickImage = async () => {
@@ -66,11 +66,10 @@ const CrearOferta = () => {
     const bytes = await img.blob();
 
     try {
-      await uploadBytes(storageRef, bytes);
+      await uploadBytes(storageRef, bytes).then(setUploading(false));
     } catch (e) {
       console.log(e);
     }
-    setUploading(false);
   };
 
   // function to check values

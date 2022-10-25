@@ -31,11 +31,12 @@ const ListaActividadesAsociacion = () => {
         let actividadData = actividad.docs.map((doc) => ({
           ...doc.data(),id: doc.id
         }));
+        console.log("useeffect listaActiviadadesAsociacion");
         setActividades(actividadData);
       });
     };
     getActividades();
-  }, [actividades]);
+  }, []);
 
   return (
     <FlatList
