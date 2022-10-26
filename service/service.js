@@ -54,13 +54,15 @@ export async function getActivityById(id) {
   }
 }
 
-// No usar, tengo que arreglarlo
 export async function getActivityByTitle(title) {
-  const actRef = query(actividadesRef, where("titulo", "==", title));
-  const actSnap = await getDocs(actRef);
-  const act = actSnap.docs.map((doc) => doc.data());
-  // console.log(act.length);
-  return act.length;
+  const q = query(actividadesRef, where("titulo", "==", title));
+  const docSnap = await getDocs(q);
+  if (docSnap.empty) {
+    console.log("No matching documents.");
+    return null;
+  } else {
+    return docSnap.docs[0].data();
+  }
 }
 
 export async function inscribirUsuarioEnActividad(activityID, userID) {
@@ -126,23 +128,21 @@ export async function deleteActivity(activityID) {
   } catch (error) {}
 }
 
-export async function createActivity(activity) {
-  if ((await getActivityByTitle(activity.titulo)) == 0) {
-    try {
-      const docRef = doc(db, "actividades", activity.titulo);
-      await setDoc(docRef, activity);
-      console.log("Actividad guardada correctamente");
-      Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
-    } catch (error) {
-      Alert.alert(
-        "Error",
-        "Ha ocurrido un error al guardar la actividad. Inténtelo de nuevo más tarde."
-      );
-      console.error("Error al guardar la actividad", error);
+export function createActivity(activity) {
+  getActivityByTitle(activity.titulo).then(async (result) => {
+    if (result == null) {
+      try {
+        const docRef = doc(db, "actividades", activity.titulo);
+        await setDoc(docRef, activity);
+        Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
+      } catch (e) {
+        console.log(e);
+        Alert.alert("Error", "Ha ocurrido un error al crear la actividad. Por favor, inténtelo de nuevo más tarde.");
+      }
+    } else {
+      Alert.alert("Error", "Ya existe una actividad con ese título");
     }
-  } else {
-    Alert.alert("Error", "Ya existe una actividad con ese título.");
-  }
+  });
 }
 
 export async function updateActivity(activity) {

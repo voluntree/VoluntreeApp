@@ -19,6 +19,7 @@ import { ref } from "firebase/storage";
 
 import {
   createActivity,
+  getActivityByName,
   pickImage,
   saveActivity,
   storeImage,
