@@ -35,7 +35,6 @@ const ActivityScreen = () => {
       let response = await fetch(
         `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
       );
-      console.log("useffect activityScreen");
       let data = await response.json();
       setUbicacion(data.display_name);
       setInscrito(actividad.participantes.includes(currentUser));
@@ -64,7 +63,6 @@ const ActivityScreen = () => {
     month: "long",
     day: "numeric",
   };
-
 
   const desapuntarUsuario = () => {
     desapuntarseDeActividad(actividad.titulo, currentUser).then(() => {
@@ -114,6 +112,7 @@ const ActivityScreen = () => {
 
         <View className="mx-3 pt-5 relative">
           <Text className="font-extrabold text-2xl ">{actividad.titulo}</Text>
+
           <View className="flex-row space-x-1 items-center py-5">
             <Icon name="calendar" type="octicon" color="black" />
             <Text>Fecha:</Text>
