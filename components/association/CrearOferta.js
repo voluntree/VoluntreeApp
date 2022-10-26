@@ -113,6 +113,7 @@ const CrearOferta = () => {
           asociacion: "Green Peace",
           titulo: "",
           tipo: "",
+          favoritos: [],
           num_participantes: 0,
           max_participantes: 0,
           participantes: [],
