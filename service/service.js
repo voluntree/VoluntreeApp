@@ -157,4 +157,21 @@ export async function updateActivity(activity) {
   }
 }
 
+export async function getAsociacionByID(id){
+  try{
+    const docRef = doc(db, "asociaciones", id)
+    const asoc = await getDoc(docRef);
+    if(asoc.exists()) {
+      return asoc.data();
+    }
+    else{Alert.alert(
+      "Error",
+      "El perfil de esta asociacion no se encuentra disponible."
+    )}
+
+  }catch (erro) {
+    Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")
+  }
+}
+
 //#endregion
