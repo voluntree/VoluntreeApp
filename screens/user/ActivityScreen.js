@@ -65,11 +65,6 @@ const ActivityScreen = () => {
     day: "numeric",
   };
 
-  const usuarioInscrito = async () => {
-    const bool = await estaInscrito(currentUser, actividad.titulo);
-    console.log("apuntado? ", bool);
-    return bool;
-  };
 
   const desapuntarUsuario = () => {
     desapuntarseDeActividad(actividad.titulo, currentUser).then(() => {
