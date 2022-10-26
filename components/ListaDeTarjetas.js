@@ -12,11 +12,10 @@ const ListaDeTarjetas = (props) => {
   const q = query(collection(db, "actividades"))
   useEffect(() => {
     const getActividades = async () => { 
-      await getDocs(q).then((actividad) => {
-        let actividadData = actividad.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        console.log("useeffect listatarjetas")
-        setActividades(actividadData)
-      })
+      onSnapshot(q, (snapshot)=>({
+        id: snapshot.id,
+      }, setActividades(snapshot.docs.map(doc=> doc.data()))))
+      
     }
     getActividades();
   }, []);
@@ -66,7 +65,7 @@ const ListaDeTarjetas = (props) => {
   return (
     <FlatList
       data={listaResultados()}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
       renderItem={({ item, index }) => <TarjetaDeActividad actividad={item} />}
     />

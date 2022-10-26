@@ -37,7 +37,7 @@ const ListaActividadesAsociacion = () => {
   return (
     <FlatList
       data={actividades}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (
         <ActividadAsociacion
           titulo={item.titulo}

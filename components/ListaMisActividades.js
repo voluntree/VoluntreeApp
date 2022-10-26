@@ -76,7 +76,7 @@ const ListaMisActividades = (props) => {
   return (
     <FlatList
       data={listaResultados()}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
       renderItem={({ item, index }) => <TarjetaDeActividad actividad={item} />}
     />
