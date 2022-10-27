@@ -19,7 +19,7 @@ const ListaActividadesAsociacion = () => {
   const [actividades, setActividades] = useState([]);
 
   const currentUser = {
-    name: "Green Peace",
+    name: "Modepran",
     cif: "G98347432",
   };
 
@@ -37,7 +37,7 @@ const ListaActividadesAsociacion = () => {
   return (
     <FlatList
       data={actividades}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (
         <ActividadAsociacion
           titulo={item.titulo}

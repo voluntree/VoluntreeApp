@@ -19,6 +19,7 @@ import { ref } from "firebase/storage";
 
 import {
   createActivity,
+  getActivityByName,
   pickImage,
   saveActivity,
   storeImage,
@@ -113,6 +114,7 @@ const CrearOferta = () => {
           asociacion: "Green Peace",
           titulo: "",
           tipo: "",
+          favoritos: [],
           num_participantes: 0,
           max_participantes: 0,
           participantes: [],

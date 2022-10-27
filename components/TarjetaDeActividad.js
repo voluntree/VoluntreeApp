@@ -5,6 +5,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
 import { useNavigation } from "@react-navigation/native";
+import { updateDoc } from "firebase/firestore";
+import { addLike, removeLike } from "../service/service";
 
 
 const TarjetaDeActividad = (props) => {
@@ -15,9 +17,10 @@ const TarjetaDeActividad = (props) => {
     month: "long",
     day: "numeric",
   };
-
+  const user = "Catalin"
   const date = actividad.fecha.toDate().toLocaleString("es-ES", options);
-  const [corazon, setEstado] = useState("heart");
+  const [like, setLike] = useState(actividad.favoritos.includes(user))
+  const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [uri, setUri] = useState();
 
   const reference = ref(
@@ -29,7 +32,16 @@ const TarjetaDeActividad = (props) => {
   });
 
   const añadirFav = () => {
-    setEstado("heart-fill");
+    if(like == true){
+      removeLike(actividad.titulo, user)
+      setEstado("heart")
+      setLike(false)
+    }else{
+      addLike(actividad.titulo, user)
+      setEstado("heart-fill")
+      setLike(true)
+    }
+    
   };
 
   const navigation = useNavigation();
