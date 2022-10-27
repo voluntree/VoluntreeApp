@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
-import { connectStorageEmulator } from "firebase/storage";
+import { connectStorageEmulator, ref, getDownloadURL } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -150,11 +150,72 @@ export async function updateActivity(activity) {
     const docRef = doc(db, "actividades", activity.titulo);
     await updateDoc(docRef, activity);
     console.log("Actividad actualizada correctamente");
-    Alert.alert("Éxito", "La oferta de actividad se ha actualizado correctamente");
+    Alert.alert(
+      "Éxito",
+      "La oferta de actividad se ha actualizado correctamente"
+    );
   } catch (error) {
-    Alert.alert('Error', 'Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde.')
+    Alert.alert(
+      "Error",
+      "Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde."
+    );
     console.error("Error al actualizar la actividad", error);
   }
 }
 
 //#endregion
+
+//articulos
+
+export async function getArticuloById(articuloID) {
+  try {
+    const docRef = doc(db, "articulos", articuloID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("Document does not exist");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllArticulos() {
+  const articulos = [];
+  try {
+    const artcs = await getDocs(collection(db, "articulos"));
+    artcs.forEach((artc) => {
+      articulos.push(artc.data());
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return articulos;
+  }
+}
+
+//asociacion
+export async function getAssociationById(associationID) {
+  try {
+    const docRef = doc(db, "asociaciones", associationID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("Document does not exist");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//miscelanea
+export async function getImageDonwloadURL(url) {
+  const reference = ref(storage, "gs://voluntreepin.appspot.com/" + url);
+  getDownloadURL(reference).then((path) => {
+    return path;
+  });
+}
