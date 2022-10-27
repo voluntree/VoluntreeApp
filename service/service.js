@@ -157,6 +157,11 @@ export async function updateActivity(activity) {
   }
 }
 
+//#endregion
+
+
+//#region Asociacion
+
 export async function getAsociacionByID(id){
   try{
     const docRef = doc(db, "asociaciones", id)
@@ -169,9 +174,23 @@ export async function getAsociacionByID(id){
       "El perfil de esta asociacion no se encuentra disponible."
     )}
 
-  }catch (erro) {
+  }catch (e) {
     Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")
   }
 }
 
-//#endregion
+export async function followAsociation(user, asociationName){
+  const asociationRef = doc(db, "asociaciones", asociationName);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(asociationRef, {
+        seguidores: arrayUnion(user.nombre+" "+user.apellidos),
+      });
+    });
+    console.log('El usuario '+user.nombre+' '+user.apellidos+' ha seguido a la asociación '+asociationName);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//endregion
