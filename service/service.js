@@ -174,4 +174,27 @@ export async function getAsociacionByID(id){
   }
 }
 
+export async function addLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayUnion(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
+
+
+export async function removeLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayRemove(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
+
 //#endregion

@@ -18,18 +18,13 @@ const ListaMisActividades = (props) => {
   const [actividades, setActividades] = useState([]);
 
   const currentUser = "Catalin";
-
- 
   const q =query(collection(db, "actividades"), where("participantes", "array-contains", currentUser))
 
   useEffect(() => {
-    const getActividades = async () => { 
-      onSnapshot(q, (snapshot)=>({
-        id: snapshot.id,
-      }, setActividades(snapshot.docs.map(doc=> doc.data()))))
-    }
-    getActividades();
-  }, [])
+    onSnapshot(q, (snapshot) => 
+        setActividades(snapshot.docs.map(doc=> doc.data()))
+      ) 
+      }, []);
 
   const listaResultados = () => {
     let aux = actividades
@@ -78,7 +73,7 @@ const ListaMisActividades = (props) => {
       data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
-      renderItem={({ item, index }) => <TarjetaDeActividad actividad={item} />}
+      renderItem={({ item, index }) => <TarjetaDeActividad actividad={item}/>}
     />
   );
 };
