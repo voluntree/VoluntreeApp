@@ -168,7 +168,8 @@ export async function updateActivity(activity) {
 
 //#region Asociacion
 
-export async function getAsociacionByID(id){
+
+export async function getAsociationByID(id){
   try{
     const docRef = doc(db, "asociaciones", id)
     const asoc = await getDoc(docRef);
@@ -214,6 +215,7 @@ export async function followAsociation(user, asociationName){
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
         seguidores: arrayUnion(user.nombre+" "+user.apellidos),
+        num_seguidores: increment(1)
       });
     });
     console.log('El usuario '+user.nombre+' '+user.apellidos+' ha seguido a la asociación '+asociationName);
@@ -223,7 +225,8 @@ export async function followAsociation(user, asociationName){
 }
 
 //endregion
-//articulos
+
+//region Articulos
 
 export async function getArticuloById(articuloID) {
   try {
@@ -254,21 +257,8 @@ export async function getAllArticulos() {
   }
 }
 
-//asociacion
-export async function getAssociationById(associationID) {
-  try {
-    const docRef = doc(db, "asociaciones", associationID);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap.data();
-    } else {
-      console.log("Document does not exist");
-      return null;
-    }
-  } catch (error) {
-    console.log(error);
-  }
-}
+//endregion
+
 
 //miscelanea
 export async function getImageDonwloadURL(url) {
