@@ -33,9 +33,11 @@ const AssociationTab = () => {
                     backgroundColor: '#ffffff',
                     borderRadius: 15,
                     height: 70,
-                    ... styles.shadow
+                    ... styles.shadow,
+                    
                 },
                 tabBarHideOnKeyboard: true,
+                headerShown : false,
             }}
         >
             <Tab.Screen name="Home" component={HomeAssociation} 

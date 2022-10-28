@@ -19,7 +19,7 @@ import {
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
-import { connectStorageEmulator } from "firebase/storage";
+import { connectStorageEmulator, ref, getDownloadURL } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -54,13 +54,15 @@ export async function getActivityById(id) {
   }
 }
 
-// No usar, tengo que arreglarlo
 export async function getActivityByTitle(title) {
-  const actRef = query(actividadesRef, where("titulo", "==", title));
-  const actSnap = await getDocs(actRef);
-  const act = actSnap.docs.map((doc) => doc.data());
-  // console.log(act.length);
-  return act.length;
+  const q = query(actividadesRef, where("titulo", "==", title));
+  const docSnap = await getDocs(q);
+  if (docSnap.empty) {
+    console.log("No matching documents.");
+    return null;
+  } else {
+    return docSnap.docs[0].data();
+  }
 }
 
 export async function inscribirUsuarioEnActividad(activityID, userID) {
@@ -126,23 +128,21 @@ export async function deleteActivity(activityID) {
   } catch (error) {}
 }
 
-export async function createActivity(activity) {
-  if ((await getActivityByTitle(activity.titulo)) == 0) {
-    try {
-      const docRef = doc(db, "actividades", activity.titulo);
-      await setDoc(docRef, activity);
-      console.log("Actividad guardada correctamente");
-      Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
-    } catch (error) {
-      Alert.alert(
-        "Error",
-        "Ha ocurrido un error al guardar la actividad. Inténtelo de nuevo más tarde."
-      );
-      console.error("Error al guardar la actividad", error);
+export function createActivity(activity) {
+  getActivityByTitle(activity.titulo).then(async (result) => {
+    if (result == null) {
+      try {
+        const docRef = doc(db, "actividades", activity.titulo);
+        await setDoc(docRef, activity);
+        Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
+      } catch (e) {
+        console.log(e);
+        Alert.alert("Error", "Ha ocurrido un error al crear la actividad. Por favor, inténtelo de nuevo más tarde.");
+      }
+    } else {
+      Alert.alert("Error", "Ya existe una actividad con ese título");
     }
-  } else {
-    Alert.alert("Error", "Ya existe una actividad con ese título.");
-  }
+  });
 }
 
 export async function updateActivity(activity) {
@@ -150,11 +150,120 @@ export async function updateActivity(activity) {
     const docRef = doc(db, "actividades", activity.titulo);
     await updateDoc(docRef, activity);
     console.log("Actividad actualizada correctamente");
-    Alert.alert("Éxito", "La oferta de actividad se ha actualizado correctamente");
+    Alert.alert(
+      "Éxito",
+      "La oferta de actividad se ha actualizado correctamente"
+    );
   } catch (error) {
-    Alert.alert('Error', 'Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde.')
+    Alert.alert(
+      "Error",
+      "Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde."
+    );
     console.error("Error al actualizar la actividad", error);
   }
 }
 
 //#endregion
+
+
+//#region Asociacion
+
+
+export async function getAsociationByID(id){
+  try{
+    const docRef = doc(db, "asociaciones", id)
+    const asoc = await getDoc(docRef);
+    if(asoc.exists()) {
+      return asoc.data();
+    }
+    else{Alert.alert(
+      "Error",
+      "El perfil de esta asociacion no se encuentra disponible."
+    )}
+
+  }catch (e) {
+    Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")
+  }
+}
+
+export async function addLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayUnion(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
+
+
+export async function removeLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayRemove(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
+
+export async function followAsociation(user, asociationName){
+  const asociationRef = doc(db, "asociaciones", asociationName);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(asociationRef, {
+        seguidores: arrayUnion(user.nombre+" "+user.apellidos),
+        num_seguidores: increment(1)
+      });
+    });
+    console.log('El usuario '+user.nombre+' '+user.apellidos+' ha seguido a la asociación '+asociationName);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//endregion
+
+//region Articulos
+
+export async function getArticuloById(articuloID) {
+  try {
+    const docRef = doc(db, "articulos", articuloID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("Document does not exist");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllArticulos() {
+  const articulos = [];
+  try {
+    const artcs = await getDocs(collection(db, "articulos"));
+    artcs.forEach((artc) => {
+      articulos.push(artc.data());
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return articulos;
+  }
+}
+
+//endregion
+
+
+//miscelanea
+export async function getImageDonwloadURL(url) {
+  const reference = ref(storage, "gs://voluntreepin.appspot.com/" + url);
+  getDownloadURL(reference).then((path) => {
+    return path;
+  });
+}

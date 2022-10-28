@@ -19,7 +19,7 @@ const ListaActividadesAsociacion = () => {
   const [actividades, setActividades] = useState([]);
 
   const currentUser = {
-    name: "Green Peace",
+    name: "Modepran",
     cif: "G98347432",
   };
 
