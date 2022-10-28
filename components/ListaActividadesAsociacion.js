@@ -26,11 +26,17 @@ const ListaActividadesAsociacion = () => {
   const q = query(collection(db, "actividades"));
 
   useEffect(() => {
-    const getActividades = async () => { 
-      onSnapshot(q, (snapshot)=>({
-        id: snapshot.id,
-      }, setActividades(snapshot.docs.map(doc=> doc.data()))))
-    }
+    const getActividades = async () => {
+      onSnapshot(
+        q,
+        (snapshot) => (
+          {
+            id: snapshot.id,
+          },
+          setActividades(snapshot.docs.map((doc) => doc.data()))
+        )
+      );
+    };
     getActividades();
   }, []);
 

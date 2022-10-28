@@ -1,17 +1,26 @@
 import { FlatList, Text } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getAllArticulos } from "../../service/service";
 import TarjetaArticulo from "./TarjetaArticulo";
+import { onSnapshot, query, collection } from "firebase/firestore";
+import { db } from "../../utils/firebase";
 
 const ListaArticulos = () => {
   const [articulos, setArticulos] = useState([]);
-
+  const q = query(collection(db, "articulos"));
   useEffect(() => {
     getData();
   }, []);
 
   const getData = async () => {
-    setArticulos(await getAllArticulos());
+    onSnapshot(
+      q,
+      (snapshot) => (
+        {
+          id: snapshot.id,
+        },
+        setArticulos(snapshot.docs.map((doc) => doc.data()))
+      )
+    );
   };
 
   const renderEmptyContainer = () => {

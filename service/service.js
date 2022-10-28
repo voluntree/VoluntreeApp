@@ -193,16 +193,22 @@ export async function getAsociationByID(id) {
   }
 }
 
-
-export async function getFotoPerfilAsociacion(nombre){
-  try{
+export async function getFotoPerfilAsociacion(nombre) {
+  try {
     const fotoPerfil = ref(
       storage,
       `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
     );
-    getDownloadURL(fotoPerfil).then((path) => {console.log(path)
-      return path})
-  }catch(error){Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")}
+    getDownloadURL(fotoPerfil).then((path) => {
+      console.log(path);
+      return path;
+    });
+  } catch (error) {
+    Alert.alert(
+      "Error",
+      "El perfil de esta asociacion no se encuentra disponible."
+    );
+  }
 }
 export async function getFotoBGAsociacion(nombre) {
   try {
@@ -211,7 +217,7 @@ export async function getFotoBGAsociacion(nombre) {
       `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
     );
     getDownloadURL(fotoPerfil).then((path) => {
-      console.log(path)
+      console.log(path);
       return path;
     });
   } catch (error) {
@@ -219,7 +225,6 @@ export async function getFotoBGAsociacion(nombre) {
       "Error",
       "El perfil de esta asociacion no se encuentra disponible."
     );
-    
   }
 }
 

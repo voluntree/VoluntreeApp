@@ -17,8 +17,9 @@ const TarjetaArticulo = (props) => {
 
   async function getData() {
     setUri(await getImageDownloadURL(articulo.imagen));
-    setAsociacion(await getAsociationByID(articulo.asociacion));
-    setUri2(await getImageDownloadURL(asociacion.fotoPerfil));
+    let asoc = await getAsociationByID(articulo.asociacion);
+    setAsociacion(asoc);
+    setUri2(await getImageDownloadURL(asoc.fotoPerfil));
   }
 
   return (
@@ -28,7 +29,7 @@ const TarjetaArticulo = (props) => {
       </View>
       <View className="px-3 pb-2">
         <Text className="text-xl font-bold">{articulo.titulo}</Text>
-        <Text className="text-base">{articulo.subtitulo}</Text>
+        <Text className="text-base">{articulo.introduccion}</Text>
         <View className="flex-row justify-between items-center mt-2">
           <View className="flex-row">
             {asociacion != undefined ? (
