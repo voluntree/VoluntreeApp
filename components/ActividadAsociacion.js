@@ -8,15 +8,11 @@ import { deleteActivity, getActivityById } from "../service/service";
 import { useNavigation } from "@react-navigation/native";
 
 const ActividadAsociacion = (props) => {
-  const [actividad, setActividad] = useState();
   const [uri, setUri] = useState();
   const reference = ref(
     storage,
     "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
   );
-
-  useEffect(() => {
-  }, []);
   
   getDownloadURL(reference).then((path) => {
     setUri(path);
@@ -27,8 +23,10 @@ const ActividadAsociacion = (props) => {
 
   const navigation = useNavigation();
 
-  async function openDetails () {
-    navigation.push("Details", { actividad: actividad });
+  const openDetails = () => {
+    getActivityById(props.titulo).then((activity) => {
+      navigation.push("Details", { actividad: activity, uri: uri });
+    });
   };
 
   return (

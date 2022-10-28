@@ -272,9 +272,9 @@ export async function followAsociation(user, asociationName) {
   }
 }
 
-//endregion
+//#endregion
 
-//region Articulos
+//#region Articulos
 
 export async function getArticuloById(articuloID) {
   try {
@@ -305,7 +305,7 @@ export async function getAllArticulos() {
   }
 }
 
-//endregion
+//#endregion
 
 //miscelanea
 export async function getImageDownloadURL(url) {

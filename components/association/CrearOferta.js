@@ -47,7 +47,6 @@ const CrearOferta = () => {
     });
 
     if (!result.cancelled) {
-      console.log(result);
       setImage(result.uri);
       return result;
     }
@@ -129,6 +128,7 @@ const CrearOferta = () => {
           values.imagen = image.substring(image.lastIndexOf("/") + 1);
 
           if (correctData(values)) {
+            values.duracion += "h";
             storeImage();
             createActivity(values);
           }

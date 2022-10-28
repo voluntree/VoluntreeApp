@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Input
 } from "react-native";
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
@@ -28,7 +29,7 @@ import {
 
 const Detalles = () => {
   const route = useRoute();
-  const { actividad } = route.params;
+  const { actividad, uri } = route.params;
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -51,7 +52,6 @@ const Detalles = () => {
     });
 
     if (!result.cancelled) {
-      console.log(result);
       setImage(result.uri);
       return result;
     }
@@ -117,22 +117,24 @@ const Detalles = () => {
         // Valores iniciales. Se hace uso de Green Peace como asociación por defecto hasta que se implemente el login.
         initialValues={{
           asociacion: "Green Peace",
-          titulo: "",
-          tipo: "",
-          num_participantes: 0,
-          max_participantes: 0,
-          participantes: [],
-          duracion: "",
-          descripcion: "",
-          imagen: "",
-          fecha: "",
-          ubicacion: "",
+          titulo: actividad.titulo,
+          tipo: actividad.tipo,
+          num_participantes: actividad.num_participantes,
+          max_participantes: actividad.max_participantes,
+          participantes: actividad.participantes,
+          duracion: actividad.duracion,
+          descripcion: actividad.descripcion,
+          imagen: uri,
+          fecha: actividad.fecha,
+          ubicacion: actividad.ubicacion,
         }}
         onSubmit={(values) => {
           values.fecha = new Date();
           values.imagen = image.substring(image.lastIndexOf("/") + 1);
 
           if (correctData(values)) {
+            values.duracion += "h";
+            values.max_participantes = Number(values.max_participantes);
             storeImage();
             updateActivity(values);
           }
@@ -147,13 +149,13 @@ const Detalles = () => {
                   editable={false}
                   placeholder="Título"
                   onChangeText={props.handleChange("titulo")}
-                  value={actividad.titulo}
+                  value={props.values.titulo}
                 />
                 <TextInput
                   className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
                   placeholder="Tipo"
                   onChangeText={props.handleChange("tipo")}
-                  value={actividad.tipo}
+                  value={props.values.tipo}
                 />
                 <View className="flex-row">
                   <TextInput
@@ -161,14 +163,14 @@ const Detalles = () => {
                     keyboardType="numeric"
                     placeholder="Máx. participantes"
                     onChangeText={props.handleChange("max_participantes")}
-                    value={actividad.max_participantes}
+                    value={(props.values.max_participantes).toString()}
                   />
                   <TextInput
                     className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2 ml-4"
                     keyboardType="numeric"
                     placeholder="Duración"
                     onChangeText={props.handleChange("duracion")}
-                    value={actividad.duracion}
+                    value={props.values.duracion}
                   />
                 </View>
               </View>
@@ -182,14 +184,7 @@ const Detalles = () => {
                   value={props.values.imagen}
                 >
                   <View className="w-40 h-40 items-center justify-center border-2 border-[#d1d5db] bg-[#e5e7eb] rounded-md ml-2">
-                    {props.values.imagen ? (
-                      <Image
-                        className="w-40 h-28"
-                        source={{ uri: props.values.imagen }}
-                      />
-                    ) : (
-                      <Image className="w-40 h-28" source={actividad.imagen} />
-                    )}
+                    <Image className="w-40 h-28" source={{uri: props.values.imagen}} />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -201,7 +196,7 @@ const Detalles = () => {
               numberOfLines={10}
               placeholder="Descripción"
               onChangeText={props.handleChange("descripcion")}
-              value={actividad.descripcion}
+              value={props.values.descripcion}
               style={{ textAlignVertical: "top" }}
             />
             <Button
@@ -212,7 +207,7 @@ const Detalles = () => {
             <Button
               title="Cancelar"
               color="#00BFA5"
-              onPress={() => console.log(actividad)}
+              onPress={() => console.log(uri)}
             />
           </View>
         )}
