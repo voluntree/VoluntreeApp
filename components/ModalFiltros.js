@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { TailwindProvider } from 'tailwindcss-react-native'
 import { Button, Icon } from 'react-native-elements'
@@ -6,9 +6,23 @@ import { theme } from "../tailwind.config";
 import Slider from '@react-native-community/slider';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ListaFiltros from './ListaFiltros';
+import { Dropdown } from 'react-native-element-dropdown';
+
 
 const ModalFiltros = (props) => {
     
+    const [duracionLocal, setDuracionLocal] = useState(props.duracion)
+    const [distanciaLocal, setDistanciaLocal] =useState(props.distancia)
+    const [categoriasActivasLocales, setCategoriasActivasLocales] = useState(props.categoriasActivas)
+    const [localDateValue, setLocalDateValue] = useState()
+    const [localText, setLocalText] = useState("Vacio")
+    const [localOrder, setLocalOrder] = useState(props.order)
+    
+    const data = [{label: "Fecha(Más recientes)", value: 1}, 
+                  {label: "Fecha(Más antiguas)" , value: 2}, 
+                  {label: "Alfabeticamente(Ascendente)", value: 3}, 
+                  {label: "Alfabeticamente(Descendente)", value: 4}]
+
     const showDatePicker = () => {
       props.setIsVisible(true);
     }
@@ -22,12 +36,12 @@ const ModalFiltros = (props) => {
     }
 
     const getFecha = (selectedDate) => {
-      const currentDate = selectedDate || props.dateValue;
-      props.setDateValue(selectedDate);
+      const currentDate = selectedDate || localDateValue;
+      setLocalDateValue(selectedDate);
       
       let tempDate = new Date(currentDate);
       let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-      props.setText(fDate)
+      setLocalText(fDate)
     }
 
     const showMode = (currentMode) =>{
@@ -68,11 +82,6 @@ const ModalFiltros = (props) => {
                 size={32}
                 onPress={() => {
                   props.setIsModalOpen(!props.isModalOpen)
-                  props.setDistancia(0)
-                  props.setDateValue(undefined)
-                  props.setDuracion(0)
-                  props.onCategoriasActivasChange([])
-                  props.setText("Vacío")
                 }}
               />
             </View>
@@ -80,16 +89,51 @@ const ModalFiltros = (props) => {
               <View className="pt-3">
                 <View className="rounded-lg mr-3">
                   <View className="">
+                    <View className="pl-4 flex items-baseline">
+                    <Text className="font-bold text-base">Ordenar: </Text>
+                    <Dropdown 
+                      style = {{
+                        marginTop: 10,
+                        height: 40,
+                        width: 270,
+                        borderColor: theme.colors.bottomTabs,
+                        borderWidth: 2,
+                        borderRadius: 10,
+                        padding: 5,
+
+                      }}
+                      data = {data}
+                      labelField = "label"
+                      valueField = "value"
+                      placeholder= 'Selecciona una opción'
+                      value={localOrder}
+                      onChange= {(item) => setLocalOrder(item.value)}
+                      renderItem = {renderItem}
+                      >
+                    </Dropdown>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View className="pl-4 align-middle">
+              <View className="pt-3">
+                <View className="rounded-lg mr-3">
+                  <View className="">
                     <View className="pl-4 flex-row items-baseline">
                       <Text className="font-bold text-base">Distancia: </Text>
-                      <Text className="">0 - {props.distancia} km</Text>
+                      <Text className="">0 - {distanciaLocal} km</Text>
                     </View>
                     <Slider
                       style={{ width: 280, height: 40 }}
                       minimumValue={0}
                       maximumValue={100}
-                      value={props.distancia}
-                      onValueChange={(value) => props.setDistancia(parseInt(value))}
+                      value={distanciaLocal}
+                      onValueChange={(value) => {
+                        if(props.sliding == "Inactive"){
+                          setDistanciaLocal(parseInt(value))
+                        }
+                      }}
                       onSlidingStart={() => props.setSliding("Sliding")}
                       onSlidingComplete={() => props.setSliding("Inactive")}
                     />
@@ -100,7 +144,7 @@ const ModalFiltros = (props) => {
                     <View className="pl-4 flex-row items-center justify-between pr-7">
                       <View className="flex-row items-center">
                         <Text className="font-bold text-base">Fecha: </Text>
-                        <Text>{props.text}</Text>
+                        <Text>{localText}</Text>
                       </View>
                       <Icon
                         name="chevron-right"
@@ -114,7 +158,6 @@ const ModalFiltros = (props) => {
                 <DateTimePicker
                   isVisible={props.isVisible}
                   mode="date"
-                  onChange={handleConfirm}
                   onConfirm ={handleConfirm}
                   onCancel={hideDatePicker}
                 />
@@ -122,14 +165,18 @@ const ModalFiltros = (props) => {
                 <View className="pt-2">
                   <View className="flex-row items-baseline">
                     <Text className="pl-4 font-bold text-base">Duracion: </Text>
-                    <Text className="">{props.duracion}h</Text>
+                    <Text>{duracionLocal}h</Text>
                   </View>
                   <Slider
                     style={{ width: 280, height: 40 }}
                     minimumValue={0}
                     maximumValue={6}
-                    value={props.duracion}
-                    onValueChange={(value) => props.setDuracion(parseInt(value))}
+                    value={duracionLocal}
+                    onValueChange={(value) => {
+                      if(props.sliding == "Inactive"){
+                        setDuracionLocal(parseInt(value.toFixed(0).toString()))
+                      }
+                    }}
                     onSlidingStart={() => props.setSliding("Sliding")}
                     onSlidingComplete={() => props.setSliding("Inactive")}
                   />
@@ -137,13 +184,37 @@ const ModalFiltros = (props) => {
                 <View>
                   <Text className = "pl-4 font-bold text-base mb-2">Categoria:</Text>
                   <ListaFiltros 
-                    onCategoriasActivasChange = {props.onCategoriasActivasChange}
-                    lista = {props.categoriasActivas}/>
+                    setCategoriasActivasLocales = {setCategoriasActivasLocales}
+                    lista = {categoriasActivasLocales}/>
                 </View>
               </View>
             </View>
-            <View className="items-end px-4 pt-4">
-              <TouchableOpacity onPress={() => {props.setIsModalOpen(!props.setIsModalOpen)}}>
+            <View className="flex-row space-x-[125px] items-end px-4 pt-4">
+              <TouchableOpacity onPress={() => {
+                  props.setIsModalOpen(!props.setIsModalOpen)
+                  props.setDistancia(0)
+                  props.setDateValue(undefined)
+                  props.setDuracion(0)
+                  props.setCategoriasActivas([])
+                  props.setText("Vacío")
+                  props.setOrder(0)
+                  setDistanciaLocal(0)
+                  setCategoriasActivasLocales([])
+                  setDuracionLocal(0)
+                  setLocalDateValue(undefined)
+                  setLocalText("Vacío")
+                  setLocalOrder(0)
+                  }}>
+                <Text className="font-bold text-xl underline">Restablecer</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                props.setIsModalOpen(!props.setIsModalOpen)
+                props.setDuracion(duracionLocal)
+                props.setDistancia(distanciaLocal)
+                props.setCategoriasActivas(categoriasActivasLocales)
+                props.setDateValue(localDateValue)
+                props.setText(localText)
+                props.setOrder(localOrder)}}>
                 <Text className="font-bold text-xl">Filtrar</Text>
               </TouchableOpacity>
             </View>
@@ -155,3 +226,58 @@ const ModalFiltros = (props) => {
 }
 
 export default ModalFiltros
+
+const styles = StyleSheet.create({
+  dropdown: {
+    marginTop: 10,
+    height: 40,
+    width: 270,
+    backgroundColor: 'white',
+    borderRadius: 12,
+    padding: 12,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  item: {
+    padding: 17,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textItem: {
+    flex: 1,
+    fontSize: 16,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+});
+
+const renderItem = (item) => {
+  return (
+    <View>
+      <Text>{item.label}</Text>
+    </View>
+  )
+}

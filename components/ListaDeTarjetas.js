@@ -1,11 +1,13 @@
-import { View, Text, FlatList } from 'react-native'
+import { Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { db, storage } from '../utils/firebase';
-import { collection, query, where, getDocs, doc, onSnapshot, firestore, Query} from "firebase/firestore";
-import {ref, getDownloadURL} from "firebase/storage";
+import { db } from '../utils/firebase';
+import { collection, query,onSnapshot} from "firebase/firestore";
 import TarjetaDeActividad from "./TarjetaDeActividad"
-import {getDistance} from "geolib";
-import {MapView} from 'react-native-maps';
+import {compareAlfabeticamenteAscendente, 
+        compareAlfabeticamenteDescendente, 
+        compareFechaMasAntigua,
+        compareFechaMasReciente
+      } from '../service/functions'
 
 const ListaDeTarjetas = (props) => {
   const [actividades, setActividades] = useState([]);
@@ -13,7 +15,6 @@ const ListaDeTarjetas = (props) => {
   useEffect(() => {
     
       onSnapshot(q, (snapshot)=>({
-
         id: snapshot.id,
       }, setActividades(snapshot.docs.map(doc=> doc.data()))))
     
@@ -48,7 +49,18 @@ const ListaDeTarjetas = (props) => {
               }
             })
           }
-          
+          if(props.order != 0){
+            switch(props.order){
+              case 1: aux = aux.sort(compareFechaMasReciente)
+                      break
+              case 2: aux = aux.sort(compareFechaMasAntigua)
+                      break
+              case 3: aux = aux.sort(compareAlfabeticamenteAscendente)
+                      break
+              case 4: aux = aux.sort(compareAlfabeticamenteDescendente)
+                      break
+            }
+          }
           return aux
         }else{
           return []
@@ -71,3 +83,4 @@ const ListaDeTarjetas = (props) => {
   );
 };
 export default ListaDeTarjetas;
+

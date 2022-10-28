@@ -34,6 +34,8 @@ const HomeScreen = () => {
 
   const[categoriasActivas, setCategoriasActivas] = useState([]);
 
+  const[order, setOrder] = useState(0);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -66,6 +68,8 @@ const HomeScreen = () => {
           show = {show}
           setShow = {setShow}
           setIsVisible = {setIsVisible}
+          order = {order}
+          setOrder = {setOrder}
         />
         <ListaDeTarjetas 
           searchText={SearchText}
@@ -73,6 +77,7 @@ const HomeScreen = () => {
           duracion={duracion}
           categoriasActivas= {categoriasActivas}
           fecha = {dateValue}
+          order = {order}
          />
       </SafeAreaView>
     </TailwindProvider>

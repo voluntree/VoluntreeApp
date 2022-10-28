@@ -9,10 +9,6 @@ import ModalFiltros from "./ModalFiltros";
 
 const Buscador = (props) => {    
 
-  const onCategoriasActivasChange = (lista) => {
-    props.setCategoriasActivas(lista)
-  }
-
   return (
     <View className="flex-row items-center my-3 pt-2 space-x-4">
       <View className="flex-row items-center rounded-full bg-[#d6d5d5] justify-between">
@@ -42,7 +38,7 @@ const Buscador = (props) => {
       <ModalFiltros
         isModalOpen = {props.isModalOpen}
         setIsModalOpen = {props.setIsModalOpen}
-        onCategoriasActivasChange = {onCategoriasActivasChange}
+        setCategoriasActivas = {props.setCategoriasActivas}
         categoriasActivas = {props.categoriasActivas}
         distancia = {props.distancia}
         setDistancia = {props.setDistancia}
@@ -61,6 +57,8 @@ const Buscador = (props) => {
         setShow = {props.setShow}
         setIsVisible = {props.setIsVisible}
         onFiltrosChange = {props.onFiltrosChange}
+        order = {props.order}
+        setOrder = {props.setOrder}
       />
     </View>
   );

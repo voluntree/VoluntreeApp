@@ -34,6 +34,8 @@ const MyActivitiesScreen = () => {
 
   const[categoriasActivas, setCategoriasActivas] = useState([]);
 
+  const[order, setOrder] = useState(0);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -68,6 +70,8 @@ const MyActivitiesScreen = () => {
           show = {show}
           setShow = {setShow}
           setIsVisible = {setIsVisible}
+          order = {order}
+          setOrder = {setOrder}
         />
         <Text className="w-full px-[8px] text-xl font-bold ">Mis Actividades</Text>
         <ListaMisActividades 
@@ -76,6 +80,7 @@ const MyActivitiesScreen = () => {
           duracion={duracion}
           categoriasActivas= {categoriasActivas}
           fecha = {dateValue}
+          order = {order}
         />
       </SafeAreaView>
     </TailwindProvider>

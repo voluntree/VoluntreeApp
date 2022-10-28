@@ -42,13 +42,13 @@ const ListaFiltros = (props) => {
     if(activo == true){
       if(!aux.includes(valor)){
         aux.push(valor)
-        props.onCategoriasActivasChange(aux)
+        props.setCategoriasActivasLocales(aux)
       }else{
-        props.onCategoriasActivasChange(aux)
+        props.setCategoriasActivasLocales(aux)
       }
     }else{
       aux = aux.filter(e => e != valor)
-      props.onCategoriasActivasChange(aux)
+      props.setCategoriasActivasLocales(aux)
     }
   }
 
