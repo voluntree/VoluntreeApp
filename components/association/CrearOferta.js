@@ -129,6 +129,7 @@ const CrearOferta = () => {
 
           if (correctData(values)) {
             values.duracion += "h";
+            values.max_participantes = Number(values.max_participantes);
             storeImage();
             createActivity(values);
           }
