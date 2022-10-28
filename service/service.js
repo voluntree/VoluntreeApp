@@ -19,9 +19,7 @@ import {
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
-import { connectStorageEmulator } from "firebase/storage";
-import { getDownloadURL, ref } from "firebase/storage";
-import { connectStorageEmulator, ref, getDownloadURL } from "firebase/storage";
+import { getDownloadURL, ref, connectStorageEmulator } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
