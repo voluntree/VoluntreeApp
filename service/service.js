@@ -19,6 +19,8 @@ import {
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
+import { connectStorageEmulator } from "firebase/storage";
+import { getDownloadURL, ref } from "firebase/storage";
 import { connectStorageEmulator, ref, getDownloadURL } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
@@ -190,6 +192,36 @@ export async function getAsociationByID(id) {
       "Error",
       "El perfil de esta asociacion no se encuentra disponible."
     );
+  }
+}
+
+
+export async function getFotoPerfilAsociacion(nombre){
+  try{
+    const fotoPerfil = ref(
+      storage,
+      `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
+    );
+    getDownloadURL(fotoPerfil).then((path) => {console.log(path)
+      return path})
+  }catch(error){Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")}
+}
+export async function getFotoBGAsociacion(nombre) {
+  try {
+    const fotoPerfil = ref(
+      storage,
+      `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
+    );
+    getDownloadURL(fotoPerfil).then((path) => {
+      console.log(path)
+      return path;
+    });
+  } catch (error) {
+    Alert.alert(
+      "Error",
+      "El perfil de esta asociacion no se encuentra disponible."
+    );
+    
   }
 }
 
