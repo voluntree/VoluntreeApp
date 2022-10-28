@@ -1,17 +1,33 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from "react";
 import { TailwindProvider } from "tailwindcss-react-native";
-import { Icon, Image } from 'react-native-elements';
-import { getAsociacionByID } from '../../service/service';
-import ListaActividadesAsociacion from '../ListaActividadesAsociacion';
+import { Icon, Image } from "react-native-elements";
+import { getAsociacionByID, getFotoBGAsociacion, getFotoPerfilAsociacion } from "../../service/service";
+import { storage } from "../../utils/firebase";
+import { getDownloadURL, ref} from "firebase/storage";
 
 const Feed = () => {
 
-    const[datosAsoc, setDatosAsoc] = useState([])
-    getAsociacionByID("Modepran").then((datos) => {
-        setDatosAsoc(datos);
-    })
-    const[hidden, setHidden] = useState(false)
+  const nombre = "Modepran"
+  const [datosAsoc, setDatosAsoc] = useState([]);
+  getAsociacionByID("Modepran").then((datos) => {
+    setDatosAsoc(datos);
+  });
+
+  const[bgfoto, setBgfoto] = useState()
+  const[profilefoto, setProfilefoto] = useState()
+
+  const referenciaFotoPerfil = ref(
+    storage,
+    `gs://voluntreepin.appspot.com/${nombre.toLowerCase()}/perfil/logo.jpg`
+  );
+  const referenciaFotoBg = ref(
+    storage,
+    `gs://voluntreepin.appspot.com/${nombre.toLowerCase()}/perfil/backgroundPerfil.jpg`
+  );
+  
+  getDownloadURL(referenciaFotoBg).then((path) =>{setBgfoto(path)})
+  getDownloadURL(referenciaFotoPerfil).then((path) => {setProfilefoto(path)});
 
 
   return (
@@ -22,7 +38,7 @@ const Feed = () => {
             <View className="h-60 w-full">
               <Image
                 className="h-48 w-fit opacity"
-                source={require("./protectoraAnimales.jpg")}
+                source={{ uri: bgfoto}}
               />
             </View>
             <View className="absolute z-10 mt-36 flex-row items-center space-x-10">
@@ -33,7 +49,7 @@ const Feed = () => {
               </TouchableOpacity>
               <Image
                 className="h-24 w-24 rounded-lg"
-                source={require("./logoModepran.jpg")}
+                source={{ uri: profilefoto}}
               />
               <TouchableOpacity>
                 <View className="bg-[#fff] rounded-full h-14 w-14 justify-center">
@@ -53,13 +69,15 @@ const Feed = () => {
               <Text className="text-center">{datosAsoc.tipoAsociacion}</Text>
             </View>
             <TouchableOpacity className="">
-              ?
+              <View>
+                <Text>Seguir</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </TailwindProvider>
   );
-}
+};
 
-export default Feed
+export default Feed;
