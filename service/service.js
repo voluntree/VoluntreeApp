@@ -134,10 +134,16 @@ export function createActivity(activity) {
       try {
         const docRef = doc(db, "actividades", activity.titulo);
         await setDoc(docRef, activity);
-        Alert.alert("Éxito", "La oferta de actividad se ha creado correctamente");
+        Alert.alert(
+          "Éxito",
+          "La oferta de actividad se ha creado correctamente"
+        );
       } catch (e) {
         console.log(e);
-        Alert.alert("Error", "Ha ocurrido un error al crear la actividad. Por favor, inténtelo de nuevo más tarde.");
+        Alert.alert(
+          "Error",
+          "Ha ocurrido un error al crear la actividad. Por favor, inténtelo de nuevo más tarde."
+        );
       }
     } else {
       Alert.alert("Error", "Ya existe una actividad con ese título");
@@ -165,60 +171,67 @@ export async function updateActivity(activity) {
 
 //#endregion
 
-
 //#region Asociacion
 
-
-export async function getAsociationByID(id){
-  try{
-    const docRef = doc(db, "asociaciones", id)
+export async function getAsociationByID(id) {
+  try {
+    const docRef = doc(db, "asociaciones", id);
     const asoc = await getDoc(docRef);
-    if(asoc.exists()) {
+    if (asoc.exists()) {
       return asoc.data();
+    } else {
+      Alert.alert(
+        "Error",
+        "El perfil de esta asociacion no se encuentra disponible."
+      );
     }
-    else{Alert.alert(
+  } catch (e) {
+    Alert.alert(
       "Error",
       "El perfil de esta asociacion no se encuentra disponible."
-    )}
-
-  }catch (e) {
-    Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")
+    );
   }
 }
 
 export async function addLike(activityID, userID) {
-  const actRef = doc(db, "actividades", activityID)
+  const actRef = doc(db, "actividades", activityID);
   try {
     updateDoc(actRef, {
-      favoritos: arrayUnion(userID)
-    })
-  }catch (e) {
-    console.log(e)
+      favoritos: arrayUnion(userID),
+    });
+  } catch (e) {
+    console.log(e);
   }
 }
-
 
 export async function removeLike(activityID, userID) {
-  const actRef = doc(db, "actividades", activityID)
+  const actRef = doc(db, "actividades", activityID);
   try {
     updateDoc(actRef, {
-      favoritos: arrayRemove(userID)
-    })
-  }catch (e) {
-    console.log(e)
+      favoritos: arrayRemove(userID),
+    });
+  } catch (e) {
+    console.log(e);
   }
 }
 
-export async function followAsociation(user, asociationName){
+export async function followAsociation(user, asociationName) {
   const asociationRef = doc(db, "asociaciones", asociationName);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
-        seguidores: arrayUnion(user.nombre+" "+user.apellidos),
-        num_seguidores: increment(1)
+        seguidores: arrayUnion(user.nombre + " " + user.apellidos),
+        num_seguidores: increment(1),
       });
     });
-    console.log('El usuario '+user.nombre+' '+user.apellidos+' ha seguido a la asociación '+asociationName);
+    console.log(
+      "El usuario " +
+        user.nombre +
+        " " +
+        user.apellidos +
+        " ha seguido a la asociación " +
+        asociationName
+    );
   } catch (e) {
     console.log(e);
   }
@@ -259,11 +272,17 @@ export async function getAllArticulos() {
 
 //endregion
 
-
 //miscelanea
-export async function getImageDonwloadURL(url) {
-  const reference = ref(storage, "gs://voluntreepin.appspot.com/" + url);
-  getDownloadURL(reference).then((path) => {
-    return path;
-  });
+export async function getImageDownloadURL(url) {
+  let resp = null;
+  try {
+    const reference = ref(storage, `${url}`);
+    await getDownloadURL(reference).then((path) => {
+      resp = path;
+    });
+  } catch (error) {
+    console.log(error);
+  } finally {
+    return resp;
+  }
 }

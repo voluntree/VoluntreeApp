@@ -2,64 +2,59 @@ import { View, Text, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import { getAssociationById, getImageDonwloadURL } from "../../service/service";
-import { ref } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
-import { storage } from "../../utils/firebase";
+import { getAsociationByID, getImageDownloadURL } from "../../service/service";
 
 const TarjetaArticulo = (props) => {
   const { articulo } = props;
-  const [asoc, setAsociacion] = useState();
-  const [uri, setUri] = useState({});
-  const [uri2, setUri2] = useState({});
+  const [asociacion, setAsociacion] = useState();
+  const [uri, setUri] = useState();
+  const [uri2, setUri2] = useState();
 
-  const reference = ref(
-    storage,
-    "gs://voluntreepin.appspot.com/" + props.imagen
-  );
-  getDownloadURL(reference).then((path) => {
-    setUri(path);
-  });
+  useEffect(() => {
+    console.log("articulo");
+    getData();
+  }, []);
 
-  /*getAssociationById(articulo.asociacion).then((asoc) => {
-    setAsociacion(asoc);
-    getImageDonwloadURL(articulo.imagen).then((im1) => setUri(im1));
-    getImageDonwloadURL(asociacion.imagen).then((im2) => setUri2(im2));
-  });*/
+  async function getData() {
+    setUri(await getImageDownloadURL(articulo.imagen));
+    setAsociacion(await getAsociationByID(articulo.asociacion));
+    setUri2(await getImageDownloadURL(asociacion.fotoPerfil));
+  }
 
   return (
-    <TouchableOpacity>
-      <View className="bg-[#afffce] rounded-sm flex-col w-max">
-        <Image className="h-40 w-96 rounded-sm p-2" source={{ uri: uri }} />
-        <Text>{articulo.titulo}</Text>
-        <Text>{articulo.subtitulo}</Text>
-        <View className="flex-row">
-          {
-            (asoc = !undefined ? (
-              <Image className="rounded-full h-10" source={{ uri: uri2 }} />
+    <TouchableOpacity className="bg-[#ffffff] rounded-lg flex-col m-2">
+      <View>
+        <Image className="h-40 w-max rounded-t-lg m-1" source={{ uri: uri }} />
+      </View>
+      <View className="px-3 pb-2">
+        <Text className="text-xl font-bold">{articulo.titulo}</Text>
+        <Text className="text-base">{articulo.subtitulo}</Text>
+        <View className="flex-row justify-between items-center mt-2">
+          <View className="flex-row">
+            {asociacion != undefined ? (
+              <Image
+                className="rounded-sm h-10 w-10 mr-2"
+                source={{ uri: uri2 }}
+              />
             ) : (
               <></>
-            ))
-          }
-          <View className="flex-col">
-            {
-              (asoc = !undefined ? (
-                <Text>{asoc.nombre}</Text>
+            )}
+            <View className="flex-col">
+              {asociacion != undefined ? (
+                <Text>{asociacion.nombre}</Text>
               ) : (
                 <></>
-              ))
-            }
-            <Text>{articulo.fecha_publicacion}</Text>
+              )}
+              <Text>{articulo.fecha_publicacion}</Text>
+            </View>
           </View>
-          <Text>{articulo.favoritos.length}</Text>
-          <TouchableOpacity className="ml-2 right-1">
-            <Icon
-              name={corazon}
-              type="octicon"
-              onPress={añadirFav}
-              size={28}
-            />
-          </TouchableOpacity>
+
+          <View className="flex-row items-center">
+            <Text>{articulo.favoritos.length}</Text>
+            <TouchableOpacity className="ml-2">
+              <Icon name="heart" type="octicon" size={28} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
