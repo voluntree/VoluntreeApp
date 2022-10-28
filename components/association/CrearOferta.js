@@ -30,11 +30,11 @@ const CrearOferta = () => {
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    async () => {
       const galleryStatus =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
-    });
+    };
   }, []);
 
   const pickImage = async () => {
