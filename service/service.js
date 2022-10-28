@@ -21,6 +21,7 @@ import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
 import { connectStorageEmulator } from "firebase/storage";
 import { getDownloadURL, ref } from "firebase/storage";
+import { connectStorageEmulator, ref, getDownloadURL } from "firebase/storage";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -151,14 +152,26 @@ export async function updateActivity(activity) {
     const docRef = doc(db, "actividades", activity.titulo);
     await updateDoc(docRef, activity);
     console.log("Actividad actualizada correctamente");
-    Alert.alert("Éxito", "La oferta de actividad se ha actualizado correctamente");
+    Alert.alert(
+      "Éxito",
+      "La oferta de actividad se ha actualizado correctamente"
+    );
   } catch (error) {
-    Alert.alert('Error', 'Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde.')
+    Alert.alert(
+      "Error",
+      "Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde."
+    );
     console.error("Error al actualizar la actividad", error);
   }
 }
 
-export async function getAsociacionByID(id){
+//#endregion
+
+
+//#region Asociacion
+
+
+export async function getAsociationByID(id){
   try{
     const docRef = doc(db, "asociaciones", id)
     const asoc = await getDoc(docRef);
@@ -170,10 +183,11 @@ export async function getAsociacionByID(id){
       "El perfil de esta asociacion no se encuentra disponible."
     )}
 
-  }catch (erro) {
+  }catch (e) {
     Alert.alert("Error", "El perfil de esta asociacion no se encuentra disponible.")
   }
 }
+
 
 export async function getFotoPerfilAsociacion(nombre){
   try{
@@ -200,9 +214,82 @@ export async function getFotoBGAsociacion(nombre) {
       "Error",
       "El perfil de esta asociacion no se encuentra disponible."
     );
+    
   }
 }
 
+export async function addLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayUnion(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
 
+export async function removeLike(activityID, userID) {
+  const actRef = doc(db, "actividades", activityID)
+  try {
+    updateDoc(actRef, {
+      favoritos: arrayRemove(userID)
+    })
+  }catch (e) {
+    console.log(e)
+  }
+}
 
-//#endregion
+export async function followAsociation(user, asociationName){
+  const asociationRef = doc(db, "asociaciones", asociationName);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(asociationRef, {
+        seguidores: arrayUnion(user.nombre+" "+user.apellidos),
+        num_seguidores: increment(1)
+      });
+    });
+    console.log('El usuario '+user.nombre+' '+user.apellidos+' ha seguido a la asociación '+asociationName);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//endregion
+
+//region Articulos
+
+export async function getArticuloById(articuloID) {
+  try {
+    const docRef = doc(db, "articulos", articuloID);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("Document does not exist");
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllArticulos() {
+  const articulos = [];
+  try {
+    const artcs = await getDocs(collection(db, "articulos"));
+    artcs.forEach((artc) => {
+      articulos.push(artc.data());
+    });
+  } catch (e) {
+    console.log(e);
+  } finally {
+    return articulos;
+  }
+}
+export async function getImageDonwloadURL(url) {
+  const reference = ref(storage, "gs://voluntreepin.appspot.com/" + url);
+  getDownloadURL(reference).then((path) => {
+    return path;
+  });
+}

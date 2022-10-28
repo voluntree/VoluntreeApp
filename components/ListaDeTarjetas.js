@@ -11,13 +11,12 @@ const ListaDeTarjetas = (props) => {
   const [actividades, setActividades] = useState([]);
   const q = query(collection(db, "actividades"))
   useEffect(() => {
-    const getActividades = async () => { 
+    
       onSnapshot(q, (snapshot)=>({
+
         id: snapshot.id,
       }, setActividades(snapshot.docs.map(doc=> doc.data()))))
-      
-    }
-    getActividades();
+    
   }, []);
       
       const listaResultados = () => {
@@ -67,7 +66,7 @@ const ListaDeTarjetas = (props) => {
       data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
-      renderItem={({ item, index }) => <TarjetaDeActividad actividad={item} />}
+      renderItem={({ item, index }) => <TarjetaDeActividad actividad={item}/>}
     />
   );
 };
