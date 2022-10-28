@@ -9,6 +9,7 @@ import ActividadAsociacion from './ActividadAsociacion';
 import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 import HomeTabScreenStack from './../screens/HomeTabScreenStack';
 import ProfileTabScreenStack from './../screens/ProfileTabScreenStack';
+import NewsTabScreenStack from './../screens/NewsTabScreenStack';
 
 
 const Tab = createBottomTabNavigator()
@@ -57,7 +58,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Noticias"
-          component={ListaActividadesAsociacion}
+          component={NewsTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center bg-transparent">
