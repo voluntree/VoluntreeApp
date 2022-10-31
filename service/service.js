@@ -272,6 +272,21 @@ export async function followAsociation(user, asociationName) {
   }
 }
 
+export async function unfollowAsociation(user, asociationName) {
+  const asociationRef = doc(db, "asociaciones", asociationName);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(asociationRef, {
+        seguidores: arrayRemove(user.nombre + " " + user.apellidos),
+        num_seguidores: increment(-1),
+      });
+    });
+    console.log('El usuario ' + user.nombre + ' ' + user.apellidos + ' ha dejado de seguir a la asociación ' + asociationName);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 //#endregion
 
 //#region Articulos

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { Icon, Image } from "react-native-elements";
 import {
+  followAsociation,
+  unfollowAsociation, 
   getAsociationByID,
   getFotoBGAsociacion,
   getFotoPerfilAsociacion,
@@ -13,30 +15,45 @@ import ListaActividadesPerfil from "./ListaActividadesPerfil";
 const Feed = () => {
   const [bgfoto, setBgfoto] = useState();
   const [profilefoto, setProfilefoto] = useState();
-
-  const nombre = "Modepran";
-
   const [datosAsoc, setDatosAsoc] = useState([]);
+  const [following, setFollow] = useState(false);
+
+  const nombreAsoc = "Modepran";
+
+  const currentUser = {
+    nombre: "Zhehao",
+    apellidos: "Xie Qiu",
+  };
 
   async function getData() {
     setBgfoto(
       await getImageDownloadURL(
-        `gs://voluntreepin.appspot.com/${nombre.toLowerCase()}/perfil/backgroundPerfil.jpg`
+        `gs://voluntreepin.appspot.com/${nombreAsoc.toLowerCase()}/perfil/backgroundPerfil.jpg`
       )
     );
     setProfilefoto(
       await getImageDownloadURL(
-        `gs://voluntreepin.appspot.com/${nombre.toLowerCase()}/perfil/logo.jpg`
+        `gs://voluntreepin.appspot.com/${nombreAsoc.toLowerCase()}/perfil/logo.jpg`
       )
     );
 
-    let asociacion = await getAsociationByID(nombre);
+    let asociacion = await getAsociationByID(nombreAsoc);
     setDatosAsoc(asociacion);
   }
 
   useEffect(() => {
     getData();
   });
+
+  const follow = () => {
+    followAsociation(currentUser, nombreAsoc);
+    setFollow(true);
+  }
+
+  const unfollow = () => {
+    unfollowAsociation(currentUser, nombreAsoc);
+    setFollow(false);
+  }
 
   return (
     <TailwindProvider>
@@ -73,14 +90,21 @@ const Feed = () => {
               </Text>
               <Text className="text-center">{datosAsoc.tipoAsociacion}</Text>
             </View>
-            <TouchableOpacity className="pt-2">
+            <TouchableOpacity className="pt-2" onPress={!following ? follow : unfollow}>
               <View className="bg-[#00BFA5] justify-center items-center w-64 h-8 rounded-xl">
-                <Text className="font-semibold text-base text-[#eee]">
-                  Seguir
-                </Text>
+                { currentUser.nombre==nombreAsoc ? (
+                  <Text className="font-semibold text-base text-[#eee]">Editar perfil</Text>
+                  ) : (
+                    !following ? (
+                      <Text className="font-semibold text-base text-[#eee]">Seguir</Text>
+                    ) : (
+                      <Text className="font-semibold text-base text-[#eee]">Siguiendo</Text>
+                    )
+                  )
+                }
               </View>
             </TouchableOpacity>
-            <ListaActividadesPerfil className="" />
+            <ListaActividadesPerfil />
           </View>
         </View>
       </ScrollView>
