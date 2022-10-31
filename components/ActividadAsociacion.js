@@ -24,14 +24,14 @@ const ActividadAsociacion = (props) => {
 
   const navigation = useNavigation();
 
-  const openDetails = () => {
+  const openActivityDetails = () => {
     getActivityById(props.titulo).then((activity) => {
-      navigation.push("Details", { actividad: activity, uri: uri });
+      navigation.push("AssociationActivityDetails", { actividad: activity, uri: uri });
     });
   };
 
   return (
-    <TouchableOpacity className="px-4 py-1.5" onPress={openDetails}>
+    <TouchableOpacity className="px-4 py-1.5" onPress={openActivityDetails}>
       <View className="relative shadow-2xl rounded-xl overflow-hidden">
         <Image className="h-32 w-full" source={{ uri: uri }} />
         <View className="h-32 w-full absolute bg-[#27272a] opacity-60"></View>
