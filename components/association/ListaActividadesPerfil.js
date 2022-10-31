@@ -10,8 +10,8 @@ import {
 } from "firebase/firestore";
 
 import { db, storage } from "../../utils/firebase";
-import { View, Text, FlatList } from "react-native";
-import React, { useState, useEffect } from "react";
+import { View, Text, FlatList, Animated } from "react-native";
+import React, { useState, useEffect} from "react";
 import ActividadPerfil from "./ActividadPerfil";
 
 const ListaActividadesPerfil = () => {
@@ -23,8 +23,7 @@ const ListaActividadesPerfil = () => {
   };
 
   const q = query(
-    collection(db, "actividades"),
-    where("asociacion", "==", currentUser.name)
+    collection(db, "actividades")
   );
 
   useEffect(() => {
@@ -43,18 +42,18 @@ const ListaActividadesPerfil = () => {
   }, []);
 
   return (
-    <FlatList
-      data={actividades}
-      keyExtractor={(item) => item.titulo}
-      renderItem={({ item, index }) => (
-        <ActividadPerfil
-          titulo={item.titulo}
-          descripcion={item.descripcion}
-          tipo={item.tipo}
-          imagen={item.imagen}
-        />
-      )}
-    />
+    <View className = "pb-32">
+      {actividades.map((actividad) => {
+        return (
+          <ActividadPerfil
+            titulo={actividad.titulo}
+            descripcion={actividad.descripcion}
+            tipo={actividad.tipo}
+            imagen={actividad.imagen}
+          />
+        );
+      })}
+    </View>
   );
 };
 

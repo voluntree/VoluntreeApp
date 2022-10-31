@@ -5,6 +5,7 @@ import LoginScreen from "../screens/login/LoginScreen";
 import {TabNavigator} from "./TabNavigator";
 import AssociationTab from "./association/AssociationTab";
 import Detalles from "../components/association/Detalles";
+import HomeAssociation from "../screens/association/HomeAssociation";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
