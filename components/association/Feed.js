@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { TailwindProvider } from "tailwindcss-react-native";
 import { Icon, Image } from "react-native-elements";
-import { getAsociacionByID, getFotoBGAsociacion, getFotoPerfilAsociacion } from "../../service/service";
+import { getAsociationByID, getFotoBGAsociacion, getFotoPerfilAsociacion } from "../../service/service";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref} from "firebase/storage";
 
@@ -10,7 +10,7 @@ const Feed = () => {
 
   const nombre = "Modepran"
   const [datosAsoc, setDatosAsoc] = useState([]);
-  getAsociacionByID("Modepran").then((datos) => {
+  getAsociationByID("Modepran").then((datos) => {
     setDatosAsoc(datos);
   });
 
