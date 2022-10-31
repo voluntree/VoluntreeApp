@@ -17,6 +17,7 @@ const ActividadAsociacion = (props) => {
   getDownloadURL(reference).then((path) => {
     setUri(path);
   });
+  
   const borrarActividad = () => {
     deleteActivity(props.titulo);
   }

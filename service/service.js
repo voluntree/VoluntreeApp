@@ -199,10 +199,9 @@ export async function getFotoPerfilAsociacion(nombre) {
       storage,
       `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
     );
-    getDownloadURL(fotoPerfil).then((path) => {
-      console.log(path);
+    await getDownloadURL(fotoPerfil).then((path) => {
       return path;
-    });
+    }).catch(error => console.log(error))
   } catch (error) {
     Alert.alert(
       "Error",
@@ -216,10 +215,11 @@ export async function getFotoBGAsociacion(nombre) {
       storage,
       `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
     );
-    getDownloadURL(fotoPerfil).then((path) => {
-      console.log(path);
-      return path;
-    });
+    await getDownloadURL(fotoPerfil)
+      .then((path) => {
+        return path;
+      })
+      .catch((error) => console.log(error));
   } catch (error) {
     Alert.alert(
       "Error",
