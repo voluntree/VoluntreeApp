@@ -10,6 +10,7 @@ import ListaActividadesAsociacion from './ListaActividadesAsociacion';
 import HomeTabScreenStack from './../screens/HomeTabScreenStack';
 import ProfileTabScreenStack from './../screens/ProfileTabScreenStack';
 import NewsTabScreenStack from './../screens/NewsTabScreenStack';
+import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon} from '../icons/Icons'
 
 
 const Tab = createBottomTabNavigator()
@@ -45,11 +46,7 @@ export function TabNavigator(){
               <View className="items-center justify-center bg-transparent">
                 <View className="w-[60px] h-[30px] items-center rounded-lg" 
                       style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
-                  <Image
-                    source={require("../icons/home.png")}
-                    resizeMode="contain"
-                    style={{ width: 25, height: 25 }}
-                  />
+                {HomeIcon(25, 25, "#fff")}
                 </View>
                  <Text style={styles.tabText}>HOME</Text>
               </View>
@@ -64,11 +61,7 @@ export function TabNavigator(){
               <View className="items-center justify-center bg-transparent">
                 <View className="w-[60px] h-[30px] items-center rounded-lg" 
                       style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
-                  <Image
-                    source={require("../icons/news.png")}
-                    resizeMode="contain"
-                    style={{ width: 25, height: 25 }}
-                  ></Image>
+                {NewsIcon(25, 25, "#fff")}
                 </View>
                 <Text style={styles.tabText}>NOTICIAS</Text>
               </View>
@@ -83,11 +76,7 @@ export function TabNavigator(){
               <View className="items-center justify-center">
                 <View className="w-[60px] h-[30px] items-center rounded-lg" 
                       style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
-                  <Image
-                    source={require("../icons/shop.png")}
-                    resizeMode="contain"
-                    style={{ width: 30, height: 26 }}
-                  ></Image>
+                 {ShopIcon(30,26,"#fff")} 
                 </View>
                 <Text style={styles.tabText}>TIENDA</Text>
               </View>
@@ -102,11 +91,7 @@ export function TabNavigator(){
               <View className="items-center justify-center">
                 <View className="w-[60px] h-[30px] items-center rounded-lg" 
                       style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
-                  <Image
-                    source={require("../icons/inbox.png")}
-                    resizeMode="contain"
-                    style={{ width: 25, height: 25 }}
-                  ></Image>
+                {InboxIcon(25, 25, "#fff")} 
                 </View>
                 <Text style={styles.tabText}>INBOX</Text>
               </View>
@@ -121,11 +106,7 @@ export function TabNavigator(){
               <View className="items-center justify-center">
                 <View className="w-[60px] h-[30px] items-center rounded-lg" 
                       style={{backgroundColor: focused ? theme.colors.focusBottomTabs : null}}>
-                  <Image
-                    source={require("../icons/profile.png")}
-                    resizeMode="contain"
-                    style={{ width: 25, height: 25 }}
-                  ></Image>
+                  {ProfileIcon(25,25,"#fff")}
                 </View>
                 <Text style={styles.tabText}>PERFIL</Text>
               </View>

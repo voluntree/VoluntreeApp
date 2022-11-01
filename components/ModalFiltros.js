@@ -7,6 +7,7 @@ import Slider from '@react-native-community/slider';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ListaFiltros from './ListaFiltros';
 import { Dropdown } from 'react-native-element-dropdown';
+import {FAIcon, FDIcon, AZIcon, ZAIcon } from '../icons/Icons';
 
 
 const ModalFiltros = (props) => {
@@ -18,10 +19,10 @@ const ModalFiltros = (props) => {
     const [localText, setLocalText] = useState("Vacio")
     const [localOrder, setLocalOrder] = useState(props.order)
     
-    const data = [{label: "Fecha(Más recientes)", value: 1}, 
-                  {label: "Fecha(Más antiguas)" , value: 2}, 
-                  {label: "Alfabeticamente(Ascendente)", value: 3}, 
-                  {label: "Alfabeticamente(Descendente)", value: 4}]
+    const data = [{label: "Fecha (Más recientes)", value: 1, icon: FAIcon(24, 24, theme.colors.bottomTabs)}, 
+                  {label: "Fecha (Más antiguas)" , value: 2, icon: FDIcon(24, 24, theme.colors.bottomTabs)}, 
+                  {label: "Alfabeticamente (A-Z)", value: 3, icon: AZIcon(24, 24, theme.colors.bottomTabs)}, 
+                  {label: "Alfabeticamente (Z-A)", value: 4, icon: ZAIcon(24, 24, theme.colors.bottomTabs)}]
 
     const showDatePicker = () => {
       props.setIsVisible(true);
@@ -276,7 +277,10 @@ const styles = StyleSheet.create({
 
 const renderItem = (item) => {
   return (
-    <View>
+    <View className = "flex-row items-center space-x-2 m-[2px]">
+      <View className = "">
+        {item.icon}
+      </View>
       <Text>{item.label}</Text>
     </View>
   )
