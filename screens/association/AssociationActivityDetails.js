@@ -75,6 +75,12 @@ const AssociationActivityDetails = () => {
     });
   };
 
+  const openParticipantsList = () => {
+    getActivityById(actividad.titulo).then((activity) => {
+      navigation.push("ParticipantsList", {actividad: activity, uri: uri })
+    });
+  }
+
   return (
     <TailwindProvider>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
@@ -128,7 +134,7 @@ const AssociationActivityDetails = () => {
           )}
           
           <View className=" flex justify-center items-center my-[10px]">
-            <TouchableOpacity onPress={openDetails} className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px] justify-center bg-bottomTabs h-10">
+            <TouchableOpacity onPress={openParticipantsList} className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px] justify-center bg-bottomTabs h-10">
               <Text className="font-extrabold text-[15px]">Lista de participantes {actividad.participantes.length}/{actividad.max_participantes}</Text>
               <Icon name="paste" type="octicon" color="black"/>
             </TouchableOpacity>

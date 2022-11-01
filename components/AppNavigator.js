@@ -7,6 +7,7 @@ import AssociationTab from "./association/AssociationTab";
 import Detalles from "../components/association/Detalles";
 import HomeAssociation from "../screens/association/HomeAssociation";
 import AssociationActivityDetails from "../screens/association/AssociationActivityDetails";
+import ParticipantsList from "../screens/association/ParticipantsList";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ const AppNavigator = () => (
         <Screen name='AssociationHome' component={AssociationTab}></Screen>
         <Screen name='Details' component={Detalles}></Screen>
         <Screen name='AssociationActivityDetails' component={AssociationActivityDetails}></Screen>
+        <Screen name='ParticipantsList' component={ParticipantsList}></Screen>
     </Navigator>   
 )
 
