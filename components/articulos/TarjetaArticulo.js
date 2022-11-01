@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import { getAsociationByID, getImageDownloadURL } from "../../service/service";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const TarjetaArticulo = (props) => {
   const { articulo } = props;
@@ -15,8 +15,13 @@ const TarjetaArticulo = (props) => {
     getData();
   }, []);
 
-  function readArticle(){
-    navigation.push("Articulo",{articulo: articulo, uri: uri, asociacion: asociacion, uriAsociacion: uri2});
+  function readArticle() {
+    navigation.push("Articulo", {
+      articulo: articulo,
+      uri: uri,
+      asociacion: asociacion,
+      uriAsociacion: uri2,
+    });
   }
 
   async function getData() {
@@ -27,7 +32,10 @@ const TarjetaArticulo = (props) => {
   }
 
   return (
-    <TouchableOpacity onPress={readArticle} className="bg-[#ffffff] rounded-lg flex-col m-2">
+    <TouchableOpacity
+      onPress={readArticle}
+      className="bg-[#ffffff] rounded-lg flex-col m-2"
+    >
       <View>
         <Image className="h-40 w-max rounded-t-lg m-1" source={{ uri: uri }} />
       </View>
