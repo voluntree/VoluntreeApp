@@ -199,9 +199,11 @@ export async function getFotoPerfilAsociacion(nombre) {
       storage,
       `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
     );
-    await getDownloadURL(fotoPerfil).then((path) => {
-      return path;
-    }).catch(error => console.log(error))
+    await getDownloadURL(fotoPerfil)
+      .then((path) => {
+        return path;
+      })
+      .catch((error) => console.log(error));
   } catch (error) {
     Alert.alert(
       "Error",
@@ -281,7 +283,14 @@ export async function unfollowAsociation(user, asociationName) {
         num_seguidores: increment(-1),
       });
     });
-    console.log('El usuario ' + user.nombre + ' ' + user.apellidos + ' ha dejado de seguir a la asociación ' + asociationName);
+    console.log(
+      "El usuario " +
+        user.nombre +
+        " " +
+        user.apellidos +
+        " ha dejado de seguir a la asociación " +
+        asociationName
+    );
   } catch (e) {
     console.log(e);
   }
@@ -317,6 +326,16 @@ export async function getAllArticulos() {
     console.log(e);
   } finally {
     return articulos;
+  }
+}
+
+export async function publishArticle(articulo) {
+  const ref = doc(db, "articulos", articulo.titulo);
+  let existeArticulo = (await getDoc(ref)).exists();
+  if (existeArticulo) {
+    throw Error("Ya existe un articulo con este titulo");
+  } else {
+    setDoc(ref, articulo);
   }
 }
 
