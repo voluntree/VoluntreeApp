@@ -7,19 +7,27 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FixedHeader from "./components/FixedHeader";
 import { TabNavigator } from "./components/TabNavigator";
 import AppNavigator from "./components/AppNavigator";
-
-
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <TailwindProvider>
-        <FixedHeader />
-        {/*<TabNavigator/> */}
-        <AppNavigator/>
-      </TailwindProvider>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <TailwindProvider>
+          {/*<TabNavigator/> */}
+          <AppNavigator />
+        </TailwindProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
+
+
 }
+
+const safeArea = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop:StatusBar.currentHeight
+    }})
