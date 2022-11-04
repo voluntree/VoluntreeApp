@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 const ActividadPerfil = (props) => {
     
   const navigation = useNavigation();
+  const {actividad} = props;
 
     const [uri, setUri] = useState();
     const reference = ref(
@@ -19,9 +20,20 @@ const ActividadPerfil = (props) => {
         setUri(path);
     });
 
+    const openCard = () => {
+      console.log("arreglar")
+    };
+
   return (
-    <TouchableOpacity className = "mt-4">
-        <Image className="h-32 w-80 rounded-md" source={{ uri: uri }} />
+    <TouchableOpacity
+      className="mt-4 items-center justify-center h-32 w-80"
+      onPress={openCard}
+    >
+      <Image className="h-32 w-80 rounded-md" source={{ uri: uri }} />
+      <View className="h-32 w-full rounded-md absolute bg-[#111] opacity-40"></View>
+      <Text className="z-1 absolute font-bold text-[#fff] text-center text-xl truncate">
+        {props.titulo}
+      </Text>
     </TouchableOpacity>
   );
 }

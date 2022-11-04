@@ -23,7 +23,7 @@ const ListaActividadesPerfil = () => {
   };
 
   const q = query(
-    collection(db, "actividades")
+    collection(db, "actividades"), where("asociacion", "==", currentUser.name)
   );
 
   useEffect(() => {
