@@ -15,7 +15,7 @@ import ListaDeTarjetas from "../components/ListaDeTarjetas";
 import { collection, query, where, onSnapshot} from "firebase/firestore";
 import { db } from "../utils/firebase";
 
-const MyActivitiesScreen = () => {
+const FavoritosScreen = () => {
   const navigation = useNavigation();
   const [SearchText, setSearchText] = useState("");
 
@@ -74,7 +74,7 @@ const MyActivitiesScreen = () => {
           setOrder = {setOrder}
         />
         <ListaDeTarjetas
-          query = {query(collection(db, "actividades"), where("participantes", "array-contains", "Catalin"))}
+          query = {query(collection(db, "actividades"), where("favoritos", "array-contains", "Catalin"))}
           searchText={SearchText}
           distancia={distancia}
           duracion={duracion}
@@ -87,4 +87,4 @@ const MyActivitiesScreen = () => {
   );
 };
 
-export default MyActivitiesScreen;
+export default FavoritosScreen;

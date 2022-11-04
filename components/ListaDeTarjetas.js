@@ -11,7 +11,7 @@ import {compareAlfabeticamenteAscendente,
 
 const ListaDeTarjetas = (props) => {
   const [actividades, setActividades] = useState([]);
-  const q = query(collection(db, "actividades"))
+  const q = props.query
   useEffect(() => {
     
       onSnapshot(q, (snapshot)=>({

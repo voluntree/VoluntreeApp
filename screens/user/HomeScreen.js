@@ -10,10 +10,10 @@ import React, { useLayoutEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
-import TarjetaDeActividad from "../../components/TarjetaDeActividad";
 import ListaDeTarjetas from "../../components/ListaDeTarjetas";
-import ListaFiltros from "../../components/ListaFiltros";
 import Buscador from "../../components/Buscador";
+import { collection, query,onSnapshot} from "firebase/firestore";
+import { db } from "../../utils/firebase";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -72,6 +72,7 @@ const HomeScreen = () => {
           setOrder = {setOrder}
         />
         <ListaDeTarjetas 
+          query = {query(collection(db, "actividades"))}
           searchText={SearchText}
           distancia={distancia}
           duracion={duracion}
