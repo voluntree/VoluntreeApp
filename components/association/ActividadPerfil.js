@@ -13,7 +13,7 @@ const ActividadPerfil = (props) => {
     const [uri, setUri] = useState();
     const reference = ref(
         storage,
-        "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
+        "gs://voluntreepin.appspot.com/cardImages/" + actividad.imagen
     );
 
     getDownloadURL(reference).then((path) => {
@@ -21,7 +21,7 @@ const ActividadPerfil = (props) => {
     });
 
     const openCard = () => {
-      console.log("arreglar")
+      navigation.push("Actividad", { actividad: actividad, uri: uri});
     };
 
   return (
@@ -32,7 +32,7 @@ const ActividadPerfil = (props) => {
       <Image className="h-32 w-80 rounded-md" source={{ uri: uri }} />
       <View className="h-32 w-full rounded-md absolute bg-[#111] opacity-40"></View>
       <Text className="z-1 absolute font-bold text-[#fff] text-center text-xl truncate">
-        {props.titulo}
+        {actividad.titulo}
       </Text>
     </TouchableOpacity>
   );
