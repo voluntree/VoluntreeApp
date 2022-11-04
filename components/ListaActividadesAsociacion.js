@@ -41,7 +41,9 @@ const ListaActividadesAsociacion = () => {
   }, []);
 
   return (
-    <FlatList
+    <View>
+      <FlatList
+      className="h-100 scroll-pb-28"
       data={actividades}
       keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (
@@ -53,6 +55,7 @@ const ListaActividadesAsociacion = () => {
         />
       )}
     />
+    </View>
   );
 };
 
