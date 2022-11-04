@@ -23,7 +23,7 @@ const ListaActividadesPerfil = () => {
   };
 
   const q = query(
-    collection(db, "actividades")
+    collection(db, "actividades"), where("asociacion", "==", currentUser.name)
   );
 
   useEffect(() => {
@@ -46,10 +46,8 @@ const ListaActividadesPerfil = () => {
       {actividades.map((actividad) => {
         return (
           <ActividadPerfil
-            titulo={actividad.titulo}
-            descripcion={actividad.descripcion}
-            tipo={actividad.tipo}
-            imagen={actividad.imagen}
+            actividad={actividad}
+            key={actividad.titulo}
           />
         );
       })}

@@ -9,7 +9,7 @@ const HomeTabScreenStack = () => {
   return (
     <HomeTabStack.Navigator>
         <HomeTabStack.Screen name="Home" component={HomeScreen}/>
-        <HomeTabStack.Screen name="Actividad" component={ActivityScreen}/>
+        
     </HomeTabStack.Navigator>
   )
 }
