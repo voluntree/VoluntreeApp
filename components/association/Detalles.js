@@ -130,12 +130,16 @@ const Detalles = () => {
         }}
         onSubmit={(values) => {
           values.fecha = new Date();
-          values.imagen = image.substring(image.lastIndexOf("/") + 1);
-
+          
           if (correctData(values)) {
-            values.duracion += "h";
+            values.duracion.length == 1 ? (values.duracion = values.duracion + 'h') : values.duracion;
             values.max_participantes = Number(values.max_participantes);
-            storeImage();
+            if (image != null) {
+              values.imagen = image.substring(image.lastIndexOf("/") + 1);
+              storeImage()
+            } else {
+              values.imagen = actividad.imagen;
+            }
             updateActivity(values);
           }
         }}
@@ -207,7 +211,7 @@ const Detalles = () => {
             <Button
               title="Cancelar"
               color="#00BFA5"
-              onPress={() => console.log(uri)}
+              onPress={() => console.log(actividad.imagen)}
             />
           </View>
         )}
