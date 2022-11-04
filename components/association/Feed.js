@@ -41,6 +41,10 @@ const Feed = () => {
     setDatosAsoc(asociacion);
   }
 
+  getAsociationByID(nombreAsoc).then((asociacion) => {
+    setFollow(asociacion.seguidores.includes(currentUser.nombre + " " + currentUser.apellidos));
+  });
+
   useEffect(() => {
     getData();
   });
