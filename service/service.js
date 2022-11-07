@@ -341,6 +341,24 @@ export async function publishArticle(articulo) {
 
 //#endregion
 
+//#region Voluntarios
+
+export async function getPoints(user, points) {
+  const userRef = doc(db, "usuarios", user.nombre);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(userRef, {
+        puntos: increment(points),
+      });
+    });
+    console.log("El usuario " + user.nombre + " ha ganado " + points + " puntos");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+//#endregion
+
 //miscelanea
 export async function getImageDownloadURL(url) {
   let resp = null;
