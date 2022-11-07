@@ -13,9 +13,10 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import ListaDeTarjetas from "../../components/ListaDeTarjetas";
 import Buscador from "../../components/Buscador";
 import { collection, query,onSnapshot} from "firebase/firestore";
-import { db } from "../../utils/firebase";
+import { db, auth } from "../../utils/firebase";
 
 const HomeScreen = () => {
+  
   const navigation = useNavigation();
   const [SearchText, setSearchText] = useState("");
 
