@@ -11,6 +11,7 @@ import {
   getImageDownloadURL,
 } from "../../service/service";
 import ListaActividadesPerfil from "./ListaActividadesPerfil";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Feed = () => {
   const [bgfoto, setBgfoto] = useState();
@@ -60,6 +61,7 @@ const Feed = () => {
   }
 
   return (
+    <SafeAreaView className = "">
     <TailwindProvider>
       <ScrollView>
         <View>
@@ -112,8 +114,9 @@ const Feed = () => {
           </View>
         </View>
       </ScrollView>
-      <View className="absolute bottom-0 bg-[#eee] w-full h-[30px]"></View>
+      <View className="absolute bottom-0 w-full h-[30px]"></View>
     </TailwindProvider>
+    </SafeAreaView>
   );
 };
 
