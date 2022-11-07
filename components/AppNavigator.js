@@ -10,11 +10,13 @@ import HomeAssociation from "../screens/association/HomeAssociation";
 import AssociationActivityDetails from "../screens/association/AssociationActivityDetails";
 import ParticipantsList from "../screens/association/ParticipantsList";
 import ActivityScreen from './../screens/user/ActivityScreen';
+import UserRegister from './../screens/register/UserRegister';
+import AssociationRegister from './../screens/register/AssociationRegister';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const AppNavigator = () => (
-    <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+    <Navigator screenOptions={{headerShown: false}} initialRouteName="Registro">
         <Screen name = 'Login' component ={Login}></Screen>
         <Screen name='LoginScreen' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>
@@ -23,6 +25,7 @@ const AppNavigator = () => (
         <Screen name='AssociationActivityDetails' component={AssociationActivityDetails}></Screen>
         <Screen name='ParticipantsList' component={ParticipantsList}></Screen>
         <Screen name='Actividad' component={ActivityScreen}/>
+        <Screen name='Registro' component={AssociationRegister}/>
     </Navigator>   
 )
 
