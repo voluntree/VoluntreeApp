@@ -10,7 +10,7 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyCtcIyLmDS6DNqN129FWGm1n7dRJc6rAmc",
   authDomain: "voluntreepin.firebaseapp.com",
   projectId: "voluntreepin",
@@ -28,5 +28,5 @@ const auth = getAuth();
 const storage = getStorage();
 const provider = new GoogleAuthProvider();
 
-export {firebase, db, auth, storage, provider, ref, uploadBytes};
+export {firebase, app, db, auth, storage, provider, ref, uploadBytes};
 
