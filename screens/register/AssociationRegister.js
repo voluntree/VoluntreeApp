@@ -1,25 +1,16 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import React from "react";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
-import { StyleSheet } from "react-native";
+import { TextInput } from "react-native-paper";
 
 const AssociationRegister = () => {
-  const style = StyleSheet.create({
-    textinput: {
-      height: 40,
-      margin: 2,
-      borderWidth: 1,
-      padding: 10,
-      borderRadius: 15,
-    },
-  });
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [secureTextEntry2, setSecureTextEntry2] = useState(true);
+  function dataOk(values){
+    return true;
+  }
+  function registerUser(values){}
   return (
     <SafeAreaView>
       <Formik
@@ -31,6 +22,7 @@ const AssociationRegister = () => {
           password: "",
           phone: "",
         }}
+        onSubmit={(values)=>{if(dataOk()) registerUser(values)}}
       >
         {(props) => (
           <ScrollView className="px-6 space-y-4">
@@ -40,16 +32,17 @@ const AssociationRegister = () => {
             </Text>
             <View className="mx-1 space-y-2">
               <View className="">
-                <Text>Nombre:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="Nombre*" mode="flat" />
               </View>
               <View className="">
-                <Text>Apellidos:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput
+                  underlineColor="blue"
+                  label="Apellidos*"
+                  mode="flat"
+                />
               </View>
               <View className="">
-                <Text>DNI:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="DNI*" mode="flat" />
               </View>
             </View>
             <Text className=" font-semibold text-lg">
@@ -57,39 +50,58 @@ const AssociationRegister = () => {
             </Text>
             <View className="mx-1 space-y-2">
               <View className="">
-                <Text>Nombre:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="Nombre*" mode="flat" />
               </View>
               <View className="">
-                <Text>NIF:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="NIF*" mode="flat" />
               </View>
               <View className="">
-                <Text>Email:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="Email*" mode="flat" />
               </View>
               <View className="">
-                <Text>Contraseña:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput
+                  secureTextEntry={secureTextEntry}
+                  right={
+                    <TextInput.Icon
+                      name="eye"
+                      onPress={() => {
+                        setSecureTextEntry(!secureTextEntry);
+                      }}
+                    />
+                  }
+                  underlineColor="blue"
+                  label="Contraseña*"
+                  mode="flat"
+                />
               </View>
               <View className="">
-                <Text>Repetir contraseña:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput
+                  secureTextEntry={secureTextEntry}
+                  right={
+                    <TextInput.Icon
+                      name="eye"
+                      onPress={() => {
+                        setSecureTextEntry(!secureTextEntry);
+                      }}
+                    />
+                  }
+                  underlineColor="blue"
+                  label="Repetir contraseña*"
+                  mode="flat"
+                />
               </View>
               <View className="">
-                <Text>Teléfono:</Text>
-                <TextInput style={style.textinput} />
+                <TextInput underlineColor="blue" label="Teléfono" mode="flat" />
               </View>
             </View>
-            
-              <TouchableOpacity className="mx-12 my-5">
-                <View className="bg-[#80a8ff] h-12 w-full rounded-2xl items-center justify-center">
-                  <Text className="font-semibold text-base tracking-wide text-[#fff]">
-                    Registrarse
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            
+            <Text>Todos los campos* son obligatorios</Text>
+            <TouchableOpacity className="mx-12 my-5" onPress={props.handleSubmit}>
+              <View className="bg-[#80a8ff] h-12 w-full rounded-2xl items-center justify-center">
+                <Text className="font-semibold text-base tracking-wide text-[#fff]">
+                  Registrarse
+                </Text>
+              </View>
+            </TouchableOpacity>
           </ScrollView>
         )}
       </Formik>
