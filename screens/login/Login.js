@@ -7,8 +7,9 @@ import {
   KeyboardEvent,
   KeyboardAvoidingView,
   Alert,
+  
 } from "react-native";
-import { TextInput } from "react-native-paper";
+import { TextInput, Checkbox} from "react-native-paper";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
@@ -26,34 +27,28 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Login = () => {
   const [secureTextEntry, setSecureTextEntry] = useState(true);
-
+  const [tipoUser, setTipoUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const[statusAsoc, setStatusAsoc] = useState("unchecked")
+  const[statusVoluntario, setStatusVoluntario] = useState("unchecked")
 
   const Stack = createNativeStackNavigator();
 
   const navigation = useNavigation();
-
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("Usuario creado con Email")
-      const user = userCredential.user;
-      console.log(user);
-    })
-    .catch(error => {
-      console.log(error)
-      Alert.alert(error.message)
-    });
-  };
 
   const handleSignIn = () =>{
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log("signed in!")
       const user = userCredential.user;
-      console.log(user)
-      navigation.navigate("UserHome")
+      if(statusVoluntario === "checked"){
+        
+        navigation.navigate("UserHome")
+      }else if(statusAsoc === "checked"){
+        navigation.navigate("AssociationHome")
+      }else alert("Selecciona el tipo de usuario que eres")
+        
     })
     .catch(error => {
       console.log(error);
@@ -77,7 +72,7 @@ const Login = () => {
               onChangeText={(text) => setEmail(text)}
               left={<TextInput.Icon name="account" />}
               underlineColor="blue"
-              label="Nombre de usuario"
+              label="Email"
               className=""
               placeholder={""}
               mode="flat"
@@ -105,6 +100,19 @@ const Login = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
+      <View className = "flex-row items-center justify center space-x-2 mx-8 mb-6">
+        <Checkbox.Item
+          label="Asociacion"
+          status= {statusAsoc}
+          onPress={() => {setTipoUser("asociacion"); setStatusAsoc("checked"); setStatusVoluntario("unchecked")}}
+          mode = 'android'
+        />
+        <Checkbox.Item
+          label="Voluntario"
+          status={statusVoluntario}
+          onPress={() => {setTipoUser("voluntario"); setStatusVoluntario("checked"); setStatusAsoc("unchecked");}}
+        />
+      </View>
       <TouchableOpacity className="mx-8" onPress={handleSignIn}>
         <View className="bg-[#80a8ff] w-full rounded-full h-12 mb-4 items-center justify-center">
           <Text className="font-semibold text-base tracking-wide text-[#fff]">
@@ -112,7 +120,10 @@ const Login = () => {
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity className="mx-16">
+      <TouchableOpacity
+        className="mx-16"
+        onPress={() => navigation.navigate("Registro")}
+      >
         <View className="bg-[#80a8ff] h-12 w-full rounded-2xl items-center justify-center">
           <Text className="font-semibold text-base tracking-wide text-[#fff]">
             Hazte voluntario!
