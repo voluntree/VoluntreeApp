@@ -85,12 +85,12 @@ const CrearArticulo = () => {
 
   const dataOK = (values) => {
     if (
-      values.titulo == "" ||
-      values.autor == "" ||
-      values.introduccion == "" ||
-      values.cuerpo == "" ||
-      values.conclusion == "" ||
-      values.imagen == ""
+      values.titulo.trim() == "" ||
+      values.autor.trim() == "" ||
+      values.introduccion.trim() == "" ||
+      values.cuerpo.trim() == "" ||
+      values.conclusion.trim() == "" ||
+      values.imagen.trim() == ""
     ) {
       Alert.alert("Error", "Rellene todos los campos");
       return false;
