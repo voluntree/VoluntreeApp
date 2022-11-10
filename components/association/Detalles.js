@@ -80,14 +80,18 @@ const Detalles = () => {
   // function to check values
   const correctData = (values) => {
     if (
-      values.titulo == "" ||
-      values.tipo == "" ||
-      values.max_participantes == 0 ||
-      values.duracion == "" ||
-      values.descripcion == "" ||
-      values.imagen == ""
+      values.titulo.trim().length == 0 ||
+      values.tipo.trim().length == 0 ||
+      values.max_participantes.trim().length == 0 ||
+      values.duracion.trim().length == 0 ||
+      values.descripcion.trim().length == 0 ||
+      values.imagen.trim().length == 0
     ) {
       Alert.alert("Error", "Por favor, rellene todos los campos");
+      return false;
+    }
+    if (isNaN(values.max_participantes)) {
+      Alert.alert("Error", "El número de participantes debe ser un número entre 6 y 100");
       return false;
     }
     if (values.max_participantes < 6 || values.max_participantes > 100) {
@@ -95,6 +99,10 @@ const Detalles = () => {
         "Error",
         "El número de participantes debe estar entre 6 y 100"
       );
+      return false;
+    }
+    if (isNaN(values.duracion)) {
+      Alert.alert("Error", "La duración debe ser un número entre 1 y 8");
       return false;
     }
     if (values.duracion < 1 || values.duracion > 8) {
@@ -211,7 +219,7 @@ const Detalles = () => {
             <Button
               title="Cancelar"
               color="#00BFA5"
-              onPress={() => console.log(actividad.imagen)}
+              onPress={() => console.log("cancelar")}
             />
           </View>
         )}
