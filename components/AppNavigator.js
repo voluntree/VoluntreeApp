@@ -12,11 +12,12 @@ import ParticipantsList from "../screens/association/ParticipantsList";
 import ActivityScreen from './../screens/user/ActivityScreen';
 import UserRegister from './../screens/register/UserRegister';
 import AssociationRegister from './../screens/register/AssociationRegister';
+import QRScanner from './../screens/user/QRScanner';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const AppNavigator = () => (
-    <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+    <Navigator screenOptions={{headerShown: false}} initialRouteName="QRscanner">
         <Screen name = 'Login' component ={Login}></Screen>
         <Screen name='LoginScreen' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>
@@ -26,6 +27,7 @@ const AppNavigator = () => (
         <Screen name='ParticipantsList' component={ParticipantsList}></Screen>
         <Screen name='Actividad' component={ActivityScreen}/>
         <Screen name='Registro' component={AssociationRegister}/>
+        <Screen name='QRscanner' component={QRScanner}/>
     </Navigator>   
 )
 
