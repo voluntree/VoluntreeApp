@@ -13,11 +13,12 @@ import ActivityScreen from './../screens/user/ActivityScreen';
 import UserRegister from './../screens/register/UserRegister';
 import AssociationRegister from './../screens/register/AssociationRegister';
 import QRScanner from './../screens/user/QRScanner';
+import QRGenerator from './../screens/association/QRGenerator';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const AppNavigator = () => (
-    <Navigator screenOptions={{headerShown: false}} initialRouteName="QRscanner">
+    <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
         <Screen name = 'Login' component ={Login}></Screen>
         <Screen name='LoginScreen' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>
@@ -28,6 +29,7 @@ const AppNavigator = () => (
         <Screen name='Actividad' component={ActivityScreen}/>
         <Screen name='Registro' component={AssociationRegister}/>
         <Screen name='QRscanner' component={QRScanner}/>
+        <Screen name='QRgenerator' component={QRGenerator}/>
     </Navigator>   
 )
 

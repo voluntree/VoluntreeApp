@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import CrearOferta from "../../components/association/CrearOferta";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const PostActivity = () => {
     const navigation = useNavigation();
@@ -14,9 +15,9 @@ const PostActivity = () => {
     }, []);
 
     return (
-        <View>
+        <SafeAreaView>
             <CrearOferta/>
-        </View>
+        </SafeAreaView>
     )
 }
 

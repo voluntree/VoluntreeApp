@@ -16,14 +16,14 @@ const ListaParticipantes = (props) => {
 
   useEffect(() => {
     getParticipantes(props.actividad.participantes).then(value => setParticipantes(value))
-      }, []);
+      }, [props.actividad.confirmados]);
 
   return (
     <FlatList
       data = {participantes}
       keyExtractor = {(item) => item.ID}
       renderItem= {({item, index}) => (
-        <TarjetaParticipante item = {item}/>
+        <TarjetaParticipante item = {item} actividad={props.actividad}/>
       )}
     />
   );
