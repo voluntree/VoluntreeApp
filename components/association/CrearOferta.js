@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Platform,
 } from "react-native";
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
@@ -16,6 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 import {
   createActivity,
@@ -30,6 +32,12 @@ const CrearOferta = () => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+  const [textD, setTextD] = useState("Fecha");
+  const [textT, setTextT] = useState("Hora");
+
   useEffect(() => {
     async () => {
       const galleryStatus =
@@ -37,6 +45,23 @@ const CrearOferta = () => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
   }, []);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    
+    let tempDate = new Date(currentDate);
+    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+    let fTime = 'Horas: ' + tempDate.getHours() + ' | Minutos :' + tempDate.getMinutes();
+    setText(fDate + ' - ' + fTime);
+    console.log(fDate + ' (' + fTime + ')');
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -115,7 +140,7 @@ const CrearOferta = () => {
   };
 
   return (
-    <ScrollView className="p-5 pt-18">
+    <ScrollView className="p-5 pt-20">
       <Formik
         initialValues={{
           asociacion: "Green Peace",
@@ -170,7 +195,7 @@ const CrearOferta = () => {
                   <TextInput
                     className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2 ml-4"
                     keyboardType="numeric"
-                    placeholder="Duración"
+                    placeholder="Duración (horas)"
                     onChangeText={props.handleChange("duracion")}
                     value={props.values.duracion}
                   />
@@ -200,7 +225,18 @@ const CrearOferta = () => {
                 </TouchableOpacity>
               </View>
             </View>
-
+            <View className="flex-row space-x-4">
+            <TouchableOpacity onPress={() => {showMode('date')}}>
+              <View className="w-24 h-10 border border-[#6b7280] rounded-md justify-center p-2 mt-5">
+                <Text className="text-xs text-[#979797]">{textD}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {showMode('time')}}>
+              <View className="w-16 h-10 border border-[#6b7280] rounded-md justify-center p-2 mt-5">
+                <Text className="text-xs text-[#979797]">{textT}</Text>
+              </View>
+            </TouchableOpacity>
+            </View>
             <TextInput
               className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 "
               multiline={true}
