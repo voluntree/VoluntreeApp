@@ -150,6 +150,7 @@ const CrearOferta = () => {
           num_participantes: 0,
           max_participantes: 0,
           participantes: [],
+          confirmados: [],
           duracion: "",
           descripcion: "",
           imagen: "",

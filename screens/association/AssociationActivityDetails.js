@@ -17,9 +17,9 @@ import {
   inscribirUsuarioEnActividad,
 } from "../../service/service";
 import { getActivityById } from "../../service/service";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AssociationActivityDetails = () => {
-
   const navigation = useNavigation();
   const route = useRoute();
   const { actividad, uri } = route.params;
@@ -75,14 +75,18 @@ const AssociationActivityDetails = () => {
     });
   };
 
-  const openParticipantsList = () => {
-    getActivityById(actividad.titulo).then((activity) => {
-      navigation.push("ParticipantsList", {actividad: activity, uri: uri })
-    });
+  const openQR = () =>{
+    navigation.push("QRgenerator", {actividad: actividad})
   }
 
+  const openParticipantsList = () => {
+    getActivityById(actividad.titulo).then((activity) => {
+      navigation.push("ParticipantsList", { actividad: activity, uri: uri });
+    });
+  };
+
   return (
-    <TailwindProvider>
+    <SafeAreaView>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
         <View className="flex-row bg-transparent mt-0 absolute w-full z-10 top-0 h-14 items-center justify-between">
           <View className="ml-2">
@@ -91,9 +95,12 @@ const AssociationActivityDetails = () => {
             </TouchableOpacity>
           </View>
           <View className="mr-2">
-            <TouchableOpacity onPress={openDetails} className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px]  justify-center bg-bottomTabs w-[100px] h-10">
+            <TouchableOpacity
+              onPress={openDetails}
+              className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px]  justify-center bg-bottomTabs w-[100px] h-10"
+            >
               <Text className="font-extrabold text-[15px]">Editar</Text>
-              <Icon name="pencil" type="octicon" color="black"/>
+              <Icon name="pencil" type="octicon" color="black" />
             </TouchableOpacity>
           </View>
         </View>
@@ -132,17 +139,30 @@ const AssociationActivityDetails = () => {
           ) : (
             <Text>No disponible</Text>
           )}
-          
-          <View className=" flex justify-center items-center my-[10px]">
-            <TouchableOpacity onPress={openParticipantsList} className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px] justify-center bg-bottomTabs h-10">
-              <Text className="font-extrabold text-[15px]">Lista de participantes {actividad.participantes.length}/{actividad.max_participantes}</Text>
-              <Icon name="paste" type="octicon" color="black"/>
+
+          <View className=" flex justify-center items-center my-[10px] space-y-2">
+            <TouchableOpacity
+              onPress={openParticipantsList}
+              className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px] justify-center bg-bottomTabs h-10"
+            >
+              <Text className="font-extrabold text-[15px]">
+                Lista de participantes {actividad.participantes.length}/
+                {actividad.max_participantes}
+              </Text>
+              <Icon name="paste" type="octicon" color="black" />
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={openQR} className="flex-row rounded-[10px] px-[10px] items-center space-x-[15px] justify-center bg-bottomTabs h-10">
+              <Text className="font-extrabold text-[15px]">
+                Código QR de asistencia
+              </Text>
+              <Icon name="qrcode" type="font-awesome" />
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-    </TailwindProvider>
+    </SafeAreaView>
   );
-}
+};
 
 export default AssociationActivityDetails;

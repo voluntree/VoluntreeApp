@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import AssociationTab from "../../components/association/AssociationTab";
 import ListaParticipantes from "../../components/ListaParticipantes";
 import { useRoute } from "@react-navigation/native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ParticipantsList = () => {
     const navigation = useNavigation();
@@ -17,14 +18,14 @@ const ParticipantsList = () => {
     }, []);
 
     return (
-        <View className = "flex items-center my-[10px]">
+        <SafeAreaView className = "flex items-center my-[10px]">
             <Text className = " text-xl font-bold mb-[10px]">Lista Participantes</Text>
             <View className = " flex-row justify-between w-full px-[15px]">
                 <Text className = " font-bold">Nº Participantes: {actividad.participantes.length}/{actividad.max_participantes}</Text>
                 <Text className = " font-bold">Asistencia</Text>
             </View>
             <ListaParticipantes actividad= {actividad}/>
-        </View>
+        </SafeAreaView>
     )
 }
 

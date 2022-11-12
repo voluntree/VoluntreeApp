@@ -12,6 +12,8 @@ import { useState, useEffect, useLayoutEffect } from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   desapuntarseDeActividad,
   inscribirUsuarioEnActividad,
@@ -22,12 +24,15 @@ const ActivityScreen = () => {
   const route = useRoute();
   const { actividad, uri } = route.params;
   const [fecha, setFecha] = useState();
-  const [inscrito, setInscrito] = useState(false);
   const [ubicacion, setUbicacion] = useState();
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
   const currentUser = "Catalin";
+  const [inscrito, setInscrito] = useState(false);
+  const [confirmado, setConfirmado] = useState(
+    actividad.confirmados.includes(currentUser)
+  );
 
   useEffect(() => {
     setFecha(actividad.fecha.toDate().toLocaleString("es-ES", options));
@@ -78,6 +83,7 @@ const ActivityScreen = () => {
 
   const inscribirUsuario = () => {
     inscribirUsuarioEnActividad(actividad.titulo, currentUser).then(() => {
+      actividad.participantes.push(currentUser);
       Alert.alert(
         "Inscripción existosa",
         "Se ha inscrito correctamente a la actividad " + actividad.titulo,
@@ -92,8 +98,14 @@ const ActivityScreen = () => {
     } catch (error) {}
   };
 
+  const openScanner = () => {
+    try {
+      navigation.navigate("QRscanner", { actividad: actividad });
+    } catch (error) {}
+  };
+
   return (
-    <TailwindProvider>
+    <SafeAreaView>
       <ScrollView className="flex-col h-max w-100 bg-[white]">
         <View className="flex-row bg-transparent mt-0 absolute w-full z-10 top-0 h-14 items-center justify-between">
           <View className="ml-2">
@@ -152,9 +164,16 @@ const ActivityScreen = () => {
               <Button title="Desapuntarse" onPress={desapuntarUsuario} />
             </View>
           )}
+          {inscrito && !confirmado ? (
+            <View className="my-5">
+              <Button title="Confirmar asistencia" onPress={openScanner} />
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       </ScrollView>
-    </TailwindProvider>
+    </SafeAreaView>
   );
 };
 export default ActivityScreen;
