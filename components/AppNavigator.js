@@ -17,7 +17,7 @@ import QRScanner from './../screens/user/QRScanner';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const AppNavigator = () => (
-    <Navigator screenOptions={{headerShown: false}} initialRouteName="QRscanner">
+    <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
         <Screen name = 'Login' component ={Login}></Screen>
         <Screen name='LoginScreen' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>

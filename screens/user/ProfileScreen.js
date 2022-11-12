@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
@@ -17,15 +17,36 @@ import { TabView } from "react-native-tab-view";
 import ProfileTabScreenStack from "../ProfileTabScreenStack";
 import NewsTabScreenStack from "../NewsTabScreenStack";
 import UserProfileTab from "../../components/UserProfileTab";
+import { auth, db } from "../../utils/firebase";
+import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const user = auth.currentUser;
+  const [usuario, setUsuario] = useState([]);
+  const q = query(collection(db, "voluntarios"), where("correo", "==", user.email));
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
+  useEffect(() => {
+    const getUser = () => {
+      const q = query(collection(db, "voluntarios"), where("correo", "==", user.email))
+      const data = getDocs(q).then(querySnapshot => {
+        if(!querySnapshot.empty){
+          const snapshot = querySnapshot.docs[0]
+          const docRef = snapshot.ref
+          getDoc(docRef).then((value) => setUsuario(value.data()))
+        }
+      })
+      
+    }
+    getUser()
+  }, [])
+  
+  
   
   return (
     <TailwindProvider>
@@ -40,7 +61,7 @@ const ProfileScreen = () => {
             <View className="flex-row justify-between">
               {/* Nombre */}
               <View className="justify-center max-w-[120px]">
-                <Text className="text-base">Catalin</Text>
+                <Text className="text-base">{usuario.nombre}</Text>
               </View>
               {/* Nivel */}
               <View className="flex justify-center items-center">
@@ -83,12 +104,14 @@ const ProfileScreen = () => {
           </View>
         </View>
         <View className="flex w-full max-w-full bg-blanco p-2">
-          <Text className="font-bold">Catalin Marian</Text>
-          <Text className="">
-            Descripción adasdmasldmasld lad malsd mals mdalsdmasldmasldm
-            alsmdlasm dlasmd lasmd lamsdlams dlmasldmasldmasl msal dmasld
-            masldmasl mda lsmdasl mdaslmd salm
-          </Text>
+          <Text className="font-bold">{usuario.nombre} {usuario.apellidos}</Text>
+          {
+              usuario.descripcion != null && usuario.descripcion != undefined ?
+                (<Text className="">usuario.descripcion</Text>)
+              :
+                (<Text className="">Sin descripción</Text>)
+              
+          }  
         </View>
         <View className = "w-full h-[75%]">
           <UserProfileTab />
