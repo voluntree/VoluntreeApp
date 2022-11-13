@@ -40,5 +40,5 @@ export function compareFechaMasAntigua(a, b) {
 
 export function stringToHash(string) {
   const md5 = require('md5')
-  return md5(string).substring(0,12).toLocaleUpperCase();
+  return md5(string).substring(0,8).toLocaleUpperCase();
 }
