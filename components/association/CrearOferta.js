@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 import {
   createActivity,
@@ -26,6 +26,7 @@ import {
   saveActivity,
   storeImage,
 } from "../../service/service";
+import { async } from "@firebase/util";
 
 const CrearOferta = () => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -33,10 +34,8 @@ const CrearOferta = () => {
   const [uploading, setUploading] = useState(false);
 
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [textD, setTextD] = useState("Fecha");
-  const [textT, setTextT] = useState("Hora");
+  const [text, setText] = useState("Fecha: DD/MM/AAAA\nHora: HH:MM");
 
   useEffect(() => {
     async () => {
@@ -46,22 +45,23 @@ const CrearOferta = () => {
     };
   }, []);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-    
-    let tempDate = new Date(currentDate);
-    let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-    let fTime = 'Horas: ' + tempDate.getHours() + ' | Minutos :' + tempDate.getMinutes();
-    setText(fDate + ' - ' + fTime);
-    console.log(fDate + ' (' + fTime + ')');
+  const handlePicker = (datetime) => {
+    setShow(false);
+    setDate(datetime);
+    setText("Fecha: " + datetime.getDate() +"/"+ (datetime.getMonth()+1) +"/"+ datetime.getFullYear() + "\n" +
+            "Hora: " + datetime.getHours() + ":" + datetime.getMinutes());
+            return datetime;
   };
 
-  const showMode = (currentMode) => {
+  const showPicker = () => {
     setShow(true);
-    setMode(currentMode);
+    console.log("show");
   };
+
+  const hidePicker = () => {
+    setShow(false);
+  };
+
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -105,7 +105,8 @@ const CrearOferta = () => {
       values.max_participantes.trim().length == 0 ||
       values.duracion.trim().length == 0 ||
       values.descripcion.trim().length == 0 ||
-      values.imagen.trim().length == 0
+      values.imagen.trim().length == 0 ||
+      values.fecha == null
     ) {
       Alert.alert("Error", "Por favor, rellene todos los campos");
       return false;
@@ -158,10 +159,10 @@ const CrearOferta = () => {
           ubicacion: "",
         }}
         onSubmit={(values) => {
-          values.fecha = new Date();
-          values.imagen = image.substring(image.lastIndexOf("/") + 1);
+          values.fecha = date;
 
           if (correctData(values)) {
+            values.imagen = image.substring(image.lastIndexOf("/") + 1);
             values.duracion += "h";
             values.max_participantes = Number(values.max_participantes);
             storeImage();
@@ -227,16 +228,19 @@ const CrearOferta = () => {
               </View>
             </View>
             <View className="flex-row space-x-4">
-            <TouchableOpacity onPress={() => {showMode('date')}}>
-              <View className="w-24 h-10 border border-[#6b7280] rounded-md justify-center p-2 mt-5">
-                <Text className="text-xs text-[#979797]">{textD}</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => {showMode('time')}}>
-              <View className="w-16 h-10 border border-[#6b7280] rounded-md justify-center p-2 mt-5">
-                <Text className="text-xs text-[#979797]">{textT}</Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => {showPicker()}}>
+                <View className="w-44 h-14 border border-[#6b7280] rounded-md p-2 mt-5">
+                  <Text className="text-xs text-[#979797]">{text}</Text>
+                </View>
+              </TouchableOpacity>
+            
+              <DateTimePicker
+                isVisible={show}
+                onConfirm={handlePicker}
+                onCancel={hidePicker}
+                mode="datetime"
+                is24Hour={true}
+                />
             </View>
             <TextInput
               className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 "
@@ -251,7 +255,7 @@ const CrearOferta = () => {
               <Button
                 title="Crear"
                 color="#00BFA5"
-                onPress={props.handleSubmit}
+                onPress={() => {props.handleSubmit()}}
               />
             </View>
           </View>
