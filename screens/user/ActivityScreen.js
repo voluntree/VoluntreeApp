@@ -160,6 +160,7 @@ const ActivityScreen = () => {
               <Button title="Participa" onPress={inscribirUsuario} />
             </View>
           ) : (
+            //!confirmado && 
             <View className="my-5">
               <Button title="Desapuntarse" onPress={desapuntarUsuario} />
             </View>

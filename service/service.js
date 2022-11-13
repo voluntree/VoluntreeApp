@@ -390,7 +390,7 @@ export async function unconfirmAssistence(userID, activityID) {
 
 export async function confirmAssistenceViaQR(userID, activityID, QRvalue) {
   const actRef = doc(db, "actividades", activityID);
-  if (QRvalue == "Voluntree:" + activityID) {
+  if (QRvalue == stringToHash(activityID)) {
     confirmAssistence(userID, activityID);
   } else throw Error("Codigo QR incorrecto, escanee de nuevo.");
 }
