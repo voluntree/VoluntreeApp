@@ -43,7 +43,7 @@ const QRScanner = () => {
             "Asistencia confirmada",
             "Su asistencia ha sido confirmada exitosamente"
           );
-          navigation.goBack();
+          navigation.navigate("HomeTab");
         } catch (error) {
           Alert.alert("Error", error.message);
         }
@@ -60,7 +60,7 @@ const QRScanner = () => {
           "Asistencia confirmada",
           "Su asistencia ha sido confirmada exitosamente"
         );
-        navigation.goBack();
+        navigation.navigate("HomeTab");
       }catch(error) {Alert.alert("Error", error.message);}
     }
   }
