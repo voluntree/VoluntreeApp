@@ -20,6 +20,7 @@ import {
 import { FirebaseError } from "firebase/app";
 import { Alert } from "react-native";
 import { getDownloadURL, ref, connectStorageEmulator } from "firebase/storage";
+import { stringToHash } from "./functions";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
@@ -96,6 +97,7 @@ export async function desapuntarseDeActividad(activityID, userID) {
         t.update(actRef, {
           num_participantes: increment(-1),
           participantes: arrayRemove(userID),
+          confirmados: arrayRemove(userID),
         });
         t.update(participantRef, {
           actividades: arrayRemove(activityID),
@@ -351,10 +353,56 @@ export async function getPoints(user, points) {
         puntos: increment(points),
       });
     });
-    console.log("El usuario " + user.nombre + " ha ganado " + points + " puntos");
+    console.log(
+      "El usuario " + user.nombre + " ha ganado " + points + " puntos"
+    );
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function confirmAssistence(userID, activityID) {
+  const actRef = doc(db, "actividades", activityID);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(actRef, {
+        confirmados: arrayUnion(userID),
+      });
+    });
+  } catch (error) {
+    console.log(e);
+  }
+}
+
+
+export async function unconfirmAssistence(userID, activityID) {
+  const actRef = doc(db, "actividades", activityID);
+  try {
+    await runTransaction(db, async (t) => {
+      t.update(actRef, {
+        confirmados: arrayRemove(userID),
+      });
+    });
+  } catch (error) {
+    console.log(e);
+  }
+}
+
+export async function confirmAssistenceViaQR(userID, activityID, QRvalue) {
+  const actRef = doc(db, "actividades", activityID);
+  if (QRvalue == stringToHash(activityID)) {
+    confirmAssistence(userID, activityID);
+  } else throw Error("Codigo QR incorrecto, escanee de nuevo.");
+}
+
+export async function confirmAssistenceViaCode(userID, activityID, codeValue) {
+  const actRef = doc(db, "actividades", activityID);
+  if (codeValue == stringToHash(activityID)) {
+    confirmAssistence(userID, activityID);
+  } else
+    throw Error(
+      "Código incorrecto, compruebe que ha introducido el código correctamente"
+    );
 }
 
 //#endregion

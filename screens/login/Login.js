@@ -61,7 +61,7 @@ const Login = () => {
         <View className="">
           <Text className="tracking-wide text-base mt-5 pl-5">VOLUNTREE</Text>
           <Image
-            className="w-full h-80"
+            className="w-full h-64"
             source={require("../../images/LoginImagen.jpg")}
           ></Image>
         </View>

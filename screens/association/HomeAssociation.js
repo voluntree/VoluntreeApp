@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AssociationTab from "../../components/association/AssociationTab";
 import ListaActividadesAsociacion from "../../components/ListaActividadesAsociacion";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeAssociation = () => {
     const navigation = useNavigation();
@@ -14,9 +15,9 @@ const HomeAssociation = () => {
     }, []);
 
     return (
-        <View>
+        <SafeAreaView>
             <ListaActividadesAsociacion/>
-        </View>
+        </SafeAreaView>
     )
 }
 

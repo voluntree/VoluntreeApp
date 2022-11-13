@@ -38,10 +38,7 @@ export function compareFechaMasAntigua(a, b) {
   return 0;
 }
 
-export function ValidateEmail(input) {
-  let str = "" + input;
-  var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  if (str.match(validRegex)) return true;
-  else return false;
+export function stringToHash(string) {
+  const md5 = require('md5')
+  return md5(string).substring(0,8).toLocaleUpperCase();
 }
