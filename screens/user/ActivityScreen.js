@@ -16,6 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   desapuntarseDeActividad,
+  getPoints,
   inscribirUsuarioEnActividad,
 } from "../../service/service";
 
@@ -28,10 +29,19 @@ const ActivityScreen = () => {
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
-  const currentUser = "Catalin";
+  const currentUser = {
+    nombre: "Catalin",
+    apellidos: "Marian",
+  };
   const [inscrito, setInscrito] = useState(false);
   const [confirmado, setConfirmado] = useState(
-    actividad.confirmados.includes(currentUser)
+    actividad.confirmados.includes(currentUser.nombre)
+  );
+  const[finalizado, setFinalizado] = useState(
+    actividad.fecha.toDate() < new Date()
+  );
+  const[reclamado, setReclamado] = useState(
+    actividad.reclamados.includes(currentUser.nombre)
   );
 
   useEffect(() => {
@@ -42,7 +52,7 @@ const ActivityScreen = () => {
       );
       let data = await response.json();
       setUbicacion(data.display_name);
-      setInscrito(actividad.participantes.includes(currentUser));
+      setInscrito(actividad.participantes.includes(currentUser.nombre));
       setRegion({
         latitude: lat,
         longitude: lng,
@@ -67,6 +77,12 @@ const ActivityScreen = () => {
     year: "numeric",
     month: "long",
     day: "numeric",
+  };
+
+  const obtenerPuntos = async () => {
+    await getPoints(currentUser, actividad);
+    setReclamado(true);
+    Alert.alert("Puntos reclamados!", "Se han añadido " + actividad.puntos +" puntos a su cuenta!");
   };
 
   const desapuntarUsuario = () => {
@@ -102,6 +118,18 @@ const ActivityScreen = () => {
     try {
       navigation.navigate("QRscanner", { actividad: actividad });
     } catch (error) {}
+  };
+
+  const BotonParticipa = () => {
+    if (!inscrito)        { return <Button title="Participa" onPress={inscribirUsuario} />; }
+    else if (!finalizado) { return <Button title="Desapuntarse" onPress={desapuntarUsuario} />; }
+    else if (confirmado && !reclamado)  { return <Button title="Reclamar puntos" onPress={obtenerPuntos} />; }
+    else { return <Button title="Ya has reclamado tus puntos" disabled={true} />; }
+  };
+
+  const BotonConfirmado = () => {
+    if (inscrito && !confirmado) { 
+      return <Button title="Confirmar asistencia" onPress={openScanner} />; }
   };
 
   return (
@@ -154,24 +182,12 @@ const ActivityScreen = () => {
           ) : (
             <Text>No disponible</Text>
           )}
-
-          {!inscrito ? (
-            <View className="my-5">
-              <Button title="Participa" onPress={inscribirUsuario} />
-            </View>
-          ) : (
-            //!confirmado && 
-            <View className="my-5">
-              <Button title="Desapuntarse" onPress={desapuntarUsuario} />
-            </View>
-          )}
-          {inscrito && !confirmado ? (
-            <View className="my-5">
-              <Button title="Confirmar asistencia" onPress={openScanner} />
-            </View>
-          ) : (
-            <></>
-          )}
+          <View className="my-5">
+            <BotonParticipa />
+          </View>
+          <View className="my-5">
+            <BotonConfirmado />
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

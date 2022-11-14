@@ -345,16 +345,20 @@ export async function publishArticle(articulo) {
 
 //#region Voluntarios
 
-export async function getPoints(user, points) {
-  const userRef = doc(db, "usuarios", user.nombre);
+export async function getPoints(user, activity) {
+  const userRef = doc(db, "voluntarios", user.nombre);
+  const activityRef = doc(db, "actividades", activity.titulo);
   try {
     await runTransaction(db, async (t) => {
       t.update(userRef, {
-        puntos: increment(points),
+        puntos: increment(activity.puntos),
+      });
+      t.update(activityRef, {
+        reclamados: arrayUnion(user.nombre),
       });
     });
     console.log(
-      "El usuario " + user.nombre + " ha ganado " + points + " puntos"
+      "El usuario " + user.nombre + " ha reclamado " + activity.puntos + " puntos"
     );
   } catch (e) {
     console.log(e);
