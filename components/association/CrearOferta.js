@@ -27,6 +27,7 @@ import {
   storeImage,
 } from "../../service/service";
 import { async } from "@firebase/util";
+import { Dropdown } from "react-native-element-dropdown";
 
 const CrearOferta = () => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -152,6 +153,7 @@ const CrearOferta = () => {
           max_participantes: 0,
           participantes: [],
           confirmados: [],
+          reclamados: [],
           duracion: "",
           descripcion: "",
           imagen: "",
@@ -180,12 +182,20 @@ const CrearOferta = () => {
                   onChangeText={props.handleChange("titulo")}
                   value={props.values.titulo}
                 />
-                <TextInput
+                <Dropdown 
                   className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
                   placeholder="Tipo"
-                  onChangeText={props.handleChange("tipo")}
+                  data={[
+                    { label: "Ambiental", value: "ambiental" },
+                    { label: "Comunitario", value: "comunitario" },
+                    { label: "Educación", value: "educación" },
+                  ]}
+                  labelField="label"
+                  valueField="value" 
                   value={props.values.tipo}
+                  onChange={(item) => props.setFieldValue("tipo", item.value)}
                 />
+                
                 <View className="flex-row">
                   <TextInput
                     className="text-xs w-20 h-10 border border-[#6b7280] rounded-md p-2"
@@ -255,7 +265,8 @@ const CrearOferta = () => {
               <Button
                 title="Crear"
                 color="#00BFA5"
-                onPress={() => {props.handleSubmit()}}
+                onPress={() => {//props.handleSubmit()
+                console.log(props.values)}}
               />
             </View>
           </View>
