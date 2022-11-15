@@ -16,6 +16,8 @@ import { launchImageLibrary } from "react-native-image-picker";
 import * as ImagePicker from "expo-image-picker";
 import { ref } from "firebase/storage";
 import { useRoute } from "@react-navigation/native";
+import { Dropdown } from "react-native-element-dropdown";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
 import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
@@ -35,6 +37,11 @@ const Detalles = () => {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
+  const [date, setDate] = useState(actividad.fecha.toDate());
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState("Fecha: " + date.getDate() +"/"+ (date.getMonth()+1) +"/"+ date.getFullYear() + "\n" +
+                                   "Hora: " + date.getHours() + ":" + date.getMinutes());
+
   useEffect(() => {
     (async () => {
       const galleryStatus =
@@ -42,6 +49,22 @@ const Detalles = () => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     })();
   }, []);
+
+  const handlePicker = (datetime) => {
+    setShow(false);
+    setDate(datetime);
+    setText("Fecha: " + datetime.getDate() +"/"+ (datetime.getMonth()+1) +"/"+ datetime.getFullYear() + "\n" +
+            "Hora: " + datetime.getHours() + ":" + datetime.getMinutes());
+  };
+
+  const showPicker = () => {
+    setShow(true);
+    console.log("show");
+  };
+
+  const hidePicker = () => {
+    setShow(false);
+  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -82,8 +105,8 @@ const Detalles = () => {
     if (
       values.titulo.trim().length == 0 ||
       values.tipo.trim().length == 0 ||
-      values.max_participantes.trim().length == 0 ||
-      values.duracion.trim().length == 0 ||
+      values.max_participantes.length == 0 ||
+      values.duracion.length == 0 ||
       values.descripcion.trim().length == 0 ||
       values.imagen.trim().length == 0
     ) {
@@ -120,7 +143,7 @@ const Detalles = () => {
   };
 
   return (
-    <ScrollView className="p-5 pt-18">
+    <ScrollView className="p-5 pt-20">
       <Formik
         // Valores iniciales. Se hace uso de Green Peace como asociación por defecto hasta que se implemente el login.
         initialValues={{
@@ -137,7 +160,7 @@ const Detalles = () => {
           ubicacion: actividad.ubicacion,
         }}
         onSubmit={(values) => {
-          values.fecha = new Date();
+          values.fecha = date;
           
           if (correctData(values)) {
             values.duracion.length == 1 ? (values.duracion = values.duracion + 'h') : values.duracion;
@@ -157,17 +180,26 @@ const Detalles = () => {
             <View className="flex-row">
               <View className="mr-2 space-y-5">
                 <TextInput
-                  className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  className="text-xs text-[#000000] w-44 h-10 border border-[#6b7280] rounded-md p-2"
                   editable={false}
                   placeholder="Título"
                   onChangeText={props.handleChange("titulo")}
                   value={props.values.titulo}
                 />
-                <TextInput
+                <Dropdown 
                   className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  placeholderStyle={{fontSize: 12, color: "#6b7280"}}
+                  selectedTextStyle={{fontSize: 12}}
                   placeholder="Tipo"
-                  onChangeText={props.handleChange("tipo")}
+                  data={[
+                    { label: "Ambiental", value: "ambiental" },
+                    { label: "Comunitario", value: "comunitario" },
+                    { label: "Educación", value: "educación" },
+                  ]}
+                  labelField="label"
+                  valueField="value" 
                   value={props.values.tipo}
+                  onChange={(item) => props.setFieldValue("tipo", item.value)}
                 />
                 <View className="flex-row">
                   <TextInput
@@ -201,7 +233,21 @@ const Detalles = () => {
                 </TouchableOpacity>
               </View>
             </View>
-
+            <View className="flex-row space-x-4">
+              <TouchableOpacity onPress={() => {showPicker()}}>
+                <View className="w-44 h-14 border border-[#6b7280] rounded-md p-2 mt-5">
+                  <Text className="text-xs">{text}</Text>
+                </View>
+              </TouchableOpacity>
+            
+              <DateTimePicker
+                isVisible={show}
+                onConfirm={handlePicker}
+                onCancel={hidePicker}
+                mode="datetime"
+                is24Hour={true}
+                />
+            </View>
             <TextInput
               className="text-xs text-justify w-auto h-auto border border-[#6b7280] rounded-md p-2 mt-4 mb-64"
               multiline={true}
@@ -219,7 +265,7 @@ const Detalles = () => {
             <Button
               title="Cancelar"
               color="#00BFA5"
-              onPress={() => console.log("cancelar")}
+              onPress={() => console.log(props.values)}
             />
           </View>
         )}

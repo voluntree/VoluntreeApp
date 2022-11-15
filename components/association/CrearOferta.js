@@ -51,7 +51,6 @@ const CrearOferta = () => {
     setDate(datetime);
     setText("Fecha: " + datetime.getDate() +"/"+ (datetime.getMonth()+1) +"/"+ datetime.getFullYear() + "\n" +
             "Hora: " + datetime.getHours() + ":" + datetime.getMinutes());
-            return datetime;
   };
 
   const showPicker = () => {
@@ -62,6 +61,14 @@ const CrearOferta = () => {
   const hidePicker = () => {
     setShow(false);
   };
+
+  const Fecha = () => {
+    if (date == null) {
+      return <Text className="text-xs text-[#9c9c9c]">{text}</Text>;
+    } else {
+      return <Text className="text-xs">{text}</Text>
+    }
+  }
 
 
   const pickImage = async () => {
@@ -183,7 +190,9 @@ const CrearOferta = () => {
                   value={props.values.titulo}
                 />
                 <Dropdown 
-                  className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  className="w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  placeholderStyle={{fontSize: 12, color: "#6b7280"}}
+                  selectedTextStyle={{fontSize: 12}}
                   placeholder="Tipo"
                   data={[
                     { label: "Ambiental", value: "ambiental" },
@@ -240,7 +249,7 @@ const CrearOferta = () => {
             <View className="flex-row space-x-4">
               <TouchableOpacity onPress={() => {showPicker()}}>
                 <View className="w-44 h-14 border border-[#6b7280] rounded-md p-2 mt-5">
-                  <Text className="text-xs text-[#979797]">{text}</Text>
+                  <Fecha />
                 </View>
               </TouchableOpacity>
             
