@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "../screens/login/Login";
 import LoginScreen from "../screens/login/LoginScreen";
-import {TabNavigator} from "./TabNavigator";
+import {TabNavigator} from "./user/TabNavigator";
 import AssociationTab from "./association/AssociationTab";
 import Detalles from "../components/association/Detalles";
 import HomeAssociation from "../screens/association/HomeAssociation";
@@ -18,8 +18,8 @@ import QRGenerator from './../screens/association/QRGenerator';
 const { Navigator, Screen } = createNativeStackNavigator();
 
 const AppNavigator = () => (
-    <Navigator screenOptions={{headerShown: false}} initialRouteName="AssociationHome">
-        <Screen name = 'Login' component ={Login}></Screen>
+    <Navigator screenOptions={{headerShown: false}} initialRouteName="Login">
+        <Screen name ='Login' component ={Login}></Screen>
         <Screen name='LoginScreen' component={LoginScreen}></Screen>
         <Screen name='UserHome' component={TabNavigator}></Screen>
         <Screen name='AssociationHome' component={AssociationTab}></Screen>

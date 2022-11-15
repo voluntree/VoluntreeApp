@@ -16,7 +16,7 @@ import { theme } from "../../tailwind.config";
 import { TabView } from "react-native-tab-view";
 import ProfileTabScreenStack from "../ProfileTabScreenStack";
 import NewsTabScreenStack from "../NewsTabScreenStack";
-import UserProfileTab from "../../components/UserProfileTab";
+import UserProfileTab from "../../components/user/UserProfileTab";
 import { auth, db } from "../../utils/firebase";
 import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
 

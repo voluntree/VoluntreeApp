@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, Animated} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/user/HomeScreen';
-import { theme } from '../tailwind.config';
-import HomeTabScreenStack from './../screens/HomeTabScreenStack';
-import ProfileTabScreenStack from './../screens/ProfileTabScreenStack';
-import NewsTabScreenStack from './../screens/NewsTabScreenStack';
-import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon} from '../icons/Icons'
+import HomeScreen from '../../screens/user/HomeScreen';
+import { theme } from '../../tailwind.config';
+import HomeTabScreenStack from '../../screens/HomeTabScreenStack';
+import ProfileTabScreenStack from '../../screens/ProfileTabScreenStack';
+import NewsTabScreenStack from '../../screens/NewsTabScreenStack';
+import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon} from '../../icons/Icons'
 
 
 const Tab = createBottomTabNavigator()

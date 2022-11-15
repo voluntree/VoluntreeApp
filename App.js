@@ -4,8 +4,7 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import FixedHeader from "./components/FixedHeader";
-import { TabNavigator } from "./components/TabNavigator";
+import FixedHeader from "./components/user/FixedHeader";
 import AppNavigator from "./components/AppNavigator";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
@@ -16,7 +15,6 @@ export default function App() {
     <SafeAreaProvider>
       <NavigationContainer>
         <TailwindProvider>
-          {/*<TabNavigator/> */}
           <AppNavigator />
         </TailwindProvider>
       </NavigationContainer>

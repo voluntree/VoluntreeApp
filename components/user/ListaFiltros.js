@@ -7,32 +7,32 @@ const ListaFiltros = (props) => {
   const data = [
     {
       id: 1,
-      imagen: require("../images/iconoLibros.jpg"),
+      imagen: require("../../images/iconoLibros.jpg"),
       texto: "Educación",
     },
     {
       id: 2,
-      imagen: require("../images/iconoBotellaPlaya.jpg"),
+      imagen: require("../../images/iconoBotellaPlaya.jpg"),
       texto: "Costas",
     },
     {
       id: 3,
-      imagen: require("../images/cultural.jpg"),
+      imagen: require("../../images/cultural.jpg"),
       texto: "Cultural",
     },
     {
       id: 4,
-      imagen: require("../images/deportes.jpg"),
+      imagen: require("../../images/deportes.jpg"),
       texto: "Deportivo",
     },
     {
       id: 5,
-      imagen: require("../images/comunitario.jpg"),
+      imagen: require("../../images/comunitario.jpg"),
       texto: "Comunitario",
     },
     {
       id: 6,
-      imagen: require("../images/arboles.jpg"),
+      imagen: require("../../images/arboles.jpg"),
       texto: "Ambiental",
     },
   ];

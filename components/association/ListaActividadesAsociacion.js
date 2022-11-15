@@ -10,10 +10,10 @@ import {
 } from "firebase/firestore";
 
 import ActividadAsociacion from "./ActividadAsociacion";
-import { db, storage } from "../utils/firebase";
+import { db, storage } from "../../utils/firebase";
 import { View, Text, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getActivityById } from "../service/service";
+import { getActivityById } from "../../service/service";
 
 const ListaActividadesAsociacion = () => {
   const [actividades, setActividades] = useState([]);

@@ -1,6 +1,6 @@
 import { Header, Icon } from "react-native-elements";
 import { TouchableOpacity, View } from "react-native";
-import {theme} from "../tailwind.config"
+import { theme } from "../../tailwind.config";
 
 const FixedHeader = () => {
   return (

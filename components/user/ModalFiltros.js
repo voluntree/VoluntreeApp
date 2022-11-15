@@ -2,12 +2,12 @@ import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { TailwindProvider } from 'tailwindcss-react-native'
 import { Button, Icon } from 'react-native-elements'
-import { theme } from "../tailwind.config";
+import { theme } from "../../tailwind.config";
 import Slider from '@react-native-community/slider';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import ListaFiltros from './ListaFiltros';
 import { Dropdown } from 'react-native-element-dropdown';
-import {FAIcon, FDIcon, AZIcon, ZAIcon } from '../icons/Icons';
+import {FAIcon, FDIcon, AZIcon, ZAIcon } from '../../icons/Icons';
 
 
 const ModalFiltros = (props) => {

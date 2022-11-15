@@ -11,7 +11,7 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
 import ListaDeTarjetas from "../../components/ListaDeTarjetas";
-import Buscador from "../../components/Buscador";
+import Buscador from "../../components/user/Buscador";
 import { collection, query,onSnapshot} from "firebase/firestore";
 import { db, auth } from "../../utils/firebase";
 

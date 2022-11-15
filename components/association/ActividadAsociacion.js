@@ -2,9 +2,9 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
 import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../utils/firebase";
-import { theme } from "../tailwind.config";
-import { deleteActivity, getActivityById } from "../service/service";
+import { storage } from "../../utils/firebase";
+import { theme } from "../../tailwind.config";
+import { deleteActivity, getActivityById } from "../../service/service";
 import { useNavigation } from "@react-navigation/native";
 
 const ActividadAsociacion = (props) => {

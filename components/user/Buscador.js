@@ -3,8 +3,8 @@ import { collection, query, where, getDocs, doc, onSnapshot, firestore} from "fi
 import {ref, getDownloadURL} from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
-import { theme } from "../tailwind.config";
-import { db } from "../utils/firebase";
+import { theme } from "../../tailwind.config";
+import { db } from "../../utils/firebase";
 import ModalFiltros from "./ModalFiltros";
 
 const Buscador = (props) => {    

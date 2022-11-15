@@ -1,8 +1,8 @@
 import { FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from "../utils/firebase";
-import TarjetaParticipante from './TarjetaParticipante';
+import { db } from "../../utils/firebase";
+import TarjetaParticipante from '../TarjetaParticipante';
 
 const ListaParticipantes = (props) => {
   const [participantes, setParticipantes] = useState([])

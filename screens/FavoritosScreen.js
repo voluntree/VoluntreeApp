@@ -10,7 +10,7 @@ import React, { useLayoutEffect, useState} from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
-import Buscador from "../components/Buscador";
+import Buscador from "../components/user/Buscador";
 import ListaDeTarjetas from "../components/ListaDeTarjetas";
 import { collection, query, where, onSnapshot} from "firebase/firestore";
 import { db } from "../utils/firebase";
