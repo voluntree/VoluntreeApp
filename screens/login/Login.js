@@ -20,7 +20,15 @@ import {
 } from "firebase/auth";
 import { app, auth } from "../../utils/firebase";
 
-import { where } from "firebase/firestore";
+import {
+  doc,
+  getDocs,
+  collection,
+  where,
+  query,
+  getDoc,
+} from "firebase/firestore";
+
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -33,6 +41,8 @@ const Login = () => {
   const[statusAsoc, setStatusAsoc] = useState("unchecked")
   const[statusVoluntario, setStatusVoluntario] = useState("unchecked")
 
+  const[usuario, setUsuario] = useState();
+
   const Stack = createNativeStackNavigator();
 
   const navigation = useNavigation();
@@ -42,13 +52,19 @@ const Login = () => {
     .then((userCredential) => {
       console.log("signed in!")
       const user = userCredential.user;
-      if(statusVoluntario === "checked"){
-        
-        navigation.navigate("UserHome")
-      }else if(statusAsoc === "checked"){
-        navigation.navigate("AssociationHome")
-      }else alert("Selecciona el tipo de usuario que eres")
-        
+      const q = query(
+        collection(db, "voluntarios"),
+        where("correo", "==", email)
+      );
+      const data = getDocs(q).then(querySnapshot => {
+        if(!querySnapshot.empty){
+          navigation.navigate("UserHome")
+        }
+        else{
+          navigation.navigate("AssociationHome")
+        }
+      })
+      
     })
     .catch(error => {
       console.log(error);
@@ -56,12 +72,12 @@ const Login = () => {
   }
 
   return (
-    <SafeAreaView className="bg-[#fff] h-full">
+    <SafeAreaView className="bg-[#fff] h-full mb-20">
       <KeyboardAvoidingView behavior="position">
         <View className="">
           <Text className="tracking-wide text-base mt-5 pl-5">VOLUNTREE</Text>
           <Image
-            className="w-full h-64"
+            className="w-full h-80"
             source={require("../../images/LoginImagen.jpg")}
           ></Image>
         </View>
@@ -100,19 +116,6 @@ const Login = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-      <View className = "flex-row items-center justify center space-x-2 mx-8 mb-6">
-        <Checkbox.Item
-          label="Asociacion"
-          status= {statusAsoc}
-          onPress={() => {setTipoUser("asociacion"); setStatusAsoc("checked"); setStatusVoluntario("unchecked")}}
-          mode = 'android'
-        />
-        <Checkbox.Item
-          label="Voluntario"
-          status={statusVoluntario}
-          onPress={() => {setTipoUser("voluntario"); setStatusVoluntario("checked"); setStatusAsoc("unchecked");}}
-        />
-      </View>
       <TouchableOpacity className="mx-8" onPress={handleSignIn}>
         <View className="bg-[#80a8ff] w-full rounded-full h-12 mb-4 items-center justify-center">
           <Text className="font-semibold text-base tracking-wide text-[#fff]">
@@ -120,16 +123,18 @@ const Login = () => {
           </Text>
         </View>
       </TouchableOpacity>
-      <TouchableOpacity
-        className="mx-16"
-        onPress={() => navigation.navigate("Registro")}
-      >
-        <View className="bg-[#80a8ff] h-12 w-full rounded-2xl items-center justify-center">
-          <Text className="font-semibold text-base tracking-wide text-[#fff]">
-            Hazte voluntario!
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          className="mx-16"
+          onPress={() => navigation.navigate("Registro")}
+        >
+          <View className="bg-[#80a8ff] w-full rounded-full h-12 items-center justify-center">
+            <Text className="font-semibold text-base tracking-wide text-[#fff]">
+              Hazte voluntario!
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
