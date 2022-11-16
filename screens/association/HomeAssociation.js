@@ -16,6 +16,11 @@ const HomeAssociation = () => {
 
     return (
         <SafeAreaView>
+            <View className = "p-4">
+                <Text className = "font-bold text-2xl">
+                    Mis Actividades
+                </Text>
+            </View>
             <ListaActividadesAsociacion/>
         </SafeAreaView>
     )

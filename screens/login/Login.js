@@ -7,9 +7,9 @@ import {
   KeyboardEvent,
   KeyboardAvoidingView,
   Alert,
-  
+  ActivityIndicator,
 } from "react-native";
-import { TextInput, Checkbox} from "react-native-paper";
+import { TextInput, Checkbox, Modal } from "react-native-paper";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
@@ -18,7 +18,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import { app, auth } from "../../utils/firebase";
+import { app, auth, db } from "../../utils/firebase";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import {
   doc,
@@ -31,48 +32,77 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { useEffect } from "react";
 
 const Login = () => {
+
+  useEffect(() => {
+    setEmail(""),
+    setPassword("")
+    setSpinner(false)
+  },[])
+
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [tipoUser, setTipoUser] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const[statusAsoc, setStatusAsoc] = useState("unchecked")
-  const[statusVoluntario, setStatusVoluntario] = useState("unchecked")
+  const [statusAsoc, setStatusAsoc] = useState("unchecked");
+  const [statusVoluntario, setStatusVoluntario] = useState("unchecked");
 
-  const[usuario, setUsuario] = useState();
+  function actualizarEmail(value){
+    setEmail(value.trim())
+  }
+  function actualizarContraseña(value) {
+    setPassword(value);
+  }
+
+  const [usuario, setUsuario] = useState();
+  const [spinner, setSpinner] = useState(false);
 
   const Stack = createNativeStackNavigator();
 
   const navigation = useNavigation();
 
-  const handleSignIn = () =>{
+  const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log("signed in!")
-      const user = userCredential.user;
-      const q = query(
-        collection(db, "voluntarios"),
-        where("correo", "==", email)
-      );
-      const data = getDocs(q).then(querySnapshot => {
-        if(!querySnapshot.empty){
-          navigation.navigate("UserHome")
-        }
-        else{
-          navigation.navigate("AssociationHome")
-        }
+      .then((userCredential) => {
+        setSpinner(true);
+        const user = userCredential.user;
+        const q = query(
+          collection(db, "voluntarios"),
+          where("correo", "==", email)
+        );
+        const data = getDocs(q).then((querySnapshot) => {
+          console.log(querySnapshot);
+          if (!querySnapshot.empty) {
+            setSpinner(false);
+            navigation.navigate("UserHome");
+          } else {
+            navigation.navigate("AssociationHome");
+          }
+        });
       })
-      
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+      .catch((error) => {
+        setSpinner(false);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        switch (errorCode) {
+          case "auth/invalid-email":
+            Alert.alert("Correo inválido");
+            break;
+
+          case "auth/wrong-password":
+            Alert.alert("Contraseña Incorrecta");
+            break;
+
+          default:
+            Alert.alert(errorCode);
+        }
+      });
+  };
 
   return (
-    <SafeAreaView className="bg-[#fff] h-full mb-20">
+    <SafeAreaView className="bg-[#fff] h-full">
       <KeyboardAvoidingView behavior="position">
         <View className="">
           <Text className="tracking-wide text-base mt-5 pl-5">VOLUNTREE</Text>
@@ -85,7 +115,9 @@ const Login = () => {
           <Text className="ml-8 font-bold text-2xl">LOGIN</Text>
           <View className="mx-8">
             <TextInput
-              onChangeText={(text) => setEmail(text)}
+              autoCapitalize="none"
+              onChangeText={(value) => actualizarEmail(value)}
+              value={email}
               left={<TextInput.Icon name="account" />}
               underlineColor="blue"
               label="Email"
@@ -96,6 +128,7 @@ const Login = () => {
           </View>
           <View className="mx-8">
             <TextInput
+              autoCapitalize="none"
               secureTextEntry={secureTextEntry}
               right={
                 <TextInput.Icon
@@ -105,7 +138,8 @@ const Login = () => {
                   }}
                 />
               }
-              onChangeText={(text) => setPassword(text)}
+              onChangeText={(text) => actualizarContraseña(text)}
+              value={password}
               left={<TextInput.Icon name="lock" />}
               underlineColor="blue"
               label="Contraseña"
@@ -135,6 +169,24 @@ const Login = () => {
           </View>
         </TouchableOpacity>
       </View>
+      {spinner ? (
+        <View className="h-full w-full absolute items-center justify-center bg-[#27272a] opacity-70">
+          <ActivityIndicator
+            className=""
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            color="#0000ff"
+            size="large"
+          />
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 };

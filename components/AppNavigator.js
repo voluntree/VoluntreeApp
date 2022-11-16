@@ -14,6 +14,7 @@ import UserRegister from './../screens/register/UserRegister';
 import AssociationRegister from './../screens/register/AssociationRegister';
 import QRScanner from './../screens/user/QRScanner';
 import QRGenerator from './../screens/association/QRGenerator';
+import Registro from "../screens/register/Registro";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -27,7 +28,7 @@ const AppNavigator = () => (
         <Screen name='AssociationActivityDetails' component={AssociationActivityDetails}></Screen>
         <Screen name='ParticipantsList' component={ParticipantsList}></Screen>
         <Screen name='Actividad' component={ActivityScreen}/>
-        <Screen name='Registro' component={AssociationRegister}/>
+        <Screen name='Registro' component={Registro}/>
         <Screen name='QRscanner' component={QRScanner}/>
         <Screen name='QRgenerator' component={QRGenerator}/>
     </Navigator>   

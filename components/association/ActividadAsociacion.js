@@ -34,7 +34,7 @@ const ActividadAsociacion = (props) => {
     <TouchableOpacity className="px-4 py-1.5" onPress={openActivityDetails}>
       <View className="relative shadow-2xl rounded-xl overflow-hidden">
         <Image className="h-32 w-full" source={{ uri: uri }} />
-        <View className="h-32 w-full absolute bg-[#27272a] opacity-60"></View>
+        <View className="h-32 w-full absolute bg-[#27272a] opacity-30"></View>
 
         <View className="absolute w-full">
           <Text className="text-2xl mt-1 text-center font-bold text-[#fffff1]">
