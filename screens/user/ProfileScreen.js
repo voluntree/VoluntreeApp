@@ -7,23 +7,25 @@ import {
 } from "react-native";
 
 import React, { useLayoutEffect, useState, useEffect } from "react";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
-import * as Progress from "react-native-progress";
 import { Icon } from "react-native-elements";
 import { theme } from "../../tailwind.config";
-import { TabView } from "react-native-tab-view";
-import ProfileTabScreenStack from "../ProfileTabScreenStack";
-import NewsTabScreenStack from "../NewsTabScreenStack";
 import UserProfileTab from "../../components/user/UserProfileTab";
 import { auth, db } from "../../utils/firebase";
 import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
+import ModalPerfil from "../../components/user/ModalPerfil";
+import { Image } from "react-native-elements";
+import { getImageDownloadURL } from "../../service/service";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const user = auth.currentUser;
   const [usuario, setUsuario] = useState([]);
+  const [profilefoto, setProfilefoto] = useState();
+
+  const[isModalOpen, setIsModalOpen] = useState(false)
   const q = query(collection(db, "voluntarios"), where("correo", "==", user.email));
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -31,19 +33,30 @@ const ProfileScreen = () => {
     });
   }, []);
 
+  async function getProfileImage(data) {
+    setProfilefoto(
+      await getImageDownloadURL(
+        `gs://voluntreepin.appspot.com/${data.nombre.toLowerCase()}/logo.jpg`
+      )
+    );
+
+  }
+
   useEffect(() => {
     const getUser = () => {
       const q = query(collection(db, "voluntarios"), where("correo", "==", user.email))
-      const data = getDocs(q).then(querySnapshot => {
+      const data = getDocs(q).then(async querySnapshot => {
         if(!querySnapshot.empty){
           const snapshot = querySnapshot.docs[0]
           const docRef = snapshot.ref
-          getDoc(docRef).then((value) => setUsuario(value.data()))
+          var data = await getDoc(docRef)
+          setUsuario(data.data())
+          getProfileImage(data.data())
         }
       })
-      
     }
     getUser()
+    
   }, [])
   
   
@@ -54,23 +67,26 @@ const ProfileScreen = () => {
         {/* Contenedor principal*/}
         <View className="flex-row w-full max-w-full bg-blanco p-2 space-x-2 items-center">
           {/* Avatar*/}
-          <View className="w-20 h-20 rounded-full bg-bottomTabs" />
+          <Image
+                className="h-20 w-20 rounded-full"
+                source={{ uri: profilefoto }}
+              />
           {/* Contenedor Info Usuario*/}
           <View className="flex flex-grow space-y-2">
             {/* Contenedor Nombre, Nivel, Experiencia*/}
             <View className="flex-row justify-between">
               {/* Nombre */}
-              <View className="justify-center max-w-[120px]">
-                <Text className="text-base">{usuario.nombre}</Text>
+              <View className="justify-center">
+                <Text className="text-lg font-bold">{usuario.nombre}  {usuario.apellidos}</Text>
               </View>
-              {/* Nivel */}
+              {/* Nivel 
               <View className="flex justify-center items-center">
                 <Text>Nivel</Text>
                 <View className="bg-bottomTabs w-[30px] h-[30px] justify-center items-center rounded-full">
                   <Text>99</Text>
                 </View>
-              </View>
-              {/* Experiencia */}
+              </View>*/}
+              {/* Experiencia
               <View className="flex w-28 justify-center items-center">
                 <Text>Experiencia</Text>
                 <Text className="text-right w-full text-xs">
@@ -88,7 +104,7 @@ const ProfileScreen = () => {
                   color={theme.colors.focusBottomTabs}
                   height={10}
                 />
-              </View>
+              </View>*/}
             </View>
             {/* Contenedor Editar Perfil y Siguiendo */}
             <View className="flex-row space-x-2">
@@ -100,22 +116,38 @@ const ProfileScreen = () => {
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
                 <Text>Siguiendo</Text>
               </View>
+              {/*Botón Opciones*/}
+              <TouchableOpacity className = "flex-grow" onPress={() => setIsModalOpen(!isModalOpen)}>
+                <View className=" bg-bottomTabs h-8 rounded-lg justify-center items-center">
+                  <Icon 
+                    name="triangle-down"
+                    type="octicon"
+                    color={theme.colors.blanco}
+                    size={24}
+                    onPress={() => setIsModalOpen(!isModalOpen)}/>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View className="flex w-full max-w-full bg-blanco p-2">
-          <Text className="font-bold">{usuario.nombre} {usuario.apellidos}</Text>
+        <View className="flex w-full bg-blanco p-2">
           {
               usuario.descripcion != null && usuario.descripcion != undefined ?
                 (<Text className="">usuario.descripcion</Text>)
               :
                 (<Text className="">Sin descripción</Text>)
               
-          }  
+          } 
         </View>
-        <View className = "w-full h-[75%]">
+        <View style = {{ width: "100%", height: "100%", paddingBottom: "30%"}}>
           <UserProfileTab />
         </View>
+        <ModalPerfil 
+          isModalOpen = {isModalOpen}
+          setIsModalOpen = {setIsModalOpen}
+        >
+
+        </ModalPerfil>
       </SafeAreaView>
     </TailwindProvider>
   );
