@@ -133,7 +133,7 @@ const ProfileScreen = () => {
         <View className="flex w-full bg-blanco p-2">
           {
               usuario.descripcion != null && usuario.descripcion != undefined ?
-                (<Text className="">usuario.descripcion</Text>)
+                (<Text className="">{usuario.descripcion}</Text>)
               :
                 (<Text className="">Sin descripción</Text>)
               
