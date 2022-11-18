@@ -35,12 +35,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect } from "react";
 
 const Login = () => {
-
   useEffect(() => {
-    setEmail(""),
-    setPassword("")
-    setSpinner(false)
-  },[])
+    setEmail(""), setPassword("");
+    setSpinner(false);
+  }, []);
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [tipoUser, setTipoUser] = useState("");
@@ -49,8 +47,8 @@ const Login = () => {
   const [statusAsoc, setStatusAsoc] = useState("unchecked");
   const [statusVoluntario, setStatusVoluntario] = useState("unchecked");
 
-  function actualizarEmail(value){
-    setEmail(value.trim())
+  function actualizarEmail(value) {
+    setEmail(value.trim());
   }
   function actualizarContraseña(value) {
     setPassword(value);
@@ -159,12 +157,12 @@ const Login = () => {
       </TouchableOpacity>
       <View>
         <TouchableOpacity
-          className="mx-16"
+          className="mx-8"
           onPress={() => navigation.navigate("Registro")}
         >
           <View className="bg-[#80a8ff] w-full rounded-full h-12 items-center justify-center">
             <Text className="font-semibold text-base tracking-wide text-[#fff]">
-              Hazte voluntario!
+              Registrarse
             </Text>
           </View>
         </TouchableOpacity>
