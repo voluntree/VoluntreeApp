@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -59,7 +60,29 @@ const ProfileScreen = () => {
     
   }, [])
   
-  
+  const onCerrarSesion = () => {
+    Alert.alert(
+      'Cerrar Sesión',
+      'Se cerrara la sesión\n¿Seguro que quieres cerrar sesión?',
+      [
+        {text: 'Sí', onPress: () =>  navigation.navigate('Login')},
+        {text: 'Cancelar', onPress: () =>{}},
+      ],
+      {cancelable: false},
+    );
+  }
+
+  const onBorrarCuenta = () => {
+    Alert.alert(
+      'Borrar Cuenta',
+      'Se borrará la cuenta\n¿Seguro que quieres borra la cuenta?\nEsta acción no se puede deshacer',
+      [
+        {text: 'Sí', onPress: () =>  navigation.navigate('Login')},
+        {text: 'Cancelar', onPress: () =>{}},
+      ],
+      {cancelable: false},
+    );
+  }
   
   return (
     <TailwindProvider>
@@ -145,6 +168,8 @@ const ProfileScreen = () => {
         <ModalPerfil 
           isModalOpen = {isModalOpen}
           setIsModalOpen = {setIsModalOpen}
+          onCerrarSesion = {onCerrarSesion}
+          onBorrarCuenta = {onBorrarCuenta}
         >
 
         </ModalPerfil>

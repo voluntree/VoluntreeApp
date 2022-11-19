@@ -55,13 +55,13 @@ const ModalPerfil = (props) => {
               </View>
               
             </View>
-            <TouchableOpacity className = "mb-1">
+            <TouchableOpacity className = "mb-1" onPress={props.onCerrarSesion}>
               <View className = "h-8 bg-[#F0F0F0] justify-center items-center">
                 <Text className = "font-bold">Cerrar Sesión</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity>
-              <View className = "h-8 bg-[#F0F0F0] justify-center items-center">
+              <View className = "h-8 bg-[#F0F0F0] justify-center items-center" onPress={props.onBorrarCuenta}>
                 <Text className = "font-bold color-[#ff0000]">Borrar Cuenta</Text>
               </View>
             </TouchableOpacity>
