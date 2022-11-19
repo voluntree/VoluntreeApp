@@ -10,6 +10,7 @@ import {
   Image,
   Alert,
   Platform,
+  FlatList,
 } from "react-native";
 import { Formik } from "formik";
 import { launchImageLibrary } from "react-native-image-picker";
@@ -18,6 +19,8 @@ import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import MapView from "react-native-maps";
+import { Marker } from "react-native-maps";
 
 import {
   createActivity,
@@ -38,6 +41,17 @@ const CrearOferta = () => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("Fecha: DD/MM/AAAA\nHora: HH:MM");
 
+  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
+  const base_url = "https://eu1.locationiq.com";
+  const [region, setRegion] = useState({
+    latitude: 41.3851,
+    longitude: 2.1734,
+    latitudeDelta: 0.006,
+    longitudeDelta: 0.00021,
+  });
+  const [ubicacion, setUbicacion] = useState();
+  const [resultados, setResultados] = useState([]);
+
   useEffect(() => {
     async () => {
       const galleryStatus =
@@ -45,6 +59,14 @@ const CrearOferta = () => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
   }, []);
+
+  const SearchAddress = async () => {
+    let response = await fetch(
+      `${base_url}/v1/search?key=${api_key}&q=${ubicacion}&format=json&accept-language=es&limit=4`
+    );
+    let data = await response.json();
+    setResultados(data);
+  }
 
   const handlePicker = (datetime) => {
     setShow(false);
@@ -270,6 +292,41 @@ const CrearOferta = () => {
               value={props.values.descripcion}
               style={{ textAlignVertical: "top" }}
             />
+            <View>
+              <View className="flex-row space-x-4">
+                <TextInput 
+                  className="text-xs w-64 h-10 border border-[#6b7280] rounded-md p-2 mt-4"
+                  placeholder="Ubicación de la actividad"
+                  onChangeText={(ubi) => setUbicacion(ubi)}
+                />
+                <TouchableOpacity
+                  className="w-20 h-10 border border-[#6b7280] justify-center rounded-md p-2 mt-4"
+                  onPress={SearchAddress}>
+                  <Text>Buscar</Text>
+                </TouchableOpacity>
+              </View>
+              {/* <FlatList
+                scrollEnabled={false}
+                className="h-100 scroll-pb-28"
+                data={resultados}
+                keyExtractor={(item) => item.place_id}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity 
+                    onPress={
+                      setRegion({
+                        latitude: item.lat,
+                        longitude: item.lon,
+                        latitudeDelta: 0.006,
+                        longitudeDelta: 0.00021,
+                      })
+                    }>
+                    <Text>{item.display_name}</Text>
+                  </TouchableOpacity>
+                )}/> */}
+              <MapView className="w-100 h-44 pb-5" initialRegion={region}>
+                <Marker coordinate={region} />
+              </MapView>
+            </View>
             <View className="w-100 h-20 py-2">
               <Button
                 title="Crear"

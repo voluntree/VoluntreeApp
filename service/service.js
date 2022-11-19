@@ -409,6 +409,18 @@ export async function confirmAssistenceViaCode(userID, activityID, codeValue) {
     );
 }
 
+export async function updateProfile(user) {
+  try {
+    const userRef = doc(db, "voluntarios", user.nombre);
+    await updateDoc(userRef, user);
+    console.log("El usuario " + user.nombre + " ha actualizado su perfil");
+    Alert.alert("Éxito", "Perfil actualizado correctamente");
+  } catch (e) {
+    Alert.alert("Error", "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde");
+    console.error(e);
+  }
+}
+
 //#endregion
 
 //miscelanea

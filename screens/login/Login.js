@@ -97,7 +97,8 @@ const Login = () => {
             Alert.alert("Advertencia","Correo electrónico no registrado")
 
           default:
-            Alert.alert(errorCode);
+            // Alert.alert(errorCode);
+            Alert.alert("Advertencia", "Error al iniciar sesión");
         }
       });
   };
