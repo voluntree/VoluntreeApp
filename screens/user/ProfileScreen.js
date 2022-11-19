@@ -133,7 +133,9 @@ const ProfileScreen = () => {
             <View className="flex-row space-x-2">
               {/* Botón Editar Perfil*/}
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
-                <Text>Editar Perfil</Text>
+                <TouchableOpacity onPress={() => {console.log('Editar perfil')}}>
+                  <Text>Editar Perfil</Text>
+                </TouchableOpacity>
               </View>
               {/*Botón Siguiendo*/}
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
@@ -171,7 +173,6 @@ const ProfileScreen = () => {
           onCerrarSesion = {onCerrarSesion}
           onBorrarCuenta = {onBorrarCuenta}
         >
-
         </ModalPerfil>
       </SafeAreaView>
     </TailwindProvider>
