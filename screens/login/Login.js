@@ -86,12 +86,15 @@ const Login = () => {
         const errorMessage = error.message;
         switch (errorCode) {
           case "auth/invalid-email":
-            Alert.alert("Correo inválido");
+            Alert.alert("Advertencia", "Correo inválido");
             break;
 
           case "auth/wrong-password":
-            Alert.alert("Contraseña Incorrecta");
+            Alert.alert("Advertencia", "Contraseña Incorrecta");
             break;
+
+          case "auth/user-not-found":
+            Alert.alert("Advertencia","Correo electrónico no registrado")
 
           default:
             Alert.alert(errorCode);
