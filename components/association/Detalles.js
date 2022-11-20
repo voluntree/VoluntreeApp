@@ -22,12 +22,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import { firebase } from "../../utils/firebase";
 import { storage, uploadBytes } from "../../utils/firebase";
 
-import {
-  getActivityById,
-  pickImage,
-  storeImage,
-  updateActivity,
-} from "../../service/service";
+import { updateActivity } from "../../service/service";
 
 const Detalles = () => {
   const route = useRoute();

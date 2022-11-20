@@ -85,10 +85,11 @@ const UserRegister = () => {
           correo: email,
           dni: dni,
           apellidos: apellidos,
-          fotoPerfil: "profileImages/asociaciones/default.jpg",
+          fotoPerfil: "default.png",
           telefono: telefono,
           actividades: [],
           fechaDeNacimiento: "",
+          descripcion: "",
           puntos: 0,
           siguiendo: [],
         }).then(() => {

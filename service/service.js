@@ -345,6 +345,27 @@ export async function publishArticle(articulo) {
 
 //#region Voluntarios
 
+export async function getVoluntarioByID(id) {
+  try {
+    const docRef = doc(db, "voluntarios", id);
+    const vol = await getDoc(docRef);
+    if (vol.exists()) {
+      return vol.data();
+    } else {
+      Alert.alert(
+        "Error",
+        "El perfil de este voluntario no se encuentra disponible."
+      );
+      return null;
+    }
+  } catch (e) {
+    Alert.alert(
+      "Error",
+      "Ha ocurrido un error al cargar el perfil de este voluntario."
+    );
+  }
+}
+
 export async function getPoints(user, activity) {
   const userRef = doc(db, "voluntarios", user.nombre);
   const activityRef = doc(db, "actividades", activity.titulo);
@@ -409,9 +430,9 @@ export async function confirmAssistenceViaCode(userID, activityID, codeValue) {
     );
 }
 
-export async function updateProfile(user) {
+export async function updateProfile(user, userID) {
   try {
-    const userRef = doc(db, "voluntarios", user.nombre);
+    const userRef = doc(db, "voluntarios", userID);
     await updateDoc(userRef, user);
     console.log("El usuario " + user.nombre + " ha actualizado su perfil");
     Alert.alert("Éxito", "Perfil actualizado correctamente");

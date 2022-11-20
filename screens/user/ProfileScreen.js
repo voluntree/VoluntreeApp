@@ -18,46 +18,37 @@ import { auth, db } from "../../utils/firebase";
 import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { getImageDownloadURL } from "../../service/service";
+import { getImageDownloadURL, getVoluntarioByID } from "../../service/service";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../../utils/firebase";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const user = auth.currentUser;
   const [usuario, setUsuario] = useState([]);
   const [profilefoto, setProfilefoto] = useState();
+  const reference = ref(
+    storage,
+    "gs://voluntreepin.appspot.com/profileImages/voluntarios/" + usuario.fotoPerfil
+  )
 
   const[isModalOpen, setIsModalOpen] = useState(false)
   const q = query(collection(db, "voluntarios"), where("correo", "==", user.email));
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
 
-  async function getProfileImage(data) {
-    setProfilefoto(
-      await getImageDownloadURL(
-        `gs://voluntreepin.appspot.com/${data.nombre.toLowerCase()}/logo.jpg`
-      )
-    );
-
-  }
+  getDownloadURL(reference).then((path) => {
+    setProfilefoto(path);
+  });
 
   useEffect(() => {
-    const getUser = () => {
-      const q = query(collection(db, "voluntarios"), where("correo", "==", user.email))
-      const data = getDocs(q).then(async querySnapshot => {
-        if(!querySnapshot.empty){
-          const snapshot = querySnapshot.docs[0]
-          const docRef = snapshot.ref
-          var data = await getDoc(docRef)
-          setUsuario(data.data())
-          getProfileImage(data.data())
-        }
-      })
-    }
-    getUser()
-    
+    getVoluntarioByID(user.uid).then((data) => {
+      setUsuario(data);
+    });
   }, [])
   
   const onCerrarSesion = () => {
@@ -133,13 +124,15 @@ const ProfileScreen = () => {
             <View className="flex-row space-x-2">
               {/* Botón Editar Perfil*/}
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
-                <TouchableOpacity onPress={() => {console.log('Editar perfil')}}>
+                <TouchableOpacity onPress={() => navigation.push("EditProfile", { voluntario: usuario, userID: user.uid, foto: profilefoto })}>
                   <Text>Editar Perfil</Text>
                 </TouchableOpacity>
               </View>
               {/*Botón Siguiendo*/}
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
-                <Text>Siguiendo</Text>
+                <TouchableOpacity onPress={() => console.log(user)}>
+                  <Text>Siguiendo</Text>
+                </TouchableOpacity>
               </View>
               {/*Botón Opciones*/}
               <TouchableOpacity className = "flex-grow" onPress={() => setIsModalOpen(!isModalOpen)}>
