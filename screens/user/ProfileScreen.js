@@ -127,7 +127,7 @@ const ProfileScreen = () => {
               </View>
               {/*Botón Siguiendo*/}
               <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
-                <TouchableOpacity onPress={() => console.log(user)}>
+                <TouchableOpacity onPress={() => navigation.push("Following",{ voluntario: usuario})}>
                   <Text>Siguiendo</Text>
                 </TouchableOpacity>
               </View>

@@ -5,6 +5,7 @@ import ActivityScreen from './user/ActivityScreen';
 import ProfileScreen from "./user/ProfileScreen";
 import FavoritosScreen from "./FavoritosScreen";
 import EditProfile from "./user/EditProfile";
+import FollowingScreen from "./user/FollowingScreen";
 
 const ProfileTabScreenStack = () => {
   const ProfileTabStack = createNativeStackNavigator();
@@ -15,6 +16,7 @@ const ProfileTabScreenStack = () => {
       <ProfileTabStack.Screen name="Favoritos" component={FavoritosScreen} />
       <ProfileTabStack.Screen name="Actividad" component={ActivityScreen} />
       <ProfileTabStack.Screen name='EditProfile' component={EditProfile}/>
+      <ProfileTabStack.Screen name='Following' component={FollowingScreen}/>
     </ProfileTabStack.Navigator>
   );
 };
