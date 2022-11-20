@@ -27,11 +27,6 @@ const ProfileScreen = () => {
   const user = auth.currentUser;
   const [usuario, setUsuario] = useState([]);
   const [profilefoto, setProfilefoto] = useState();
-  const reference = ref(
-    storage,
-    "gs://voluntreepin.appspot.com/profileImages/voluntarios/" + usuario.fotoPerfil
-  )
-
   const[isModalOpen, setIsModalOpen] = useState(false)
   const q = query(collection(db, "voluntarios"), where("correo", "==", user.email));
   
@@ -41,13 +36,15 @@ const ProfileScreen = () => {
     });
   }, []);
 
-  getDownloadURL(reference).then((path) => {
-    setProfilefoto(path);
-  });
+ 
 
   useEffect(() => {
     getVoluntarioByID(user.uid).then((data) => {
       setUsuario(data);
+      getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/voluntarios/" + data.fotoPerfil))
+      .then((path) => {
+        setProfilefoto(path);
+      });
     });
   }, [])
   
