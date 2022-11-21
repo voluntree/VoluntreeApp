@@ -457,7 +457,7 @@ export async function deleteAccount(user) {
   try {
     deleteUser(user).then(() => {
       deleteUserData(user.uid);
-      console.log("El usuario " + user.nombre + " ha eliminado su cuenta");
+      console.log("El usuario con correo" + user.email + " ha eliminado su cuenta");
     });
   }
   catch (e) {

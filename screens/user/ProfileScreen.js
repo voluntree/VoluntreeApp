@@ -86,12 +86,14 @@ const ProfileScreen = () => {
     <TailwindProvider>
       <SafeAreaView className="h-full w-full items-center">
         {/* Contenedor principal*/}
-        <View className="flex-row w-full max-w-full bg-blanco p-2 space-x-2 items-center">
+        <View className="flex-row w-full max-w-full h-24 bg-blanco p-2 space-x-2 items-center">
           {/* Avatar*/}
-          <Image
-                className="h-20 w-20 rounded-full"
-                source={{ uri: profilefoto }}
-              />
+          <View className="mt-2 items-center justify-center">
+            <Image
+              className="h-16 w-16 border rounded-full"
+              source={{ uri: profilefoto }}
+            />
+          </View>
           {/* Contenedor Info Usuario*/}
           <View className="flex flex-grow space-y-2">
             {/* Contenedor Nombre, Nivel, Experiencia*/}
