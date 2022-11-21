@@ -24,7 +24,7 @@ const ListaFollowing = (props) => {
   return (
     <FlatList style = {{width:"90%"}}
       data={asociaciones}
-      keyExtractor={(item) => item.titulo}
+      keyExtractor={(item) => item.nombre}
       ListEmptyComponent={renderEmptyContainer()}
       renderItem={({ item, index }) => <TarjetaFollowingAssociation usuario={props.usuario} asociacion={item}/>}
     />
