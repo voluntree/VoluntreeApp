@@ -18,6 +18,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { FirebaseError } from "firebase/app";
+import { deleteUser } from "firebase/auth";
 import { Alert } from "react-native";
 import { getDownloadURL, ref, connectStorageEmulator } from "firebase/storage";
 import { stringToHash } from "./functions";
@@ -438,6 +439,28 @@ export async function updateProfile(user, userID) {
     Alert.alert("Éxito", "Perfil actualizado correctamente");
   } catch (e) {
     Alert.alert("Error", "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde");
+    console.error(e);
+  }
+}
+
+export async function deleteUserData(userID) {
+  try {
+    const userRef = doc(db, "voluntarios", userID);
+    await deleteDoc(userRef);
+    console.log("El usuario con id" + userID + " ha sido eliminado");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function deleteAccount(user) {
+  try {
+    deleteUser(user).then(() => {
+      deleteUserData(user.uid);
+      console.log("El usuario " + user.nombre + " ha eliminado su cuenta");
+    });
+  }
+  catch (e) {
     console.error(e);
   }
 }

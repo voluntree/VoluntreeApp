@@ -18,7 +18,7 @@ import { auth, db } from "../../utils/firebase";
 import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { getImageDownloadURL, getVoluntarioByID } from "../../service/service";
+import { deleteAccount, getImageDownloadURL, getVoluntarioByID } from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
 
@@ -65,7 +65,17 @@ const ProfileScreen = () => {
       'Borrar Cuenta',
       'Se borrará la cuenta\n¿Seguro que quieres borra la cuenta?\nEsta acción no se puede deshacer',
       [
-        {text: 'Sí', onPress: () =>  navigation.navigate('Login')},
+        {text: 'Sí', 
+        onPress: () =>  {
+          try {
+            deleteAccount(user).then(() => {
+              Alert.alert("Cuenta borrada", "La cuenta se ha borrado correctamente");
+              navigation.navigate('Login');
+            })
+          } catch (error) {
+            Alert.alert("Error", "Ha ocurrido un error al borrar la cuenta. Inténtelo de nuevo más tarde");
+          }
+        }},
         {text: 'Cancelar', onPress: () =>{}},
       ],
       {cancelable: false},

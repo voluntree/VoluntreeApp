@@ -42,27 +42,29 @@ const ModalPerfil = (props) => {
           <View style={modalStyle}>
             <View className="justify-center w-full flex-row items-center">
               <Text className="font-bold text-base">Opciones</Text>
-              <View className = "absolute right-0">
-              <Icon 
-                name="x"
-                type="octicon"
-                color={theme.colors.bottomTabs}
-                size={24}
-                onPress={() => {
-                  props.setIsModalOpen(!props.isModalOpen);
-                }}
-              />
+              <View className="absolute right-0">
+                <Icon
+                  name="x"
+                  type="octicon"
+                  color={theme.colors.bottomTabs}
+                  size={24}
+                  onPress={() => {
+                    props.setIsModalOpen(!props.isModalOpen);
+                  }}
+                />
               </View>
-              
             </View>
-            <TouchableOpacity className = "mb-1" onPress={props.onCerrarSesion}>
-              <View className = "h-8 bg-[#F0F0F0] justify-center items-center">
-                <Text className = "font-bold">Cerrar Sesión</Text>
+            <TouchableOpacity 
+              className="mb-1" 
+              onPress={props.onCerrarSesion}
+            >
+              <View className="h-8 bg-[#F0F0F0] justify-center items-center">
+                <Text className="font-bold">Cerrar Sesión</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <View className = "h-8 bg-[#F0F0F0] justify-center items-center" onPress={props.onBorrarCuenta}>
-                <Text className = "font-bold color-[#ff0000]">Borrar Cuenta</Text>
+            <TouchableOpacity onPress={props.onBorrarCuenta}>
+              <View className="h-8 bg-[#F0F0F0] justify-center items-center">
+                <Text className="font-bold color-[#ff0000]">Borrar Cuenta</Text>
               </View>
             </TouchableOpacity>
           </View>

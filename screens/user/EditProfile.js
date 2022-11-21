@@ -30,12 +30,10 @@ const EditProfile = () => {
 
   const navigation = useNavigation();
 
-  const [profilefoto, setProfilefoto] = useState();
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
@@ -227,20 +225,10 @@ const EditProfile = () => {
                     style={{ textAlignVertical: "top" }}
                   />
                 </View>
-                <TouchableOpacity 
-                  className="border w-40 h-20"
-                  onPress={() => {console.log(foto)}}
-                >
-                  <Text>AAA</Text>
-                </TouchableOpacity>
               </View>
             </View>
           )}
         </Formik>
-        <ModalPerfil
-          isModalOpen={isModalOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
       </SafeAreaView>
     </TailwindProvider>
   );
