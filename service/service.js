@@ -453,17 +453,6 @@ export async function deleteUserData(userID) {
   }
 }
 
-export async function deleteAccount(user) {
-  try {
-    deleteUser(user).then(() => {
-      deleteUserData(user.uid);
-      console.log("El usuario con correo" + user.email + " ha eliminado su cuenta");
-    });
-  }
-  catch (e) {
-    console.error(e);
-  }
-}
 
 //#endregion
 

@@ -36,9 +36,13 @@ import { useEffect } from "react";
 
 const Login = () => {
   useEffect(() => {
-    setEmail(""), setPassword("");
+    clearFields();
     setSpinner(false);
   }, []);
+
+  const clearFields = () => {
+    setEmail(""); setPassword("");
+  }
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [tipoUser, setTipoUser] = useState("");
