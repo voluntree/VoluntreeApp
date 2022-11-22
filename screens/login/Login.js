@@ -75,7 +75,6 @@ const Login = () => {
           where("correo", "==", email)
         );
         const data = getDocs(q).then((querySnapshot) => {
-          console.log(querySnapshot);
           if (!querySnapshot.empty) {
             setSpinner(false);
             navigation.navigate("UserHome");
