@@ -467,6 +467,31 @@ export async function deleteAccount(user) {
 
 //#endregion
 
+//#region chat
+export async function sendUserMessage(user, messageContent, fecha, activity) {
+  const ref = doc(db,`chats/${activity}/${fecha}`)
+  try {
+    await runTransaction(db, async (t) =>{
+      t.setDoc(ref, {user: user, message: messageContent, date: fecha})
+    })
+  } catch (error) {
+    throw Error("El envío del mensaje ha fallado");
+  }
+}
+
+export async function retrieveChatMessages(activity) {
+  const ref = collection(db,`chats/${activity}/messages`)
+  let resp = []
+  try {
+    const data = await getDocs(ref);
+    data.forEach(doc => resp.push(doc.data()));
+  } catch (error) {
+    throw Error("Error recuperando mensajes del chat");
+  }
+  return resp;
+}
+//#endregion
+
 //miscelanea
 export async function getImageDownloadURL(url) {
   let resp = null;
