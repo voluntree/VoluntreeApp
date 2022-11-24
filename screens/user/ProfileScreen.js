@@ -138,10 +138,13 @@ const ProfileScreen = () => {
             </View>
           </View>
         </View>
+        {/*Arboles plantados*/}
         <View className = "flex w-full p-5 bg-blanco items-center justify-center space-y-2">
+          {/*Icono arbol*/}
           <View>
             {ArbolesPlantados(41, 66, theme.colors.cultural)}
           </View>
+          {/*Numero arboles plantados*/}
           <Text style = {{color: theme.colors.ambiental}}>árboles plantados</Text>
           <Text className = "font-bold"
                 style = {{color: theme.colors.ambiental}}>{usuario.puntos}</Text>
