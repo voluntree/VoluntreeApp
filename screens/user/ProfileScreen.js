@@ -5,6 +5,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Dimensions,
 } from "react-native";
 
 import React, { useLayoutEffect, useState, useEffect } from "react";
@@ -15,13 +16,14 @@ import { Icon } from "react-native-elements";
 import { theme } from "../../tailwind.config";
 import UserProfileTab from "../../components/user/UserProfileTab";
 import { auth, db } from "../../utils/firebase";
-import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
+import { collection, where, query } from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { deleteAccount, deleteUserData, getImageDownloadURL, getVoluntarioByID } from "../../service/service";
+import { deleteUserData, getVoluntarioByID } from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
-import { deleteUser } from "firebase/auth";
+import { ArbolesPlantados } from "../../icons/Icons";
+import { truncateText } from "../../service/functions";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -88,87 +90,66 @@ const ProfileScreen = () => {
     <TailwindProvider>
       <SafeAreaView className="h-full w-full items-center">
         {/* Contenedor principal*/}
-        <View className="flex-row w-full max-w-full h-24 bg-blanco p-2 space-x-2 items-center">
+        <View className="flex-row w-full max-w-full h-24 bg-blanco px-6 items-center">
           {/* Avatar*/}
           <View className="mt-2 items-center justify-center">
             <Image
-              className="h-16 w-16 rounded-full"
+              className="h-20 w-20 rounded-full"
               source={{ uri: profilefoto }}
             />
           </View>
           {/* Contenedor Info Usuario*/}
-          <View className="flex flex-grow space-y-2">
-            {/* Contenedor Nombre, Nivel, Experiencia*/}
-            <View className="flex-row justify-between">
-              {/* Nombre */}
-              <View className="justify-center">
-                <Text className="text-lg font-bold">{usuario.nombre}  {usuario.apellidos}</Text>
-              </View>
-              {/* Nivel 
-              <View className="flex justify-center items-center">
-                <Text>Nivel</Text>
-                <View className="bg-bottomTabs w-[30px] h-[30px] justify-center items-center rounded-full">
-                  <Text>99</Text>
-                </View>
-              </View>*/}
-              {/* Experiencia
-              <View className="flex w-28 justify-center items-center">
-                <Text>Experiencia</Text>
-                <Text className="text-right w-full text-xs">
-                  5000/10000 XP
-                </Text>
-                <Progress.Bar
-                  className="w-full"
-                  progress={0.5}
-                  width={null}
-                  style={{
-                    backgroundColor: theme.colors.bottomTabs,
-                    borderWidth: 0,
-                    height: 10,
-                  }}
-                  color={theme.colors.focusBottomTabs}
-                  height={10}
-                />
-              </View>*/}
+          <View className="flex flex-grow pl-6 justify-end h-20 space-y-2">
+            {/*Nombre*/}
+            <View className = {"flex-row justify-between items-baseline"}>
+              <Text className="grow-0 text-xl font-bold"
+                    style = {{color: theme.colors.ambiental}}>
+                    {truncateText(usuario.nombre + " " + usuario.apellidos, 20)}
+              </Text>
+              {/*Opciones*/}
+              <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
+                  <View className="rounded-lg justify-center items-center h-8 w-8"
+                        style = {{backgroundColor: theme.colors.costas}}>
+                    <Icon
+                      name="triangle-down"
+                      type="octicon"
+                      color={theme.colors.ambiental}
+                      size={24}
+                      onPress={() => setIsModalOpen(!isModalOpen)}/>
+                  </View>
+                </TouchableOpacity>
             </View>
             {/* Contenedor Editar Perfil y Siguiendo */}
             <View className="flex-row space-x-2">
               {/* Botón Editar Perfil*/}
-              <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
+              <View className="flex-grow h-8 rounded-lg justify-center items-center"
+                    style={{backgroundColor: theme.colors.costas}}>
                 <TouchableOpacity onPress={() => navigation.push("EditProfile", { voluntario: usuario, userID: user.uid, foto: profilefoto })}>
-                  <Text>Editar Perfil</Text>
+                  <Text style = {{color: theme.colors.ambiental}}>Editar Perfil</Text>
                 </TouchableOpacity>
               </View>
               {/*Botón Siguiendo*/}
-              <View className="flex-grow bg-bottomTabs h-8 rounded-lg justify-center items-center">
+              <View className="flex-grow h-8 rounded-lg justify-center items-center"
+                    style = {{backgroundColor: theme.colors.deportivo}}>
                 <TouchableOpacity onPress={() => navigation.push("Following",{ voluntario: usuario})}>
-                  <Text>Siguiendo</Text>
+                  <Text style = {{color: theme.colors.ambiental}}>Siguiendo</Text>
                 </TouchableOpacity>
               </View>
-              {/*Botón Opciones*/}
-              <TouchableOpacity className = "flex-grow" onPress={() => setIsModalOpen(!isModalOpen)}>
-                <View className=" bg-bottomTabs h-8 rounded-lg justify-center items-center">
-                  <Icon 
-                    name="triangle-down"
-                    type="octicon"
-                    color={theme.colors.blanco}
-                    size={24}
-                    onPress={() => setIsModalOpen(!isModalOpen)}/>
-                </View>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
-        <View className="flex w-full bg-blanco p-2">
-          {
-              usuario.descripcion != null && usuario.descripcion != undefined ?
-                (<Text className="">{usuario.descripcion}</Text>)
-              :
-                (<Text className="">Sin descripción</Text>)
-              
-          } 
+        <View className = "flex w-full p-5 bg-blanco items-center justify-center space-y-2">
+          <View>
+            {ArbolesPlantados(41, 66, theme.colors.cultural)}
+          </View>
+          <Text style = {{color: theme.colors.ambiental}}>árboles plantados</Text>
+          <Text className = "font-bold"
+                style = {{color: theme.colors.ambiental}}>{usuario.puntos}</Text>
         </View>
-        <View style = {{ width: "100%", height: "100%", paddingBottom: "30%"}}>
+        {/*Actividades Favoritos*/}
+        <View className = "w-full"
+              style = {{height: 535}}
+        >
           <UserProfileTab />
         </View>
         <ModalPerfil 

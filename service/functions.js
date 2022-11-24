@@ -42,3 +42,11 @@ export function stringToHash(string) {
   const md5 = require('md5')
   return md5(string).substring(0,8).toLocaleUpperCase();
 }
+
+export function truncateText(text, maxLength){
+  if(text.length > maxLength){
+      return text.substring(0,maxLength - 1) + "..."
+  }else{
+    return text
+  }
+}

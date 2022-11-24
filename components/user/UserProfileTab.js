@@ -18,7 +18,7 @@ export default function UserProfileTab() {
  
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-{ key: 'first', title: 'Mis Actividades' },
+{ key: 'first', title: 'Actividades' },
 { key: 'second', title: 'Favoritos' },
   ]);
  
@@ -30,8 +30,15 @@ second: SecondRoute,
   const renderTabBar = props => (
   <TabBar className = "bg-blanco"
       {...props}
-      activeColor={theme.colors.bottomTabs}
-      inactiveColor={'black'}
+      activeColor ={theme.colors.ambiental}
+      inactiveColor ={theme.colors.ambiental}
+      renderLabel = {({ route, focused, color}) => (
+        <Text style = {{color, fontWeight: focused ? "bold" : "normal"}}>
+          {route.title}
+        </Text>
+      )}
+      indicatorStyle = {{backgroundColor: theme.colors.blanco}}
+      pressColor = {theme.colors.blanco} 
   />
   );
  
@@ -41,7 +48,7 @@ second: SecondRoute,
       renderScene={renderScene}
       renderTabBar={renderTabBar}
       onIndexChange={setIndex}
-      initialLayout={{ width: layout.width }}
+      initialLayout={{ width: layout.width}}
   />
   );
 }
