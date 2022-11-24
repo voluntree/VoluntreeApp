@@ -29,6 +29,7 @@ second: SecondRoute,
  
   const renderTabBar = props => (
   <TabBar className = "bg-blanco"
+  style = {{elevation: 0}}
       {...props}
       activeColor ={theme.colors.ambiental}
       inactiveColor ={theme.colors.ambiental}
