@@ -86,7 +86,7 @@ const MyActivitiesScreen = () => {
         <ListaDeTarjetas
           query={query(
             collection(db, "actividades"),
-            where("participantes", "array-contains", "Catalin")
+            where("participantes", "array-contains", userAuth.uid)
           )}
           searchText={SearchText}
           distancia={distancia}

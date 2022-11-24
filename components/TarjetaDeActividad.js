@@ -2,7 +2,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Icon } from "react-native-elements";
 import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../utils/firebase";
+import { auth, storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
 import { useNavigation } from "@react-navigation/native";
 import { updateDoc } from "firebase/firestore";
@@ -17,7 +17,7 @@ const TarjetaDeActividad = (props) => {
     month: "long",
     day: "numeric",
   };
-  const user = "Catalin"
+  const user = auth.currentUser
   const date = actividad.fecha.toDate().toLocaleString("es-ES", options);
   const [like, setLike] = useState(actividad.favoritos.includes(user))
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
@@ -33,11 +33,11 @@ const TarjetaDeActividad = (props) => {
 
   const añadirFav = () => {
     if(like == true){
-      removeLike(actividad.titulo, user)
+      removeLike(actividad.titulo, user.uid)
       setEstado("heart")
       setLike(false)
     }else{
-      addLike(actividad.titulo, user)
+      addLike(actividad.titulo, user.uid)
       setEstado("heart-fill")
       setLike(true)
     }

@@ -380,7 +380,11 @@ export async function getPoints(user, activity) {
       });
     });
     console.log(
-      "El usuario " + user.nombre + " ha reclamado " + activity.puntos + " puntos"
+      "El usuario " +
+        user.nombre +
+        " ha reclamado " +
+        activity.puntos +
+        " puntos"
     );
   } catch (e) {
     console.log(e);
@@ -399,7 +403,6 @@ export async function confirmAssistence(userID, activityID) {
     console.log(e);
   }
 }
-
 
 export async function unconfirmAssistence(userID, activityID) {
   const actRef = doc(db, "actividades", activityID);
@@ -438,7 +441,10 @@ export async function updateProfile(user, userID) {
     console.log("El usuario " + user.nombre + " ha actualizado su perfil");
     Alert.alert("Éxito", "Perfil actualizado correctamente");
   } catch (e) {
-    Alert.alert("Error", "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde");
+    Alert.alert(
+      "Error",
+      "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
+    );
     console.error(e);
   }
 }
@@ -453,30 +459,34 @@ export async function deleteUserData(userID) {
   }
 }
 
-
 //#endregion
 
 //#region chat
+export async function getUsersChatsList(userEmail) {
+  const usr = await getDocs(
+    query(collection(db, "voluntarios"), where("correo", "==", userEmail))
+  );
+
+  return usr.docs[0].data().actividades;
+}
 export async function sendUserMessage(user, messageContent, fecha, activity) {
-  const ref = doc(db,`chats/${activity}/${fecha}`)
+  const ref = doc(db, `chats/${activity}/${fecha}`);
   try {
-    await runTransaction(db, async (t) =>{
-      t.setDoc(ref, {user: user, message: messageContent, date: fecha})
-    })
+    await runTransaction(db, async (t) => {
+      t.setDoc(ref, { user: user, message: messageContent, date: fecha });
+    });
   } catch (error) {
     throw Error("El envío del mensaje ha fallado");
   }
 }
 
 export async function retrieveChatMessages(activity) {
-  const ref = collection(db,`chats/${activity}/messages`)
-  let resp = []
+  const ref = collection(db, `chats/${activity}/messages`);
+  let resp = [];
   try {
     const data = await getDocs(ref);
-    data.forEach(doc => resp.push(doc.data()));
-  } catch (error) {
-    throw Error("Error recuperando mensajes del chat");
-  }
+    data.forEach((doc) => resp.push(doc.data()));
+  } catch (error) {}
   return resp;
 }
 //#endregion

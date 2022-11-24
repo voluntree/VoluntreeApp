@@ -33,14 +33,14 @@ const ActivityChat = () => {
     }
   };
 
-  const messageInput = () => {
+  const MessageInput = () => {
     return (
       <View classname="flex-row h-14 w-full bg-transparent items-center justify-around">
         <TextInput
           className="h-14 w-80 h-max-24"
-            value={textoActual}
+          value={textoActual}
           onChangeText={(text) => setTextoActual(text)}
-          autoFocus={true}
+          
         />
         <TouchableOpacity className="h-14 w-16 bg-bottomTabs" onPress={sendMessage}>
           <Icon name="paper-airplane" type="octicon"/>
@@ -54,10 +54,10 @@ const ActivityChat = () => {
       <View>
         <Text>{actividad}</Text>
       </View>
-      <KeyboardAvoidingView>
-        <MessageList messages={mensajes} />
-        <messageInput />
-      </KeyboardAvoidingView>
+      <View className="h-auto">
+        {mensajes.length != 0 && <MessageList messages={mensajes} />}
+        <MessageInput />
+      </View>
     </SafeAreaView>
   );
 };

@@ -29,7 +29,7 @@ const ProfileScreen = () => {
   const [usuario, setUsuario] = useState([]);
   const [profilefoto, setProfilefoto] = useState();
   const[isModalOpen, setIsModalOpen] = useState(false)
-  const q = query(collection(db, "voluntarios"), where("correo", "==", user.email));
+  const q = query(collection(db, "voluntarios"), where("email", "==", user.email));
   
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -159,6 +159,7 @@ const ProfileScreen = () => {
             </View>
           </View>
         </View>
+        <TouchableOpacity onPress={() => navigation.navigate("Lista Chats")}><Text>chats</Text></TouchableOpacity>
         <View className="flex w-full bg-blanco p-2">
           {
               usuario.descripcion != null && usuario.descripcion != undefined ?

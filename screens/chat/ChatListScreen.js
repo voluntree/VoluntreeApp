@@ -1,4 +1,4 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -7,25 +7,23 @@ import { query } from "firebase/firestore";
 import { collection } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
 import { where } from "firebase/firestore";
-import { getVoluntarioByID } from "../../service/service";
+import { getUsersChatsList, getVoluntarioByID } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
 const ChatListScreen = () => {
-  currentUser = "Catalin";
+  const currentUser = auth.currentUser;
   const navigation = useNavigation();
   const [chats, setChats] = useState([]);
-  const q = query(
-    collection(db, "actividades"),
-    where("participantes", "array-contains", currentUser)
-  );
+
   useEffect(() => {
-    onSnapshot(q, (snap) => {
-      const acts = [];
-      snap.forEach((actividad) => acts.push(actividad.data().titulo));
-      setChats(acts);
-    });
-  });
+    async function getChats() {
+      console.log(currentUser.email);
+      let lista = await getUsersChatsList(currentUser.email);
+      setChats(lista);
+    }
+    getChats();
+  }, []);
 
   function openChat(actividad) {
     navigation.navigate("Chat Actividad", {
@@ -33,18 +31,18 @@ const ChatListScreen = () => {
     });
   }
 
+  const itemLista = (item) => {
+    return (
+      <TouchableOpacity key={item} onPress={() => openChat(item)}>
+        <Text>{item}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView>
       <Text>Chats</Text>
-      <FlatList
-        data={chats}
-        renderItem={ (item) =>
-          <TouchableOpacity onPress={openChat(item)}>
-            <Text>{actividad}</Text>
-          </TouchableOpacity>
-        }
-        keyExtractor={(item) => item.id}
-      />
+      {chats.map((c) => {return itemLista(c)})}
     </SafeAreaView>
   );
 };

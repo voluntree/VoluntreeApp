@@ -19,6 +19,7 @@ import {
   getPoints,
   inscribirUsuarioEnActividad,
 } from "../../service/service";
+import { auth } from "../../utils/firebase";
 
 const ActivityScreen = () => {
   const navigation = useNavigation();
@@ -29,19 +30,16 @@ const ActivityScreen = () => {
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
-  const currentUser = {
-    nombre: "Catalin",
-    apellidos: "Marian",
-  };
+  const currentUser = auth.currentUser.uid
   const [inscrito, setInscrito] = useState(false);
   const [confirmado, setConfirmado] = useState(
-    actividad.confirmados.includes(currentUser.nombre)
+    actividad.confirmados.includes(currentUser)
   );
   const[finalizado, setFinalizado] = useState(
     actividad.fecha.toDate() < new Date()
   );
   const[reclamado, setReclamado] = useState(
-    actividad.reclamados.includes(currentUser.nombre)
+    actividad.reclamados.includes(currentUser)
   );
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const ActivityScreen = () => {
       );
       let data = await response.json();
       setUbicacion(data.display_name);
-      setInscrito(actividad.participantes.includes(currentUser.nombre));
+      setInscrito(actividad.participantes.includes(currentUser));
       setRegion({
         latitude: lat,
         longitude: lng,
