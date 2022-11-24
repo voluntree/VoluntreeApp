@@ -1,16 +1,26 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { Dimensions } from "react-native";
+var width = Dimensions.get('window').width; //full width
 
 const NotMyMessage = (props) => {
   const { message } = props;
   return (
-    <View className="flex-col flex-wrap h-auto w-auto w-max-80 bg-[#d1d1d1] rouded-md left-2">
+    <View className="flex-col flex-wrap mx-4 p-2 my-2 h-auto w-52 bg-[#d1d1d1] rouded-md left-2">
       <Text>
-        {message.usuario.nombre} {message.usuario.apellidos}
+        {message.user.nombre} {message.user.apellidos}
       </Text>
       <Text>{message.mensaje}</Text>
     </View>
   );
 };
+
+const st = StyleSheet.create({
+  msg:{
+    width: width,
+    flex: 1,
+    alignItems: "flex-start"
+  }
+})
 
 export default NotMyMessage;

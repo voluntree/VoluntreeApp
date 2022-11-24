@@ -470,13 +470,15 @@ export async function getUsersChatsList(userEmail) {
   return usr.docs[0].data().actividades;
 }
 export async function sendUserMessage(user, messageContent, fecha, activity) {
-  const ref = doc(db, `chats/${activity}/${fecha}`);
+  const ref = doc(db, `chats/${activity}/messages/${fecha}`);
+  const usr = await getVoluntarioByID(user);
+  
   try {
     await runTransaction(db, async (t) => {
-      t.setDoc(ref, { user: user, message: messageContent, date: fecha });
+      t.set(ref, { user: usr, message: messageContent, date: fecha });
     });
   } catch (error) {
-    throw Error("El envío del mensaje ha fallado");
+    console.log(error);
   }
 }
 

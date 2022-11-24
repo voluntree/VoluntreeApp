@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const ChatListScreen = () => {
   const currentUser = auth.currentUser;
+  const [userDetails, setUser] = useState({})
   const navigation = useNavigation();
   const [chats, setChats] = useState([]);
 
@@ -21,6 +22,7 @@ const ChatListScreen = () => {
       console.log(currentUser.email);
       let lista = await getUsersChatsList(currentUser.email);
       setChats(lista);
+      setUser(await getVoluntarioByID(currentUser.uid));
     }
     getChats();
   }, []);
@@ -28,6 +30,8 @@ const ChatListScreen = () => {
   function openChat(actividad) {
     navigation.navigate("Chat Actividad", {
       actividad: actividad,
+      user: currentUser.uid,
+      userDetails: userDetails
     });
   }
 
