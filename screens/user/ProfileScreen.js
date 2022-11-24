@@ -151,7 +151,7 @@ const ProfileScreen = () => {
         </View>
         {/*Actividades Favoritos*/}
         <View className = "w-full"
-              style = {{height: 535}}
+              style = {{height: "69%"}}
         >
           <UserProfileTab />
         </View>
