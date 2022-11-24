@@ -18,9 +18,10 @@ import { auth, db } from "../../utils/firebase";
 import { doc, getDocs, collection, where, query, getDoc,} from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { deleteAccount, getImageDownloadURL, getVoluntarioByID } from "../../service/service";
+import { deleteAccount, deleteUserData, getImageDownloadURL, getVoluntarioByID } from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
+import { deleteUser } from "firebase/auth";
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -68,9 +69,10 @@ const ProfileScreen = () => {
         {text: 'Sí', 
         onPress: () =>  {
           try {
-            deleteAccount(user).then(() => {
-              Alert.alert("Cuenta borrada", "La cuenta se ha borrado correctamente");
-              navigation.navigate('Login');
+            user.delete().then(() => {
+              deleteUserData(user.uid).then(
+              Alert.alert("Cuenta borrada", "La cuenta se ha borrado correctamente"),
+              navigation.navigate('Login'));
             })
           } catch (error) {
             Alert.alert("Error", "Ha ocurrido un error al borrar la cuenta. Inténtelo de nuevo más tarde");
@@ -90,7 +92,7 @@ const ProfileScreen = () => {
           {/* Avatar*/}
           <View className="mt-2 items-center justify-center">
             <Image
-              className="h-16 w-16 border rounded-full"
+              className="h-16 w-16 rounded-full"
               source={{ uri: profilefoto }}
             />
           </View>

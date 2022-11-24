@@ -10,7 +10,7 @@ import ModalFiltros from "./ModalFiltros";
 const Buscador = (props) => {    
 
   return (
-    <View className="flex-row items-center my-3 pt-2 space-x-4">
+    <View className="flex-row items-center space-x-4 mb-2">
       <View className="flex-row items-center rounded-full bg-[#d6d5d5] justify-between">
         <TextInput
           className="bg-[#d6d5d5] rounded-full w-3/4 h-10 px-4"
