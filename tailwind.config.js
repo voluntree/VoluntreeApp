@@ -8,6 +8,12 @@ module.exports = {
   ],
   theme: {
     colors: {
+      costas: "#EFF8F4",
+      ambiental: "#086841",
+      cultural: "#FF6723",
+      comunitario: "#FEBBBB",
+      educacion: "#FFE6A4",
+      deportivo: "#FFE8E8",
       bottomTabs: "#00BFA5",
       tarjetAsociacion: colors.gray[900],
       blanco: colors.white,
