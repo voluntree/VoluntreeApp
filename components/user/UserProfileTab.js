@@ -18,8 +18,8 @@ export default function UserProfileTab() {
  
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-{ key: 'first', title: 'Actividades' },
-{ key: 'second', title: 'Favoritos' },
+{ key: 'first', title: 'Actividades ' },
+{ key: 'second', title: 'Favoritos ' },
   ]);
  
   const renderScene = SceneMap({
@@ -28,18 +28,20 @@ second: SecondRoute,
   });
  
   const renderTabBar = props => (
-  <TabBar className = "bg-blanco"
+  <TabBar className = "bg-costas"
   style = {{elevation: 0}}
       {...props}
       activeColor ={theme.colors.ambiental}
       inactiveColor ={theme.colors.ambiental}
       renderLabel = {({ route, focused, color}) => (
-        <Text style = {{color, fontWeight: focused ? "bold" : "normal"}}>
-          {route.title}
-        </Text>
+          <Text style = {{color, fontWeight: focused ? "800" : "400"}}>
+            {route.title}
+          </Text>
+        
       )}
       indicatorStyle = {{backgroundColor: theme.colors.blanco}}
       pressColor = {theme.colors.blanco} 
+      
   />
   );
  
