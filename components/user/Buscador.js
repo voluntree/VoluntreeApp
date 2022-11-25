@@ -10,27 +10,30 @@ import ModalFiltros from "./ModalFiltros";
 const Buscador = (props) => {    
 
   return (
-    <View className="flex-row items-center space-x-4 mb-2">
-      <View className="flex-row items-center rounded-full bg-[#d6d5d5] justify-between">
+    <View className="flex-row items-center space-x-2 mb-2">
+      <View className="flex-row items-center rounded-md bg-costas justify-between px-2">
         <TextInput
-          className="bg-[#d6d5d5] rounded-full w-3/4 h-10 px-4"
+          className="rounded-md w-4/5 h-10"
+          style = {{color: theme.colors.ambiental}}
           placeholder="Buscar..."
           onChangeText={(value) => props.setSearchText(value,"searchText")}
+          cursorColor = {theme.colors.ambiental}
+          placeholderTextColor = {theme.colors.ambiental}
         />
         <Icon
-          className="pr-2 z-10"
+          className=""
           name="search"
           type="octicon"
-          color={theme.colors.bottomTabs}
+          color={theme.colors.ambiental}
           size={24}
           
         />
       </View>
       <View>
         <Icon
-          name="filter"
+          name="quote"
           type="octicon"
-          color={theme.colors.bottomTabs}
+          color={theme.colors.ambiental}
           size={24}
           onPress={() => props.setIsModalOpen(!props.isModalOpen)}
         />
