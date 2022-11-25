@@ -7,6 +7,7 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import { auth, db } from "../../utils/firebase";
 import { Button, Icon } from "react-native-elements";
 import { useState, useEffect, useLayoutEffect } from "react";
 import MapView from "react-native-maps";
@@ -29,19 +30,16 @@ const ActivityScreen = () => {
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({});
-  const currentUser = {
-    nombre: "Catalin",
-    apellidos: "Marian",
-  };
+  const currentUser = auth.currentUser;
   const [inscrito, setInscrito] = useState(false);
   const [confirmado, setConfirmado] = useState(
-    actividad.confirmados.includes(currentUser.nombre)
+    actividad.confirmados.includes(currentUser.uid)
   );
-  const[finalizado, setFinalizado] = useState(
+  const [finalizado, setFinalizado] = useState(
     actividad.fecha.toDate() < new Date()
   );
-  const[reclamado, setReclamado] = useState(
-    actividad.reclamados.includes(currentUser.nombre)
+  const [reclamado, setReclamado] = useState(
+    actividad.reclamados.includes(currentUser.uid)
   );
 
   useEffect(() => {
@@ -52,7 +50,7 @@ const ActivityScreen = () => {
       );
       let data = await response.json();
       setUbicacion(data.display_name);
-      setInscrito(actividad.participantes.includes(currentUser.nombre));
+      setInscrito(actividad.participantes.includes(currentUser.uid));
       setRegion({
         latitude: lat,
         longitude: lng,
@@ -80,13 +78,16 @@ const ActivityScreen = () => {
   };
 
   const obtenerPuntos = async () => {
-    await getPoints(currentUser, actividad);
+    await getPoints(currentUser.uid, actividad);
     setReclamado(true);
-    Alert.alert("Puntos reclamados!", "Se han añadido " + actividad.puntos +" puntos a su cuenta!");
+    Alert.alert(
+      "Puntos reclamados!",
+      "Se han añadido " + actividad.puntos + " puntos a su cuenta!"
+    );
   };
 
   const desapuntarUsuario = () => {
-    desapuntarseDeActividad(actividad.titulo, currentUser).then(() => {
+    desapuntarseDeActividad(actividad.titulo, currentUser.uid).then(() => {
       Alert.alert(
         "Desinscripción existosa",
         "Se ha desinscrito correctamente de la actividad " + actividad.titulo,
@@ -98,8 +99,8 @@ const ActivityScreen = () => {
   };
 
   const inscribirUsuario = () => {
-    inscribirUsuarioEnActividad(actividad.titulo, currentUser).then(() => {
-      actividad.participantes.push(currentUser);
+    inscribirUsuarioEnActividad(actividad.titulo, currentUser.uid).then(() => {
+      actividad.participantes.push(currentUser.uid);
       Alert.alert(
         "Inscripción existosa",
         "Se ha inscrito correctamente a la actividad " + actividad.titulo,
@@ -121,15 +122,22 @@ const ActivityScreen = () => {
   };
 
   const BotonParticipa = () => {
-    if (!inscrito)        { return <Button title="Participa" onPress={inscribirUsuario} />; }
-    else if (!finalizado) { return <Button title="Desapuntarse" onPress={desapuntarUsuario} />; }
-    else if (confirmado && !reclamado)  { return <Button title="Reclamar puntos" onPress={obtenerPuntos} />; }
-    else { return <Button title="Ya has reclamado tus puntos" disabled={true} />; }
+    if (!inscrito) {
+      return <Button title="Participa" onPress={inscribirUsuario} />;
+    } else if (!finalizado) {
+      return <Button title="Desapuntarse" onPress={desapuntarUsuario} />;
+    } else if (confirmado && !reclamado) {
+      return <Button title="Reclamar puntos" onPress={obtenerPuntos} />;
+    } else {
+      if (confirmado && reclamado)
+        return <Button title="Ya has reclamado tus puntos" disabled={true} />;
+    }
   };
 
   const BotonConfirmado = () => {
-    if (inscrito && !confirmado) { 
-      return <Button title="Confirmar asistencia" onPress={openScanner} />; }
+    if (inscrito && !confirmado) {
+      return <Button title="Confirmar asistencia" onPress={openScanner} />;
+    }
   };
 
   return (

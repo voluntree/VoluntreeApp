@@ -38,6 +38,10 @@ const UserRegister = () => {
     var letr;
     var expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
     dni.toUpperCase();
+     if (dni === "") {
+       alert("Introduzca el DNI");
+       return false;
+     } 
     if (expresion_regular_dni.test(dni) == true) {
       numero = dni.substr(0, dni.length - 1);
       letr = dni.substr(dni.length - 1, 1);
@@ -54,17 +58,18 @@ const UserRegister = () => {
     }
   }
   function dataOk() {
-    var ok = true;
+    let ok = true;
     validarDni();
     if (!validarDni()) {
       ok = false;
     }
-    if (contraseña != contraseña2) {
+    if (contraseña !== contraseña2) {
       alert("Las contraseñas no coinciden");
       ok = false;
     }
     if (telefono.length() < 9) {
       alert("El telefono no es correcto");
+      return false; 
     }
     return ok;
   }

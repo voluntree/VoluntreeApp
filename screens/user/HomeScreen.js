@@ -12,8 +12,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TailwindProvider } from "tailwindcss-react-native";
 import ListaDeTarjetas from "../../components/ListaDeTarjetas";
 import Buscador from "../../components/user/Buscador";
-import { collection, query,onSnapshot} from "firebase/firestore";
 import { db, auth } from "../../utils/firebase";
+import {
+  collection,
+  query,
+  onSnapshot,
+  where,
+  Timestamp,
+} from "firebase/firestore";
 
 const HomeScreen = () => {
   
@@ -45,42 +51,45 @@ const HomeScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full items-center mt-6">
+      <SafeAreaView className="h-full mt-4 items-center">
         <Buscador
           valor={SearchText}
-          setSearchText = {setSearchText}
-          isModalOpen = {isModalOpen}
-          setIsModalOpen = {setIsModalOpen}
-          categoriasActivas = {categoriasActivas}
-          setCategoriasActivas = {setCategoriasActivas}
-          distancia = {distancia}
-          setDistancia = {setDistancia}
-          text = {text}
-          setText = {setText}
-          isVisible = {isVisible}
-          duracion = {duracion}
-          setDuracion = {setDuracion}
-          sliding = {sliding}
-          setSliding = {setSliding}
-          mode = {mode}
-          setMode = {setMode}
-          dateValue = {dateValue}
-          setDateValue = {setDateValue}
-          show = {show}
-          setShow = {setShow}
-          setIsVisible = {setIsVisible}
-          order = {order}
-          setOrder = {setOrder}
+          setSearchText={setSearchText}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          categoriasActivas={categoriasActivas}
+          setCategoriasActivas={setCategoriasActivas}
+          distancia={distancia}
+          setDistancia={setDistancia}
+          text={text}
+          setText={setText}
+          isVisible={isVisible}
+          duracion={duracion}
+          setDuracion={setDuracion}
+          sliding={sliding}
+          setSliding={setSliding}
+          mode={mode}
+          setMode={setMode}
+          dateValue={dateValue}
+          setDateValue={setDateValue}
+          show={show}
+          setShow={setShow}
+          setIsVisible={setIsVisible}
+          order={order}
+          setOrder={setOrder}
         />
-        <ListaDeTarjetas 
-          query = {query(collection(db, "actividades"))}
+        <ListaDeTarjetas
+          query={query(
+            collection(db, "actividades"),
+            where("fecha", ">", Timestamp.now())
+          )}
           searchText={SearchText}
           distancia={distancia}
           duracion={duracion}
-          categoriasActivas= {categoriasActivas}
-          fecha = {dateValue}
-          order = {order}
-         />
+          categoriasActivas={categoriasActivas}
+          fecha={dateValue}
+          order={order}
+        />
       </SafeAreaView>
     </TailwindProvider>
   );
