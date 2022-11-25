@@ -13,7 +13,14 @@ const MessageList = (props) => {
     else return <NotMyMessage message={m} />;
   };
 
-  return <FlatList className="w-screen h-96" data={mensajes} renderItem={({item}) => mensajeItem(item)} />;
+  return (
+    <FlatList
+      className="w-screen bg-[#transparent] "
+      data={mensajes}
+      renderItem={({ item }) => mensajeItem(item)}
+      inverted
+      contentContainerStyle={{ flexDirection: "column-reverse" }}
+    />)
 };
 
 export default MessageList;

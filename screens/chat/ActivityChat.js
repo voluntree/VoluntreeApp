@@ -3,45 +3,52 @@ import {
   Text,
   KeyboardAvoidingView,
   TouchableOpacity,
-  TextInput
+  TextInput,
 } from "react-native";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MessageList from "../../components/chat/MessageList";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
-import { retrieveChatMessages, sendUserMessage } from "../../service/service";
-import { Icon } from "react-native-elements";
-import { onSnapshot } from 'firebase/firestore';
+import { retrieveChatMessages } from "../../service/service";
+import { onSnapshot } from "firebase/firestore";
 import MessageInput from "../../components/chat/MessageInput";
+import ChatHeader from "../../components/chat/ChatHeader";
 
 const ActivityChat = () => {
   const { actividad, currentUser, userDetails } = useRoute().params;
-  const [mensajes, setMensajes] = useState([])
+  const navigation = useNavigation();
+  const [mensajes, setMensajes] = useState([]);
   const [textoActual, setTextoActual] = useState("");
-  
-    useEffect(()=>{
-        async function retrieveMessages(){
-            const data = await retrieveChatMessages(actividad);
-            setMensajes(data);
-        }
-        retrieveMessages();
-        console.log("Detalles: ",userDetails);
-    },[])
 
-  
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: true,
+      headerTitle: actividad,
+      headerMargin: 0
+    });
+  }, []);
 
+  useEffect(() => {
+    async function retrieveMessages() {
+      const data = await retrieveChatMessages(actividad);
+      setMensajes(data);
+    }
+    retrieveMessages();
+    console.log("Detalles: ", userDetails);
+  }, []);
 
   return (
-    <SafeAreaView className="h-full w-full">
-      <View>
-        <Text>{actividad}</Text>
+    <View className="h-screen w-screen bg-comunitario">
+      <View className="flex-col h-[100%] ">
+        <View className="w-screen h-full">
+          {mensajes.length != 0 && (
+            <MessageList messages={mensajes} usuario={userDetails} />
+          )}
+          <MessageInput actividad={actividad} />
+        </View>
       </View>
-      <View className="h-100 w-screen items-center border-x-2">
-        {mensajes.length != 0 && <MessageList className="h-80" messages={mensajes} usuario={userDetails}/>}
-        <MessageInput className="mx-2" actividad={actividad}/>
-      </View>
-    </SafeAreaView>
+    </View>
   );
 };
 

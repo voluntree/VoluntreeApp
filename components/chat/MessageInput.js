@@ -15,15 +15,17 @@ const MessageInput = (props) => {
   const sendMessage = () => {
     if (textoActual.trim().length != 0) {
       sendUserMessage(currentUser, textoActual, Date.now(), actividad);
+      setTextoActual("")
     }
   };
 
   return (
-    <View>
-      <View className="flex-col w-80 h-12 justify-start items-start">
+    <View className="flex-row w-full p-1 justify-around items-start bg-[#transparent]">
+      <View className="flex-col w-[80%]">
         <TextInput
           value={textoActual}
-          className="h-12 w-4/5 bg-comunitario rounded-full px-4"
+          placeholder="Mensaje"
+          className="h-12 bg-blanco rounded-full px-4"
           onChangeText={(text) => setTextoActual(text)}
         />
       </View>
