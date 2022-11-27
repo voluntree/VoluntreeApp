@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput } from "react-native";
-import { TailwindProvider } from "tailwindcss-react-native";
-import { Button, Icon } from "react-native-elements";
+import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput, Button, Image } from "react-native";
+import { Icon } from "react-native-elements";
 import { Dropdown } from "react-native-element-dropdown";
 import Slider from "@react-native-community/slider";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Formik } from "formik";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
-
-import { theme } from "../../tailwind.config";
+import * as ImagePicker from "expo-image-picker";
 
 const ModalNewActivity = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -80,6 +78,10 @@ const ModalNewActivity = (props) => {
     <Text>No tiene acceso a la galería</Text>;
   }
 
+  function getImageName(uri) {
+    return uri.substring(uri.lastIndexOf("/") + 1);
+  }
+
   const storeImage = async () => {
     setUploading(true);
     console.log(image);
@@ -142,7 +144,27 @@ const ModalNewActivity = (props) => {
   };
 
   const DivLine = () => {
-    return <View className='border border-[#000000] mt-2 mb-2' />
+    return (<View className='border border-[#000000] mt-4' />)
+  };
+
+  const ChooseImage = () => {
+    if (image == null) {
+      return (
+        <Icon 
+          name='add'
+          type='ionicon'
+          color='#086841'
+          size={40}
+        />
+      )
+    } else {
+      return (
+        <Image
+          source={{ uri: image }}
+          style={{ width: 100, height: 100 }}
+        />
+      )
+    }
   };
 
   return (
@@ -192,6 +214,7 @@ const ModalNewActivity = (props) => {
                 <TextInput
                   className="text-xl text-[#086841] h-10 w-5/6 p-2 font-bold"
                   placeholder="Título"
+                  placeholderTextColor={"#086841"}
                   onChangeText={fProps.handleChange("titulo")}
                   value={fProps.values.titulo}
                 />
@@ -209,16 +232,16 @@ const ModalNewActivity = (props) => {
               <View className="flex flex-row justify-between space-x-5">
                 {/* Duración */}
                 <View>
-                  <Text className="text-sm text-[#086841] ml-3">
+                  <Text className="text-base text-[#086841] ml-3">
                     Duración: {fProps.values.duracion}h
                   </Text>
                   <Slider
-                    className=""
                     style={{ width: 170, height: 30 }}
                     minimumValue={1}
                     maximumValue={8}
                     step={1}
                     minimumTrackTintColor="#086841"
+                    maximumTrackTintColor="#FEBBBB"
                     thumbTintColor="#086841"
                     onValueChange={(value) => {
                       if (!sliding) {
@@ -226,10 +249,8 @@ const ModalNewActivity = (props) => {
                         fProps.setFieldValue("duracion", hours);
                       }
                     }}
-                    onSlidingStart={() => setSliding(true)}
-                    onSlidingComplete={() => {
-                      setSliding(false);
-                    }}
+                    onSlidingStart={() => {setSliding(true)}}
+                    onSlidingComplete={() => {setSliding(false)}}
                   />
                 </View>
                 {/* Categoría */}
@@ -254,9 +275,9 @@ const ModalNewActivity = (props) => {
                 </View>
               </View>
               {/* Linea divisoria */}
-              <DivLine />
+              
               {/* CONTENEDOR: Localización & Fecha & Imagen */}
-              <View className='space-y-2 ml-4'>
+              <View className='space-y-4 ml-4 mr-4'>
                 {/* Localización */}
                 <View className='flex flex-row' >
                   <Icon
@@ -289,25 +310,96 @@ const ModalNewActivity = (props) => {
                     </TouchableOpacity>
                     <DateTimePicker
                       isVisible={show}
-                      onConfirm={handlePicker}
+                      onConfirm={(value) => {
+                        handlePicker(value);
+                        fProps.setFieldValue("fecha", value);
+                      }}
                       onCancel={hidePicker}
                       mode="datetime"
                       is24Hour={true}
                     />
                 </View>
                 {/* Imagen */}
-                <View className='' >
-                    <TouchableOpacity>
-                      <Text>Imagen</Text>
+                <View className='border-2 border-[#FEBBBB] h-40 rounded-lg' >
+                    <TouchableOpacity 
+                      className="w-full h-full justify-center items-center"
+                      onPress={() => {
+                        pickImage().then((result) => {
+                          fProps.setFieldValue("imagen", getImageName(result.uri));
+                        });
+                      }}
+                    >
+                      <ChooseImage />
                     </TouchableOpacity>
                 </View>
               </View>
-              <Button
-                onPress={() => {
-                  console.log(fProps.values);
-                }}
-                title="prueba"
-              />
+              {/* Linea divisoria */}
+              
+              {/* CONTENEDOR: Descripción & Participantes */}
+              <View className="space-y-4 ml-4 mr-4">
+                {/* Descripción */}
+                <View>
+                  <Text className="text-base text-[#086841]">Descripción:</Text>
+                  <TextInput 
+                    className="text-sm text-justify text-[#086841] w-auto h-auto border-2 border-[#FEBBBB] rounded-md p-2 mt-2" 
+                    multiline={true}
+                    numberOfLines={6}
+                    maxLength={200}
+                    style={{ textAlignVertical: "top" }}
+                    onChangeText={fProps.handleChange("descripcion")}
+                  />
+                </View>
+                {/* Participantes */}
+                <View>
+                  <View className="flex flex-row space-x-2">
+                    <Text className="text-base text-[#086841]">Participantes:</Text>
+                    <TextInput
+                      className="text-base text-[#086841] h-6"
+                      maxLength={3}
+                      value={fProps.values.max_participantes}
+                      onChangeText={(value) => {
+                        if (!isNaN(value)) {
+                          if (value < 6) {
+                            fProps.setFieldValue("max_participantes", 6);
+                          } else if (value > 100) {
+                            fProps.setFieldValue("max_participantes", 100);
+                          } else {
+                            fProps.setFieldValue("max_participantes", value);
+                          }
+                        }
+                      }}
+                      autoCorrect={false}
+                      keyboardType="numeric"
+                    />
+                  </View>
+                  <Slider
+                    style={{ height: 30 }}
+                    minimumValue={6}
+                    maximumValue={100}
+                    step={1}
+                    minimumTrackTintColor="#086841"
+                    maximumTrackTintColor="#FEBBBB"
+                    thumbTintColor="#086841"
+                    onValueChange={(value) => {
+                      if (!sliding) {
+                        let participants = value.toString();
+                        fProps.setFieldValue("max_participantes", participants);
+                      }
+                    }}
+                    value={parseInt(fProps.values.max_participantes)}
+                    onSlidingStart={() => {setSliding(true)}}
+                    onSlidingComplete={() => {setSliding(false)}}
+                  />
+                </View>
+              </View>
+              <TouchableOpacity 
+                className="items-center"
+                onPress={()=>{fProps.handleSubmit()}}
+              >
+                <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">
+                  <Text className="text-base text-[#086841]">Publicar</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           )}
         </Formik>
