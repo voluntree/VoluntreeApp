@@ -67,7 +67,7 @@ const Feed = () => {
         <View>
           <View className="items-center">
             <View className="h-60 w-full">
-              <Image className="h-48 w-fit opacity" source={{ uri: bgfoto }} />
+              <Image className="h-48 w-20 opacity" source={{ uri: bgfoto }} />
             </View>
             <View className="absolute z-10 mt-36 flex-row items-center space-x-10">
               <TouchableOpacity>
