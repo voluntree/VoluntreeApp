@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput, Button, Image } from "react-native";
+import { View, ScrollView, Text, Modal, TouchableOpacity, TextInput, Button, Image, Alert } from "react-native";
 import { Icon } from "react-native-elements";
 import { Dropdown } from "react-native-element-dropdown";
 import Slider from "@react-native-community/slider";
@@ -210,9 +210,9 @@ const ModalNewActivity = (props) => {
           {(fProps) => (
             <View className="space-y-5">
               {/* Header */}
-              <View className="flex flex-row justify-between">
+              <View className="flex-row justify-between">
                 <TextInput
-                  className="text-xl text-[#086841] h-10 w-5/6 p-2 font-bold"
+                  className="text-xl text-[#086841] w-56 font-bold"
                   placeholder="Título"
                   placeholderTextColor={"#086841"}
                   onChangeText={fProps.handleChange("titulo")}
@@ -229,14 +229,14 @@ const ModalNewActivity = (props) => {
                 </TouchableOpacity>
               </View>
               {/* CONTENEDOR: Duración & Categoría */}
-              <View className="flex flex-row justify-between space-x-5">
+              <View className="flex-row justify-between px-4">
                 {/* Duración */}
                 <View>
-                  <Text className="text-base text-[#086841] ml-3">
+                  <Text className="text-base text-[#086841] pl-2">
                     Duración: {fProps.values.duracion}h
                   </Text>
                   <Slider
-                    style={{ width: 170, height: 30 }}
+                    style={{ width: 160, height: 30 }}
                     minimumValue={1}
                     maximumValue={8}
                     step={1}
@@ -249,14 +249,18 @@ const ModalNewActivity = (props) => {
                         fProps.setFieldValue("duracion", hours);
                       }
                     }}
-                    onSlidingStart={() => {setSliding(true)}}
-                    onSlidingComplete={() => {setSliding(false)}}
+                    onSlidingStart={() => {
+                      setSliding(true);
+                    }}
+                    onSlidingComplete={() => {
+                      setSliding(false);
+                    }}
                   />
                 </View>
                 {/* Categoría */}
                 <View>
                   <Dropdown
-                    className="w-32 h-10 border-2 border-[#086841] rounded-md p-2"
+                    className="w-40 h-10 border-2 border-[#086841] rounded-md p-1"
                     placeholderStyle={{ fontSize: 14, color: "#6b7280" }}
                     selectedTextStyle={{ fontSize: 14 }}
                     placeholder="Categoría"
@@ -275,11 +279,11 @@ const ModalNewActivity = (props) => {
                 </View>
               </View>
               {/* Linea divisoria */}
-              
+
               {/* CONTENEDOR: Localización & Fecha & Imagen */}
-              <View className='space-y-4 ml-4 mr-4'>
+              <View className="space-y-4 px-4">
                 {/* Localización */}
-                <View className='flex flex-row' >
+                <View className="flex flex-row">
                   <Icon
                     name="location"
                     type="ionicon"
@@ -294,7 +298,7 @@ const ModalNewActivity = (props) => {
                   />
                 </View>
                 {/* Fecha */}
-                <View className='flex flex-row' >
+                <View className="flex flex-row">
                   <Icon
                     name="calendar"
                     type="ionicon"
@@ -302,46 +306,38 @@ const ModalNewActivity = (props) => {
                     color="#086841"
                     style={{ marginTop: 5, marginRight: 5 }}
                   />
-                    <TouchableOpacity 
-                      className='justify-center w-8/12'
-                      onPress={() => {showPicker()}}
-                    >
-                      <Text className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-full pt-2">{text}</Text>
-                    </TouchableOpacity>
-                    <DateTimePicker
-                      isVisible={show}
-                      onConfirm={(value) => {
-                        handlePicker(value);
-                        fProps.setFieldValue("fecha", value);
-                      }}
-                      onCancel={hidePicker}
-                      mode="datetime"
-                      is24Hour={true}
-                    />
+                  <TouchableOpacity
+                    className="justify-center w-8/12"
+                    onPress={() => {
+                      showPicker();
+                    }}
+                  >
+                    <Text className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-full pt-2">
+                      {text}
+                    </Text>
+                  </TouchableOpacity>
+                  <DateTimePicker
+                    isVisible={show}
+                    onConfirm={(value) => {
+                      handlePicker(value);
+                      fProps.setFieldValue("fecha", value);
+                    }}
+                    onCancel={hidePicker}
+                    mode="datetime"
+                    is24Hour={true}
+                  />
                 </View>
                 {/* Imagen */}
-                <View className='border-2 border-[#FEBBBB] h-40 rounded-lg' >
-                    <TouchableOpacity 
-                      className="w-full h-full justify-center items-center"
-                      onPress={() => {
-                        pickImage().then((result) => {
-                          fProps.setFieldValue("imagen", getImageName(result.uri));
-                        });
-                      }}
-                    >
-                      <ChooseImage />
-                    </TouchableOpacity>
-                </View>
               </View>
               {/* Linea divisoria */}
-              
+
               {/* CONTENEDOR: Descripción & Participantes */}
-              <View className="space-y-4 ml-4 mr-4">
+              <View className="space-y-4 px-4">
                 {/* Descripción */}
                 <View>
                   <Text className="text-base text-[#086841]">Descripción:</Text>
-                  <TextInput 
-                    className="text-sm text-justify text-[#086841] w-auto h-auto border-2 border-[#FEBBBB] rounded-md p-2 mt-2" 
+                  <TextInput
+                    className="text-sm text-justify text-[#086841] h-32 border-2 border-[#FEBBBB] rounded-md p-2"
                     multiline={true}
                     numberOfLines={6}
                     maxLength={200}
@@ -351,10 +347,12 @@ const ModalNewActivity = (props) => {
                 </View>
                 {/* Participantes */}
                 <View>
-                  <View className="flex flex-row space-x-2">
-                    <Text className="text-base text-[#086841]">Participantes:</Text>
+                  <View className="flex flex-row space-x-2 items-center justify-start">
+                    <Text className="text-base text-[#086841]">
+                      Participantes:
+                    </Text>
                     <TextInput
-                      className="text-base text-[#086841] h-6"
+                      className="text-base text-[#086841]"
                       maxLength={3}
                       value={fProps.values.max_participantes}
                       onChangeText={(value) => {
@@ -387,14 +385,35 @@ const ModalNewActivity = (props) => {
                       }
                     }}
                     value={parseInt(fProps.values.max_participantes)}
-                    onSlidingStart={() => {setSliding(true)}}
-                    onSlidingComplete={() => {setSliding(false)}}
+                    onSlidingStart={() => {
+                      setSliding(true);
+                    }}
+                    onSlidingComplete={() => {
+                      setSliding(false);
+                    }}
                   />
                 </View>
+                <View className="border-2 border-[#FEBBBB] h-32 rounded-lg">
+                  <TouchableOpacity
+                    className="w-full h-full justify-center items-center"
+                    onPress={() => {
+                      pickImage().then((result) => {
+                        fProps.setFieldValue(
+                          "imagen",
+                          getImageName(result.uri)
+                        );
+                      });
+                    }}
+                  >
+                    <ChooseImage />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <TouchableOpacity 
+              <TouchableOpacity
                 className="items-center"
-                onPress={()=>{fProps.handleSubmit()}}
+                onPress={() => {
+                  fProps.handleSubmit();
+                }}
               >
                 <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">
                   <Text className="text-base text-[#086841]">Publicar</Text>
