@@ -80,7 +80,9 @@ const AssociationTab = () => {
                     component={PostActivity}
                     options={{
                         tabBarButton: () => (
-                            <TouchableOpacity className='items-center justify-center bottom-7' onPress={()=>{setIsModalOpen(!isModalOpen)}} >
+                            <TouchableOpacity 
+                                className='items-center justify-center bottom-7' 
+                                onPress={()=>{setIsModalOpen(!isModalOpen)}} >
                                 <View className='items-center justify-center w-16 h-16 bg-[#00BFA5] rounded-full'> 
                                     <Image
                                         source={require("../../icons/plus.png")}

@@ -71,7 +71,7 @@ const AssociationActivityDetails = () => {
 
   const openDetails = () => {
     getActivityById(actividad.titulo).then((activity) => {
-      navigation.push("Details", { actividad: activity, uri: uri });
+      navigation.push("Edit", { actividad: activity, uri: uri });
     });
   };
 

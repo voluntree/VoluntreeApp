@@ -320,7 +320,7 @@ const ModalNewActivity = (props) => {
                 <View>
                   <View className="flex flex-row space-x-2 items-center justify-start">
                     <Text className="text-base text-[#086841]">
-                      Participantes:
+                      Nº máximo de participantes:
                     </Text>
                     <TextInput
                       className="text-base text-[#086841]"
@@ -390,12 +390,6 @@ const ModalNewActivity = (props) => {
                   <Text className="text-base text-[#086841]">Publicar</Text>
                 </View>
               </TouchableOpacity>
-              <Button
-                title="Test"
-                onPress={() => {
-                  console.log(fProps.values);
-                }}
-              />
             </View>
           )}
         </Formik>
