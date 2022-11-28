@@ -8,6 +8,10 @@ import { Formik } from "formik";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
+import { storage, uploadBytes } from "../../utils/firebase";
+import { ref } from "firebase/storage";
+
+import { createActivity } from "../../service/service";
 
 const ModalNewActivity = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -102,42 +106,11 @@ const ModalNewActivity = (props) => {
     if (
       values.titulo.trim().length == 0 ||
       values.tipo.trim().length == 0 ||
-      values.max_participantes.trim().length == 0 ||
-      values.duracion.trim().length == 0 ||
       values.descripcion.trim().length == 0 ||
       values.imagen.trim().length == 0 ||
       values.fecha == null
     ) {
       Alert.alert("Error", "Por favor, rellene todos los campos");
-      return false;
-    }
-    if (isNaN(values.max_participantes)) {
-      Alert.alert(
-        "Error",
-        "El número de participantes debe ser un número entre 6 y 100"
-      );
-      return false;
-    }
-    if (values.max_participantes < 6 || values.max_participantes > 100) {
-      Alert.alert(
-        "Error",
-        "El número de participantes debe estar entre 6 y 100"
-      );
-      return false;
-    }
-    if (isNaN(values.duracion)) {
-      Alert.alert("Error", "La duración debe ser un número entre 1 y 8");
-      return false;
-    }
-    if (values.duracion < 1 || values.duracion > 8) {
-      Alert.alert("Error", "La duración debe estar entre 1 y 8 horas");
-      return false;
-    }
-    if (values.descripcion.length > 600) {
-      Alert.alert(
-        "Error",
-        "La descripción no puede tener más de 600 caracteres"
-      );
       return false;
     }
     return true;
@@ -177,7 +150,7 @@ const ModalNewActivity = (props) => {
       >
         <View className="h-full w-full absolute bg-[#27272a] opacity-70"></View>
       </Modal>
-      <ScrollView className="border-t-2 border-l-2 border-r-2 border-[#000000] rounded-t-3xl bg-blanco p-5 mt-20">
+      <ScrollView className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20">
         <Formik
           initialValues={{
             asociacion: "Green Peace",
@@ -196,8 +169,6 @@ const ModalNewActivity = (props) => {
             ubicacion: "",
           }}
           onSubmit={(values) => {
-            values.fecha = date;
-
             if (correctData(values)) {
               values.imagen = image.substring(image.lastIndexOf("/") + 1);
               values.duracion += "h";
@@ -419,6 +390,12 @@ const ModalNewActivity = (props) => {
                   <Text className="text-base text-[#086841]">Publicar</Text>
                 </View>
               </TouchableOpacity>
+              <Button
+                title="Test"
+                onPress={() => {
+                  console.log(fProps.values);
+                }}
+              />
             </View>
           )}
         </Formik>
