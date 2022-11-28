@@ -41,8 +41,9 @@ const Login = () => {
   }, []);
 
   const clearFields = () => {
-    setEmail(""); setPassword("");
-  }
+    setEmail("");
+    setPassword("");
+  };
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [tipoUser, setTipoUser] = useState("");
@@ -70,16 +71,23 @@ const Login = () => {
       .then((userCredential) => {
         setSpinner(true);
         const user = userCredential.user;
-        const q = query(
+        const qVol = query(
           collection(db, "voluntarios"),
-          where("correo", "==", email)
+          where("correo", "==", email.toLowerCase())
         );
-        const data = getDocs(q).then((querySnapshot) => {
+        const data = getDocs(qVol).then((querySnapshot) => {
           if (!querySnapshot.empty) {
             setSpinner(false);
             navigation.navigate("UserHome");
           } else {
-            navigation.navigate("AssociationHome");
+            const qAsoc = query(
+              collection(db, "asociaciones"),
+              where("correo", "==", email.toLowerCase())
+            );
+            if (!querySnapshot.empty) {
+              setSpinner(false);
+              navigation.navigate("AssociationHome");
+            }
           }
         });
       })
@@ -97,7 +105,7 @@ const Login = () => {
             break;
 
           case "auth/user-not-found":
-            Alert.alert("Advertencia","Correo electrónico no registrado")
+            Alert.alert("Advertencia", "Correo electrónico no registrado");
 
           default:
             // Alert.alert(errorCode);

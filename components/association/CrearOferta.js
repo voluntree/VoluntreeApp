@@ -171,7 +171,7 @@ const CrearOferta = () => {
   };
 
   return (
-    <ScrollView className="p-5 pt-20">
+    <ScrollView className="border p-5 pt-20">
       <Formik
         initialValues={{
           asociacion: "Green Peace",
