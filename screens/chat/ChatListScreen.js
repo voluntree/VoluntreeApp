@@ -37,7 +37,7 @@ const ChatListScreen = () => {
     <SafeAreaView className="flex items-center h-full w-full p-2 bg-blanco">
       <View className="w-full m-2 px-2">
         <TextInput
-          className="w-full h-10 rounded-xl border-2 border-ambiental bg-costas p-3"
+          className="w-full h-10 rounded-xl border-2 border-ambiental bg-costas p-2"
           placeholder="Chat"
           value={busqueda}
           onChangeText={(value) => setBusqueda(value)}
