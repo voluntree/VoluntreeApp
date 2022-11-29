@@ -52,10 +52,10 @@ const TarjetaDeActividad = (props) => {
 
   return (
     <TouchableOpacity onPress={openCard}>
-      <View className="rounded-t-[15px] rounded-b-[15px] w-fit mx-2 py-4">
+      <View className="rounded-t-[15px] rounded-b-[15px] w-full h-auto px-2 py-4">
         <View className="w-full">
           <Image
-            className="rounded-t-[15px] h-48 w-82 object-scale-down"
+            className="rounded-t-[15px] h-36 w-fit object-scale-down"
             source={{ uri: uri }}
           />
         </View>

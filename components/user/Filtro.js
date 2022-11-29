@@ -36,10 +36,10 @@ const Filtro = (props) => {
   }
   return (
     <TouchableOpacity onPress={onPress}>
-      <View className="rounded-md h-10 w-24 justify-center items-center border-deportivo mr-2" 
+      <View className="rounded-md h-10 justify-center items-center border-deportivo mr-2" 
             style={{backgroundColor: activo ? setActiveColor() : null,
                     borderWidth: activo ? null : 2}}>
-          <Text className="text-sm font-normal"
+          <Text className="text-sm font-normal px-2"
                 style = {{color: activo ? setTextColor() : theme.colors.ambiental}}>{props.texto}</Text>
       </View>
     </TouchableOpacity>

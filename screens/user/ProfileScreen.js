@@ -112,7 +112,7 @@ const ProfileScreen = () => {
             source={{ uri: profilefoto }}
           />
           {/* Contenedor Info Usuario*/}
-          <View className="h-20 space-y-2">
+          <View className="space-y-2">
             {/*Nombre*/}
             <View className={"flex-row justify-between items-baseline"}>
               <Text
