@@ -7,9 +7,11 @@ import MapTabScreenStack from '../../screens/MapTabScreenStack';
 import HomeTabScreenStack from '../../screens/HomeTabScreenStack';
 import ProfileTabScreenStack from '../../screens/ProfileTabScreenStack';
 import NewsTabScreenStack from '../../screens/NewsTabScreenStack';
+
 import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon, ProfileIconFocused, MapIconFocused, HomeIconFocused, NewsIconFocused, ChatIconFocused, ChatIcon} from '../../icons/Icons'
 import { useState } from 'react';
 import { black } from 'tailwindcss/colors';
+import ChatListScreen from '../../screens/chat/ChatListScreen';
 
 
 const Tab = createBottomTabNavigator()
@@ -96,7 +98,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Inbox"
-          component={HomeScreen}
+          component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
