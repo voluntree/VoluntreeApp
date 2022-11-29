@@ -7,6 +7,10 @@ import { getUsersChatsList, getVoluntarioByID } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import ChatListItem from "../../components/chat/ChatListItem";
+import { query } from 'firebase/firestore';
+import { collection } from 'firebase/firestore';
+import { where } from 'firebase/firestore';
+import { onSnapshot } from 'firebase/firestore';
 
 const ChatListScreen = () => {
   const currentUser = auth.currentUser;
@@ -14,15 +18,14 @@ const ChatListScreen = () => {
   const navigation = useNavigation();
   const [chats, setChats] = useState([]);
   const [busqueda, setBusqueda] = useState("");
+  const q = query(collection(db, "actividades"),where("participantes","array-contains",currentUser.uid))
 
   useEffect(() => {
-    async function getChats() {
-      console.log(currentUser.email);
-      let lista = await getUsersChatsList(currentUser.uid);
-      setChats(lista);
+    async function getUser() {
       setUser(await getVoluntarioByID(currentUser.uid));
     }
-    getChats();
+    getUser();
+    onSnapshot(q,(snapshot)=>({id: snapshot.id}, setChats(snapshot.docs.map(doc => doc.data()))))
   }, []);
 
   function openChat(actividad) {
