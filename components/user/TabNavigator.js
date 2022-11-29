@@ -97,7 +97,7 @@ export function TabNavigator(){
           }}
         />
         <Tab.Screen
-          name="Inbox"
+          name="Chat"
           component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
