@@ -8,9 +8,9 @@ const MyMessage = (props) => {
   const { message } = props;
   return (
     <View style={st.msg}>
-      <View className="mx-4 p-2 my-1 h-auto w-52 bg-bottomTabs rounded-md">
+      <View className="mx-4 p-2 my-1 h-auto w-52 bg-educacion rounded-lg">
       
-      <Text className="flex-col flex-wrap">{message.message}</Text>
+      <Text className="flex-col flex-wrap text-base">{message.message}</Text>
     </View>
     </View>
   );

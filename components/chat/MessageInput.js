@@ -1,4 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+} from "react-native";
 import React from "react";
 import { sendUserMessage } from "../../service/service";
 import { auth } from "../../utils/firebase";
@@ -6,7 +12,7 @@ import { useState } from "react";
 import { Icon } from "react-native-elements";
 import { Dimensions } from "react-native";
 
-var width = Dimensions.get('window').width; //full width
+var width = Dimensions.get("window").width; //full width
 
 const MessageInput = (props) => {
   const { actividad } = props;
@@ -15,7 +21,7 @@ const MessageInput = (props) => {
   const sendMessage = () => {
     if (textoActual.trim().length != 0) {
       sendUserMessage(currentUser, textoActual, Date.now(), actividad);
-      setTextoActual("")
+      setTextoActual("");
     }
   };
 
@@ -40,7 +46,5 @@ const MessageInput = (props) => {
     </View>
   );
 };
-
-
 
 export default MessageInput;

@@ -462,12 +462,13 @@ export async function deleteUserData(userID) {
 //#endregion
 
 //#region chat
-export async function getUsersChatsList(userEmail) {
-  const usr = await getDocs(
-    query(collection(db, "voluntarios"), where("correo", "==", userEmail))
+export async function getUsersChatsList(user) {
+  const acts = await getDocs(
+    query(collection(db, "actividades"), where("participantes", "array-contains", user))
   );
-
-  return usr.docs[0].data().actividades;
+  const data = [];
+  acts.forEach(doc => data.push(doc.data()))
+  return data;
 }
 export async function sendUserMessage(user, messageContent, fecha, activity) {
   const ref = doc(db, `chats/${activity}/messages/${fecha}`);

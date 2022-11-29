@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { retrieveChatMessages } from "../../service/service";
 import { onSnapshot } from "firebase/firestore";
 import MessageInput from "../../components/chat/MessageInput";
-import ChatHeader from "../../components/chat/ChatHeader";
+
 
 const ActivityChat = () => {
   const { actividad, currentUser, userDetails } = useRoute().params;
@@ -25,7 +25,7 @@ const ActivityChat = () => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: actividad,
-      headerMargin: 0
+      headerMargin: 0,
     });
   }, []);
 
@@ -42,9 +42,9 @@ const ActivityChat = () => {
     <View className="h-screen w-screen bg-comunitario">
       <View className="flex-col h-[100%] ">
         <View className="w-screen h-full">
-          {mensajes.length != 0 && (
-            <MessageList messages={mensajes} usuario={userDetails} />
-          )}
+          {mensajes.length != 0 ? (
+            <MessageList usuario={userDetails} actividad={actividad}/>
+          ):(<View className="flex w-[100%] flex-1 items-center justify-center"><Text>No hay mensajes</Text></View>)}
           <MessageInput actividad={actividad} />
         </View>
       </View>
