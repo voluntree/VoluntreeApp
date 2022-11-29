@@ -37,7 +37,7 @@ const ActivityChat = () => {
   }, []);
 
   return (
-    <View className="h-screen w-screen bg-comunitario">
+    <View className="h-screen w-screen bg-[#dbffdf]">
       <View className="flex-col h-[100%] ">
         <View className="w-screen h-full">
           {mensajes.length != 0 ? (

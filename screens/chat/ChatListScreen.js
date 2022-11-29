@@ -1,12 +1,9 @@
-import {Text } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { auth, db } from "../../utils/firebase";
-import {
-  getUsersChatsList,
-  getVoluntarioByID,
-} from "../../service/service";
+import { getUsersChatsList, getVoluntarioByID } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import ChatListItem from "../../components/chat/ChatListItem";
@@ -16,6 +13,7 @@ const ChatListScreen = () => {
   const [userDetails, setUser] = useState({});
   const navigation = useNavigation();
   const [chats, setChats] = useState([]);
+  const [busqueda, setBusqueda] = useState("");
 
   useEffect(() => {
     async function getChats() {
@@ -35,13 +33,25 @@ const ChatListScreen = () => {
     });
   }
 
-
   return (
-    <SafeAreaView className="h-full w-full p-2">
-      <Text className="text-lg font-semibold m-2">Chats</Text>
-      {chats.map((c) => {
-        return <ChatListItem key={c.titulo} item={c} user={userDetails}/>;
-      })}
+    <SafeAreaView className="flex items-center h-full w-full p-2 bg-blanco">
+      <View className="w-full m-2 px-2">
+        <TextInput
+          className="w-full h-10 rounded-xl border-2 border-ambiental bg-costas p-3"
+          placeholder="Chat"
+          value={busqueda}
+          onChangeText={(value) => setBusqueda(value)}
+        />
+      </View>
+      <View className="w-full items-start">
+        <Text className="text-lg font-semibold m-2">Chats</Text>
+        {chats.map((c) => {
+          if (
+            c.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())
+          )
+            return <ChatListItem key={c.titulo} item={c} user={userDetails} />;
+        })}
+      </View>
     </SafeAreaView>
   );
 };

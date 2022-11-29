@@ -47,13 +47,16 @@ const ChatListItem = (props) => {
       )}
       <View className="flex-col px-2">
         <Text className="text-base">{item.titulo}</Text>
-        {lastMsg && (
+        {lastMsg ? (
           <View className="flex-row">
             <Text className="font-semibold text-ambiental">
-              {lastMsg.user.nombre}:
+              {lastMsg.user.dni == userDetails.dni ? "Tú" : lastMsg.user.nombre}
+              :
             </Text>
             <Text className="text-ambiental"> {lastMsg.message}</Text>
           </View>
+        ) : (
+          <Text className="text-ambiental">Aún no hay mensajes</Text>
         )}
       </View>
     </TouchableOpacity>
