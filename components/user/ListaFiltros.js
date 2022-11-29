@@ -68,7 +68,7 @@ const ListaFiltros = (props) => {
           isActivo = {isActivo(item.texto)}
         />
       )}
-      numColumns = {3}
+     horizontal = {true}
     />
   );
 }

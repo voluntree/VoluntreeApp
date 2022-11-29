@@ -17,9 +17,9 @@ import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native-elements";
 import { useRoute } from "@react-navigation/native";
 import { Formik } from "formik";
-
+import {doc, updateDoc} from "firebase/firestore"
 import { ref } from "firebase/storage";
-import { storage, uploadBytes } from "../../utils/firebase";
+import { firebase, storage, uploadBytes, db, auth } from "../../utils/firebase";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { updateProfile } from "../../service/service";
 import { getImageDownloadURL } from "../../service/service";
@@ -29,6 +29,8 @@ const EditProfile = () => {
   const { voluntario, userID, foto } = route.params;
 
   const navigation = useNavigation();
+
+  const user = auth.currentUser;
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -82,13 +84,28 @@ const EditProfile = () => {
     }
   };
 
-  function save(userData) {
-    console.log('check')
+  async function save(userData) {
     if (dataOK(userData)) {
-      console.log('data OK');
-      userData.fotoPerfil = image.substring(image.lastIndexOf("/") + 1);
-      storeImage();
-      updateProfile(userData, userID);
+      if (image != null) {
+        try {
+          storeImage().then(() => {
+            const docRef = doc(db, "voluntarios", user.uid);
+            updateDoc(docRef, {
+              fotoPerfil: image.substring(image.lastIndexOf("/") + 1),
+            }).then(
+              Alert.alert("Éxito", "Perfil actualizado correctamente"),
+              navigation.navigate("Perfil")
+            );
+          });
+        } catch (e) {
+          console.log(e);
+          Alert.alert(
+            "Error",
+            "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
+          );
+        }
+      }
+     
     }
   }
 

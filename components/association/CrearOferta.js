@@ -171,7 +171,7 @@ const CrearOferta = () => {
   };
 
   return (
-    <ScrollView className="p-5 pt-20">
+    <ScrollView className="border h-full">
       <Formik
         initialValues={{
           asociacion: "Green Peace",
@@ -204,17 +204,17 @@ const CrearOferta = () => {
         {(props) => (
           <View>
             <View className="flex-row">
-              <View className="mr-2 space-y-5">
+              <View className="">
                 <TextInput
-                  className="text-xs w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  className="text-xs w-44 h-10 border border-[#6b7280] rounded-md"
                   placeholder="Título"
                   onChangeText={props.handleChange("titulo")}
                   value={props.values.titulo}
                 />
                 <Dropdown 
-                  className="w-44 h-10 border border-[#6b7280] rounded-md p-2"
+                  className="w-44 h-10 border border-[#6b7280] rounded-md"
                   placeholderStyle={{fontSize: 12, color: "#6b7280"}}
-                  selectedTextStyle={{fontSize: 12}}
+                  selectedTextStyle={{fontSize: 10}}
                   placeholder="Tipo"
                   data={[
                     { label: "Ambiental", value: "ambiental" },
@@ -331,8 +331,7 @@ const CrearOferta = () => {
               <Button
                 title="Crear"
                 color="#00BFA5"
-                onPress={() => {//props.handleSubmit()
-                console.log(props.values)}}
+                onPress={() => props.handleSubmit()}
               />
             </View>
           </View>

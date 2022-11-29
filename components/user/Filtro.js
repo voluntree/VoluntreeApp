@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacityBase, TouchableOpacity } from 'react-native'
 import React, {useState} from 'react'
 import { Image } from 'react-native-elements'
+import { theme } from '../../tailwind.config';
 
 const Filtro = (props) => {
 
@@ -10,14 +11,36 @@ const Filtro = (props) => {
     setActivo(!activo)
     props.AddCategoria(props.texto.toLowerCase(), !activo)
   }
+ 
+  function setActiveColor(){
+    switch(props.texto){
+      case "Educación": return theme.colors.educacion; break
+      case "Ambiental": return theme.colors.ambiental; break
+      case "Costas": return theme.colors.costas; break
+      case "Deportivo": return theme.colors.deportivo; break
+      case "Comunitario": return theme.colors.comunitario; break
+      case "Cultural": return theme.colors.cultural; break
+      default: return theme.colors.comunitario;
+    }
+  }
 
+  function setTextColor(){
+    switch(props.texto){
+      case "Educación":
+      case "Costas":
+      case "Deportivo":
+      case "Comunitario": return theme.colors.ambiental; break
+      case "Cultural":
+      case "Ambiental": return theme.colors.costas
+    }
+  }
   return (
     <TouchableOpacity onPress={onPress}>
-      <View className="px-4 pb-1 rounded-md m-[0.5px]" style={{backgroundColor: activo ? "#00BFA5" : null}}>
-        <View className="items-center w-16 h-16">
-          <Image className="w-12 h-12 rounded-full" source={props.imagen} />
-          <Text className="text-[10px] font-semibold">{props.texto}</Text>
-        </View>
+      <View className="rounded-md h-10 w-24 justify-center items-center border-deportivo mr-2" 
+            style={{backgroundColor: activo ? setActiveColor() : null,
+                    borderWidth: activo ? null : 2}}>
+          <Text className="text-sm font-normal"
+                style = {{color: activo ? setTextColor() : theme.colors.ambiental}}>{props.texto}</Text>
       </View>
     </TouchableOpacity>
   );

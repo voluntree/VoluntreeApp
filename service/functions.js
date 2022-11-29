@@ -45,7 +45,7 @@ export function stringToHash(string) {
 
 export function truncateText(text, maxLength){
   if(text.length > maxLength){
-      return text.substring(0,maxLength - 1) + "..."
+      return text.substring(0,maxLength - 1) + "... "
   }else{
     return text
   }
