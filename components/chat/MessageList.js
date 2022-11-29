@@ -30,10 +30,11 @@ const MessageList = (props) => {
   return (
     <FlatList
       className="w-screen bg-[#transparent] "
-      data={mensajes}
+      data={mensajes.reverse()}
       renderItem={({ item }) => mensajeItem(item)}
-      inverted
-      contentContainerStyle={{ flexDirection: "column-reverse" }}
+      initialNumToRender={14} 
+      inverted={-1}
+      
     />
   );
 };

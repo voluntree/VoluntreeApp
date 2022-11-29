@@ -8,6 +8,7 @@ import HomeTabScreenStack from '../../screens/HomeTabScreenStack';
 import ProfileTabScreenStack from '../../screens/ProfileTabScreenStack';
 import NewsTabScreenStack from '../../screens/NewsTabScreenStack';
 import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon} from '../../icons/Icons'
+import ChatListScreen from '../../screens/chat/ChatListScreen';
 
 
 const Tab = createBottomTabNavigator()
@@ -100,7 +101,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Inbox"
-          component={HomeScreen}
+          component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">

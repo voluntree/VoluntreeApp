@@ -20,7 +20,6 @@ import {
   getPoints,
   inscribirUsuarioEnActividad,
 } from "../../service/service";
-import { auth } from "../../utils/firebase";
 
 const ActivityScreen = () => {
   const navigation = useNavigation();

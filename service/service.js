@@ -477,12 +477,13 @@ export async function sendUserMessage(user, messageContent, fecha, activity) {
   }
 }
 
-export async function retrieveChatMessages(activity) {
+export async function retrieveChatLastMessage(activity) {
   const ref = collection(db, `chats/${activity}/messages`);
   let resp = [];
   try {
     const data = await getDocs(ref);
     data.forEach((doc) => resp.push(doc.data()));
+    return resp[resp.length-1];
   } catch (error) {}
   return resp;
 }

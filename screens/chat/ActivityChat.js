@@ -11,8 +11,9 @@ import MessageList from "../../components/chat/MessageList";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { retrieveChatMessages } from "../../service/service";
-import { onSnapshot } from "firebase/firestore";
+import { onSnapshot, collection } from "firebase/firestore";
 import MessageInput from "../../components/chat/MessageInput";
+import { db } from "../../utils/firebase";
 
 
 const ActivityChat = () => {
@@ -30,12 +31,9 @@ const ActivityChat = () => {
   }, []);
 
   useEffect(() => {
-    async function retrieveMessages() {
-      const data = await retrieveChatMessages(actividad);
-      setMensajes(data);
-    }
-    retrieveMessages();
-    console.log("Detalles: ", userDetails);
+    onSnapshot(collection(db, `chats/${actividad}/messages`), (snapshot) =>({
+      id: snapshot.id
+    }, setMensajes(snapshot.docs.map(doc=> doc.data()))))
   }, []);
 
   return (
