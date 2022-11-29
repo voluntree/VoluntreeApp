@@ -3,11 +3,12 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { auth } from "../../utils/firebase";
+import { auth, db } from "../../utils/firebase";
 import {
   getImageDownloadURL,
   retrieveChatLastMessage,
 } from "../../service/service";
+import { onSnapshot, collection } from "firebase/firestore";
 
 const ChatListItem = (props) => {
   const currentUser = auth.currentUser;
@@ -18,15 +19,21 @@ const ChatListItem = (props) => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    async function initData() {
-      let src = await getImageDownloadURL("cardImages/" + item.imagen);
-      setImg(src);
-
-      let msg = await retrieveChatLastMessage(item.titulo);
-      setLastMsg(msg);
-    }
     initData();
+    onSnapshot(
+      collection(db, `chats/${item.titulo}/messages`),
+      (snapshot) => (
+        { id: snapshot.id },
+        setLastMsg(snapshot.docs[snapshot.docs.length - 1].data())
+      )
+    );
   }, []);
+
+  async function initData() {
+    let src = await getImageDownloadURL("cardImages/" + item.imagen);
+    setImg(src);
+    console.log("runnig useEffect of chatListItem");
+  }
 
   function openChat(actividad) {
     navigation.navigate("Chat Actividad", {
