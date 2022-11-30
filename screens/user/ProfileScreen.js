@@ -192,7 +192,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
         {/*Actividades Favoritos*/}
-        <View className="w-full" style={{ height: "72%" }}>
+        <View className="w-full bg-blanco" style={{ height: "72%" }}>
           <UserProfileTab />
         </View>
         <ModalPerfil

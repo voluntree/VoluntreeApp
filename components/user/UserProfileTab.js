@@ -28,7 +28,7 @@ second: SecondRoute,
   });
  
   const renderTabBar = props => (
-  <TabBar className = "bg-costas"
+  <TabBar className = "bg-blanco"
   style = {{elevation: 0}}
       {...props}
       activeColor ={theme.colors.ambiental}
@@ -39,7 +39,7 @@ second: SecondRoute,
           </Text>
         
       )}
-      indicatorStyle = {{backgroundColor: theme.colors.blanco}}
+      indicatorStyle = {{backgroundColor: theme.colors.ambiental}}
       pressColor = {theme.colors.blanco} 
       
   />
