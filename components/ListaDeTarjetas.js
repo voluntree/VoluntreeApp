@@ -74,7 +74,7 @@ const ListaDeTarjetas = (props) => {
       };
 
   return (
-    <FlatList className = "mb-4"
+    <FlatList className = "w-full px-2"
       data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}

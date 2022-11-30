@@ -16,7 +16,7 @@ const ModalFiltros = (props) => {
     props.categoriasActivas
   );
   const [localDateValue, setLocalDateValue] = useState();
-  const [localText, setLocalText] = useState("Vacio");
+  const [localText, setLocalText] = useState("Vacío");
   const [localOrder, setLocalOrder] = useState(props.order);
 
   const data = [

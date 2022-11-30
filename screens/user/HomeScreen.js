@@ -51,7 +51,7 @@ const HomeScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full mt-4 items-center">
+      <SafeAreaView className="h-full mt-4 items-center bg-blanco">
         <Buscador
           valor={SearchText}
           setSearchText={setSearchText}

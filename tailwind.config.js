@@ -8,7 +8,7 @@ module.exports = {
   ],
   theme: {
     colors: {
-      costas: "#EFF8F4",
+      costas: "#dcf7eb",
       ambiental: "#086841",
       cultural: "#FF6723",
       comunitario: "#FEBBBB",
