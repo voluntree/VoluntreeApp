@@ -380,7 +380,11 @@ export async function getPoints(user, activity) {
       });
     });
     console.log(
-      "El usuario " + user.nombre + " ha reclamado " + activity.puntos + " puntos"
+      "El usuario " +
+        user.nombre +
+        " ha reclamado " +
+        activity.puntos +
+        " puntos"
     );
   } catch (e) {
     console.log(e);
@@ -399,7 +403,6 @@ export async function confirmAssistence(userID, activityID) {
     console.log(e);
   }
 }
-
 
 export async function unconfirmAssistence(userID, activityID) {
   const actRef = doc(db, "actividades", activityID);
@@ -450,7 +453,40 @@ export async function deleteUserData(userID) {
   }
 }
 
+//#endregion
 
+//#region chat
+export async function getUsersChatsList(user) {
+  const acts = await getDocs(
+    query(collection(db, "actividades"), where("participantes", "array-contains", user))
+  );
+  const data = [];
+  acts.forEach(doc => data.push(doc.data()))
+  return data;
+}
+export async function sendUserMessage(user, messageContent, fecha, activity) {
+  const ref = doc(db, `chats/${activity}/messages/${fecha}`);
+  const usr = await getVoluntarioByID(user);
+  
+  try {
+    await runTransaction(db, async (t) => {
+      t.set(ref, { user: usr, message: messageContent, date: fecha });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function retrieveChatLastMessage(activity) {
+  const ref = collection(db, `chats/${activity}/messages`);
+  let resp = [];
+  try {
+    const data = await getDocs(ref);
+    data.forEach((doc) => resp.push(doc.data()));
+    return resp[resp.length-1];
+  } catch (error) {}
+  return resp;
+}
 //#endregion
 
 //miscelanea

@@ -16,6 +16,7 @@ import QRScanner from './../screens/user/QRScanner';
 import QRGenerator from './../screens/association/QRGenerator';
 import Registro from "../screens/register/Registro";
 import EditActivity from "../screens/association/EditActivity";
+import ActivityChat from './../screens/chat/ActivityChat';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const AppNavigator = () => (
         <Screen name='Registro' component={Registro}/>
         <Screen name='QRscanner' component={QRScanner}/>
         <Screen name='QRgenerator' component={QRGenerator}/>
+        <Screen name='Chat Actividad' component={ActivityChat}/>
         <Screen name='Edit' component={EditActivity}/>
     </Navigator>   
 )

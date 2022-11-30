@@ -105,16 +105,19 @@ const ProfileScreen = () => {
     <TailwindProvider>
       <SafeAreaView className="h-full w-full items-center bg-blanco">
         {/* Contenedor principal*/}
-        <View className="flex-row h-24 space-x-2 items-center">
+        <View className="flex-row h-24 w-full items-center justify-around">
           {/* Avatar*/}
-          <Image
-            className="h-20 w-20 rounded-full"
-            source={{ uri: profilefoto }}
-          />
+          <View className="w-1/5">
+            <Image
+              className="h-20 w-20 rounded-full"
+              source={{ uri: profilefoto }}
+            />
+          </View>
+
           {/* Contenedor Info Usuario*/}
-          <View className="h-20 space-y-2">
+          <View className="flex w-auto space-y-2">
             {/*Nombre*/}
-            <View className={"flex-row justify-between items-baseline"}>
+            <View className={"flex-row w-max space-x-2 items-baseline"}>
               <Text
                 className="grow-0 text-xl font-bold"
                 style={{ color: theme.colors.ambiental }}
@@ -189,7 +192,7 @@ const ProfileScreen = () => {
           </Text>
         </View>
         {/*Actividades Favoritos*/}
-        <View className="w-full" style={{ height: "72%" }}>
+        <View className="w-full bg-blanco" style={{ height: "72%" }}>
           <UserProfileTab />
         </View>
         <ModalPerfil

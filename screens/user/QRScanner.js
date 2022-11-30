@@ -13,6 +13,7 @@ import { confirmAssistenceViaCode, confirmAssistenceViaQR } from "../../service/
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { current } from "tailwindcss/colors";
 import { TextInput } from "react-native-paper";
+import { auth } from "../../utils/firebase";
 
 const QRScanner = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -21,7 +22,7 @@ const QRScanner = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { actividad } = route.params;
-  const currentUser = "Catalin";
+  const currentUser = auth.currentUser;
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -37,7 +38,7 @@ const QRScanner = () => {
       if (actividad.participantes.includes(currentUser)) {
         try {
           setScanned(true);
-          await confirmAssistenceViaQR(currentUser, actividad.titulo, data);
+          await confirmAssistenceViaQR(currentUser.uid, actividad.titulo, data);
 
           Alert.alert(
             "Asistencia confirmada",

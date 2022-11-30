@@ -7,31 +7,32 @@ import MapTabScreenStack from '../../screens/MapTabScreenStack';
 import HomeTabScreenStack from '../../screens/HomeTabScreenStack';
 import ProfileTabScreenStack from '../../screens/ProfileTabScreenStack';
 import NewsTabScreenStack from '../../screens/NewsTabScreenStack';
-import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon} from '../../icons/Icons'
+
+import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon, ProfileIconFocused, MapIconFocused, HomeIconFocused, NewsIconFocused, ChatIconFocused, ChatIcon} from '../../icons/Icons'
+import { useState } from 'react';
+import { black } from 'tailwindcss/colors';
+import ChatListScreen from '../../screens/chat/ChatListScreen';
 
 
 const Tab = createBottomTabNavigator()
 
 export function TabNavigator(){
+
   
     const screenOptions = {
       headerShown: false,
       tabBarShowLabel: false,
       tabBarStyle:{
-        backgroundColor: theme.colors.bottomTabs,
-        height:55
+        backgroundColor: "white",
+        height:60,
+        borderTopWidth: 0,
       },
+      
       headerShown: false,
+      
       tabBarHideOnKeyboard: true,
     };
     
-    const styles = StyleSheet.create({
-      tabText: {
-        fontSize: 12, 
-        fontWeight: 'bold', 
-        color: 'white'
-      }
-    })
 
     return (
       <Tab.Navigator {...{ screenOptions }}>
@@ -40,18 +41,17 @@ export function TabNavigator(){
           component={HomeTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center bg-transparent">
-                <View
-                  className="w-[60px] h-[30px] items-center rounded-lg"
-                  style={{
-                    backgroundColor: focused
-                      ? theme.colors.focusBottomTabs
-                      : null,
-                  }}
-                >
-                  {HomeIcon(25, 25, "#fff")}
+              <View className="items-center justify-center">
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? HomeIconFocused(32, 32, "#fff")
+                    : HomeIcon(26, 26, "#fff")}
                 </View>
-                <Text style={styles.tabText}>HOME</Text>
+                {!focused ? (
+                  <Text className="text-[10px]">Inicio</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Inicio</Text>
+                )}
               </View>
             ),
           }}
@@ -61,18 +61,17 @@ export function TabNavigator(){
           component={NewsTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center bg-transparent">
-                <View
-                  className="w-[60px] h-[30px] items-center rounded-lg"
-                  style={{
-                    backgroundColor: focused
-                      ? theme.colors.focusBottomTabs
-                      : null,
-                  }}
-                >
-                  {NewsIcon(25, 25, "#fff")}
+              <View className="items-center justify-center">
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? NewsIconFocused(32, 32, "#fff")
+                    : NewsIcon(26, 26, "#fff")}
                 </View>
-                <Text style={styles.tabText}>NOTICIAS</Text>
+                {!focused ? (
+                  <Text className="bottom-0 text-[10px]">Noticias</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Noticias</Text>
+                )}
               </View>
             ),
           }}
@@ -82,39 +81,37 @@ export function TabNavigator(){
           component={MapTabScreenStack}
           options={{
             tabBarIcon: ({ focused }) => (
-              <View className="items-center justify-center bg-transparent">
-                <View
-                  className="w-[60px] h-[30px] items-center rounded-lg"
-                  style={{
-                    backgroundColor: focused
-                      ? theme.colors.focusBottomTabs
-                      : null,
-                  }}
-                >
-                  {MapIcon(25, 25, "#fff")}
+              <View className="items-center justify-center">
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? MapIconFocused(32, 32, "#fff")
+                    : MapIcon(26, 26, "#fff")}
                 </View>
-                <Text style={styles.tabText}>MAP</Text>
+                {!focused ? (
+                  <Text className="text-[10px]">Mapa</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Mapa</Text>
+                )}
               </View>
             ),
           }}
         />
         <Tab.Screen
-          name="Inbox"
-          component={HomeScreen}
+          name="Chat"
+          component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  className="w-[60px] h-[30px] items-center rounded-lg"
-                  style={{
-                    backgroundColor: focused
-                      ? theme.colors.focusBottomTabs
-                      : null,
-                  }}
-                >
-                  {InboxIcon(25, 25, "#fff")}
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? ChatIconFocused(32, 32, "#fff", "4")
+                    : ChatIcon(26, 26, "#fff", "4")}
                 </View>
-                <Text style={styles.tabText}>INBOX</Text>
+                {!focused ? (
+                  <Text className="text-[10px]">Chat</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Chat</Text>
+                )}
               </View>
             ),
           }}
@@ -125,17 +122,16 @@ export function TabNavigator(){
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <View
-                  className="w-[60px] h-[30px] items-center rounded-lg"
-                  style={{
-                    backgroundColor: focused
-                      ? theme.colors.focusBottomTabs
-                      : null,
-                  }}
-                >
-                  {ProfileIcon(25, 25, "#fff")}
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? ProfileIconFocused(32, 32, "#fff")
+                    : ProfileIcon(26, 26, "#fff")}
                 </View>
-                <Text style={styles.tabText}>PERFIL</Text>
+                {!focused ? (
+                  <Text className="text-[10px]">Perfil</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Perfil</Text>
+                )}
               </View>
             ),
           }}

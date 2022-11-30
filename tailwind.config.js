@@ -14,7 +14,7 @@ module.exports = {
       comunitario: "#FEBBBB",
       educacion: "#FFE6A4",
       deportivo: "#FFE8E8",
-      bottomTabs: "#00BFA5",
+      bottomTabs: "#086841",
       tarjetAsociacion: colors.gray[900],
       blanco: colors.white,
       rojo: colors.red,
