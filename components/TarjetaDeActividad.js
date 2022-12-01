@@ -14,17 +14,17 @@ import { useLayoutEffect } from "react";
 const TarjetaDeActividad = (props) => {
   const { actividad } = props;
   const options = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    weekday: "long", 
+    year: "numeric", 
+    month: "long", 
+    day: "numeric"
   };
   const user = auth.currentUser
-  const date = actividad.fecha.toDate().toLocaleString("es-ES", options);
+  const date = actividad.fecha.toDate().toDateString("es-ES", options);
   const [like, setLike] = useState(actividad.favoritos.includes(user))
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [uri, setUri] = useState();
-  const [ubicacion, setUbicacion] = useState();
+  const [ubicacion, setUbicacion] = useState([]);
 
   const reference = ref(
     storage,
@@ -48,12 +48,11 @@ const TarjetaDeActividad = (props) => {
   };
 
   useEffect(() => {
-    getAddress(actividad.ubicacion.latitude, actividad.ubicacion.longitude)
+      getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude).then((value) => setUbicacion(value))
   },[])
 
   const navigation = useNavigation();
-  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
-  const base_url = "https://eu1.locationiq.com";
+  const HERE_API_KEY = "xsVV1uwmlrIw2ZBMOi3Mb40lDrRO-SWYSkznK1yhrrs"
 
   const openCard = () => {
     navigation.push("Actividad", { actividad: actividad, uri: uri});
@@ -62,7 +61,7 @@ const TarjetaDeActividad = (props) => {
   function setActiveColor(){
     switch(actividad.tipo){
       case "educación": return theme.colors.educacion; break
-      case "ambiental": return theme.colors.costas; break
+      case "ambiental": return theme.colors.ambiental; break
       case "costas": return theme.colors.costas; break
       case "deportivo": return theme.colors.deportivo; break
       case "comunitario": return theme.colors.comunitario; break
@@ -82,24 +81,40 @@ const TarjetaDeActividad = (props) => {
     }
   }
 
-  const getAddress = async (lat, lng) => {
-    let response = await fetch(
-      `${base_url}/v1/reverse?key=${api_key}&lat=${lat}&lon=${lng}&format=json&accept-language=es`
-    );
-    let data = await response.json();
-    setUbicacion(data.display_name);
+  function getAddressFromCoordinates( latitude, longitude ) {
+    return new Promise((resolve) => {
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=${HERE_API_KEY}&in=circle:${latitude},${longitude};r=100`
+      fetch(url)
+        .then(res => res.json())
+        .then((resJson) => {
+          // the response had a deeply nested structure :/
+          if (resJson) {
+            resolve(resJson.items[0].address)
+          } else {
+            resolve()
+          }
+        })
+        .catch((e) => {
+          console.log('Error in getAddressFromCoordinates', e)
+          resolve()
+        })
+    })
   }
 
   return (
-    <TouchableOpacity onPress={openCard}>
+    <TouchableOpacity onPress={openCard} className = "mb-4">
       {/* Contenedor principal */}
-      <View className="rounded-xl p-4 w-full"
-            style = {{backgroundColor: setActiveColor()}}>
+      <View className="rounded-xl p-4 w-full bg-costas">
         {/* Contenedor contenido */}
         <View className="flex justify-between">
           {/* Titulo */}
-          <Text className="text-xl font-bold"
-                style = {{color: setTextColor()}}>{actividad.titulo}</Text>
+          <View className = "flex-row w-full justify-between">
+            <Text className="text-xl font-bold w-[80%]"
+                  style = {{color: setTextColor()}}>{actividad.titulo}
+            </Text>
+            <View className = "h-3 w-6 rounded-sm"
+                  style = {{backgroundColor: setActiveColor()}}></View>
+          </View>
           <View className="w-full">
             <Image
               className="rounded-md h-36 w-fit object-scale-down"
@@ -117,27 +132,32 @@ const TarjetaDeActividad = (props) => {
           <View className = "w-full h-0.5 bg-costas"
                 style = {{backgroundColor: setTextColor()}}></View>
           {/* Contenedor ubicacion, fecha y favoritos */}
-          <View className="flex flex-row justify-around items-center">
+          <View className="flex flex-row justify-between items-center h-20">
             {/* Contenedor ubicacion y fecha */}
-            <View className = "flex space-y-4  p-2">
+            <View className = "flex w-[70%] space-y-4  p-2">
               {/* Contenedor ubicación */}
-              <View className = "flex-row justify-start items-center space-x-4">
-                {MapIcon(20,30,setTextColor())}
-                <Text className = "text-normal"
-                      style = {{color: setTextColor()}}>Valencia</Text>
+              <View className = "flex-row justify-start items-center space-x-4 overflow-scroll">
+              <Icon 
+                name="place"
+                type="material-icons"
+                color={setTextColor()}
+                onPress={añadirFav}
+                size={28}
+              />
+                <Text className = "text-normal "
+                      style = {{color: setTextColor()}}>{ubicacion.city},{ubicacion.county}</Text>
               </View>
               <View className = "flex-row justify-start items-center space-x-4">
-                <Icon name="calendar"
-                      type="octicon"
+                <Icon name="today"
+                      type="material-icons"
                       color={setTextColor()}
-                      size={18}/>
+                      size={24}/>
                 <Text className = "text-normal"
-                      style = {{color: setTextColor()}}>{actividad.fecha.toDate().toLocaleString("es-ES", options)}</Text>
+                      style = {{color: setTextColor()}}>{actividad.fecha.toDate().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}, {actividad.fecha.toDate().toLocaleDateString("es-ES", options)}</Text>
               </View>
             </View>
-            <View className = "h-full w-0.5"
-                style = {{backgroundColor: setTextColor()}}></View>
-            <View className = "flex items-center bg-cultural">
+            <View className = "flex items-center grow border-l-2 h-full mx-2 justify-center"
+                  style = {{borderColor: setTextColor()}}>
               <Icon 
                 name={corazon}
                 type="octicon"

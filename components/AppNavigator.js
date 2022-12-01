@@ -16,7 +16,7 @@ import QRScanner from './../screens/user/QRScanner';
 import QRGenerator from './../screens/association/QRGenerator';
 import Registro from "../screens/register/Registro";
 import EditActivity from "../screens/association/EditActivity";
-import ActivityChat from './../screens/chat/ActivityChat';
+import ActivityChat from '../screens/chat/ActivityChat';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
