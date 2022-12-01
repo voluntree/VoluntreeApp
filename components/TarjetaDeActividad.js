@@ -21,7 +21,7 @@ const TarjetaDeActividad = (props) => {
   };
   const user = auth.currentUser
   const date = actividad.fecha.toDate().toDateString("es-ES", options);
-  const [like, setLike] = useState(actividad.favoritos.includes(user))
+  const [like, setLike] = useState(actividad.favoritos.includes(user.uid))
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [uri, setUri] = useState();
   const [ubicacion, setUbicacion] = useState([]);
