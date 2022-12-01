@@ -10,6 +10,7 @@ import { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 import { createActivity } from "../../service/service";
 
@@ -21,6 +22,8 @@ const ModalNewActivity = (props) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [text, setText] = useState("Fecha del voluntariado");
+
+  const navigation = useNavigation();
 
   const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
   const base_url = "https://eu1.locationiq.com";
@@ -183,7 +186,7 @@ const ModalNewActivity = (props) => {
               {/* Header */}
               <View className="flex-row justify-between">
                 <TextInput
-                  className="text-xl text-[#086841] w-56 font-bold"
+                  className="text-xl text-[#086841] w-9/12 font-bold pt-1"
                   placeholder="Título"
                   placeholderTextColor={"#086841"}
                   onChangeText={fProps.handleChange("titulo")}
@@ -231,7 +234,7 @@ const ModalNewActivity = (props) => {
                 {/* Categoría */}
                 <View>
                   <Dropdown
-                    className="w-40 h-10 border-2 border-[#086841] rounded-md p-1"
+                    className="w-40 h-10 border-[1px] border-[#086841] rounded-md p-1"
                     placeholderStyle={{ fontSize: 14, color: "#6b7280" }}
                     selectedTextStyle={{ fontSize: 14 }}
                     placeholder="Categoría"
@@ -249,30 +252,31 @@ const ModalNewActivity = (props) => {
                   />
                 </View>
               </View>
-              {/* Linea divisoria */}
-
               {/* CONTENEDOR: Localización & Fecha & Imagen */}
               <View className="space-y-4 px-4">
                 {/* Localización */}
                 <View className="flex flex-row">
                   <Icon
-                    name="location"
-                    type="ionicon"
+                    name="place"
+                    type="material"
                     size={22}
                     color="#086841"
-                    style={{ marginTop: 8, marginRight: 5 }}
+                    style={{ marginTop: 5, marginRight: 5 }}
                   />
-                  <TextInput
-                    className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-8/12 pt-2"
-                    placeholder="Localización"
-                    placeholderTextColor={"#086841"}
-                  />
+                  <TouchableOpacity
+                    className="justify-center w-8/12"
+                    onPress={() => {navigation.push('Address')}}
+                  >
+                    <Text className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-full pt-2">
+                      Localización
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 {/* Fecha */}
                 <View className="flex flex-row">
                   <Icon
-                    name="calendar"
-                    type="ionicon"
+                    name="event"
+                    type="material"
                     size={22}
                     color="#086841"
                     style={{ marginTop: 5, marginRight: 5 }}
@@ -300,15 +304,13 @@ const ModalNewActivity = (props) => {
                 </View>
                 {/* Imagen */}
               </View>
-              {/* Linea divisoria */}
-
               {/* CONTENEDOR: Descripción & Participantes */}
               <View className="space-y-4 px-4">
                 {/* Descripción */}
                 <View>
                   <Text className="text-base text-[#086841]">Descripción:</Text>
                   <TextInput
-                    className="text-sm text-justify text-[#086841] h-32 border-2 border-[#FEBBBB] rounded-md p-2"
+                    className="text-sm text-justify text-[#086841] h-32 border-[1px] border-[#FEBBBB] rounded-md p-2"
                     multiline={true}
                     numberOfLines={6}
                     maxLength={200}
@@ -364,7 +366,7 @@ const ModalNewActivity = (props) => {
                     }}
                   />
                 </View>
-                <View className="border-2 border-[#FEBBBB] h-32 rounded-lg">
+                <View className="border-[1px] border-[#FEBBBB] h-32 rounded-lg">
                   <TouchableOpacity
                     className="w-full h-full justify-center items-center"
                     onPress={() => {
