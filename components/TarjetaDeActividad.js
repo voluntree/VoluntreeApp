@@ -108,7 +108,7 @@ const TarjetaDeActividad = (props) => {
         {/* Contenedor contenido */}
         <View className="flex justify-between">
           {/* Titulo */}
-          <View className = "flex-row w-full justify-between">
+          <View className = "flex-row w-full justify-between items-baseline">
             <Text className="text-xl font-bold w-[80%]"
                   style = {{color: setTextColor()}}>{actividad.titulo}
             </Text>

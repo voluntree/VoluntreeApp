@@ -32,7 +32,7 @@ const ListaDeTarjetas = (props) => {
           }
           if(props.duracion != 0){
             aux = aux.filter((item) => {
-              if(item.duracion <= props.duracion) return item
+              if(parseInt(item.duracion) <= props.duracion) return item
             })
           }
           if(props.distancia != 0){
