@@ -13,6 +13,7 @@ import { ref } from "firebase/storage";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 import { createActivity } from "../../service/service";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 const ModalNewActivity = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -25,7 +26,7 @@ const ModalNewActivity = (props) => {
 
   const navigation = useNavigation();
 
-  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
+  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
   const base_url = "https://eu1.locationiq.com";
   const [region, setRegion] = useState({
     latitude: 41.3851,

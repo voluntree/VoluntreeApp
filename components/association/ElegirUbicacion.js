@@ -1,12 +1,14 @@
-import { View, Text, Image, ScrollView, TouchableOpacity, TextInput } from "react-native";
-import { StyleSheet } from "react-native";
-import React from "react";
-import { useLayoutEffect } from "react";
-import { theme } from "../../tailwind.config";
+import React, { useLayoutEffect, useEffect, useState } from "react";
+import {
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  Dimensions
+} from "react-native";
+
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import MapView, { Callout, Marker } from "react-native-maps";
-import { useEffect } from "react";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import {
   collection,
   getDocs,
@@ -15,12 +17,9 @@ import {
   Timestamp,
   where,
 } from "firebase/firestore";
-import { db, auth } from "../../utils/firebase";
-import { useState } from "react";
 import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../utils/firebase";
-import Svg, { Path, Rect } from "react-native-svg";
 import { Icon } from "react-native-elements";
+
 import {
   EducativoIcon,
   AmbientalIcon,
@@ -33,56 +32,76 @@ import {
   EducativoItemIcon,
   CulturalItemIcon,
 } from "../../icons/Icons";
-import { isEmpty } from "@firebase/util";
-import { getActivityById, getActivityByTitle } from "../../service/service";
+import { theme } from "../../tailwind.config";
 
 const ElegirUbicacion = () => {
-    const navigation = useNavigation();
-    const region = {
-        latitude: 39.367835,
-        longitude: -0.376084,
-        latitudeDelta: 0.015,
-        longitudeDelta: 2.2,
-    };
+  const navigation = useNavigation();
+  const { width, height } = Dimensions.get("window");
+  const ASPECT_RATIO = width / height;
+  const LATITUDE_DELTA = 0.0922;
+  const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+  const [region, setRegion] = useState({
+    latitude: 39.481256,
+    longitude: -0.340958,
+    latitudeDelta: 0.015,
+    longitudeDelta: 2.2,
+  });
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerShown: false,
-        });
-    }, []);
+  
 
-    return (
-        <View>
-            {/* Buscador */}
-            <View className="absolute z-10 w-full justify-center items-center">
-                <View 
-                    className='flex-row h-12 w-10/12 bg-blanco rounded-full justify-center items-center mt-12 px-4'
-                    style={{shadowColor: "#000",
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.50,
-                        shadowRadius: 3.84,
-                        elevation: 10,
-                    }}
-                >
-                    <TextInput 
-                        className="h-12 w-[90%] text-base rounded-full"
-                        placeholder="Buscar aquí"
-                    />
-                    <Icon
-                        name="search"
-                        type="material"
-                        size={25}
-                    />
-                </View>
-            </View>
-            {/* Mapa */}
-            <MapView 
-                className="h-full w-full"
-                region={region}
-            >
-            </MapView>
+  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
+
+  return (
+    <View className="items-center">
+        <View 
+            className="absolute z-10 h-auto w-10/12 mt-12 justify-center"
+            style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.50,
+                shadowRadius: 3.84,
+                elevation: 10,
+            }}
+        >
+            <GooglePlacesAutocomplete
+                placeholder="Buscar"
+                fetchDetails={true}
+                onPress={(data, details = null) => {
+                    setRegion({
+                        latitude: details.geometry.location.lat,
+                        longitude: details.geometry.location.lng,
+                        latitudeDelta: LATITUDE_DELTA,
+                        longitudeDelta: LONGITUDE_DELTA,
+                    })
+                 }}
+                query={{
+                    key: google_api_key,
+                    language: 'es',
+                    components: 'country:es',
+                    radius: 30000,
+                    location: `${region.latitude}, ${region.longitude}`,
+                }}
+                styles={{
+                    container: { flex: 0 },
+                    listView: {
+                        backgroundColor: "white",
+                    },
+                }}
+            />
         </View>
-    )
-}
+      <MapView className="h-full w-full" region={region} provider="google">
+        <Marker
+          coordinate={region}
+        />
+      </MapView>
+    </View>
+  );
+};
 
 export default ElegirUbicacion;
