@@ -90,7 +90,6 @@ const AssociationTab = () => {
                                         style={{
                                             width: 30,
                                             height: 30,
-                                            tintColor: '#black'
                                         }}
                                     />
                                 </View>

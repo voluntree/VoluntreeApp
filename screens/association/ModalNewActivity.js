@@ -11,9 +11,10 @@ import * as ImagePicker from "expo-image-picker";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { createActivity } from "../../service/service";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+
 
 const ModalNewActivity = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -27,15 +28,10 @@ const ModalNewActivity = (props) => {
   const navigation = useNavigation();
 
   const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
-  const base_url = "https://eu1.locationiq.com";
-  const [region, setRegion] = useState({
-    latitude: 41.3851,
-    longitude: 2.1734,
-    latitudeDelta: 0.006,
-    longitudeDelta: 0.00021,
+  const [ubicacion, setUbicacion] = useState({
+    latitude: 39.481256,
+    longitude: -0.340958,
   });
-  const [ubicacion, setUbicacion] = useState();
-  const [resultados, setResultados] = useState([]);
 
   const [sliding, setSliding] = useState(false);
 
@@ -46,14 +42,6 @@ const ModalNewActivity = (props) => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
   }, []);
-
-  const SearchAddress = async () => {
-    let response = await fetch(
-      `${base_url}/v1/search?key=${api_key}&q=${ubicacion}&format=json&accept-language=es&limit=4`
-    );
-    let data = await response.json();
-    setResultados(data);
-  };
 
   const handlePicker = (datetime) => {
     setShow(false);
@@ -154,7 +142,7 @@ const ModalNewActivity = (props) => {
       >
         <View className="h-full w-full absolute bg-[#27272a] opacity-70"></View>
       </Modal>
-      <ScrollView className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20">
+      <View className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20 h-full">
         <Formik
           initialValues={{
             asociacion: "Green Peace",
@@ -170,7 +158,7 @@ const ModalNewActivity = (props) => {
             descripcion: "",
             imagen: "",
             fecha: "",
-            ubicacion: "",
+            ubicacion: null,
           }}
           onSubmit={(values) => {
             if (correctData(values)) {
@@ -254,7 +242,7 @@ const ModalNewActivity = (props) => {
                 </View>
               </View>
               {/* CONTENEDOR: Localización & Fecha & Imagen */}
-              <View className="space-y-4 px-4">
+              <View className="space-y-6 px-4">
                 {/* Localización */}
                 <View className="flex flex-row">
                   <Icon
@@ -262,16 +250,44 @@ const ModalNewActivity = (props) => {
                     type="material"
                     size={22}
                     color="#086841"
-                    style={{ marginTop: 5, marginRight: 5 }}
+                    style={{ marginTop: 2, marginRight: 5 }}
                   />
-                  <TouchableOpacity
-                    className="justify-center w-8/12"
-                    onPress={() => {navigation.push('Address')}}
-                  >
-                    <Text className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-full pt-2">
-                      Localización
-                    </Text>
-                  </TouchableOpacity>
+                  <View className="absolute z-50 w-10/12 left-6 border-b border-[#FEBBBB]" >
+                    <GooglePlacesAutocomplete
+                        placeholder="Localización"
+                        fetchDetails={true}
+                        onPress={(data, details = null) => {
+                            setUbicacion({
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                            });
+                            fProps.setFieldValue("ubicacion", ubicacion);
+                        }}
+                        query={{
+                            key: google_api_key,
+                            language: 'es',
+                            components: 'country:es',
+                            radius: 30000,
+                            location: `${ubicacion.latitude}, ${ubicacion.longitude}`,
+                        }}
+                        textInputProps={{
+                            placeholderTextColor: "#086841",
+                            style: {
+                                fontSize: 14,
+                                color: "#086841",
+                                width: "100%",
+                                height: "100%",
+                            },
+                        }}
+                        styles={{
+                            listView: {
+                                backgroundColor: 'white',
+                                borderWidth: 1,
+                                borderColor: '#086841',
+                            },
+                        }}
+                    />
+                  </View>
                 </View>
                 {/* Fecha */}
                 <View className="flex flex-row">
@@ -283,7 +299,7 @@ const ModalNewActivity = (props) => {
                     style={{ marginTop: 5, marginRight: 5 }}
                   />
                   <TouchableOpacity
-                    className="justify-center w-8/12"
+                    className="justify-center w-10/12"
                     onPress={() => {
                       showPicker();
                     }}
@@ -387,6 +403,7 @@ const ModalNewActivity = (props) => {
                 className="items-center"
                 onPress={() => {
                   fProps.handleSubmit();
+                  console.log(fProps.values);
                 }}
               >
                 <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">
@@ -396,7 +413,7 @@ const ModalNewActivity = (props) => {
             </View>
           )}
         </Formik>
-      </ScrollView>
+      </View>
     </Modal>
   );
 };
