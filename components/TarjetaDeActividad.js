@@ -91,9 +91,9 @@ const TarjetaDeActividad = (props) => {
   }
 
   return (
-    <TouchableOpacity onPress={openCard}>
+    <TouchableOpacity onPress={openCard} className = "pb-2">
       {/* Contenedor principal */}
-      <View className="rounded-xl p-4 w-full"
+      <View className="rounded-xl p-4 w-full "
             style = {{backgroundColor: setActiveColor()}}>
         {/* Contenedor contenido */}
         <View className="flex justify-between">

@@ -1,4 +1,4 @@
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { db } from '../utils/firebase';
 import { collection, query,onSnapshot} from "firebase/firestore";
@@ -74,7 +74,7 @@ const ListaDeTarjetas = (props) => {
       };
 
   return (
-    <FlatList className = "w-full px-2"
+    <FlatList className = "w-full h-fit px-2"
       data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
