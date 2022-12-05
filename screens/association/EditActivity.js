@@ -42,17 +42,6 @@ const EditActivity = () => {
     "Hora: " + ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2)
   );
 
-  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
-  const base_url = "https://eu1.locationiq.com";
-  const [region, setRegion] = useState({
-    latitude: 41.3851,
-    longitude: 2.1734,
-    latitudeDelta: 0.006,
-    longitudeDelta: 0.00021,
-  });
-  const [ubicacion, setUbicacion] = useState();
-  const [resultados, setResultados] = useState([]);
-
   const [sliding, setSliding] = useState(false);
 
   useEffect(() => {
@@ -62,14 +51,6 @@ const EditActivity = () => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
   }, []);
-
-  const SearchAddress = async () => {
-    let response = await fetch(
-      `${base_url}/v1/search?key=${api_key}&q=${ubicacion}&format=json&accept-language=es&limit=4`
-    );
-    let data = await response.json();
-    setResultados(data);
-  };
 
   const handlePicker = (datetime) => {
     setShow(false);

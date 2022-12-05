@@ -133,10 +133,10 @@ const ModalNewActivity = (props) => {
   };
 
   return (
-    <Modal visible={props.isModalOpen} transparent={true} animationType="slide">
+    <Modal visible={props.isActivityModalOpen} transparent={true} animationType="slide">
       {/* Contenedor fondo transparente */}
       <Modal
-        visible={props.isModalOpen}
+        visible={props.isActivityModalOpen}
         transparent={true}
         animationType={"fade"}
       >
@@ -176,7 +176,7 @@ const ModalNewActivity = (props) => {
               <View className="flex-row justify-between">
                 <TextInput
                   className="text-xl text-[#086841] w-9/12 font-bold pt-1"
-                  placeholder="Título"
+                  placeholder="Nueva actividad"
                   placeholderTextColor={"#086841"}
                   onChangeText={fProps.handleChange("titulo")}
                   value={fProps.values.titulo}
@@ -187,7 +187,7 @@ const ModalNewActivity = (props) => {
                     type="octicon"
                     size={30}
                     color="#086841"
-                    onPress={() => props.setIsModalOpen(false)}
+                    onPress={() => props.setActivityModalOpen(false)}
                   />
                 </TouchableOpacity>
               </View>
@@ -403,7 +403,6 @@ const ModalNewActivity = (props) => {
                 className="items-center"
                 onPress={() => {
                   fProps.handleSubmit();
-                  console.log(fProps.values);
                 }}
               >
                 <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">
