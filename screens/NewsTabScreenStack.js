@@ -7,7 +7,7 @@ import NewsScreen from './user/NewsScreen';
 const NewsTabScreenStack = () => {
     const NewsTabStack = createNativeStackNavigator();
   return (
-    <NewsTabStack.Navigator>
+    <NewsTabStack.Navigator screenOptions={{headerShown: false}}>
         <NewsTabStack.Screen name="Home" component={ListaArticulos}/>
         <NewsTabStack.Screen name="Articulo" component={NewsScreen}/>
     </NewsTabStack.Navigator>

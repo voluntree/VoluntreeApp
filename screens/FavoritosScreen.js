@@ -47,7 +47,7 @@ const FavoritosScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full items-center">
+      <SafeAreaView className="flex h-100 w-full items-center">
         <Buscador
           valor={SearchText}
           setSearchText = {setSearchText}

@@ -11,6 +11,7 @@ import { query } from 'firebase/firestore';
 import { collection } from 'firebase/firestore';
 import { where } from 'firebase/firestore';
 import { onSnapshot } from 'firebase/firestore';
+import { theme } from "../../tailwind.config";
 
 const ChatListScreen = () => {
   const currentUser = auth.currentUser;
@@ -40,8 +41,10 @@ const ChatListScreen = () => {
     <SafeAreaView className="flex items-center h-full w-full p-2 bg-blanco">
       <View className="w-full m-2 px-2">
         <TextInput
-          className="w-full h-10 rounded-xl border-2 border-ambiental bg-costas p-2"
+          className="w-full h-10 rounded-md bg-costas p-2"
           placeholder="Chat"
+          cursorColor = {theme.colors.ambiental}
+          placeholderTextColor = {theme.colors.ambiental}
           value={busqueda}
           onChangeText={(value) => setBusqueda(value)}
         />

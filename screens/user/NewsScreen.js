@@ -6,11 +6,6 @@ const NewsScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const { articulo, uri, asociacion, uriAsociacion } = route.params;
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  });
 
   return (
     <ScrollView className="flex h-auto px-2 py-2 w-100 bg-[white]">

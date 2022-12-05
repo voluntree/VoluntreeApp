@@ -183,7 +183,7 @@ const ActivityScreen = () => {
   const BotonConfirmado = () => {
     if (inscrito && !confirmado) {
       return (<TouchableOpacity onPress={openScanner}>
-                <View className = "bg-educacion justify-center items-center rounded-md px-4 py-2">
+                <View className = "bg-educacion justify-center items-center rounded-md px-4 py-2 mb-4">
                   <Text className = "text-ambiental text-sm">Confirmar asistencia</Text>
                 </View>
               </TouchableOpacity>);
@@ -227,7 +227,7 @@ const ActivityScreen = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView className="flex bg-blanco h-full w-full px-2 space-y-2">
+      <ScrollView className="flex bg-blanco h-full w-full px-2 space-y-2 pb-5">
         {/* Boton atras y favoritos */}
         <View className="flex-row w-full h-14 items-center justify-between">
           <View className="">

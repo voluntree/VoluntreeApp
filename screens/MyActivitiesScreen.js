@@ -56,7 +56,7 @@ const MyActivitiesScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full items-center">
+      <SafeAreaView className="h-full items-center pb-5">
         <Buscador
           valor={SearchText}
           setSearchText={setSearchText}

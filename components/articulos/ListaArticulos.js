@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import TarjetaArticulo from "./TarjetaArticulo";
 import { onSnapshot, query, collection } from "firebase/firestore";
 import { db } from "../../utils/firebase";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ListaArticulos = () => {
   const [articulos, setArticulos] = useState([]);
@@ -30,12 +31,14 @@ const ListaArticulos = () => {
   };
 
   return (
-    <FlatList
+    <SafeAreaView>
+      <FlatList
       data={articulos}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}
       renderItem={({ item, index }) => <TarjetaArticulo articulo={item} />}
     />
+    </SafeAreaView>
   );
 };
 
