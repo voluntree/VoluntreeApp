@@ -32,6 +32,7 @@ import {
   DeportivoItemIcon,
   EducativoItemIcon,
   CulturalItemIcon,
+  MapIcon,
 } from "../../icons/Icons";
 import { ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -75,6 +76,13 @@ const MapScreen = () => {
       icon: EducativoItemIcon(16, 16, theme.colors.cultural),
       letra: theme.colors.cultural,
     },
+    {
+      id: 6,
+      color: theme.colors.costas,
+      name: "Todas",
+      icon: MapIcon(16, 16, theme.colors.ambiental),
+      letra: theme.colors.ambiental,
+    },
   ];
 
   function actualizarMarcadores(nombreCategoria) {
@@ -93,11 +101,16 @@ const MapScreen = () => {
     if (nombreCategoria == "Comunitario") {
       setQuery(queryComunitario);
     }
+    if(nombreCategoria == "Todas"){setQuery(queryIncial)}
   }
 
   const navigation = useNavigation();
   const [uri, setUri] = useState();
 
+  const queryIncial = query(
+    collection(db, "actividades"),
+    where("fecha", ">", Timestamp.now())
+  );
   const queryEducativo = query(
     collection(db, "actividades"),
     where("fecha", ">", Timestamp.now()),
@@ -200,6 +213,7 @@ const MapScreen = () => {
             {marker.tipo === "deportivo" ? DeportivoIcon(40, 40) : null}
             {marker.tipo === "ambiental" ? AmbientalIcon(40, 40) : null}
             {marker.tipo === "comunitario" ? ComunitarioIcon(40, 40) : null}
+
             <Callout
               tooltip
               onPress={() => {

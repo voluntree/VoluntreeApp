@@ -22,7 +22,7 @@ import { Image } from "react-native-elements";
 import { deleteUserData, getVoluntarioByID } from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
-import { ArbolesPlantados } from "../../icons/Icons";
+import { ArbolesPlantados, CartIcon } from "../../icons/Icons";
 import { truncateText } from "../../service/functions";
 
 const ProfileScreen = () => {
@@ -122,7 +122,7 @@ const ProfileScreen = () => {
                 className="grow-0 text-xl font-bold"
                 style={{ color: theme.colors.ambiental }}
               >
-                {truncateText(usuario.nombre + " " + usuario.apellidos, 20)}
+                {usuario.nombre}
               </Text>
               {/*Opciones*/}
               <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
@@ -137,6 +137,14 @@ const ProfileScreen = () => {
                     size={24}
                     onPress={() => setIsModalOpen(!isModalOpen)}
                   />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
+                <View
+                  className="rounded-lg justify-center items-center h-8 w-8"
+                  style={{ backgroundColor: theme.colors.costas }}
+                >
+                  {CartIcon(16,16)}
                 </View>
               </TouchableOpacity>
             </View>

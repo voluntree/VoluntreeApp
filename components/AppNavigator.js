@@ -15,6 +15,7 @@ import QRScanner from './../screens/user/QRScanner';
 import QRGenerator from './../screens/association/QRGenerator';
 import Registro from "../screens/register/Registro";
 import EditActivity from "../screens/association/EditActivity";
+import Tienda from "./tienda/Tienda";
 import ActivityChat from '../screens/chat/ActivityChat';
 import CreateNewArticle from "../screens/association/CreateNewArticle";
 
@@ -34,6 +35,7 @@ const AppNavigator = () => (
         <Screen name='QRgenerator' component={QRGenerator}/>
         <Screen name='Chat Actividad' component={ActivityChat}/>
         <Screen name='Edit' component={EditActivity}/>
+        <Screen name = "Tienda" component = {Tienda}/>
         <Screen name='NuevoArticulo' component={CreateNewArticle}/>
     </Navigator>   
 )
