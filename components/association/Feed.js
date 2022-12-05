@@ -29,7 +29,7 @@ const Feed = () => {
   async function getData() {
     setBgfoto(
       await getImageDownloadURL(
-        `gs://voluntreepin.appspot.com/${nombreAsoc.toLowerCase()}/perfil/backgroundPerfil.jpg`
+        `gs://voluntreepin.appspot.com/profileImages/asociaciones/default.jpg`
       )
     );
     setProfilefoto(

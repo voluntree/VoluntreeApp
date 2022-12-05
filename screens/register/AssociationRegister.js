@@ -126,10 +126,11 @@ const AssociationRegister = () => {
       .then((userCredential) => {
         setSpinner(true);
         const user = userCredential.user;
-        setDoc(doc(db, "asociaciones", nombreAsoc), {
+        setDoc(doc(db, "asociaciones", user.uid), {
           CIF: cif,
           correo: email,
-          fotoPerfil: "profileImages/asociaciones/default.jpg",
+          fotoPerfil: "default.png",
+          fondoPerfil: "defaultBackground.png",
           nombre: nombreAsoc,
           num_seguidores: 0,
           seguidores: [],

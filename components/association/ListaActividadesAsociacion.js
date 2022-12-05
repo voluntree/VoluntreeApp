@@ -43,7 +43,7 @@ const ListaActividadesAsociacion = () => {
   return (
     <View>
       <FlatList
-      className="h-100 scroll-pb-28"
+      className="h-100 scroll-pb-28 mb-56"
       data={actividades}
       keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (

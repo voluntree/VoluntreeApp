@@ -156,13 +156,13 @@ const ProfileScreen = () => {
                 style={{ backgroundColor: theme.colors.costas }}
               >
                 <TouchableOpacity
-                  onPress={() =>
+                  onPress={() => {
                     navigation.push("EditProfile", {
                       voluntario: usuario,
                       userID: user.uid,
                       foto: profilefoto,
                     })
-                  }
+                  }}
                 >
                   <Text style={{ color: theme.colors.ambiental }}>
                     Editar Perfil

@@ -67,30 +67,34 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSpinner(true);
-        const user = userCredential.user;
-        const qVol = query(
-          collection(db, "voluntarios"),
-          where("correo", "==", email.toLowerCase())
-        );
-        const data = getDocs(qVol).then((querySnapshot) => {
-          if (!querySnapshot.empty) {
-            setSpinner(false);
-            navigation.navigate("UserHome");
-          } else {
-            const qAsoc = query(
-              collection(db, "asociaciones"),
-              where("correo", "==", email.toLowerCase())
-            );
-            if (!querySnapshot.empty) {
-              setSpinner(false);
-              navigation.navigate("AssociationHome");
-            }
-          }
-        });
-      })
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      setSpinner(true);
+      const user = userCredential.user;
+      const qVol = query(
+        collection(db, "voluntarios"),
+        where("correo", "==", email.toLowerCase())
+      );
+      getDocs(qVol).then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          setSpinner(false);
+          navigation.navigate("UserHome");
+        } else {
+          null
+        }
+      });
+      const qAsoc = query(
+        collection(db, "asociaciones"),
+        where("correo", "==", email.toLowerCase())
+      );
+      getDocs(qAsoc).then((querySnapshot) => {
+        if (!querySnapshot.empty) {
+          setSpinner(false);
+          navigation.navigate("AssociationHome");
+        } else {
+          null
+        }
+      }); 
+    })
       .catch((error) => {
         setSpinner(false);
         const errorCode = error.code;
