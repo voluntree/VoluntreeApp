@@ -32,7 +32,7 @@ const ListaDeTarjetas = (props) => {
           }
           if(props.duracion != 0){
             aux = aux.filter((item) => {
-              if(item.duracion <= props.duracion) return item
+              if(parseInt(item.duracion) <= props.duracion) return item
             })
           }
           if(props.distancia != 0){
@@ -74,7 +74,7 @@ const ListaDeTarjetas = (props) => {
       };
 
   return (
-    <FlatList className = "w-full h-fit px-2"
+    <FlatList className = "w-full px-3 mb-2"
       data={listaResultados()}
       keyExtractor={(item) => item.titulo}
       ListEmptyComponent={renderEmptyContainer()}

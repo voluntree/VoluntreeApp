@@ -13,11 +13,12 @@ import { TailwindProvider } from "tailwindcss-react-native";
 import Buscador from "../components/user/Buscador";
 import ListaDeTarjetas from "../components/ListaDeTarjetas";
 import { collection, query, where, onSnapshot} from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { auth, db } from "../utils/firebase";
 
 const FavoritosScreen = () => {
   const navigation = useNavigation();
   const [SearchText, setSearchText] = useState("");
+  const userAuth = auth.currentUser;
 
   const[distancia,setDistancia] = useState(0);
   const[sliding, setSliding] = useState('Inactive');
@@ -74,7 +75,7 @@ const FavoritosScreen = () => {
           setOrder = {setOrder}
         />
         <ListaDeTarjetas
-          query = {query(collection(db, "actividades"), where("favoritos", "array-contains", "Catalin"))}
+          query = {query(collection(db, "actividades"), where("favoritos", "array-contains", userAuth.uid))}
           searchText={SearchText}
           distancia={distancia}
           duracion={duracion}

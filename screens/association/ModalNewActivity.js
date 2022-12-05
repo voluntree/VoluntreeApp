@@ -10,8 +10,11 @@ import { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { createActivity } from "../../service/service";
+
 
 const ModalNewActivity = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -22,16 +25,13 @@ const ModalNewActivity = (props) => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("Fecha del voluntariado");
 
-  const api_key = "pk.b1f2572cbfd397249713a6dadc0b962f";
-  const base_url = "https://eu1.locationiq.com";
-  const [region, setRegion] = useState({
-    latitude: 41.3851,
-    longitude: 2.1734,
-    latitudeDelta: 0.006,
-    longitudeDelta: 0.00021,
+  const navigation = useNavigation();
+
+  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
+  const [ubicacion, setUbicacion] = useState({
+    latitude: 39.481256,
+    longitude: -0.340958,
   });
-  const [ubicacion, setUbicacion] = useState();
-  const [resultados, setResultados] = useState([]);
 
   const [sliding, setSliding] = useState(false);
 
@@ -42,14 +42,6 @@ const ModalNewActivity = (props) => {
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
   }, []);
-
-  const SearchAddress = async () => {
-    let response = await fetch(
-      `${base_url}/v1/search?key=${api_key}&q=${ubicacion}&format=json&accept-language=es&limit=4`
-    );
-    let data = await response.json();
-    setResultados(data);
-  };
 
   const handlePicker = (datetime) => {
     setShow(false);
@@ -141,16 +133,16 @@ const ModalNewActivity = (props) => {
   };
 
   return (
-    <Modal visible={props.isModalOpen} transparent={true} animationType="slide">
+    <Modal visible={props.isActivityModalOpen} transparent={true} animationType="slide">
       {/* Contenedor fondo transparente */}
       <Modal
-        visible={props.isModalOpen}
+        visible={props.isActivityModalOpen}
         transparent={true}
         animationType={"fade"}
       >
         <View className="h-full w-full absolute bg-[#27272a] opacity-70"></View>
       </Modal>
-      <ScrollView className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20">
+      <View className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20 h-full">
         <Formik
           initialValues={{
             asociacion: "Green Peace",
@@ -166,7 +158,7 @@ const ModalNewActivity = (props) => {
             descripcion: "",
             imagen: "",
             fecha: "",
-            ubicacion: "",
+            ubicacion: null,
           }}
           onSubmit={(values) => {
             if (correctData(values)) {
@@ -183,8 +175,8 @@ const ModalNewActivity = (props) => {
               {/* Header */}
               <View className="flex-row justify-between">
                 <TextInput
-                  className="text-xl text-[#086841] w-56 font-bold"
-                  placeholder="Título"
+                  className="text-xl text-[#086841] w-9/12 font-bold pt-1"
+                  placeholder="Nueva actividad"
                   placeholderTextColor={"#086841"}
                   onChangeText={fProps.handleChange("titulo")}
                   value={fProps.values.titulo}
@@ -195,7 +187,7 @@ const ModalNewActivity = (props) => {
                     type="octicon"
                     size={30}
                     color="#086841"
-                    onPress={() => props.setIsModalOpen(false)}
+                    onPress={() => props.setActivityModalOpen(false)}
                   />
                 </TouchableOpacity>
               </View>
@@ -231,7 +223,7 @@ const ModalNewActivity = (props) => {
                 {/* Categoría */}
                 <View>
                   <Dropdown
-                    className="w-40 h-10 border-2 border-[#086841] rounded-md p-1"
+                    className="w-40 h-10 border-[1px] border-[#086841] rounded-md p-1"
                     placeholderStyle={{ fontSize: 14, color: "#6b7280" }}
                     selectedTextStyle={{ fontSize: 14 }}
                     placeholder="Categoría"
@@ -249,36 +241,65 @@ const ModalNewActivity = (props) => {
                   />
                 </View>
               </View>
-              {/* Linea divisoria */}
-
               {/* CONTENEDOR: Localización & Fecha & Imagen */}
-              <View className="space-y-4 px-4">
+              <View className="space-y-6 px-4">
                 {/* Localización */}
                 <View className="flex flex-row">
                   <Icon
-                    name="location"
-                    type="ionicon"
+                    name="place"
+                    type="material"
                     size={22}
                     color="#086841"
-                    style={{ marginTop: 8, marginRight: 5 }}
+                    style={{ marginTop: 2, marginRight: 5 }}
                   />
-                  <TextInput
-                    className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-8/12 pt-2"
-                    placeholder="Localización"
-                    placeholderTextColor={"#086841"}
-                  />
+                  <View className="absolute z-50 w-10/12 left-6 border-b border-[#FEBBBB]" >
+                    <GooglePlacesAutocomplete
+                        placeholder="Localización"
+                        fetchDetails={true}
+                        onPress={(data, details = null) => {
+                            setUbicacion({
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                            });
+                            fProps.setFieldValue("ubicacion", ubicacion);
+                        }}
+                        query={{
+                            key: google_api_key,
+                            language: 'es',
+                            components: 'country:es',
+                            radius: 30000,
+                            location: `${ubicacion.latitude}, ${ubicacion.longitude}`,
+                        }}
+                        textInputProps={{
+                            placeholderTextColor: "#086841",
+                            style: {
+                                fontSize: 14,
+                                color: "#086841",
+                                width: "100%",
+                                height: "100%",
+                            },
+                        }}
+                        styles={{
+                            listView: {
+                                backgroundColor: 'white',
+                                borderWidth: 1,
+                                borderColor: '#086841',
+                            },
+                        }}
+                    />
+                  </View>
                 </View>
                 {/* Fecha */}
                 <View className="flex flex-row">
                   <Icon
-                    name="calendar"
-                    type="ionicon"
+                    name="event"
+                    type="material"
                     size={22}
                     color="#086841"
                     style={{ marginTop: 5, marginRight: 5 }}
                   />
                   <TouchableOpacity
-                    className="justify-center w-8/12"
+                    className="justify-center w-10/12"
                     onPress={() => {
                       showPicker();
                     }}
@@ -300,15 +321,13 @@ const ModalNewActivity = (props) => {
                 </View>
                 {/* Imagen */}
               </View>
-              {/* Linea divisoria */}
-
               {/* CONTENEDOR: Descripción & Participantes */}
               <View className="space-y-4 px-4">
                 {/* Descripción */}
                 <View>
                   <Text className="text-base text-[#086841]">Descripción:</Text>
                   <TextInput
-                    className="text-sm text-justify text-[#086841] h-32 border-2 border-[#FEBBBB] rounded-md p-2"
+                    className="text-sm text-justify text-[#086841] h-32 border-[1px] border-[#FEBBBB] rounded-md p-2"
                     multiline={true}
                     numberOfLines={6}
                     maxLength={200}
@@ -364,7 +383,7 @@ const ModalNewActivity = (props) => {
                     }}
                   />
                 </View>
-                <View className="border-2 border-[#FEBBBB] h-32 rounded-lg">
+                <View className="border-[1px] border-[#FEBBBB] h-32 rounded-lg">
                   <TouchableOpacity
                     className="w-full h-full justify-center items-center"
                     onPress={() => {
@@ -393,7 +412,7 @@ const ModalNewActivity = (props) => {
             </View>
           )}
         </Formik>
-      </ScrollView>
+      </View>
     </Modal>
   );
 };

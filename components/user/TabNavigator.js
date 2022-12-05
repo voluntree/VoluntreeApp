@@ -85,7 +85,7 @@ export function TabNavigator(){
                 <View className=" items-center rounded-lg" style={{}}>
                   {focused
                     ? MapIconFocused(32, 32, "#fff")
-                    : MapIcon(26, 26, "#fff")}
+                    : MapIcon(26, 26, "#aaa")}
                 </View>
                 {!focused ? (
                   <Text className="text-[10px]">Mapa</Text>
