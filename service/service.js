@@ -131,25 +131,25 @@ export async function deleteActivity(activityID) {
   } catch (error) {}
 }
 
-export function createActivity(activity) {
+export async function createActivity(activity) {
   getActivityByTitle(activity.titulo).then(async (result) => {
     if (result == null) {
       try {
         const docRef = doc(db, "actividades", activity.titulo);
         await setDoc(docRef, activity);
-        Alert.alert(
+        /*Alert.alert(
           "Éxito",
           "La oferta de actividad se ha creado correctamente"
-        );
+        );*/
       } catch (e) {
         console.log(e);
-        Alert.alert(
+        /*Alert.alert(
           "Error",
           "Ha ocurrido un error al crear la actividad. Por favor, inténtelo de nuevo más tarde."
-        );
+        );*/
       }
     } else {
-      Alert.alert("Error", "Ya existe una actividad con ese título");
+      //Alert.alert("Error", "Ya existe una actividad con ese título");
     }
   });
 }
@@ -159,15 +159,15 @@ export async function updateActivity(activity) {
     const docRef = doc(db, "actividades", activity.titulo);
     await updateDoc(docRef, activity);
     console.log("Actividad actualizada correctamente");
-    Alert.alert(
+    /*Alert.alert(
       "Éxito",
       "La oferta de actividad se ha actualizado correctamente"
-    );
+    );*/
   } catch (error) {
-    Alert.alert(
+    /*Alert.alert(
       "Error",
       "Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde."
-    );
+    );*/
     console.error("Error al actualizar la actividad", error);
   }
 }
