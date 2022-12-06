@@ -264,14 +264,6 @@ export async function followAsociation(user, asociationName) {
         num_seguidores: increment(1),
       });
     });
-    console.log(
-      "El usuario " +
-        user.nombre +
-        " " +
-        user.apellidos +
-        " ha seguido a la asociación " +
-        asociationName
-    );
   } catch (e) {
     console.log(e);
   }
