@@ -9,10 +9,14 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { onSnapshot, doc } from "firebase/firestore";
+import { useNavigation } from "@react-navigation/native";
+
 import { getImageDownloadURL } from "../../service/service";
 import { auth, db } from "../../utils/firebase";
 import ListaActividadesPerfil from "../../components/association/ListaActividadesPerfil";
+
 const ProfileAssociation = () => {
+  const navigation = useNavigation();
   const currentUser = auth.currentUser;
   const [asociacion, setAsociacion] = useState();
   const [profielPhoto, setProfilePhoto] = useState();
@@ -41,15 +45,15 @@ const ProfileAssociation = () => {
       {/* Contenedor PERFIL */}
       <View className="h-[37%] space-y-2">
         {/* Contenedor FOTO_PERFIL & NOMBRE & BOTON */}
-        <View className="space-x-2 h-[55%]">
+        <View className="h-[55%]">
           {/* IMAGEN FONDO */}
-          <View className="h-[100%] w-[100%] absolute z-10 bg-[#fff] opacity-75" />
+          <View className="h-[100%] w-[100%] absolute z-10 bg-[#fff] opacity-70" />
           <Image
             source={{ uri: backgroundPhoto }}
             className="absolute w-full h-full"
           />
 
-          <View className="flex-row z-20 mt-12 pl-2">
+          <View className="flex-row z-20 mt-12 pl-4 space-x-2">
             {/* FOTO_PERFIL */}
             <View className="h-24 w-24 bg-[#fff] rounded-full justify-center items-center">
               <Image
@@ -71,7 +75,14 @@ const ProfileAssociation = () => {
               <View className="">
                 <TouchableOpacity
                   className="border border-[#b0dac7] bg-[#EFF8F4] rounded-lg w-1/2 h-8 justify-center items-center"
-                  onPress={() => console.log(backgroundPhoto)}
+                  onPress={() => {
+                    navigation.push('EditProfileAssoc', {
+                      association: asociacion,
+                      assocID: currentUser.uid,
+                      fotoPerfil: profielPhoto,
+                      fondoPerfil: backgroundPhoto,
+                    })
+                  }}
                 >
                   <Text className="text-[#086841] text-sm font-bold">
                     Editar perfil
