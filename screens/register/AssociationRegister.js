@@ -131,6 +131,7 @@ const AssociationRegister = () => {
           correo: email,
           fotoPerfil: "default.png",
           fondoPerfil: "defaultBackground.png",
+          descripcion: "",
           nombre: nombreAsoc,
           num_seguidores: 0,
           seguidores: [],

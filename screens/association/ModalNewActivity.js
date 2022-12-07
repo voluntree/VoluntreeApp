@@ -230,6 +230,8 @@ const ModalNewActivity = (props) => {
                     data={[
                       { label: "Ambiental", value: "ambiental" },
                       { label: "Comunitario", value: "comunitario" },
+                      { label: "Cultural", value: "cultural" },
+                      { label: "Deportivo", value: "deportivo" },
                       { label: "Educación", value: "educación" },
                     ]}
                     labelField="label"

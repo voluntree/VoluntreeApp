@@ -10,9 +10,15 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Icon } from "react-native-elements";
+import { Dropdown } from "react-native-element-dropdown";
 import * as ImagePicker from "expo-image-picker";
 import { Formik } from "formik";
 import { TailwindProvider } from "tailwindcss-react-native";
+import { ref } from "firebase/storage";
+import { doc, updateDoc } from "firebase/firestore";
+
+import { storage, db, uploadBytes } from "../../utils/firebase";
+import { updateAssocProfile } from "../../service/service";
 
 const EditProfileAssoc = () => {
   const navigation = useNavigation();
@@ -60,7 +66,7 @@ const EditProfileAssoc = () => {
     setUploading(true);
     console.log(image);
     const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `/profileImages/voluntarios/${filename}`;
+    const path = `/profileImages/asociaciones/${filename}`;
     const storageRef = ref(storage, path);
     const img = await fetch(image);
     const bytes = await img.blob();
@@ -74,24 +80,24 @@ const EditProfileAssoc = () => {
 
   async function save(userData) {
     if (dataOK(userData)) {
-      if (image != null) {
-        try {
-          storeImage().then(() => {
-            const docRef = doc(db, "voluntarios", user.uid);
-            updateDoc(docRef, {
-              fotoPerfil: image.substring(image.lastIndexOf("/") + 1),
-            }).then(
-              Alert.alert("Éxito", "Perfil actualizado correctamente"),
-              navigation.navigate("Perfil")
-            );
-          });
-        } catch (e) {
-          console.log(e);
-          Alert.alert(
-            "Error",
-            "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
-          );
+      try {
+        if (image != null) {
+          await storeImage();
+          userData.fondoPerfil = association.fondoPerfil;
+        } else {
+          userData.fotoPerfil = association.fotoPerfil;
+          userData.fondoPerfil = association.fondoPerfil;
         }
+        updateAssocProfile(userData, assocID).then(() => {
+          Alert.alert("Éxito", "Perfil actualizado correctamente");
+          navigation.goBack();
+        })
+      } catch (e) {
+        console.log(e);
+        Alert.alert(
+          "Error",
+          "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
+        );
       }
     }
   }
@@ -99,8 +105,7 @@ const EditProfileAssoc = () => {
   function dataOK(userData) {
     if (
       userData.nombre.trim() == "" ||
-      userData.apellidos.trim() == "" ||
-      userData.correo.trim() == "" ||
+      userData.tipoAsociacion.trim() == "" ||
       userData.telefono.trim() == ""
     ) {
       Alert.alert("Por favor complete todos los campos obligatorios");
@@ -122,7 +127,7 @@ const EditProfileAssoc = () => {
             descripcion: association.descripcion,
             fotoPerfil: fotoPerfil,
             fondoPerfil: fondoPerfil,
-            tipoAsociacion: "",
+            tipoAsociacion: association.tipoAsociacion,
             telefono: association.telefono,
             correo: association.correo,
           }}
@@ -132,7 +137,7 @@ const EditProfileAssoc = () => {
             <View className="h-full w-full space-y-2">
               {/* Header */}
               <View className="flex flex-row justify-between items-center mb-5">
-                <TouchableOpacity onPress={() => navigation.navigate("Perfil")}>
+                <TouchableOpacity onPress={() => {navigation.goBack()}}>
                   <Icon name="arrow-back" type="ionicon" />
                 </TouchableOpacity>
                 <Text className="text-xl font-bold">Editar perfil</Text>
@@ -196,10 +201,27 @@ const EditProfileAssoc = () => {
                     <Text className="text-base font-bold italic">
                       Tipo de Asociacion*
                     </Text>
-                    <TextInput
-                      className="h-12 w-52 bg-[#dadada] rounded-md p-2"
-                      onChangeText={props.handleChange("apellidos")}
+                    <Dropdown
+                      className="w-52 h-12 bg-[#dadada] rounded-md p-2"
+                      placeholderStyle={{ fontSize: 16, color: "#6b7280" }}
+                      flatListProps={{ 
+                        contentContainerStyle: { backgroundColor: "#fff", shadowRadius:0, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0, elevation: 0 }
+                      }}
+                      selectedTextStyle={{ fontSize: 16 }}
+                      placeholder="Categoría"
+                      data={[
+                        { label: "Ambiental", value: "ambiental" },
+                        { label: "Comunitario", value: "comunitario" },
+                        { label: "Cultural", value: "cultural" },
+                        { label: "Deportivo", value: "deportivo" },
+                        { label: "Educación", value: "educación" },
+                      ]}
+                      labelField="label"
+                      valueField="value"
                       value={props.values.tipoAsociacion}
+                      onChange={(item) =>
+                        props.setFieldValue("tipoAsociacion", item.value)
+                      }
                     />
                   </View>
                 </View>

@@ -176,6 +176,15 @@ export async function updateActivity(activity) {
 
 //#region Asociacion
 
+export async function updateAssocProfile(newProfile, userID) {
+  try {
+    const userRef = doc(db, "asociaciones", userID);
+    await updateDoc(userRef, newProfile);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export async function getAsociationByID(id) {
   try {
     const docRef = doc(db, "asociaciones", id);

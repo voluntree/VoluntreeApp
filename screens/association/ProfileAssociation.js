@@ -43,9 +43,9 @@ const ProfileAssociation = () => {
   return (
     <View className="pb-24">
       {/* Contenedor PERFIL */}
-      <View className="h-[37%] space-y-2">
+      <View className="h-[38%] space-y-2">
         {/* Contenedor FOTO_PERFIL & NOMBRE & BOTON */}
-        <View className="h-[55%]">
+        <View className="h-[65%]">
           {/* IMAGEN FONDO */}
           <View className="h-[100%] w-[100%] absolute z-10 bg-[#fff] opacity-70" />
           <Image
@@ -94,12 +94,9 @@ const ProfileAssociation = () => {
         </View>
 
         {/* Contenedor DESCRIPCION */}
-        <View className="h-[45%] p-1">
+        <View className="h-[35%] p-1">
           <Text className="text-[#086841] text-sm text-justify p-2">
-            {asociacion?.descripcion}¡Bienvenidos a nuestro perfil! Somos un
-            grupo de veterinarios agrupados en distintas ciudades españolas que
-            buscan proteger y cuidar de los animales callejeros. Hola ho oasdf
-            hdf asd dfdfdf sdfsd df.
+            {(asociacion?.descripcion) ? asociacion.descripcion : ("Sin descripción")}
           </Text>
         </View>
       </View>
@@ -108,7 +105,7 @@ const ProfileAssociation = () => {
       </View>
       {/* Contenedor ACTIVIDADES */}
       <ScrollView
-        className="h-[63%]"
+        className="h-[62%]"
         contentContainerStyle={{ paddingBottom: 20, alignItems: "center" }}
       >
         <ListaActividadesPerfil />

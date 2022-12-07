@@ -86,26 +86,24 @@ const EditProfile = () => {
 
   async function save(userData) {
     if (dataOK(userData)) {
-      if (image != null) {
-        try {
-          storeImage().then(() => {
-            const docRef = doc(db, "voluntarios", user.uid);
-            updateDoc(docRef, {
-              fotoPerfil: image.substring(image.lastIndexOf("/") + 1),
-            }).then(
-              Alert.alert("Éxito", "Perfil actualizado correctamente"),
-              navigation.navigate("Perfil")
-            );
-          });
-        } catch (e) {
-          console.log(e);
-          Alert.alert(
-            "Error",
-            "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
-          );
+      try {
+        if (image != null) {
+          await storeImage();
+          userData.fotoPerfil = image.substring(image.lastIndexOf("/") + 1);
+        } else {
+          userData.fotoPerfil = voluntario.fotoPerfil;
         }
+        updateProfile(userData, userID).then(() => {
+          Alert.alert("Éxito", "Perfil actualizado correctamente");
+          navigation.goBack();
+        }) 
+      } catch (e) {
+        console.log(e);
+        Alert.alert(
+          "Error",
+          "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
+        );
       }
-     
     }
   }
 
@@ -145,7 +143,7 @@ const EditProfile = () => {
               {/* Header */}
               <View className="flex flex-row justify-between items-center mb-5">
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Perfil')}>
+                  onPress={() => {console.log(props.values.fotoPerfil)}}>
                   <Icon name="arrow-back" type="ionicon" />
                 </TouchableOpacity>
                 <Text className="text-xl font-bold">Editar perfil</Text>

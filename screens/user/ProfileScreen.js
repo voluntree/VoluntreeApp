@@ -19,7 +19,7 @@ import { auth, db } from "../../utils/firebase";
 import { collection, where, query, onSnapshot, doc } from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { deleteUserData, getVoluntarioByID } from "../../service/service";
+import { deleteUserData, getVoluntarioByID, getImageDownloadURL } from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
 import { ArbolesPlantados, CartIcon } from "../../icons/Icons";
@@ -43,17 +43,14 @@ const ProfileScreen = () => {
   }, []);
 
   useEffect(() => {
-    onSnapshot(doc(db, "voluntarios", user.uid), (doc) => {
+    onSnapshot(doc(db, "voluntarios", user.uid), async (doc) => {
       setUsuario(doc.data());
-      getDownloadURL(
-        ref(
-          storage,
+      setProfilefoto(
+        await getImageDownloadURL(
           "gs://voluntreepin.appspot.com/profileImages/voluntarios/" +
             doc.data().fotoPerfil
         )
-      ).then((path) => {
-        setProfilefoto(path);
-      });
+      );
     });
   }, []);
 
@@ -103,27 +100,38 @@ const ProfileScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full w-full items-center bg-blanco">
+      <SafeAreaView className="h-full w-full items-center bg-blanco pt-2">
         {/* Contenedor principal*/}
         <View className="flex-row h-24 w-full items-center justify-around">
           {/* Avatar*/}
-          <View className="w-1/5">
+          <View className="rounded-full ">
             <Image
-              className="h-20 w-20 rounded-full"
+              className=" h-20 w-20 rounded-full"
               source={{ uri: profilefoto }}
             />
           </View>
 
           {/* Contenedor Info Usuario*/}
-          <View className="flex w-auto space-y-2">
+          <View className="w-7/12 space-y-2">
             {/*Nombre*/}
-            <View className={"flex-row w-max space-x-2 items-baseline"}>
+            <View className={"flex-row w-max space-x-2 items-center justify-between"}>
               <Text
                 className="grow-0 text-xl font-bold"
                 style={{ color: theme.colors.ambiental }}
               >
-                {usuario.nombre}
+                {usuario.nombre + " " + usuario.apellidos}
               </Text>
+              {/*Tienda*/}
+              <View className="flex-row space-x-2">
+              <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
+                <View
+                  className="rounded-lg justify-center items-center h-8 w-8"
+                  style={{ backgroundColor: theme.colors.costas }}
+                >
+                  {CartIcon(16,16)}
+                </View>
+              </TouchableOpacity>
+
               {/*Opciones*/}
               <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
                 <View
@@ -139,14 +147,7 @@ const ProfileScreen = () => {
                   />
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
-                <View
-                  className="rounded-lg justify-center items-center h-8 w-8"
-                  style={{ backgroundColor: theme.colors.costas }}
-                >
-                  {CartIcon(16,16)}
-                </View>
-              </TouchableOpacity>
+              </View>
             </View>
             {/* Contenedor Editar Perfil y Siguiendo */}
             <View className="flex-row space-x-2">
