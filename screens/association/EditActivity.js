@@ -157,6 +157,7 @@ const EditActivity = () => {
           imagen: uri,
           fecha: actividad.fecha,
           ubicacion: actividad.ubicacion,
+          address: actividad.address
         }}
         onSubmit={(values) => {
           if (correctData(values)) {

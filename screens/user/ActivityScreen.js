@@ -48,28 +48,7 @@ const ActivityScreen = () => {
   const [reclamado, setReclamado] = useState(
     actividad.reclamados.includes(currentUser.uid)
   );
-  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44"
-
-  function getAddressFromCoordinates( latitude, longitude ) {
-    return new Promise((resolve) => {
-      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=${HERE_API_KEY}&in=circle:${latitude},${longitude};r=100`
-      fetch(url)
-        .then(res => res.json())
-        .then((resJson) => {
-          // the response had a deeply nested structure :/
-          if (resJson) {
-            resolve(resJson.items[0].address)
-          } else {
-            resolve()
-          }
-        })
-        .catch((e) => {
-          console.log('Error in getAddressFromCoordinates', e)
-          resolve()
-        })
-    })
-  }
-
+  
   useEffect(() => {
     setFecha(actividad.fecha.toDate().toLocaleTimeString());
     const getAddress = async (lat, lng) => {
@@ -85,8 +64,6 @@ const ActivityScreen = () => {
       actividad.ubicacion.latitude,
       actividad.ubicacion.longitude
     ).catch(console.error);
-    getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude)
-    .then((value) => setUbicacion(value))
     getDoc(doc(db, "asociaciones/" + actividad.asociacion)).then(
     (value) => {
     getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + value.data().fotoPerfil))
@@ -304,7 +281,7 @@ const ActivityScreen = () => {
 
         <View className="flex-row items-start space-x-1">
           <Icon name="location" type="octicon" color={theme.colors.ambiental} size = {18}/>
-          <Text className="text-sm text-ambiental">{ubicacion.label}</Text>
+          <Text className="text-sm text-ambiental">{actividad.address.label}</Text>
         </View>
 
           {region.latitude != undefined ? (

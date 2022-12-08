@@ -6,7 +6,7 @@ import { auth, storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
 import { useNavigation } from "@react-navigation/native";
 import { updateDoc } from "firebase/firestore";
-import { addLike, removeLike } from "../service/service";
+import { addLike, removeLike, updateActivity } from "../service/service";
 import { MapIcon } from "../icons/Icons";
 import { useLayoutEffect } from "react";
 
@@ -48,7 +48,25 @@ const TarjetaDeActividad = (props) => {
   };
 
   useEffect(() => {
+    if(actividad.address == null || actividad.address == undefined){
       getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude).then((value) => setUbicacion(value))
+      const object = {asociacion: actividad.asociacion,
+                      titulo: actividad.titulo,
+                      tipo: actividad.tipo,
+                      num_participantes: actividad.num_participantes,
+                      max_participantes: actividad.max_participantes,
+                      participantes: actividad.participantes,
+                      duracion: actividad.duracion,
+                      descripcion: actividad.descripcion,
+                      imagen: actividad.imagen,
+                      fecha: actividad.fecha,
+                      ubicacion: actividad.ubicacion,
+                      address: ubicacion}
+      updateActivity(object)
+    }else{
+      setUbicacion(actividad.address)
+    }
+      
   },[])
 
   const navigation = useNavigation();
