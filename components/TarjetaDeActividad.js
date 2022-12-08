@@ -52,7 +52,7 @@ const TarjetaDeActividad = (props) => {
   },[])
 
   const navigation = useNavigation();
-  const HERE_API_KEY = "xsVV1uwmlrIw2ZBMOi3Mb40lDrRO-SWYSkznK1yhrrs"
+  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44"
 
   const openCard = () => {
     navigation.push("Activity", { actividad: actividad, uri: uri});
