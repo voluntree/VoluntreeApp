@@ -187,7 +187,7 @@ const Login = () => {
         </TouchableOpacity>
       </View>
       {spinner ? (
-        <View className="h-full w-full absolute items-center justify-center bg-[#27272a] opacity-70">
+        <View className="h-[110%] w-full absolute items-center justify-center bg-[#27272a] opacity-70">
           <ActivityIndicator
             className=""
             style={{
