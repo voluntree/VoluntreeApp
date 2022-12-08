@@ -298,14 +298,25 @@ const ActivityScreen = () => {
         </View>
 
         <View className="flex-row items-start space-x-1">
+          <Icon name="clock" type="octicon" color={theme.colors.ambiental} size = {18}/>
+          <Text className="text-sm text-ambiental">{actividad.duracion}</Text>
+        </View>
+
+        <View className="flex-row items-start space-x-1">
           <Icon name="location" type="octicon" color={theme.colors.ambiental} size = {18}/>
           <Text className="text-sm text-ambiental">{ubicacion.label}</Text>
         </View>
 
-        <View className="flex-row items-start space-x-1 mb-20">
-          <Icon name="clock" type="octicon" color={theme.colors.ambiental} size = {18}/>
-          <Text className="text-sm text-ambiental">{actividad.duracion}</Text>
-        </View>
+          {region.latitude != undefined ? (
+              <View className = "rounded-3xl overflow-hidden">
+                <MapView className="w-100 h-44 pb-5 " initialRegion={region}>
+                  <Marker coordinate={region} />
+                </MapView>
+              </View>
+            ) : (
+              <Text>No disponible</Text>
+            )}
+        
 
         <View className = "items-center justify-center h-fit">
           <BotonParticipa />

@@ -21,7 +21,7 @@ const ListaParticipantes = (props) => {
   return (
     <FlatList
       data = {participantes}
-      keyExtractor = {(item) => item.ID}
+      keyExtractor = {(item) => item.dni}
       renderItem= {({item, index}) => (
         <TarjetaParticipante item = {item} actividad={props.actividad}/>
       )}

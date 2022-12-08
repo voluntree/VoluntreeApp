@@ -145,7 +145,7 @@ const ModalNewActivity = (props) => {
       <View className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20 h-full">
         <Formik
           initialValues={{
-            asociacion: "Green Peace",
+            asociacion: "Asociación Zhehao",
             titulo: "",
             tipo: "",
             favoritos: [],
