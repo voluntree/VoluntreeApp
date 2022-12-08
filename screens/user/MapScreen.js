@@ -151,7 +151,7 @@ const MapScreen = () => {
   };
 
   const openCard = (act, imagen) => {
-    navigation.push("Actividad", { actividad: act, uri: imagen });
+    navigation.push("Activity", { actividad: act, uri: imagen });
   };
 
   useLayoutEffect(() => {
