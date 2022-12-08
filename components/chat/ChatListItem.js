@@ -43,6 +43,10 @@ const ChatListItem = (props) => {
     });
   }
 
+  function formatLastMessage(message){
+    return message.length > 30 ? (message.substring(0,30)+"..."):(message);
+  }
+
   return (
     <TouchableOpacity
       className="flex-row h-auto items-start justify-start bg-[#transparent] p-2"
@@ -60,7 +64,7 @@ const ChatListItem = (props) => {
               {lastMsg.user.dni == userDetails.dni ? "Tú" : lastMsg.user.nombre}
               :
             </Text>
-            <Text className="text-ambiental"> {lastMsg.message}</Text>
+            <Text className="text-ambiental"> {formatLastMessage(lastMsg.message)}</Text>
           </View>
         ) : (
           <Text className="text-ambiental">Aún no hay mensajes</Text>
