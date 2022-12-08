@@ -17,7 +17,7 @@ module.exports = {
       bottomTabs: "#086841",
       tarjetAsociacion: colors.gray[900],
       blanco: colors.white,
-      rojo: colors.red,
+      rojo: colors.red[600],
       focusBottomTabs: "#128978",
       fondo: "#A7FFEB",
       fondoTarjeta: "#edfcf8",
