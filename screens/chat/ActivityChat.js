@@ -14,7 +14,8 @@ import { retrieveChatMessages } from "../../service/service";
 import { onSnapshot, collection } from "firebase/firestore";
 import MessageInput from "../../components/chat/MessageInput";
 import { db } from "../../utils/firebase";
-
+import { theme } from "../../tailwind.config";
+import { colors } from "react-native-elements";
 
 const ActivityChat = () => {
   const { actividad, currentUser, userDetails } = useRoute().params;
@@ -26,23 +27,38 @@ const ActivityChat = () => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: actividad,
-      headerMargin: 0,
+      headerStyle: {
+        backgroundColor: theme.colors.blanco,
+      },
+      headerTintColor: theme.colors.ambiental,
+      headerShadowVisible: false,
+      
     });
   }, []);
 
   useEffect(() => {
-    onSnapshot(collection(db, `chats/${actividad}/messages`), (snapshot) =>({
-      id: snapshot.id
-    }, setMensajes(snapshot.docs.map(doc=> doc.data()))))
+    onSnapshot(
+      collection(db, `chats/${actividad}/messages`),
+      (snapshot) => (
+        {
+          id: snapshot.id,
+        },
+        setMensajes(snapshot.docs.map((doc) => doc.data()))
+      )
+    );
   }, []);
 
   return (
-    <View className="h-screen w-screen bg-[#dbffdf]">
+    <View className="h-screen w-screen bg-blanco">
       <View className="flex-col h-[100%] ">
         <View className="w-screen h-full">
           {mensajes.length != 0 ? (
-            <MessageList usuario={userDetails} actividad={actividad}/>
-          ):(<View className="flex w-[100%] flex-1 items-center justify-center"><Text>No hay mensajes</Text></View>)}
+            <MessageList usuario={userDetails} actividad={actividad} />
+          ) : (
+            <View className="flex w-[100%] flex-1 items-center justify-center">
+              <Text>No hay mensajes</Text>
+            </View>
+          )}
           <MessageInput actividad={actividad} />
         </View>
       </View>

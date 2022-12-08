@@ -9,7 +9,7 @@ import React from "react";
 import { sendUserMessage } from "../../service/service";
 import { auth } from "../../utils/firebase";
 import { useState } from "react";
-import { Icon } from "react-native-elements";
+import { colors, Icon } from "react-native-elements";
 import { Dimensions } from "react-native";
 
 var width = Dimensions.get("window").width; //full width
@@ -31,16 +31,16 @@ const MessageInput = (props) => {
         <TextInput
           value={textoActual}
           placeholder="Mensaje"
-          className="h-12 bg-blanco rounded-full px-4"
+          className="h-12 bg-costas rounded-full px-4"
           onChangeText={(text) => setTextoActual(text)}
         />
       </View>
       <View className="flex-col h-12 w-12">
         <TouchableOpacity
-          className="h-12 w-12 bg-bottomTabs justify-center items-center rounded-full"
+          className="h-12 w-12 bg-costas justify-center items-center rounded-full"
           onPress={sendMessage}
         >
-          <Icon name="paper-airplane" type="octicon" />
+          <Icon name="paper-airplane" type="octicon" color={colors.black}/>
         </TouchableOpacity>
       </View>
     </View>
