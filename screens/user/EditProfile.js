@@ -143,7 +143,7 @@ const EditProfile = () => {
               {/* Header */}
               <View className="flex flex-row justify-between items-center mb-5">
                 <TouchableOpacity
-                  onPress={() => {console.log(props.values.fotoPerfil)}}>
+                  onPress={() => {navigation.goBack()}}>
                   <Icon name="arrow-back" type="ionicon" />
                 </TouchableOpacity>
                 <Text className="text-xl font-bold">Editar perfil</Text>

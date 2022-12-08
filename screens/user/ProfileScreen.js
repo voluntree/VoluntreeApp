@@ -153,10 +153,11 @@ const ProfileScreen = () => {
             <View className="flex-row space-x-2">
               {/* Botón Editar Perfil*/}
               <View
-                className="flex-grow h-8 rounded-lg justify-center items-center"
+                className="flex-grow h-8 rounded-lg"
                 style={{ backgroundColor: theme.colors.costas }}
               >
                 <TouchableOpacity
+                  className="w-full h-full justify-center items-center"
                   onPress={() => {
                     navigation.push("EditProfile", {
                       voluntario: usuario,
@@ -172,10 +173,11 @@ const ProfileScreen = () => {
               </View>
               {/*Botón Siguiendo*/}
               <View
-                className="flex-grow h-8 rounded-lg justify-center items-center"
+                className="flex-grow h-8 rounded-lg"
                 style={{ backgroundColor: theme.colors.deportivo }}
               >
                 <TouchableOpacity
+                  className="w-full h-full justify-center items-center"
                   onPress={() =>
                     navigation.push("Following", { voluntario: usuario })
                   }

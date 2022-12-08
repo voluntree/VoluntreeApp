@@ -8,8 +8,10 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { onSnapshot, doc } from "firebase/firestore";
 
-import { getImageDownloadURL, followAsociation, unfollowAsociation, getAssociationByName, getVoluntarioByID, getVoluntarioByNombre, prueba } from "../../service/service";
+import { db } from "../../utils/firebase";
+import { getImageDownloadURL, followAsociation, unfollowAsociation, getAssociationByName, getVoluntarioByID, getVoluntarioByNombre, prueba, getAsociationByID } from "../../service/service";
 import ListaActividadesPerfil from "../../components/association/ListaActividadesPerfil";
 
 const Profile = (props) => {
@@ -18,26 +20,41 @@ const Profile = (props) => {
   const [asociacion, setAsociacion] = useState(props.asociacion);
   const userID = props.userID;
 
-  const [following, setFollow] = useState(
-    asociacion.seguidores.includes(userID)
-  );
+  const [following, setFollow] = useState(false);
 
   const [profielPhoto, setProfilePhoto] = useState();
   const [backgroundPhoto, setBackgroundPhoto] = useState();
 
   useEffect(() => {
-    getImageDownloadURL(
-      "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
-        asociacion.fotoPerfil
-    ).then((url) => {
-      setProfilePhoto(url);
-    });
-    getImageDownloadURL(
-      "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
-        asociacion.fondoPerfil
-    ).then((url) => {
-      setBackgroundPhoto(url);
-    });
+    if(!fromUser) {
+      onSnapshot(doc(db, "asociaciones", userID), async (doc) => {
+        setAsociacion(doc.data());
+        getImageDownloadURL(
+          "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
+            doc.data().fotoPerfil
+        ).then((url) => {
+          setProfilePhoto(url);
+        });
+        getImageDownloadURL(
+          "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
+            doc.data().fondoPerfil
+        ).then((url) => {
+          setBackgroundPhoto(url);
+        });
+      });
+    } else {
+      getImageDownloadURL(
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.fotoPerfil
+      ).then((url) => {
+        setProfilePhoto(url);
+      });
+      getImageDownloadURL(
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.fondoPerfil
+      ).then((url) => {
+        setBackgroundPhoto(url);
+      });
+      setFollow(asociacion.followers.includes(userID));
+    }
   }, []);
 
   const EditOrFollow = () => {
