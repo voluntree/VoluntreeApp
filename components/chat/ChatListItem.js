@@ -21,11 +21,11 @@ const ChatListItem = (props) => {
   useEffect(() => {
     initData();
     onSnapshot(
-      collection(db, `chats/${item.titulo}/messages`),
-      (snapshot) => (
-        { id: snapshot.id },
-        setLastMsg(snapshot.docs[snapshot.docs.length - 1].data())
-      )
+      collection(db, `chats/${item.titulo}/messages`), (snapshot) => {
+        let msg = "";
+        if(!snapshot.empty) msg = snapshot.docs[snapshot.docs.length - 1].data()
+        setLastMsg(msg)
+      }
     );
   }, []);
 

@@ -18,6 +18,7 @@ import Tienda from "./tienda/Tienda";
 import ActivityChat from '../screens/chat/ActivityChat';
 import CreateNewArticle from "../screens/association/CreateNewArticle";
 import EditProfileAssoc from "../screens/association/EditProfileAssoc";
+import ActivityScreen from './../screens/user/ActivityScreen';
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ const AppNavigator = () => (
         <Screen name='QRscanner' component={QRScanner}/>
         <Screen name='QRgenerator' component={QRGenerator}/>
         <Screen name='Chat Actividad' component={ActivityChat}/>
+        <Screen name="Activity" component={ActivityScreen}/>
         <Screen name='Edit' component={EditActivity}/>
         <Screen name='Tienda' component = {Tienda}/>
         <Screen name='NuevoArticulo' component={CreateNewArticle}/>
