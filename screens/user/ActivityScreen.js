@@ -18,6 +18,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import {
   addLike,
   desapuntarseDeActividad,
+  getAssociationByName,
   getPoints,
   inscribirUsuarioEnActividad,
   removeLike,
@@ -88,7 +89,7 @@ const ActivityScreen = () => {
     .then((value) => setUbicacion(value))
     getDoc(doc(db, "asociaciones/" + actividad.asociacion)).then(
     (value) => {
-    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/" + value.data().fotoPerfil))
+    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + value.data().fotoPerfil))
       .then((path) => {
         setImagen(path);
       })});
@@ -106,6 +107,14 @@ const ActivityScreen = () => {
     month: "long",
     day: "numeric",
   };
+
+  const goToAssocProfile = () => {
+    getAssociationByName(actividad.asociacion).then((value) => {
+      navigation.navigate("Association", {
+        asociacion: value,
+      });
+    });
+  }
 
   const obtenerPuntos = async () => {
     await getPoints(currentUser.uid, actividad);
@@ -256,13 +265,16 @@ const ActivityScreen = () => {
           <Image className="h-52 rounded-2xl" source={{ uri: uri }} />
         </View>
         
-        {/* Container asociacion */}
+        {/* Container asociacion y participantes */}
         <View className = "">
           <View className = "flex-row w-full h-fit items-center space-x-2">
-            <View className = "w-[70%] flex-row items-center space-x-2 py-1">
+            <TouchableOpacity 
+              className="w-[70%] flex-row items-center space-x-2 py-1"
+              onPress={() => {goToAssocProfile()}}
+            >
               <Image className = "h-12 w-12 rounded-full" source={{ uri: imagen }}/>
               <Text className = "text-base text-ambiental">{actividad.asociacion}</Text>
-            </View>
+            </TouchableOpacity>
             <View className = "h-full w-0.5 bg-ambiental"></View>
             <View className = "items-center grow flex-row justify-center space-x-1">
               <Icon name="person" type="octicon" color={theme.colors.ambiental} />

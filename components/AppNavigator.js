@@ -8,7 +8,6 @@ import AssociationTab from "./association/AssociationTab";
 import HomeAssociation from "../screens/association/HomeAssociation";
 import AssociationActivityDetails from "../screens/association/AssociationActivityDetails";
 import ParticipantsList from "../screens/association/ParticipantsList";
-import ActivityScreen from './../screens/user/ActivityScreen';
 import UserRegister from './../screens/register/UserRegister';
 import AssociationRegister from './../screens/register/AssociationRegister';
 import QRScanner from './../screens/user/QRScanner';
@@ -30,7 +29,6 @@ const AppNavigator = () => (
         <Screen name='AssociationHome' component={AssociationTab}></Screen>
         <Screen name='AssociationActivityDetails' component={AssociationActivityDetails}></Screen>
         <Screen name='ParticipantsList' component={ParticipantsList}></Screen>
-        <Screen name='Actividad' component={ActivityScreen}/>
         <Screen name='Registro' component={Registro}/>
         <Screen name='QRscanner' component={QRScanner}/>
         <Screen name='QRgenerator' component={QRGenerator}/>

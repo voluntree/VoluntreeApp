@@ -25,6 +25,7 @@ import { stringToHash } from "./functions";
 
 const actividadesRef = collection(db, "actividades");
 const voluntarioRef = collection(db, "voluntarios");
+const asociacionesRef = collection(db, "asociaciones");
 
 //#region Actividades
 export async function getAllActivities() {
@@ -205,6 +206,16 @@ export async function getAsociationByID(id) {
   }
 }
 
+export async function getAssociationByName(assocName) {
+  const q = query(asociacionesRef, where("nombre", "==", assocName));
+  const docSnap = await getDocs(q);
+  if (docSnap.empty) {
+    return null;
+  } else {
+    return docSnap.docs[0].data();
+  }
+}
+
 export async function getFotoPerfilAsociacion(nombre) {
   try {
     const fotoPerfil = ref(
@@ -264,12 +275,12 @@ export async function removeLike(activityID, userID) {
   }
 }
 
-export async function followAsociation(user, asociationName) {
-  const asociationRef = doc(db, "asociaciones", asociationName);
+export async function followAsociation(userID, association) {
+  const asociationRef = doc(db, "asociaciones", where("nombre", "==", association));
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
-        seguidores: arrayUnion(user.nombre + " " + user.apellidos),
+        seguidores: arrayUnion(userID),
         num_seguidores: increment(1),
       });
     });
@@ -278,23 +289,15 @@ export async function followAsociation(user, asociationName) {
   }
 }
 
-export async function unfollowAsociation(user, asociationName) {
-  const asociationRef = doc(db, "asociaciones", asociationName);
+export async function unfollowAsociation(userID, associationID) {
+  const asociationRef = doc(db, "asociaciones", associationID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
-        seguidores: arrayRemove(user.nombre + " " + user.apellidos),
+        seguidores: arrayRemove(userID),
         num_seguidores: increment(-1),
       });
     });
-    console.log(
-      "El usuario " +
-        user.nombre +
-        " " +
-        user.apellidos +
-        " ha dejado de seguir a la asociación " +
-        asociationName
-    );
   } catch (e) {
     console.log(e);
   }
@@ -488,6 +491,32 @@ export async function retrieveChatLastMessage(activity) {
   } catch (error) {}
   return resp;
 }
+//#endregion
+
+//#region Tienda
+
+export async function redeemPoints(user, productID) {
+  const userRef = doc(db, "voluntarios", user);
+  const productRef = doc(db, "productos", productID);
+  try {
+    if (user.puntos >= productID.puntos) {
+      await runTransaction(db, async (t) => {
+        t.update(userRef, {
+          puntos: increment(-productID.precio),
+        });
+        // t.update(productRef, {
+        //   stock: increment(-1),
+        // });
+      });
+      console.log("El usuario " + user.nombre + " ha canjeado " + productID.puntos + " puntos por el producto " + productID.nombre);
+    } else {
+      console.log("El usuario " + user.nombre + " no tiene suficientes puntos para canjear el producto " + productID.nombre);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 //#endregion
 
 //miscelanea

@@ -55,7 +55,7 @@ const TarjetaDeActividad = (props) => {
   const HERE_API_KEY = "xsVV1uwmlrIw2ZBMOi3Mb40lDrRO-SWYSkznK1yhrrs"
 
   const openCard = () => {
-    navigation.push("Actividad", { actividad: actividad, uri: uri});
+    navigation.push("Activity", { actividad: actividad, uri: uri});
   };
 
   function setActiveColor(){
