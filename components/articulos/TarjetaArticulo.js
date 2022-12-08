@@ -2,7 +2,7 @@ import { View, Text, Image } from "react-native";
 import { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
-import { getAsociationByID, getImageDownloadURL } from "../../service/service";
+import { getAsociationByID, getAssociationByName, getImageDownloadURL } from "../../service/service";
 import { useNavigation } from "@react-navigation/native";
 
 const TarjetaArticulo = (props) => {
@@ -26,9 +26,9 @@ const TarjetaArticulo = (props) => {
 
   async function getData() {
     setUri(await getImageDownloadURL(articulo.imagen));
-    let asoc = await getAsociationByID(articulo.asociacion);
+    let asoc = await getAssociationByName(articulo.asociacion);
     setAsociacion(asoc);
-    setUri2(await getImageDownloadURL(asoc.fotoPerfil));
+    setUri2(await getImageDownloadURL("profileImages/asociaciones/" + asoc.fotoPerfil));
   }
 
   return (

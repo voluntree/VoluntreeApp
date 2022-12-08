@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, Image } from "react-native";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewsScreen = () => {
   const route = useRoute();
@@ -8,7 +9,8 @@ const NewsScreen = () => {
   const { articulo, uri, asociacion, uriAsociacion } = route.params;
 
   return (
-    <ScrollView className="flex h-auto px-2 py-2 w-100 bg-[white]">
+    <SafeAreaView>
+      <ScrollView className="flex h-auto px-2 py-2 w-100 bg-[white]">
       <View className="flex-row my-2 justify-around">
         <View className="flex-col">
           <View className="rounded-full border-solid border-2 border-[#333] h-auto">
@@ -47,6 +49,7 @@ const NewsScreen = () => {
         <Text className="text-base mb-2">{articulo.conclusion}</Text>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 
