@@ -68,10 +68,17 @@ const Profile = (props) => {
             className="border border-[#b0dac7] bg-[#EFF8F4] rounded-lg w-1/2 h-8 justify-center items-center"
             onPress={() => {
                 following ? unfollow() : follow();
-                // follow();
             }}
           >
-            <Text className="text-[#086841] text-sm font-bold">Seguir</Text>
+            {following ? (
+              <Text className="text-[#086841] text-sm font-bold">
+                Siguiendo
+              </Text>
+            ) : (
+              <Text className="text-[#086841] text-sm font-bold">
+                Seguir
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       );
@@ -79,13 +86,13 @@ const Profile = (props) => {
   };
 
   const follow = async () => {
-    // await followAsociation(userID, asociacion.nombre)
+    await followAsociation(userID, asociacion.nombre)
     setFollow(true);
   };
-
+ 
   const unfollow = () => {
-    unfollowAsociation(userID, nombreAsoc);
-    // setFollow(false);
+    unfollowAsociation(userID, asociacion.nombre);
+    setFollow(false);
   };
 
   return (

@@ -206,13 +206,31 @@ export async function getAsociationByID(id) {
   }
 }
 
-export async function getAssociationByName(assocName) {
+export async function getAssocDocSnap(assocName) {
   const q = query(asociacionesRef, where("nombre", "==", assocName));
   const docSnap = await getDocs(q);
   if (docSnap.empty) {
     return null;
   } else {
-    return docSnap.docs[0].data();
+    return docSnap.docs[0];
+  }
+}
+
+export async function getAssociationByName(assocName) {
+  const docSnap = await getAssocDocSnap(assocName);
+  if (docSnap == null) {
+    return null;
+  } else {
+    return docSnap.data();
+  }
+}
+
+export async function getAssocID(assocName) {
+  const docSnap = await getAssocDocSnap(assocName);
+  if (docSnap == null) {
+    return null;
+  } else {
+    return docSnap.id;
   }
 }
 
@@ -276,7 +294,8 @@ export async function removeLike(activityID, userID) {
 }
 
 export async function followAsociation(userID, association) {
-  const asociationRef = doc(db, "asociaciones", where("nombre", "==", association));
+  const associationID = await getAssocID(association);
+  const asociationRef = doc(db, "asociaciones", associationID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
@@ -289,7 +308,8 @@ export async function followAsociation(userID, association) {
   }
 }
 
-export async function unfollowAsociation(userID, associationID) {
+export async function unfollowAsociation(userID, association) {
+  const associationID = await getAssocID(association);
   const asociationRef = doc(db, "asociaciones", associationID);
   try {
     await runTransaction(db, async (t) => {
