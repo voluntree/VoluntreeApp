@@ -84,7 +84,7 @@ const QRScanner = () => {
   }
 
   return (
-    <SafeAreaView className="flex-col items-center h-full w-full py-5 bg-blanco">
+    <SafeAreaView className="flex-col items-center h-full w-full pb-4 bg-blanco">
       <Text className="text-ambiental text-base m-2">Confirmar manualmente</Text>
       <KeyboardAvoidingView className="flex-row w-96 justify-evenly my-2">
         <View className="h-10">
@@ -101,8 +101,8 @@ const QRScanner = () => {
           <Text className=" text-ambiental">Confirmar</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
-      <Text className="font-bold text-ambiental text-base m-2">O</Text>
-      <View className="m-5">
+      <Text className="font-bold text-ambiental text-base m-1">O</Text>
+      <View className="m-3">
         <Text className="text-ambiental text-base">
           Escanear código QR de la actividad
         </Text>
