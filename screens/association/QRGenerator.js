@@ -5,6 +5,8 @@ import QRCode from "react-native-qrcode-svg";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Icon } from "react-native-elements";
 import { stringToHash } from "./../../service/functions";
+import { useLayoutEffect } from "react";
+import { theme } from "../../tailwind.config";
 
 const QRGenerator = () => {
   const route = useRoute();
@@ -15,40 +17,41 @@ const QRGenerator = () => {
   const [productQRref, setProductQRref] = useState();
 
   return (
-    <SafeAreaView className="flex w-full h-full bg-[#e6e6e6] items-center space-y-12 justify-start">
-      <View className="flex-row flex-wrap w-full h-auto items-center space-x-2 p-1 bg-bottomTabs">
+    <SafeAreaView className="flex w-full h-full bg-blanco items-center space-y-12 justify-start">
+      <View className="flex-row w-full h-auto items-center space-x-2 p-1">
         <TouchableOpacity
           onPress={navigation.goBack}
           className="flex h-14 w-14 items-center justify-center"
         >
           <Icon
             className="h-full w-full items-center justify-center"
-            name="arrow-left"
+            name="chevron-left"
             type="octicon"
-            color="black"
-            size={28}
+            color={theme.colors.ambiental}
+            size={20}
           />
         </TouchableOpacity>
-        <Text className="font-bold text-xl">Código QR</Text>
-      </View>
-      <Text className="font-bold text-xl p-2 rounded-lg bg-blanco">
-        {actividad.titulo}
-      </Text>
-      <View className="p-3 rounded-lg bg-blanco">
-        <QRCode
-          value={item}
-          size={250}
-          color="black"
-          backgroundColor="white"
-          getRef={(c) => setProductQRref(c)}
-        />
-      </View>
-      <View className="p-3 rounded-lg bg-blanco items-center">
-        <Text className="font-bold text-lg">Código manual:</Text>
-        <Text className="font-bold text-xl">
-          {stringToHash(actividad.titulo)}
+        <Text className="text-ambiental font-bold text-xl">Código QR</Text>
+      </View >
+      
+        <Text className="font-bold text-ambiental text-xl p-2 rounded-lg bg-costas">
+          {actividad.titulo}
         </Text>
-      </View>
+        <View className="p-3 rounded-lg bg-blanco">
+          <QRCode
+            value={item}
+            size={250}
+            color={theme.colors.ambiental}
+            backgroundColor={theme.colors.blanco}
+            getRef={(c) => setProductQRref(c)}
+          />
+        </View>
+        <View className="p-3 rounded-lg bg-costas items-center">
+          <Text className="text-ambiental text-sm">Código manual:</Text>
+          <Text className="text-ambiental text-xl">
+            {stringToHash(actividad.titulo)}
+          </Text>
+        </View>
     </SafeAreaView>
   );
 };

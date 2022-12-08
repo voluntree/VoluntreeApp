@@ -35,7 +35,7 @@ const QRScanner = () => {
 
   const handleBarCodeScanned = async ({ type, data }) => {
     if (!scanned)
-      if (actividad.participantes.includes(currentUser)) {
+      if (actividad.participantes.includes(currentUser.uid)) {
         try {
           setScanned(true);
           await confirmAssistenceViaQR(currentUser.uid, actividad.titulo, data);
