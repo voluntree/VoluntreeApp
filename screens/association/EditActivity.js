@@ -143,7 +143,7 @@ const EditActivity = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className = "bg-blanco w-full h-full">
       <Formik
         initialValues={{
           asociacion: "Green Peace",
@@ -179,7 +179,7 @@ const EditActivity = () => {
             {/* Header */}
             <View className="flex-row justify-between">
               <TextInput
-                className="text-xl text-[#086841] h-10 w-auto font-bold pt-1"
+                className="text-xl text-ambiental h-10 w-auto font-bold pt-1"
                 placeholder="Título"
                 placeholderTextColor={"#086841"}
                 onChangeText={props.handleChange("titulo")}
@@ -202,7 +202,7 @@ const EditActivity = () => {
             <View className="flex-row justify-between px-4">
               {/* Duración */}
               <View>
-                <Text className="text-base text-[#086841] pl-2">
+                <Text className="text-base text-ambiental pl-2">
                   Duración: {props.values.duracion}h
                 </Text>
                 <Slider
@@ -261,7 +261,7 @@ const EditActivity = () => {
                   style={{ marginTop: 8, marginRight: 5 }}
                 />
                 <TextInput
-                  className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-8/12 pt-2"
+                  className="border-b border-[#FEBBBB] text-sm text-ambiental h-8 w-8/12 pt-2"
                   placeholder="Localización"
                   placeholderTextColor={"#086841"}
                 />
@@ -281,7 +281,7 @@ const EditActivity = () => {
                     showPicker();
                   }}
                 >
-                  <Text className="border-b border-[#FEBBBB] text-sm text-[#086841] h-8 w-full pt-2">
+                  <Text className="border-b border-[#FEBBBB] text-sm text-ambiental h-8 w-full pt-2">
                     {text}
                   </Text>
                 </TouchableOpacity>
@@ -304,9 +304,9 @@ const EditActivity = () => {
             <View className="space-y-4 px-4">
               {/* Descripción */}
               <View>
-                <Text className="text-base text-[#086841]">Descripción:</Text>
+                <Text className="text-base text-ambiental">Descripción:</Text>
                 <TextInput
-                  className="text-sm text-justify text-[#086841] h-32 border-2 border-[#FEBBBB] rounded-md p-2"
+                  className="text-sm text-justify text-ambiental h-32 border-2 border-[#FEBBBB] rounded-md p-2"
                   multiline={true}
                   numberOfLines={6}
                   maxLength={200}
@@ -318,11 +318,11 @@ const EditActivity = () => {
               {/* Participantes */}
               <View>
                 <View className="flex flex-row space-x-2 items-center justify-start">
-                  <Text className="text-base text-[#086841]">
-                    Nº máximp de participantes:
+                  <Text className="text-base text-ambiental">
+                    Nº máximo de participantes:
                   </Text>
                   <TextInput
-                    className="text-base text-[#086841]"
+                    className="text-base text-ambiental"
                     maxLength={3}
                     value={props.values.max_participantes}
                     onChangeText={(value) => {
@@ -383,8 +383,8 @@ const EditActivity = () => {
                 console.log(uri);
               }}
             >
-              <View className="h-10 w-40 bg-[#EFF8F4] rounded-md justify-center items-center">
-                <Text className="text-base text-[#086841]">Guardar cambios</Text>
+              <View className="h-10 w-40 bg-costas rounded-md justify-center items-center">
+                <Text className="text-base text-ambiental">Guardar cambios</Text>
               </View>
             </TouchableOpacity>
           </View>
