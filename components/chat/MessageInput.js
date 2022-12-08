@@ -11,6 +11,7 @@ import { auth } from "../../utils/firebase";
 import { useState } from "react";
 import { colors, Icon } from "react-native-elements";
 import { Dimensions } from "react-native";
+import { theme } from "../../tailwind.config";
 
 var width = Dimensions.get("window").width; //full width
 
@@ -28,11 +29,14 @@ const MessageInput = (props) => {
   return (
     <View className="flex-row w-full p-1 justify-around items-start bg-[#transparent]">
       <View className="flex-col w-[80%]">
-        <TextInput
+        <TextInput 
+          className="h-12 bg-costas rounded-full px-4 text-md"
+          style = {{color: theme.colors.ambiental}}
           value={textoActual}
           placeholder="Mensaje"
-          className="h-12 bg-costas rounded-full px-4"
           onChangeText={(text) => setTextoActual(text)}
+          cursorColor = {theme.colors.ambiental}
+          placeholderTextColor = {theme.colors.ambiental}
         />
       </View>
       <View className="flex-col h-12 w-12">
@@ -40,7 +44,7 @@ const MessageInput = (props) => {
           className="h-12 w-12 bg-costas justify-center items-center rounded-full"
           onPress={sendMessage}
         >
-          <Icon name="paper-airplane" type="octicon" color={colors.black}/>
+          <Icon name="paper-airplane" type="octicon" color={theme.colors.ambiental}/>
         </TouchableOpacity>
       </View>
     </View>

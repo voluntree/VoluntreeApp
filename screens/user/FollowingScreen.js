@@ -5,7 +5,7 @@ import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Icon } from "react-native-elements";
 
-import ListaFollowing from "../../components/user/ListaFollowing";
+import ListaFollowing from "../../components/ListaFollowing";
 
 const FollowingScreen = () => {
     const navigation = useNavigation();
