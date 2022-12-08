@@ -15,7 +15,7 @@ import ListaActividadesPerfil from "../../components/association/ListaActividade
 const Profile = (props) => {
   const navigation = useNavigation();
   const fromUser = props.fromUser;
-  const { asociacion } = props;
+  const [asociacion, setAsociacion] = useState(props.asociacion);
   const userID = props.userID;
 
   const [following, setFollow] = useState(
