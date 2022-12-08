@@ -31,7 +31,7 @@ const AssociationActivityDetails = () => {
   const [fecha, setFecha] = useState();
   const [region, setRegion] = useState({});
   const [ubicacion, setUbicacion] = useState([]);
-  const HERE_API_KEY = "xsVV1uwmlrIw2ZBMOi3Mb40lDrRO-SWYSkznK1yhrrs"
+  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44"
   const [imagen, setImagen] = useState();
 
   function getAddressFromCoordinates( latitude, longitude ) {
