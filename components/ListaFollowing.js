@@ -4,10 +4,12 @@ import { db } from '../utils/firebase';
 import { collection, query,onSnapshot, where} from "firebase/firestore";
 import TarjetaFollowingAssociation from "../components/TarjetaFollowingAssociation"
 import { useRoute } from '@react-navigation/native';
+import { View } from 'react-native';
+import { theme } from '../tailwind.config';
 
 const ListaFollowing = (props) => {
   const [asociaciones, setAsociaciones] = useState([]);
-  const q = query(collection(db,"asociaciones"), where("seguidores", "array-contains", props.usuario.nombre + " " + props.usuario.apellidos))
+  const q = query(collection(db,"asociaciones"), where("seguidores", "array-contains", props.usuario))
   useEffect(() => {
     
       onSnapshot(q, (snapshot)=>({
@@ -17,12 +19,15 @@ const ListaFollowing = (props) => {
       
       const renderEmptyContainer = () => {
         return (
-          <Text style={{ marginTop: "90%" }}>No sigues a ninguna asociación</Text>
+          <View className = "items-center">
+            <Text>No sigues a ninguna asociación</Text>
+          </View>
         );
       };
 
   return (
-    <FlatList style = {{width:"90%"}}
+    <FlatList 
+      style = {{width:"95%"}}
       data={asociaciones}
       keyExtractor={(item) => item.nombre}
       ListEmptyComponent={renderEmptyContainer()}
