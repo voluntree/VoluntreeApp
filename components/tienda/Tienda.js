@@ -14,6 +14,7 @@ import { isEmpty } from "@firebase/util";
 import { getDownloadURL, ref } from "firebase/storage";
 import { auth, db, storage } from "../../utils/firebase";
 import { useDispatch } from "react-redux";
+import PopUpCarrito from "./PopUpCarrito";
 
 const Tienda = () => {
   const categorias = ["TOTEBAGS", "CANTIMPLORAS", "GORRAS", "CAMISETAS"];
@@ -81,6 +82,7 @@ const Tienda = () => {
 
   return (
     <TailwindProvider>
+      <PopUpCarrito />
       <SafeAreaView className="h-full flex px-6 bg-blanco">
         {/*HEADER*/}
         <View className="mt-20 flex-row justify-between">
@@ -93,7 +95,7 @@ const Tienda = () => {
           <View className="flex-row space-x-4">
             <View className="rounded-full items-center justify-center w-16 h-8 bg-costas">
               <Text className="text-ambiental text-xs">
-                { 0 || usuario.puntos} pts
+                {usuario.puntos} pts
               </Text>
             </View>
             <TouchableOpacity>{CartIcon(24, 24)}</TouchableOpacity>
@@ -114,6 +116,7 @@ const Tienda = () => {
         </View>
         <ListaCategorias />
         <FlatList
+        className = "mb-16"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             marginTop: 10,
@@ -124,11 +127,6 @@ const Tienda = () => {
           data={productos}
           renderItem={({item}) => <TarjetaProducto producto={item}/>}
         />
-        <TouchableOpacity className="items-center mb-4 mt-2">
-          <View className="bg-ambiental p-2 rounded-xl px-16">
-            <Text className="text-[#fff] font-bold">CANJEAR</Text>
-          </View>
-        </TouchableOpacity>
       </SafeAreaView>
     </TailwindProvider>
   );

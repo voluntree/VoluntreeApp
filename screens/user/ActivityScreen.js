@@ -33,8 +33,6 @@ const ActivityScreen = () => {
   const route = useRoute();
   const { actividad, uri } = route.params;
   const [imagen, setImagen] = useState();
-  const [fecha, setFecha] = useState();
-  const [ubicacion, setUbicacion] = useState([]);
   const [region, setRegion] = useState({});
   const currentUser = auth.currentUser;
   const [inscrito, setInscrito] = useState(false);
@@ -52,8 +50,14 @@ const ActivityScreen = () => {
     actividad.reclamados.includes(currentUser.uid)
   );
 
+  const date = () => {
+    var fecha = actividad.fecha.toDate();
+    return String(fecha.getHours()).padStart(2, '0') + ":" + String(fecha.getMinutes()).padStart(2, '0') + " " + String(fecha.getDate()).padStart(2, '0') + "/" 
+    + String(fecha.getMonth() + 1).padStart(2, '0') + "/"
+    + String(fecha.getFullYear())
+  }
+
   useEffect(() => {
-    setFecha(actividad.fecha.toDate().toLocaleTimeString());
     const getAddress = async (lat, lng) => {
       setInscrito(actividad.participantes.includes(currentUser.uid));
       setRegion({
@@ -343,7 +347,7 @@ const ActivityScreen = () => {
             size={18}
           />
           <Text className="text-sm text-ambiental">
-            {fecha} {actividad.fecha.toDate().toLocaleDateString()}
+            {date()}
           </Text>
         </View>
 

@@ -31,7 +31,7 @@ const ListaArticulos = () => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className = "bg-blanco h-full">
       <FlatList
       data={articulos}
       keyExtractor={(item) => item.titulo}
