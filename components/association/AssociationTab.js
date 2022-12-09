@@ -18,6 +18,7 @@ import InboxAssociation from "../../screens/association/InboxAssociation";
 import ProfileAssociation from "../../screens/association/ProfileAssociation";
 import PostActivity from "../../screens/association/PostActivity";
 import ModalNewActivity from "../../screens/association/ModalNewActivity";
+import { theme } from "../../tailwind.config";
 
 const Tab = createBottomTabNavigator();
 
@@ -90,7 +91,7 @@ const AssociationTab = () => {
     return (
       <View className=" items-center">
         <Animated.View
-          className="w-[48px] h-[48px] bg-[#00BFA5] rounded-full justify-center items-center"
+          className="w-12 h-12 bg-costas rounded-full justify-center items-center"
           style={[styles.shadow, { bottom: newArticle }]}
         >
           <TouchableOpacity
@@ -99,12 +100,12 @@ const AssociationTab = () => {
                 POP_OUT();
             }}
           >
-            <Icon name="post-add" type="material" color="white" size={25} />
+            <Icon name="post-add" type="material" color={theme.colors.ambiental} size={25} />
           </TouchableOpacity>
         </Animated.View>
 
         <Animated.View
-          className="w-[48px] h-[48px] bg-[#00BFA5] rounded-full justify-center items-center"
+          className="w-12 h-12 bg-costas rounded-full justify-center items-center"
           style={[styles.shadow, { bottom: newActivity }]}
         >
           <TouchableOpacity
@@ -113,7 +114,7 @@ const AssociationTab = () => {
               POP_OUT();
             }}
           >
-            <Icon name="library-add" type="material" color="white" size={25} />
+            <Icon name="library-add" type="material" color={theme.colors.ambiental} size={25} />
           </TouchableOpacity>
         </Animated.View>
 
@@ -123,10 +124,10 @@ const AssociationTab = () => {
           }}
         >
           <Animated.View
-            className="w-[60px] h-[60px] bg-[#00BFA5] justify-center items-center rounded-full bottom-[120px]"
+            className="w-16 h-16 bg-costas justify-center items-center rounded-full bottom-[120px]"
             style={[styles.shadow, rotation]}
           >
-            <Icon name="add" type="material" color="white" size={30} />
+            <Icon name="add" type="material" color={theme.colors.ambiental} size={30} />
           </Animated.View>
         </TouchableWithoutFeedback>
       </View>
@@ -162,13 +163,13 @@ const AssociationTab = () => {
                 <Icon
                     name="park"
                     type="material"
-                    color={focused ? "#00BFA5" : "#748c94"}
+                    color={focused ? theme.colors.ambiental : "#748c94"}
                     size={30}
                 />
 
                 <Text
                   style={{
-                    color: focused ? "#00BFA5" : "#748c94",
+                    color: focused ? theme.colors.ambiental : "#748c94",
                     fontSize: 12,
                   }}
                 >
@@ -187,12 +188,12 @@ const AssociationTab = () => {
                 <Icon
                     name="article"
                     type="material"
-                    color={focused ? "#00BFA5" : "#748c94"}
+                    color={focused ? theme.colors.ambiental : "#748c94"}
                     size={30}
                 />
                 <Text
                   style={{
-                    color: focused ? "#00BFA5" : "#748c94",
+                    color: focused ? theme.colors.ambiental : "#748c94",
                     fontSize: 12,
                   }}
                 >
@@ -221,12 +222,12 @@ const AssociationTab = () => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "#00BFA5" : "#748c94",
+                    tintColor: focused ? theme.colors.ambiental : "#748c94",
                   }}
                 />
                 <Text
                   style={{
-                    color: focused ? "#00BFA5" : "#748c94",
+                    color: focused ? theme.colors.ambiental : "#748c94",
                     fontSize: 12,
                   }}
                 >
@@ -248,12 +249,12 @@ const AssociationTab = () => {
                   style={{
                     width: 25,
                     height: 25,
-                    tintColor: focused ? "#00BFA5" : "#748c94",
+                    tintColor: focused ? theme.colors.ambiental : "#748c94",
                   }}
                 />
                 <Text
                   style={{
-                    color: focused ? "#00BFA5" : "#748c94",
+                    color: focused ? theme.colors.ambiental : "#748c94",
                     fontSize: 12,
                   }}
                 >

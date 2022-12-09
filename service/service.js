@@ -391,6 +391,17 @@ export async function getVoluntarioByID(id) {
   }
 }
 
+export async function getAssocByEmail(email) {
+  const q = query(asociacionesRef, where("correo", "==", email));
+  const docSnap = await getDocs(q);
+  if (docSnap.empty) {
+    return null;
+  } else {
+    return docSnap.docs[0];
+  }
+}
+
+
 export async function getPoints(user, activity) {
   const userRef = doc(db, "voluntarios", user);
   const activityRef = doc(db, "actividades", activity.titulo);

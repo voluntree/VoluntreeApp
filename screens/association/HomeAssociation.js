@@ -15,9 +15,9 @@ const HomeAssociation = () => {
     }, []);
 
     return (
-        <SafeAreaView>
-            <View className = "p-4">
-                <Text className = "font-bold text-2xl">
+        <SafeAreaView className = "bg-blanco">
+            <View className = "py-4 items-center">
+                <Text className = "text-ambiental font-bold text-xl">
                     Mis Actividades
                 </Text>
             </View>

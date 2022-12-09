@@ -10,23 +10,24 @@ import {
 } from "firebase/firestore";
 
 import ActividadAsociacion from "./ActividadAsociacion";
-import { db, storage } from "../../utils/firebase";
+import { auth, db, storage } from "../../utils/firebase";
 import { View, Text, FlatList } from "react-native";
 import React, { useState, useEffect } from "react";
-import { getActivityById } from "../../service/service";
+import { getActivityById, getAssocByEmail } from "../../service/service";
 
 const ListaActividadesAsociacion = () => {
   const [actividades, setActividades] = useState([]);
+  const [asociacion, setAsociacion] = useState([])
 
-  const currentUser = {
-    name: "Modepran",
-    cif: "G98347432",
-  };
-
-  const q = query(collection(db, "actividades"));
+  
 
   useEffect(() => {
+    
+      
+    
     const getActividades = async () => {
+      getAssocByEmail(auth.currentUser.email).then((value) => {setAsociacion(value.data())
+      const q = query(collection(db, "actividades"), where("asociacion", "==", value.data().nombre));
       onSnapshot(
         q,
         (snapshot) => (
@@ -35,7 +36,7 @@ const ListaActividadesAsociacion = () => {
           },
           setActividades(snapshot.docs.map((doc) => doc.data()))
         )
-      );
+      )});
     };
     getActividades();
   }, []);
@@ -43,7 +44,7 @@ const ListaActividadesAsociacion = () => {
   return (
     <View>
       <FlatList
-      className="h-100 scroll-pb-28 mb-56"
+      className="h-full scroll-pb-28 mb-56"
       data={actividades}
       keyExtractor={(item) => item.titulo}
       renderItem={({ item, index }) => (

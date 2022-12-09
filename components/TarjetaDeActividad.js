@@ -54,8 +54,9 @@ const TarjetaDeActividad = (props) => {
   };
 
   useEffect(() => {
-    if(actividad.address == null || actividad.address == undefined){
-      getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude).then((value) => setUbicacion(value))
+    if(actividad.address == null || actividad.address == undefined || actividad.address == []){
+      getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude)
+      .then((value) => {setUbicacion(value)
       const object = {asociacion: actividad.asociacion,
                       titulo: actividad.titulo,
                       tipo: actividad.tipo,
@@ -67,12 +68,11 @@ const TarjetaDeActividad = (props) => {
                       imagen: actividad.imagen,
                       fecha: actividad.fecha,
                       ubicacion: actividad.ubicacion,
-                      address: ubicacion}
-      updateActivity(object)
+                      address: value}
+      updateActivity(object)})
     }else{
       setUbicacion(actividad.address)
     }
-      
   },[])
 
   const navigation = useNavigation();
