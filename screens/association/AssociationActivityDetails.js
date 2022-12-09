@@ -28,12 +28,17 @@ const AssociationActivityDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { actividad, uri } = route.params;
-  const [fecha, setFecha] = useState();
   const [region, setRegion] = useState({});
   const [imagen, setImagen] = useState();
 
+  const date = () => {
+    var fecha = actividad.fecha.toDate();
+    return String(fecha.getHours()).padStart(2, '0') + ":" + String(fecha.getMinutes()).padStart(2, '0') + " " + String(fecha.getDate()).padStart(2, '0') + "/" 
+    + String(fecha.getMonth() + 1).padStart(2, '0') + "/"
+    + String(fecha.getFullYear())
+  }
+
   useEffect(() => {
-    setFecha(actividad.fecha.toDate().toLocaleTimeString());
     const getAddress = async (lat, lng) => {
       setRegion({
         latitude: lat,
@@ -174,7 +179,7 @@ const AssociationActivityDetails = () => {
        {/* Container fecha */}
        <View className="flex-row space-x-1 items-baseline">
           <Icon name="calendar" type="octicon" color={theme.colors.ambiental} size = {18}/>
-          <Text className = "text-sm text-ambiental">{fecha} {actividad.fecha.toDate().toLocaleDateString()}</Text>
+          <Text className = "text-sm text-ambiental">{date()}</Text>
         </View>
 
         <View className="flex-row items-start space-x-1">

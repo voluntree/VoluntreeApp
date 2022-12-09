@@ -20,11 +20,17 @@ const TarjetaDeActividad = (props) => {
     day: "numeric"
   };
   const user = auth.currentUser
-  const date = actividad.fecha.toDate().toDateString("es-ES", options);
   const [like, setLike] = useState(actividad.favoritos.includes(user.uid))
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [uri, setUri] = useState();
   const [ubicacion, setUbicacion] = useState([]);
+
+  const date = () => {
+    var fecha = actividad.fecha.toDate();
+    return String(fecha.getHours()).padStart(2, '0') + ":" + String(fecha.getMinutes()).padStart(2, '0') + " " + String(fecha.getDate()).padStart(2, '0') + "/" 
+    + String(fecha.getMonth() + 1).padStart(2, '0') + "/"
+    + String(fecha.getFullYear())
+  }
 
   const reference = ref(
     storage,
@@ -171,7 +177,7 @@ const TarjetaDeActividad = (props) => {
                       color={setTextColor()}
                       size={24}/>
                 <Text className = "text-normal"
-                      style = {{color: setTextColor()}}>{actividad.fecha.toDate().toLocaleTimeString([], {hour: "2-digit", minute: "2-digit"})}, {actividad.fecha.toDate().toLocaleDateString("es-ES", options)}</Text>
+                      style = {{color: setTextColor()}}>{date()}</Text>
               </View>
             </View>
             <View className = "flex items-center grow border-l-2 h-full mx-2 justify-center"
