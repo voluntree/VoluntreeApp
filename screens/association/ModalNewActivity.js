@@ -28,11 +28,14 @@ const ModalNewActivity = (props) => {
   const [show, setShow] = useState(false);
   const [text, setText] = useState("Fecha del voluntariado");
 
-  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
   const [ubicacion, setUbicacion] = useState({
     latitude: 39.481256,
     longitude: -0.340958,
   });
+
+  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
+  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44"
+  
 
   const [sliding, setSliding] = useState(false);
 
@@ -45,6 +48,26 @@ const ModalNewActivity = (props) => {
       setAsociacion(asociacion);
     });
   }, []);
+
+  function getAddressFromCoordinates( latitude, longitude ) {
+    return new Promise((resolve) => {
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=${HERE_API_KEY}&in=circle:${latitude},${longitude};r=100`
+      fetch(url)
+        .then(res => res.json())
+        .then((resJson) => {
+          // the response had a deeply nested structure :/
+          if (resJson) {
+            resolve(resJson.items[0].address)
+          } else {
+            resolve()
+          }
+        })
+        .catch((e) => {
+          console.log('Error in getAddressFromCoordinates', e)
+          resolve()
+        })
+    })
+  }
 
   const handlePicker = (datetime) => {
     setShow(false);
@@ -162,9 +185,11 @@ const ModalNewActivity = (props) => {
             imagen: "",
             fecha: "",
             ubicacion: null,
+            address: null,
           }}
-          onSubmit={(values) => {
+          onSubmit={ async (values) => {
             values.asociacion = asociacion.nombre;
+            values.address = await getAddressFromCoordinates(values.ubicacion.latitude, values.ubicacion.longitude)
             if (correctData(values)) {
               values.imagen = image.substring(image.lastIndexOf("/") + 1);
               values.duracion += "h";
@@ -413,7 +438,6 @@ const ModalNewActivity = (props) => {
                 className="items-center"
                 onPress={() => {
                   fProps.handleSubmit();
-                  // console.log(fProps.values)
                 }}
               >
                 <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">
