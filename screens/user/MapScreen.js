@@ -208,7 +208,7 @@ const MapScreen = () => {
             title={marker.titulo}
             description={marker.descripcion}
           >
-            {marker.tipo === "educacion" ? EducativoIcon(40, 40) : null}
+            {marker.tipo === "educación" ? EducativoIcon(40, 40) : null}
             {marker.tipo === "cultural" ? CulturalIcon(40, 40) : null}
             {marker.tipo === "deportivo" ? DeportivoIcon(40, 40) : null}
             {marker.tipo === "ambiental" ? AmbientalIcon(40, 40) : null}

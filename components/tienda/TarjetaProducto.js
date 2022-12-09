@@ -5,7 +5,6 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../utils/firebase";
 import { Icon } from "react-native-elements";
 import { theme } from "../../tailwind.config";
-import { addToCarrito, removeFromCarrito } from "../../features/carritoSlice";
 
 const TarjetaProducto = (props) => {
   const [uri, setUri] = useState();
@@ -19,15 +18,6 @@ const TarjetaProducto = (props) => {
     setUri(path);
   });
 
-  const dispatch = useDispatch();
-  const addProduct = () => {
-    dispatch(addToCarrito({ props }));
-  };
-
-  const removeProduct = () => {
-    dispatch(removeFromCarrito(producto.index))
-  }
-
   return (
     <View
       style={{ width: width }}
@@ -35,19 +25,11 @@ const TarjetaProducto = (props) => {
     >
       <View className="px-2 justify-between rounded-t bg-[#fff] items-center flex-row py-2">
         <Text className="font-semibold">{producto.precio} pts.</Text>
-        <View className = "flex-row space-x-2">
-          <TouchableOpacity onPress={{}}>
-            <View className="rounded-full bg-costas h-8 w-8 justify-center">
-              <Icon color={theme.colors.ambiental} name="add" />
-            </View>
-          <Text>{cantidad}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={{}}>
-            <View className="rounded-full bg-costas h-8 w-8 justify-center">
-              <Icon color={theme.colors.ambiental} name="add" />
-            </View>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity>
+          <View className="rounded-full bg-costas h-8 w-8 justify-center">
+            <Icon color={theme.colors.ambiental} name="add" />
+          </View>
+        </TouchableOpacity>
       </View>
       <View
         className="bg-[#fff] pb-2"
