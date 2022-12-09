@@ -34,4 +34,6 @@ export const selectProductoCarritoConId = (state, id) => {
     })
 }
 
+export const selectTotalCarrito = (state) => state.carrito.productos.reduce((total, producto) => total+= producto.precio, 0)
+
 export default carritoSlice.reducer;
