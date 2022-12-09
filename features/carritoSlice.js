@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { stat } from "react-native-fs";
 
 const initialState = {
     productos: []

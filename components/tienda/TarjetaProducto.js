@@ -6,6 +6,7 @@ import { storage } from "../../utils/firebase";
 import { Icon } from "react-native-elements";
 import { theme } from "../../tailwind.config";
 import { addToCarrito, removeFromCarrito } from "../../features/carritoSlice";
+import { useDispatch } from "react-redux";
 
 const TarjetaProducto = (props) => {
   const [uri, setUri] = useState();
@@ -36,13 +37,13 @@ const TarjetaProducto = (props) => {
       <View className="px-2 justify-between rounded-t bg-[#fff] items-center flex-row py-2">
         <Text className="font-semibold">{producto.precio} pts.</Text>
         <View className = "flex-row space-x-2">
-          <TouchableOpacity onPress={{}}>
+          <TouchableOpacity >
             <View className="rounded-full bg-costas h-8 w-8 justify-center">
               <Icon color={theme.colors.ambiental} name="add" />
             </View>
-          <Text>{cantidad}</Text>
+          <Text>0</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={{}}>
+          <TouchableOpacity >
             <View className="rounded-full bg-costas h-8 w-8 justify-center">
               <Icon color={theme.colors.ambiental} name="add" />
             </View>
