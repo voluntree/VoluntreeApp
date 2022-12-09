@@ -6,7 +6,7 @@ import { auth, storage } from "../utils/firebase";
 import { theme } from "../tailwind.config";
 import { useNavigation } from "@react-navigation/native";
 import { updateDoc } from "firebase/firestore";
-import { addLike, removeLike, updateActivity } from "../service/service";
+import { addLike, getAssociationByName, removeLike, updateActivity } from "../service/service";
 import { MapIcon } from "../icons/Icons";
 import { useLayoutEffect } from "react";
 
@@ -23,7 +23,7 @@ const TarjetaDeActividad = (props) => {
   const [like, setLike] = useState(actividad.favoritos.includes(user.uid))
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [uri, setUri] = useState();
-  const [ubicacion, setUbicacion] = useState([]);
+  const [ubicacion, setUbicacion] = useState(actividad.address);
 
   const date = () => {
     var fecha = actividad.fecha.toDate();
@@ -53,30 +53,8 @@ const TarjetaDeActividad = (props) => {
     
   };
 
-  useEffect(() => {
-    if(actividad.address == null || actividad.address == undefined || actividad.address == []){
-      getAddressFromCoordinates(actividad.ubicacion.latitude, actividad.ubicacion.longitude)
-      .then((value) => {setUbicacion(value)
-      const object = {asociacion: actividad.asociacion,
-                      titulo: actividad.titulo,
-                      tipo: actividad.tipo,
-                      num_participantes: actividad.num_participantes,
-                      max_participantes: actividad.max_participantes,
-                      participantes: actividad.participantes,
-                      duracion: actividad.duracion,
-                      descripcion: actividad.descripcion,
-                      imagen: actividad.imagen,
-                      fecha: actividad.fecha,
-                      ubicacion: actividad.ubicacion,
-                      address: value}
-      updateActivity(object)})
-    }else{
-      setUbicacion(actividad.address)
-    }
-  },[])
 
   const navigation = useNavigation();
-  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44"
 
   const openCard = () => {
     navigation.push("Activity", { actividad: actividad, uri: uri});
@@ -103,26 +81,6 @@ const TarjetaDeActividad = (props) => {
       case "cultural":
       case "ambiental": return theme.colors.ambiental; break;
     }
-  }
-
-  function getAddressFromCoordinates( latitude, longitude ) {
-    return new Promise((resolve) => {
-      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=${HERE_API_KEY}&in=circle:${latitude},${longitude};r=100`
-      fetch(url)
-        .then(res => res.json())
-        .then((resJson) => {
-          // the response had a deeply nested structure :/
-          if (resJson) {
-            resolve(resJson.items[0].address)
-          } else {
-            resolve()
-          }
-        })
-        .catch((e) => {
-          console.log('Error in getAddressFromCoordinates', e)
-          resolve()
-        })
-    })
   }
 
   return (
@@ -161,15 +119,16 @@ const TarjetaDeActividad = (props) => {
             <View className = "flex w-[70%] space-y-4  p-2">
               {/* Contenedor ubicación */}
               <View className = "flex-row justify-start items-center space-x-4 overflow-scroll">
-              <Icon 
-                name="place"
-                type="material-icons"
-                color={setTextColor()}
-                onPress={añadirFav}
-                size={28}
-              />
+                <Icon 
+                  name="place"
+                  type="material-icons"
+                  color={setTextColor()}
+                  onPress={añadirFav}
+                  size={28}
+                />
                 <Text className = "text-normal "
-                      style = {{color: setTextColor()}}>{ubicacion.city},{ubicacion.county}</Text>
+                      style = {{color: setTextColor()}}>{ubicacion.city},{ubicacion.county}
+                </Text>
               </View>
               <View className = "flex-row justify-start items-center space-x-4">
                 <Icon name="today"
