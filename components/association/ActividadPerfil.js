@@ -1,41 +1,42 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
-import { Image } from 'react-native-elements';
-import { ref, getDownloadURL } from 'firebase/storage';
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { Image } from "react-native-elements";
+import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
 const ActividadPerfil = (props) => {
-    
   const navigation = useNavigation();
-  const {actividad} = props;
+  const { actividad } = props;
 
-    const [uri, setUri] = useState();
-    const reference = ref(
-        storage,
-        "gs://voluntreepin.appspot.com/cardImages/" + actividad.imagen
-    );
+  const [uri, setUri] = useState();
+  const reference = ref(
+    storage,
+    "gs://voluntreepin.appspot.com/cardImages/" + actividad.imagen
+  );
 
-    getDownloadURL(reference).then((path) => {
-        setUri(path);
-    });
+  getDownloadURL(reference).then((path) => {
+    setUri(path);
+  });
 
-    const openCard = () => {
-      navigation.push("Actividad", { actividad: actividad, uri: uri});
-    };
+  const openCard = () => {
+    navigation.push("Activity", { actividad: actividad, uri: uri });
+  };
 
   return (
     <TouchableOpacity
-      className="mt-4 items-center justify-center h-36 w-11/12"
+      className="m-2 w-80 h-auto flex items-center justify-center rounded-md"
       onPress={openCard}
     >
-      <Image style={{width: 359, height: 128}} className="h-32 w-80 rounded-md" source={{ uri: uri }} />
-      <View className="h-32 w-full rounded-md absolute bg-[#111] opacity-40"/>
-      <Text className="z-1 absolute font-bold text-[#fff] text-center text-xl truncate">
-        {actividad.titulo}
-      </Text>
+      <Image className="w-80 h-36 rounded-md" source={{ uri: uri }} />
+      <View className="absolute w-80 h-36 bg-[#333] opacity-30 rounded-md"></View>
+      <View className="absolute w-80 h-36 items-center justify-center rounded-md">
+        <Text className="flex flex-wrap text-xl text-blanco font-semibold">
+          {actividad.titulo}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
-}
+};
 
-export default ActividadPerfil
+export default ActividadPerfil;

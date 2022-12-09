@@ -22,22 +22,22 @@ const Profile = (props) => {
 
   const [following, setFollow] = useState(false);
 
-  const [profielPhoto, setProfilePhoto] = useState();
-  const [backgroundPhoto, setBackgroundPhoto] = useState();
-
+  const [profielPhoto, setProfilePhoto] = useState("");
+  const [backgroundPhoto, setBackgroundPhoto] = useState("");
+console.log("userid: ",userID);
   useEffect(() => {
     if(!fromUser) {
       onSnapshot(doc(db, "asociaciones", userID), async (doc) => {
         setAsociacion(doc.data());
         getImageDownloadURL(
-          "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
-            doc.data().fotoPerfil
+          "profileImages/asociaciones/" +
+            asociacion.fotoPerfil
         ).then((url) => {
           setProfilePhoto(url);
         });
         getImageDownloadURL(
-          "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
-            doc.data().fondoPerfil
+          "profileImages/asociaciones/" +
+            asociacion.fondoPerfil
         ).then((url) => {
           setBackgroundPhoto(url);
         });
@@ -53,7 +53,7 @@ const Profile = (props) => {
       ).then((url) => {
         setBackgroundPhoto(url);
       });
-      setFollow(asociacion.followers.includes(userID));
+      setFollow(asociacion.seguidores.includes(userID));
     }
   }, []);
 
