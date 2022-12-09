@@ -22,6 +22,7 @@ import {
   getPoints,
   inscribirUsuarioEnActividad,
   removeLike,
+  getImageDownloadURL,
 } from "../../service/service";
 import { theme } from "../../tailwind.config";
 import { getDownloadURL, ref } from "firebase/storage";
@@ -40,7 +41,9 @@ const ActivityScreen = () => {
   const [confirmado, setConfirmado] = useState(
     actividad.confirmados.includes(currentUser.uid)
   );
-  const [like, setLike] = useState(actividad.favoritos.includes(currentUser.uid))
+  const [like, setLike] = useState(
+    actividad.favoritos.includes(currentUser.uid)
+  );
   const [corazon, setEstado] = useState(like ? "heart-fill" : "heart");
   const [finalizado, setFinalizado] = useState(
     actividad.fecha.toDate() < new Date()
@@ -48,7 +51,7 @@ const ActivityScreen = () => {
   const [reclamado, setReclamado] = useState(
     actividad.reclamados.includes(currentUser.uid)
   );
-  
+
   useEffect(() => {
     setFecha(actividad.fecha.toDate().toLocaleTimeString());
     const getAddress = async (lat, lng) => {
@@ -64,12 +67,7 @@ const ActivityScreen = () => {
       actividad.ubicacion.latitude,
       actividad.ubicacion.longitude
     ).catch(console.error);
-    getDoc(doc(db, "asociaciones/" + actividad.asociacion)).then(
-    (value) => {
-    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + value.data().fotoPerfil))
-      .then((path) => {
-        setImagen(path);
-      })});
+    setAssociationImage(actividad.asociacion).catch(console.error);
   }, []);
 
   useLayoutEffect(() => {
@@ -77,6 +75,16 @@ const ActivityScreen = () => {
       headerShown: false,
     });
   }, [inscrito]);
+
+  const setAssociationImage = async (association) => {
+    const asoc = await getAssociationByName(association);
+    if (asoc !== null) {
+      const img = await getImageDownloadURL(
+        "profileImages/asociaciones/" + asoc.fotoPerfil
+      );
+      img != null ? setImagen(img) : setImagen("");
+    }
+  };
 
   const options = {
     weekday: "long",
@@ -91,7 +99,7 @@ const ActivityScreen = () => {
         asociacion: value,
       });
     });
-  }
+  };
 
   const obtenerPuntos = async () => {
     await getPoints(currentUser.uid, actividad);
@@ -139,75 +147,104 @@ const ActivityScreen = () => {
 
   const BotonParticipa = () => {
     if (!inscrito) {
-      return (<TouchableOpacity onPress={inscribirUsuario}>
-                <View className = "bg-costas justify-center items-center rounded-md px-4 py-2">
-                  <Text className = "text-ambiental text-sm">Inscribirse</Text>
-                </View>
-              </TouchableOpacity>)
+      return (
+        <TouchableOpacity onPress={inscribirUsuario}>
+          <View className="bg-costas justify-center items-center rounded-md px-4 py-2">
+            <Text className="text-ambiental text-sm">Inscribirse</Text>
+          </View>
+        </TouchableOpacity>
+      );
     } else if (!finalizado) {
-      return (<TouchableOpacity onPress={desapuntarUsuario}>
-                <View className = "bg-costas justify-center items-center rounded-md px-4 py-2">
-                  <Text className = "text-ambiental text-sm">Inscrito</Text>
-                </View>
-              </TouchableOpacity>)
+      return (
+        <TouchableOpacity onPress={desapuntarUsuario}>
+          <View className="bg-costas justify-center items-center rounded-md px-4 py-2">
+            <Text className="text-ambiental text-sm">Inscrito</Text>
+          </View>
+        </TouchableOpacity>
+      );
     } else if (confirmado && !reclamado) {
-      return (<TouchableOpacity onPress={obtenerPuntos}>
-                <View className = "bg-costas justify-center items-center rounded-md px-4 py-2">
-                  <Text className = "text-ambiental text-sm">Canjear puntos</Text>
-                </View>
-              </TouchableOpacity>);
+      return (
+        <TouchableOpacity onPress={obtenerPuntos}>
+          <View className="bg-costas justify-center items-center rounded-md px-4 py-2">
+            <Text className="text-ambiental text-sm">Canjear puntos</Text>
+          </View>
+        </TouchableOpacity>
+      );
     } else {
       if (confirmado && reclamado)
-        return (<TouchableOpacity>
-                  <View className = "justify-center items-center rounded-md px-4 py-2">
-                    <Text className = "text-ambiental text-sm">Ya has canjeado tus puntos</Text>
-                  </View>
-                </TouchableOpacity>)
+        return (
+          <TouchableOpacity>
+            <View className="justify-center items-center rounded-md px-4 py-2">
+              <Text className="text-ambiental text-sm">
+                Ya has canjeado tus puntos
+              </Text>
+            </View>
+          </TouchableOpacity>
+        );
     }
   };
-  
+
   const BotonConfirmado = () => {
     if (inscrito && !confirmado) {
-      return (<TouchableOpacity onPress={openScanner}>
-                <View className = "bg-educacion justify-center items-center rounded-md px-4 py-2 mb-4">
-                  <Text className = "text-ambiental text-sm">Confirmar asistencia</Text>
-                </View>
-              </TouchableOpacity>);
+      return (
+        <TouchableOpacity onPress={openScanner}>
+          <View className="bg-educacion justify-center items-center rounded-md px-4 py-2 mb-4">
+            <Text className="text-ambiental text-sm">Confirmar asistencia</Text>
+          </View>
+        </TouchableOpacity>
+      );
     }
   };
 
   const añadirFav = () => {
-    if(like == true){
-      removeLike(actividad.titulo, currentUser.uid)
-      setEstado("heart")
-      setLike(false)
-    }else{
-      addLike(actividad.titulo, currentUser.uid)
-      setEstado("heart-fill")
-      setLike(true)
+    if (like == true) {
+      removeLike(actividad.titulo, currentUser.uid);
+      setEstado("heart");
+      setLike(false);
+    } else {
+      addLike(actividad.titulo, currentUser.uid);
+      setEstado("heart-fill");
+      setLike(true);
     }
   };
 
-  function setTextColor(){
-    switch(actividad.tipo){
+  function setTextColor() {
+    switch (actividad.tipo) {
       case "educación":
       case "costas":
       case "deportivo":
-      case "comunitario": return theme.colors.ambiental; break
+      case "comunitario":
+        return theme.colors.ambiental;
+        break;
       case "cultural":
-      case "ambiental": return theme.colors.ambiental; break;
+      case "ambiental":
+        return theme.colors.ambiental;
+        break;
     }
   }
 
-  function setActiveColor(){
-    switch(actividad.tipo){
-      case "educación": return theme.colors.educacion; break
-      case "ambiental": return theme.colors.ambiental; break
-      case "costas": return theme.colors.costas; break
-      case "deportivo": return theme.colors.deportivo; break
-      case "comunitario": return theme.colors.comunitario; break
-      case "cultural": return theme.colors.cultural; break
-      default: return theme.colors.comunitario;
+  function setActiveColor() {
+    switch (actividad.tipo) {
+      case "educación":
+        return theme.colors.educacion;
+        break;
+      case "ambiental":
+        return theme.colors.ambiental;
+        break;
+      case "costas":
+        return theme.colors.costas;
+        break;
+      case "deportivo":
+        return theme.colors.deportivo;
+        break;
+      case "comunitario":
+        return theme.colors.comunitario;
+        break;
+      case "cultural":
+        return theme.colors.cultural;
+        break;
+      default:
+        return theme.colors.comunitario;
     }
   }
 
@@ -218,87 +255,134 @@ const ActivityScreen = () => {
         <View className="flex-row w-full h-14 items-center justify-between">
           <View className="">
             <TouchableOpacity onPress={goBack} className="">
-              <Icon name="arrow-left" type="octicon" color={theme.colors.ambiental} />
+              <Icon
+                name="arrow-left"
+                type="octicon"
+                color={theme.colors.ambiental}
+              />
             </TouchableOpacity>
           </View>
           <View className="">
             <TouchableOpacity className="">
-              <Icon name={corazon} type="octicon" color={theme.colors.ambiental} onPress = {añadirFav}/>
+              <Icon
+                name={corazon}
+                type="octicon"
+                color={theme.colors.ambiental}
+                onPress={añadirFav}
+              />
             </TouchableOpacity>
           </View>
         </View>
 
         {/* Titulo y color categoria */}
-        <View className = "flex-row w-full justify-between items-baseline">
-          <Text className="text-xl font-bold w-[80%]"
-                  style = {{color: setTextColor()}}>{actividad.titulo}
+        <View className="flex-row w-full justify-between items-baseline">
+          <Text
+            className="text-xl font-bold w-[80%]"
+            style={{ color: setTextColor() }}
+          >
+            {actividad.titulo}
           </Text>
-          <View className = "h-3 w-6 rounded-sm"
-                style = {{backgroundColor: setActiveColor()}}></View>
+          <View
+            className="h-3 w-6 rounded-sm"
+            style={{ backgroundColor: setActiveColor() }}
+          ></View>
         </View>
 
         {/* Container imagen */}
-        <View className = "">
+        <View className="">
           <Image className="h-52 rounded-2xl" source={{ uri: uri }} />
         </View>
-        
+
         {/* Container asociacion y participantes */}
-        <View className = "">
-          <View className = "flex-row w-full h-fit items-center space-x-2">
-            <TouchableOpacity 
+        <View className="">
+          <View className="flex-row w-full h-fit items-center space-x-2">
+            <TouchableOpacity
               className="w-[70%] flex-row items-center space-x-2 py-1"
-              onPress={() => {goToAssocProfile()}}
+              onPress={() => {
+                goToAssocProfile();
+              }}
             >
-              <Image className = "h-12 w-12 rounded-full" source={{ uri: imagen }}/>
-              <Text className = "text-base text-ambiental">{actividad.asociacion}</Text>
+              <Image
+                className="h-12 w-12 rounded-full"
+                source={{ uri: imagen }}
+              />
+              <Text className="text-base text-ambiental">
+                {actividad.asociacion}
+              </Text>
             </TouchableOpacity>
-            <View className = "h-full w-0.5 bg-ambiental"></View>
-            <View className = "items-center grow flex-row justify-center space-x-1">
-              <Icon name="person" type="octicon" color={theme.colors.ambiental} />
-              <Text className = "text-base text-ambiental">{actividad.num_participantes}/{actividad.max_participantes}</Text>
+            <View className="h-full w-0.5 bg-ambiental"></View>
+            <View className="items-center grow flex-row justify-center space-x-1">
+              <Icon
+                name="person"
+                type="octicon"
+                color={theme.colors.ambiental}
+              />
+              <Text className="text-base text-ambiental">
+                {actividad.num_participantes}/{actividad.max_participantes}
+              </Text>
             </View>
           </View>
           {/* Separador */}
-          <View className = "h-0.5 w-full bg-ambiental"></View>
+          <View className="h-0.5 w-full bg-ambiental"></View>
         </View>
 
         {/* Container descripcion */}
         <View className="flex items-start">
-          <Text className = "text-sm text-ambiental ">{actividad.descripcion}</Text>
+          <Text className="text-sm text-ambiental ">
+            {actividad.descripcion}
+          </Text>
         </View>
 
-        <View className = "h-0.5 w-full bg-ambiental"></View>
-       {/* Container fecha */}
-       <View className="flex-row space-x-1 items-baseline">
-          <Icon name="calendar" type="octicon" color={theme.colors.ambiental} size = {18}/>
-          <Text className = "text-sm text-ambiental">{fecha} {actividad.fecha.toDate().toLocaleDateString()}</Text>
+        <View className="h-0.5 w-full bg-ambiental"></View>
+        {/* Container fecha */}
+        <View className="flex-row space-x-1 items-baseline">
+          <Icon
+            name="calendar"
+            type="octicon"
+            color={theme.colors.ambiental}
+            size={18}
+          />
+          <Text className="text-sm text-ambiental">
+            {fecha} {actividad.fecha.toDate().toLocaleDateString()}
+          </Text>
         </View>
 
         <View className="flex-row items-start space-x-1">
-          <Icon name="clock" type="octicon" color={theme.colors.ambiental} size = {18}/>
+          <Icon
+            name="clock"
+            type="octicon"
+            color={theme.colors.ambiental}
+            size={18}
+          />
           <Text className="text-sm text-ambiental">{actividad.duracion}</Text>
         </View>
 
         <View className="flex-row items-start space-x-1">
-          <Icon name="location" type="octicon" color={theme.colors.ambiental} size = {18}/>
-          <Text className="text-sm text-ambiental">{actividad.address.label}</Text>
+          <Icon
+            name="location"
+            type="octicon"
+            color={theme.colors.ambiental}
+            size={18}
+          />
+          <Text className="text-sm text-ambiental">
+            {actividad.address.label}
+          </Text>
         </View>
 
-          {region.latitude != undefined ? (
-              <View className = "rounded-3xl overflow-hidden">
-                <MapView className="w-100 h-44 pb-5 " initialRegion={region}>
-                  <Marker coordinate={region} />
-                </MapView>
-              </View>
-            ) : (
-              <Text>No disponible</Text>
-            )}
-        
+        {region.latitude != undefined ? (
+          <View className="rounded-3xl overflow-hidden">
+            <MapView className="w-100 h-44 pb-5 " initialRegion={region}>
+              <Marker coordinate={region} />
+            </MapView>
+          </View>
+        ) : (
+          <Text>No disponible</Text>
+        )}
 
-        <View className = "items-center justify-center h-fit">
+        <View className="items-center justify-center h-fit">
           <BotonParticipa />
         </View>
-        
+
         <View className="items-center justify-center h-fit">
           <BotonConfirmado />
         </View>

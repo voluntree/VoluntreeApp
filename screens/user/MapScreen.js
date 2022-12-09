@@ -37,7 +37,7 @@ import {
 import { ScrollView } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { isEmpty } from "@firebase/util";
-import { getActivityById, getActivityByTitle } from "../../service/service";
+import { getActivityById, getActivityByTitle, getImageDownloadURL } from "../../service/service";
 
 const MapScreen = () => {
   const categorias = [
@@ -217,18 +217,9 @@ const MapScreen = () => {
             <Callout
               tooltip
               onPress={() => {
-                getActivityByTitle(marker.titulo).then((actividad) => {
-                  const reference = ref(
-                    storage,
-                    "gs://voluntreepin.appspot.com/cardImages/" +
-                      actividad.imagen
-                  );
-                  getDownloadURL(reference)
-                    .then((path) => {
-                      setUri(path);
-                    })
-                    .then(openCard(actividad, uri));
-                });
+                getImageDownloadURL("cardImages/"+ marker.imagen).then(
+                  (resp) => openCard(marker,resp)
+                ).catch()
               }}
             >
               <View style={styles.card}>
