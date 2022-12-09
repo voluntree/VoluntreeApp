@@ -17,7 +17,7 @@ const TarjetaProducto = (props) => {
     "gs://voluntreepin.appspot.com/productos/" + producto.imagen
   );
   getDownloadURL(reference).then((path) => {
-    setUri(path);
+    setUri(path)
   });
 
   const dispatch = useDispatch();
@@ -35,16 +35,17 @@ const TarjetaProducto = (props) => {
       className="h-auto my-1 rounded bg-costas mx-1 border-2 border-ambiental"
     >
       <View className="px-2 justify-between rounded-t bg-[#fff] items-center flex-row py-2">
-        <Text className="font-semibold">{producto.precio} pts.</Text>
-        <View className = "flex-row space-x-2">
+        <Text className="font-semibold text-xs">{producto.precio} pts.</Text>
+        <View className = "flex-row justify-center space-x-2">
           <TouchableOpacity >
-            <View className="rounded-full bg-costas h-8 w-8 justify-center">
+            <View className="rounded-full bg-costas h-6 w-6 justify-center">
               <Icon color={theme.colors.ambiental} name="add" />
             </View>
-          <Text>0</Text>
+          
           </TouchableOpacity>
+          <Text>0</Text>
           <TouchableOpacity >
-            <View className="rounded-full bg-costas h-8 w-8 justify-center">
+            <View className="rounded-full bg-costas h-6 w-6 justify-center">
               <Icon color={theme.colors.ambiental} name="add" />
             </View>
           </TouchableOpacity>

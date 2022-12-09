@@ -27,7 +27,6 @@ const Tienda = () => {
   useEffect(() => {
     onSnapshot(doc(db, "voluntarios", currentUser.uid), (doc) => {
       setUsuario(doc.data());
-      console.log(doc.data())
     });
       onSnapshot(q, (querySnapshot) => {
         if (!isEmpty(querySnapshot)) {
@@ -123,7 +122,7 @@ const Tienda = () => {
           columnWrapperStyle={{ justifyContent: "space-between" }}
           numColumns={2}
           data={productos}
-          renderItem={(item) => <TarjetaProducto producto={item} />}
+          renderItem={({item}) => <TarjetaProducto producto={item}/>}
         />
         <TouchableOpacity className="items-center mb-4 mt-2">
           <View className="bg-ambiental p-2 rounded-xl px-16">
