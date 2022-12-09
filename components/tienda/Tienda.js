@@ -14,7 +14,7 @@ import { isEmpty } from "@firebase/util";
 import { getDownloadURL, ref } from "firebase/storage";
 import { auth, db, storage } from "../../utils/firebase";
 import { useDispatch } from "react-redux";
-import PopUpCarrito from "./PopUpCarrito";
+import PopUp from "./PopUp";
 
 const Tienda = () => {
   const categorias = ["TOTEBAGS", "CANTIMPLORAS", "GORRAS", "CAMISETAS"];
@@ -22,6 +22,9 @@ const Tienda = () => {
   const [productos, setProductos] = useState();
   const currentUser = auth.currentUser;
   const [usuario, setUsuario] = useState([]);
+
+  const[precio, setPrecio] = useState(0);
+  const[num, setNum] = useState(0);
 
   const [q, setQuery] = useState(query(collection(db, "productos")));
 
@@ -40,6 +43,19 @@ const Tienda = () => {
       });
   }, [q]);
 
+  const recibirDatos = (cuantia, numProductos, tipo) => {
+    switch (tipo) {
+      case "suma":
+        setNum(num + numProductos);
+        setPrecio(precio + cuantia);
+        break;
+      case "resta":
+        setNum(num - numProductos);
+        setPrecio(precio - cuantia);
+        break;
+    }
+  }; 
+  
   const [indice, setIndice] = useState(0);
 
   const ListaCategorias = () => {
@@ -82,8 +98,9 @@ const Tienda = () => {
 
   return (
     <TailwindProvider>
-      <PopUpCarrito />
+      <PopUp cuantia={precio} num={num} usuario = {usuario}/>
       <SafeAreaView className="h-full flex px-6 bg-blanco">
+        
         {/*HEADER*/}
         <View className="mt-20 flex-row justify-between">
           <View>
@@ -116,7 +133,7 @@ const Tienda = () => {
         </View>
         <ListaCategorias />
         <FlatList
-        className = "mb-16"
+          className="mb-10"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             marginTop: 10,
@@ -125,7 +142,9 @@ const Tienda = () => {
           columnWrapperStyle={{ justifyContent: "space-between" }}
           numColumns={2}
           data={productos}
-          renderItem={({item}) => <TarjetaProducto producto={item}/>}
+          renderItem={({ item, index }) => (
+            <TarjetaProducto producto={item} id={index} func={recibirDatos} />
+          )}
         />
       </SafeAreaView>
     </TailwindProvider>
@@ -140,3 +159,4 @@ const style = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
+

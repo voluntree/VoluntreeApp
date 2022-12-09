@@ -8,7 +8,7 @@ const ListaCategorias = (props) => {
       {props.categorias.map((item, index) => {
         <Text key={index}>{item}</Text>;
       })}
-    </View>
+    </View> 
   );
 }
 
