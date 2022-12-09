@@ -10,44 +10,45 @@ const NewsScreen = () => {
 
   return (
     <SafeAreaView>
-      <ScrollView className="flex h-auto px-2 py-2 w-100 bg-[white]">
-      <View className="flex-row my-2 justify-around">
-        <View className="flex-col">
-          <View className="rounded-full border-solid border-2 border-[#333] h-auto">
+      <ScrollView className="flex h-full px-2 py-2 w-100 bg-blanco">
+      <View className="flex-row my-2 justify-start space-x-4">
+        <View className="flex-col items-center">
+          
             <Image
-              className="rounded-full border-solid border-2 border-[#333] h-20 w-20"
+              className="rounded-full h-12 w-12"
               source={{ uri: uriAsociacion }}
             />
-          </View>
 
-          <Text className="font-bold">{asociacion.nombre}</Text>
+          <Text className="font-bold text-ambiental">{asociacion.nombre}</Text>
         </View>
-        <View className="flex-col">
+        <View className="flex-row space-x-2 items-baseline">
           <View className="flex-col">
-            <Text className="text-base font-semibold">
+            <Text className="text-sm font-bold text-ambiental">
               Fecha de publicación
             </Text>
-            <Text className="text-base ">{articulo.fecha_publicacion}</Text>
+            <Text className="text-sm text-ambiental">{articulo.fecha_publicacion}</Text>
           </View>
           <View className="flex-col">
-            <Text className="text-base font-semibold">Publicado por</Text>
-            <Text className="text-base ">{articulo.autor}</Text>
+            <Text className="text-small font-bold text-ambiental">Publicado por</Text>
+            <Text className="text-small text-ambiental ">{articulo.autor}</Text>
           </View>
         </View>
       </View>
       <View>
-        <Text className="text-xl font-bold ">{articulo.titulo}</Text>
-        <Text className="text-base font-semibold p-2">
+        <Text className="text-lg font-bold text-ambiental">{articulo.titulo}</Text>
+        <Image className="h-44 mt-2 rounded-md" source={{ uri: uri }} />
+        <Text className="text-base font-semibold  text-ambiental">
           {articulo.subtitulo}
         </Text>
+        <View className="h-max">
+        <Text className="text-sm mb-3 text-ambiental text-justify">{articulo.introduccion}</Text>
+        <Text className="text-sm mb-3 text-ambiental text-justify">{articulo.cuerpo}</Text>
+        <Text className="text-sm mb-2 text-ambiental text-justify">{articulo.conclusion}</Text>
+      </View>
       </View>
 
-      <Image className="h-44 mt-2 rounded-md" source={{ uri: uri }} />
-      <View className="h-max my-6 px-2">
-        <Text className="text-base mb-3">{articulo.introduccion}</Text>
-        <Text className="text-base mb-3">{articulo.cuerpo}</Text>
-        <Text className="text-base mb-2">{articulo.conclusion}</Text>
-      </View>
+      
+      
     </ScrollView>
     </SafeAreaView>
   );
