@@ -13,10 +13,13 @@ import { ref } from "firebase/storage";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
-import { createActivity } from "../../service/service";
-
+import { auth } from "../../utils/firebase";
+import { createActivity, getAsociationByID } from "../../service/service";
 
 const ModalNewActivity = (props) => {
+  const currentUser = auth.currentUser;
+  const [asociacion, setAsociacion] = useState();
+
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -24,8 +27,6 @@ const ModalNewActivity = (props) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [text, setText] = useState("Fecha del voluntariado");
-
-  const navigation = useNavigation();
 
   const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
   const [ubicacion, setUbicacion] = useState({
@@ -37,10 +38,12 @@ const ModalNewActivity = (props) => {
 
   useEffect(() => {
     async () => {
-      const galleryStatus =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
+    getAsociationByID(currentUser.uid).then((asociacion) => {
+      setAsociacion(asociacion);
+    });
   }, []);
 
   const handlePicker = (datetime) => {
@@ -95,6 +98,10 @@ const ModalNewActivity = (props) => {
   };
 
   const correctData = (values) => {
+    if (values.asociacion == "") {
+      Alert.alert("Error", "Ha ocurrido un error al crear la actividad, inténtelo de nuevo más tarde.");
+      return false;
+    }
     if (
       values.titulo.trim().length == 0 ||
       values.tipo.trim().length == 0 ||
@@ -106,10 +113,6 @@ const ModalNewActivity = (props) => {
       return false;
     }
     return true;
-  };
-
-  const DivLine = () => {
-    return (<View className='border border-[#000000] mt-4' />)
   };
 
   const ChooseImage = () => {
@@ -145,7 +148,7 @@ const ModalNewActivity = (props) => {
       <View className="border-t-2 border-l-2 border-r-2 border-[#FEBBBB] rounded-t-3xl bg-blanco p-5 mt-20 h-full">
         <Formik
           initialValues={{
-            asociacion: "Asociación Zhehao",
+            asociacion: "",
             titulo: "",
             tipo: "",
             favoritos: [],
@@ -161,12 +164,14 @@ const ModalNewActivity = (props) => {
             ubicacion: null,
           }}
           onSubmit={(values) => {
+            values.asociacion = asociacion.nombre;
             if (correctData(values)) {
               values.imagen = image.substring(image.lastIndexOf("/") + 1);
               values.duracion += "h";
               values.max_participantes = Number(values.max_participantes);
               storeImage();
               createActivity(values);
+              props.setActivityModalOpen(false);
             }
           }}
         >
