@@ -15,7 +15,7 @@ const NotMyMessage = (props) => {
       <View className="flex-row flex-wrap rounded-lg justify-between">
       <Text className="flex-col flex-wrap text-base text-ambiental">{message.message}</Text>
       <View className = "items-end grow justify-end">
-          <Text className = "text-ambiental">{hour}</Text>
+          <Text className = "text-ambiental text-xs">{hour}</Text>
         </View>
       </View>
       <View style = {{position: "absolute",

@@ -15,7 +15,7 @@ const MyMessage = (props) => {
       <View className="mx-4 flex-row flex-wrap p-2 my-1 h-auto w-52 bg-educacion rounded-lg justify-between">
         <Text className="flex-col flex-wrap text-base text-ambiental">{message.message}</Text>
         <View className = "items-end grow justify-end">
-          <Text className = "text-ambiental">{hour}</Text>
+          <Text className = "text-ambiental text-xs">{hour}</Text>
         </View>
       </View>
       
