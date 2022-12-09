@@ -268,7 +268,10 @@ const ModalNewActivity = (props) => {
                                 latitude: details.geometry.location.lat,
                                 longitude: details.geometry.location.lng,
                             });
-                            fProps.setFieldValue("ubicacion", ubicacion);
+                            fProps.setFieldValue("ubicacion", {
+                              latitude: details.geometry.location.lat,
+                              longitude: details.geometry.location.lng,
+                            });
                         }}
                         query={{
                             key: google_api_key,
@@ -410,6 +413,7 @@ const ModalNewActivity = (props) => {
                 className="items-center"
                 onPress={() => {
                   fProps.handleSubmit();
+                  // console.log(fProps.values)
                 }}
               >
                 <View className="h-10 w-28 bg-[#EFF8F4] rounded-md justify-center items-center">

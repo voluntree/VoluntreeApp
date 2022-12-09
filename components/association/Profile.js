@@ -24,7 +24,8 @@ const Profile = (props) => {
 
   const [profielPhoto, setProfilePhoto] = useState("");
   const [backgroundPhoto, setBackgroundPhoto] = useState("");
-console.log("userid: ",userID);
+  console.log("userid: ",userID);
+
   useEffect(() => {
     if(!fromUser) {
       onSnapshot(doc(db, "asociaciones", userID), async (doc) => {
@@ -64,12 +65,13 @@ console.log("userid: ",userID);
           <TouchableOpacity
             className="border border-[#b0dac7] bg-[#EFF8F4] rounded-lg w-1/2 h-8 justify-center items-center"
             onPress={() => {
-              navigation.push("EditProfileAssoc", {
-                association: asociacion,
-                assocID: userID,
-                fotoPerfil: profielPhoto,
-                fondoPerfil: backgroundPhoto,
-              });
+              // navigation.push("EditProfileAssoc", {
+              //   association: asociacion,
+              //   assocID: userID,
+              //   fotoPerfil: profielPhoto,
+              //   fondoPerfil: backgroundPhoto,
+              // });
+              console.log(asociacion);
             }}
           >
             <Text className="text-[#086841] text-sm font-bold">
