@@ -234,6 +234,15 @@ export async function getAssocID(assocName) {
   }
 }
 
+export async function getAsociacionByEmail(email) {
+  const collecRef = collection(db, "asociaciones");
+  let asoc = await getDocs(
+    query(collecRef, where("correo", "==", email))
+  );
+  asoc.docs.length > 0 ? (asoc = asoc.docs[0].data()) : (asoc = null);
+  return asoc;
+}
+
 export async function getFotoPerfilAsociacion(nombre) {
   try {
     const fotoPerfil = ref(
