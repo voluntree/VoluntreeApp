@@ -13,6 +13,7 @@ import { collection, doc, onSnapshot, query } from "firebase/firestore";
 import { isEmpty } from "@firebase/util";
 import { getDownloadURL, ref } from "firebase/storage";
 import { auth, db, storage } from "../../utils/firebase";
+import { useDispatch } from "react-redux";
 
 const Tienda = () => {
   const categorias = ["TOTEBAGS", "CANTIMPLORAS", "GORRAS", "CAMISETAS"];
@@ -26,7 +27,6 @@ const Tienda = () => {
   useEffect(() => {
     onSnapshot(doc(db, "voluntarios", currentUser.uid), (doc) => {
       setUsuario(doc.data());
-      console.log(doc.data())
     });
       onSnapshot(q, (querySnapshot) => {
         if (!isEmpty(querySnapshot)) {
@@ -78,6 +78,7 @@ const Tienda = () => {
     );
   };
 
+
   return (
     <TailwindProvider>
       <SafeAreaView className="h-full flex px-6 bg-blanco">
@@ -121,7 +122,7 @@ const Tienda = () => {
           columnWrapperStyle={{ justifyContent: "space-between" }}
           numColumns={2}
           data={productos}
-          renderItem={({ item }) => <TarjetaProducto producto={item} />}
+          renderItem={({item}) => <TarjetaProducto producto={item}/>}
         />
         <TouchableOpacity className="items-center mb-4 mt-2">
           <View className="bg-ambiental p-2 rounded-xl px-16">

@@ -7,16 +7,21 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import FixedHeader from "./components/user/FixedHeader";
 import AppNavigator from "./components/AppNavigator";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
+        <Provider store = {store}>
         <TailwindProvider>
           <AppNavigator />
         </TailwindProvider>
+        </Provider>
       </NavigationContainer>
     </SafeAreaProvider>
   );

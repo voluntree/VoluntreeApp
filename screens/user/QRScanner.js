@@ -15,7 +15,6 @@ import { current } from "tailwindcss/colors";
 import { TextInput } from "react-native";
 import { auth } from "../../utils/firebase";
 import { theme } from "../../tailwind.config";
-import { Camera } from "expo-camera"
 
 const QRScanner = () => {
   const [hasPermission, setHasPermission] = useState(null);

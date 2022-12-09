@@ -5,6 +5,8 @@ import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../utils/firebase";
 import { Icon } from "react-native-elements";
 import { theme } from "../../tailwind.config";
+import { addToCarrito, removeFromCarrito } from "../../features/carritoSlice";
+import { useDispatch } from "react-redux";
 
 const TarjetaProducto = (props) => {
   const [uri, setUri] = useState();
@@ -15,8 +17,17 @@ const TarjetaProducto = (props) => {
     "gs://voluntreepin.appspot.com/productos/" + producto.imagen
   );
   getDownloadURL(reference).then((path) => {
-    setUri(path);
+    setUri(path)
   });
+
+  const dispatch = useDispatch();
+  const addProduct = () => {
+    dispatch(addToCarrito({ props }));
+  };
+
+  const removeProduct = () => {
+    dispatch(removeFromCarrito(producto.index))
+  }
 
   return (
     <View
@@ -24,12 +35,21 @@ const TarjetaProducto = (props) => {
       className="h-auto my-1 rounded bg-costas mx-1 border-2 border-ambiental"
     >
       <View className="px-2 justify-between rounded-t bg-[#fff] items-center flex-row py-2">
-        <Text className="font-semibold">{producto.precio} pts.</Text>
-        <TouchableOpacity>
-          <View className="rounded-full bg-costas h-8 w-8 justify-center">
-            <Icon color={theme.colors.ambiental} name="add" />
-          </View>
-        </TouchableOpacity>
+        <Text className="font-semibold text-xs">{producto.precio} pts.</Text>
+        <View className = "flex-row justify-center space-x-2">
+          <TouchableOpacity >
+            <View className="rounded-full bg-costas h-6 w-6 justify-center">
+              <Icon color={theme.colors.ambiental} name="add" />
+            </View>
+          
+          </TouchableOpacity>
+          <Text>0</Text>
+          <TouchableOpacity >
+            <View className="rounded-full bg-costas h-6 w-6 justify-center">
+              <Icon color={theme.colors.ambiental} name="add" />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
       <View
         className="bg-[#fff] pb-2"
