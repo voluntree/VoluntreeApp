@@ -20,6 +20,7 @@ import CreateNewArticle from "../screens/association/CreateNewArticle";
 import EditProfileAssoc from "../screens/association/EditProfileAssoc";
 import ActivityScreen from './../screens/user/ActivityScreen';
 import NewsScreen from './../screens/user/NewsScreen';
+import OnBoarding from "../screens/about/OnBoarding";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ const AppNavigator = () => (
         <Screen name='Tienda' component = {Tienda}/>
         <Screen name='NuevoArticulo' component={CreateNewArticle}/>
         <Screen name='EditProfileAssoc' component={EditProfileAssoc}/>
+        <Screen name='OnBoarding' component={OnBoarding}/>
     </Navigator>   
 )
 

@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { TextInput, Checkbox, Modal } from "react-native-paper";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StyleSheet } from "react-native";
 import { Icon } from "react-native-elements";
@@ -28,6 +28,7 @@ import {
   where,
   query,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { useNavigation } from "@react-navigation/native";
@@ -36,6 +37,7 @@ import { useEffect } from "react";
 import { LoginIcon } from "../../icons/Icons";
 import { Component } from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
+import { theme } from "../../tailwind.config";
 
 const Login = () => {
   useEffect(() => {
@@ -62,6 +64,7 @@ const Login = () => {
     setPassword(value);
   }
 
+  const nuevo = useRef(false);
   const [usuario, setUsuario] = useState();
   const [spinner, setSpinner] = useState(false);
 
@@ -70,34 +73,48 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      setSpinner(true);
-      const user = userCredential.user;
-      const qVol = query(
-        collection(db, "voluntarios"),
-        where("correo", "==", email.toLowerCase())
-      );
-      getDocs(qVol).then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          setSpinner(false);
-          navigation.navigate("UserHome");
-        } else {
-          null
-        }
-      });
-      const qAsoc = query(
-        collection(db, "asociaciones"),
-        where("correo", "==", email.toLowerCase())
-      );
-      getDocs(qAsoc).then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          setSpinner(false);
-          navigation.navigate("AssociationHome");
-        } else {
-          null
-        }
-      }); 
-    })
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setSpinner(true);
+        getDoc(doc(db, "voluntarios", auth.currentUser.uid))
+          .then((value) => {
+            nuevo.current = value.data().nuevo;
+          })
+          .then(() => {
+            const user = userCredential.user;
+            const qVol = query(
+              collection(db, "voluntarios"),
+              where("correo", "==", email.toLowerCase())
+            );
+            getDocs(qVol).then((querySnapshot) => {
+              if (!querySnapshot.empty) {
+                setSpinner(false);
+                if (nuevo.current == true) {
+                  navigation.navigate("OnBoarding");
+                  updateDoc(doc(db, "voluntarios", auth.currentUser.uid), {
+                    nuevo: false,
+                  });
+                } else {
+                  navigation.navigate("UserHome");
+                }
+              } else {
+                null;
+              }
+            });
+            const qAsoc = query(
+              collection(db, "asociaciones"),
+              where("correo", "==", email.toLowerCase())
+            );
+            getDocs(qAsoc).then((querySnapshot) => {
+              if (!querySnapshot.empty) {
+                setSpinner(false);
+                navigation.navigate("AssociationHome");
+              } else {
+                null;
+              }
+            });
+          });
+      })
       .catch((error) => {
         setSpinner(false);
         const errorCode = error.code;
@@ -366,27 +383,36 @@ const Login = () => {
           </Svg>
         </View>
         <View className="space-y-3 pb-6">
-          <Text className="ml-8 font-bold text-2xl">LOGIN</Text>
           <View className="mx-8">
+            <Text className="text-lg text-ambiental">Correo</Text>
             <TextInput
+              activeOutlineColor={theme.colors.comunitario}
+              outlineColor={theme.colors.comunitario}
               autoCapitalize="none"
+              outlineStyle={{ borderWidth: 2 }}
+              style={{ backgroundColor: "white" }}
               onChangeText={(value) => actualizarEmail(value)}
               value={email}
-              left={<TextInput.Icon name="account" />}
-              underlineColor="blue"
-              label="Email"
               className=""
               placeholder={""}
-              mode="flat"
+              mode="outlined"
+              textColor={theme.colors.ambiental}
             ></TextInput>
           </View>
           <View className="mx-8">
+            <Text className="text-lg text-ambiental">Contraseña</Text>
             <TextInput
+              textColor={theme.colors.ambiental}
+              outlineStyle={{ borderWidth: 2 }}
+              activeOutlineColor={theme.colors.comunitario}
+              style={{ backgroundColor: "white" }}
+              outlineColor={theme.colors.comunitario}
               autoCapitalize="none"
               secureTextEntry={secureTextEntry}
               right={
                 <TextInput.Icon
-                  name="eye"
+                  icon="eye"
+                  color={theme.colors.ambiental}
                   onPress={() => {
                     setSecureTextEntry(!secureTextEntry);
                   }}
@@ -394,35 +420,26 @@ const Login = () => {
               }
               onChangeText={(text) => actualizarContraseña(text)}
               value={password}
-              left={<TextInput.Icon name="lock" />}
-              underlineColor="blue"
-              label="Contraseña"
+              underlineColor={theme.colors.deportivo}
               className=""
               placeholder={""}
-              mode="flat"
+              mode="outlined"
             ></TextInput>
           </View>
         </View>
-      </KeyboardAvoidingView>
-      <TouchableOpacity className="mx-8" onPress={handleSignIn}>
-        <View className="bg-[#80a8ff] w-full rounded-full h-12 mb-4 items-center justify-center">
-          <Text className="font-semibold text-base tracking-wide text-[#fff]">
-            Entrar
-          </Text>
-        </View>
-      </TouchableOpacity>
-      <View>
         <TouchableOpacity
           className="mx-8"
-          onPress={() => navigation.navigate("Registro")}
+          onPress={() => {
+            navigation.navigate("Registro");
+          }}
         >
-          <View className="bg-[#80a8ff] w-full rounded-full h-12 items-center justify-center">
-            <Text className="font-semibold text-base tracking-wide text-[#fff]">
-              Registrarse
+          <View className=" w-full rounded-full h-12 mb-4 items-center justify-center">
+            <Text className="tracking-wide text-ambiental">
+              No tengo cuenta todavía
             </Text>
           </View>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
       {spinner ? (
         <View className="h-[110%] w-full absolute items-center justify-center bg-[#27272a] opacity-70">
           <ActivityIndicator
@@ -441,6 +458,25 @@ const Login = () => {
           />
         </View>
       ) : null}
+      <TouchableOpacity
+        className=" absolute bottom-0 right-0"
+        onPress={handleSignIn}
+      >
+        <View className="m-8">
+          <Svg
+            width="48"
+            height="24"
+            viewBox="0 0 26 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <Path
+              d="M25.7071 8.70711C26.0976 8.31658 26.0976 7.68342 25.7071 7.2929L19.3431 0.928934C18.9526 0.538409 18.3195 0.538409 17.9289 0.928934C17.5384 1.31946 17.5384 1.95262 17.9289 2.34315L23.5858 8L17.9289 13.6569C17.5384 14.0474 17.5384 14.6805 17.9289 15.0711C18.3195 15.4616 18.9526 15.4616 19.3431 15.0711L25.7071 8.70711ZM-8.74228e-08 9L25 9L25 7L8.74228e-08 7L-8.74228e-08 9Z"
+              fill="#086841"
+            />
+          </Svg>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
