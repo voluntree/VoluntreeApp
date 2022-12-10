@@ -7,11 +7,16 @@ import { getUsersChatsList, getVoluntarioByID } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import ChatListItem from "../../components/chat/ChatListItem";
-import { query } from 'firebase/firestore';
-import { collection } from 'firebase/firestore';
-import { where } from 'firebase/firestore';
-import { onSnapshot } from 'firebase/firestore';
+import { query } from "firebase/firestore";
+import { collection } from "firebase/firestore";
+import { where } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 import { theme } from "../../tailwind.config";
+import { getUserInstance } from "../../service/LoginService";
+import {
+  adaptAssociationToUser,
+  adaptVolunteerToUser,
+} from "../../service/functions";
 
 const ChatListScreen = () => {
   const currentUser = auth.currentUser;
@@ -19,14 +24,31 @@ const ChatListScreen = () => {
   const navigation = useNavigation();
   const [chats, setChats] = useState([]);
   const [busqueda, setBusqueda] = useState("");
-  const q = query(collection(db, "actividades"),where("participantes","array-contains",currentUser.uid))
+  let q = query(
+    collection(db, "actividades"),
+    where("participantes", "array-contains", currentUser.uid)
+  );
 
   useEffect(() => {
     async function getUser() {
-      setUser(await getVoluntarioByID(currentUser.uid));
+      let usr = getUserInstance();
+      if (usr.type == "association") {
+        usr = adaptAssociationToUser(usr);
+        q = query(
+          collection(db, "actividades"),
+          where("asociacion", "==", usr.nombre)
+        );
+      } else usr = adaptVolunteerToUser(usr);
+      setUser(usr);
     }
     getUser();
-    onSnapshot(q,(snapshot)=>({id: snapshot.id}, setChats(snapshot.docs.map(doc => doc.data()))))
+
+    onSnapshot(
+      q,
+      (snapshot) => (
+        { id: snapshot.id }, setChats(snapshot.docs.map((doc) => doc.data()))
+      )
+    );
   }, []);
 
   function openChat(actividad) {
@@ -43,8 +65,8 @@ const ChatListScreen = () => {
         <TextInput
           className="w-full h-10 rounded-md bg-costas p-2"
           placeholder="Chat"
-          cursorColor = {theme.colors.ambiental}
-          placeholderTextColor = {theme.colors.ambiental}
+          cursorColor={theme.colors.ambiental}
+          placeholderTextColor={theme.colors.ambiental}
           value={busqueda}
           onChangeText={(value) => setBusqueda(value)}
         />

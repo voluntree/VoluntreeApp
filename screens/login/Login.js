@@ -33,6 +33,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect } from "react";
+import {
+  setUserAsAssociation,
+  setUserAsVolunteer,
+} from "./../../service/LoginService";
 
 const Login = () => {
   useEffect(() => {
@@ -67,34 +71,37 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      setSpinner(true);
-      const user = userCredential.user;
-      const qVol = query(
-        collection(db, "voluntarios"),
-        where("correo", "==", email.toLowerCase())
-      );
-      getDocs(qVol).then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          setSpinner(false);
-          navigation.navigate("UserHome");
-        } else {
-          null
-        }
-      });
-      const qAsoc = query(
-        collection(db, "asociaciones"),
-        where("correo", "==", email.toLowerCase())
-      );
-      getDocs(qAsoc).then((querySnapshot) => {
-        if (!querySnapshot.empty) {
-          setSpinner(false);
-          navigation.navigate("AssociationHome");
-        } else {
-          null
-        }
-      }); 
-    })
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        setSpinner(true);
+        const user = userCredential.user;
+        const qVol = query(
+          collection(db, "voluntarios"),
+          where("correo", "==", email.toLowerCase())
+        );
+        getDocs(qVol).then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            setUserAsVolunteer(querySnapshot.docs[0].id);
+            setSpinner(false);
+            navigation.navigate("UserHome");
+          } else {
+            null;
+          }
+        });
+        const qAsoc = query(
+          collection(db, "asociaciones"),
+          where("correo", "==", email.toLowerCase())
+        );
+        getDocs(qAsoc).then((querySnapshot) => {
+          if (!querySnapshot.empty) {
+            setUserAsAssociation(email);
+            setSpinner(false);
+            navigation.navigate("AssociationHome");
+          } else {
+            null;
+          }
+        });
+      })
       .catch((error) => {
         setSpinner(false);
         const errorCode = error.code;

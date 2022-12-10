@@ -19,6 +19,7 @@ import ProfileAssociation from "../../screens/association/ProfileAssociation";
 import PostActivity from "../../screens/association/PostActivity";
 import ModalNewActivity from "../../screens/association/ModalNewActivity";
 import { theme } from "../../tailwind.config";
+import ChatListScreen from './../../screens/chat/ChatListScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -212,7 +213,7 @@ const AssociationTab = () => {
         />
         <Tab.Screen
           name="Inbox"
-          component={InboxAssociation}
+          component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
