@@ -46,7 +46,12 @@ const ActivityChat = () => {
         setMensajes(snapshot.docs.map((doc) => doc.data()))
       )
     );
+    logInput();
   }, []);
+
+  function logInput(){
+    console.log("Usuario desde Activitychat",userDetails);
+  }
 
   return (
     <View className="h-screen w-screen bg-blanco">
@@ -59,7 +64,7 @@ const ActivityChat = () => {
               <Text>No hay mensajes</Text>
             </View>
           )}
-          <MessageInput actividad={actividad} />
+          <MessageInput actividad={actividad} usuario={userDetails}/>
         </View>
       </View>
     </View>

@@ -34,6 +34,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useEffect } from "react";
+import {
+  setUserAsAssociation,
+  setUserAsVolunteer,
+} from "./../../service/LoginService";
 import { LoginIcon } from "../../icons/Icons";
 import { Component } from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
@@ -88,6 +92,7 @@ const Login = () => {
             );
             getDocs(qVol).then((querySnapshot) => {
               if (!querySnapshot.empty) {
+                setUserAsVolunteer(querySnapshot.docs[0].id);
                 setSpinner(false);
                 if (nuevo.current == true) {
                   navigation.navigate("OnBoarding");
@@ -107,6 +112,7 @@ const Login = () => {
             );
             getDocs(qAsoc).then((querySnapshot) => {
               if (!querySnapshot.empty) {
+                setUserAsAssociation(email);
                 setSpinner(false);
                 navigation.navigate("AssociationHome");
               } else {
@@ -114,6 +120,7 @@ const Login = () => {
               }
             });
           });
+
       })
       .catch((error) => {
         setSpinner(false);

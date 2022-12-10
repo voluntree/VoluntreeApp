@@ -510,11 +510,9 @@ export async function getUsersChatsList(user) {
 }
 export async function sendUserMessage(user, messageContent, fecha, activity) {
   const ref = doc(db, `chats/${activity}/messages/${fecha}`);
-  const usr = await getVoluntarioByID(user);
-  
   try {
     await runTransaction(db, async (t) => {
-      t.set(ref, { user: usr, message: messageContent, date: fecha });
+      t.set(ref, { user: {...user}, message: messageContent, date: fecha });
     });
   } catch (error) {
     console.log(error);

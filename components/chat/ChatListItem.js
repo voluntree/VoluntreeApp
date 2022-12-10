@@ -9,6 +9,7 @@ import {
   retrieveChatLastMessage,
 } from "../../service/service";
 import { onSnapshot, collection } from "firebase/firestore";
+import { truncateText } from "../../service/functions";
 
 const ChatListItem = (props) => {
   const currentUser = auth.currentUser;
@@ -32,7 +33,6 @@ const ChatListItem = (props) => {
   async function initData() {
     let src = await getImageDownloadURL("cardImages/" + item.imagen);
     setImg(src);
-    console.log("runnig useEffect of chatListItem");
   }
 
   function openChat(actividad) {
@@ -57,7 +57,7 @@ const ChatListItem = (props) => {
         <Image source={{ uri: img }} className="h-12 w-12 rounded-full" />
       )}
       <View className="flex-col px-2">
-        <Text className="text-base">{item.titulo}</Text>
+        <Text className="text-base">{truncateText(item.titulo,35)}</Text>
         {lastMsg ? (
           <View className="flex-row">
             <Text className="font-semibold text-ambiental">
