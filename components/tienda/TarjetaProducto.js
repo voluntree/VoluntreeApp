@@ -8,9 +8,10 @@ import { theme } from "../../tailwind.config";
 import { addToCarrito, removeFromCarrito, selectProductoCarritoConId } from "../../features/carritoSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const TarjetaProducto = (props) => {
+const TarjetaProducto = ({producto, id, func}) => {
   const [uri, setUri] = useState();
-  const { producto } = props;
+  const[cuantia, setCuantia] = useState(0);
+  console.log(id)
   const width = Dimensions.get("screen").width / 2 - 30;
   const reference = ref(
     storage,
@@ -21,15 +22,6 @@ const TarjetaProducto = (props) => {
   });
 
   const[cantidad, setCantidad] = useState(0);
-  const productos = useSelector((state) => selectProductoCarritoConId(state, producto.index));
-  const dispatch = useDispatch();
-  const addProduct = () => {
-    dispatch(addToCarrito(producto));
-  };
-
-  const removeProduct = () => {
-    dispatch(removeFromCarrito(producto.index))
-  }
 
   return (
     <View
@@ -42,7 +34,9 @@ const TarjetaProducto = (props) => {
           <TouchableOpacity
             disabled={cantidad == 0}
             onPress={() => {
-              removeProduct, setCantidad(cantidad - 1);
+              func(producto.precio,  1, "resta")
+              setCantidad(cantidad - 1);
+              setCuantia(cuantia - producto.precio);
             }}
           >
             {cantidad == 0 ? (
@@ -58,7 +52,9 @@ const TarjetaProducto = (props) => {
           <Text>{cantidad}</Text>
           <TouchableOpacity
             onPress={() => {
-              addProduct, setCantidad(cantidad + 1);
+              func(producto.precio, 1, "suma");
+              setCantidad(cantidad + 1);
+              setCuantia(cuantia + producto.precio)
             }}
           >
             <View className="rounded-full bg-costas h-6 w-6 justify-center">

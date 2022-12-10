@@ -5,7 +5,7 @@ import { onSnapshot, query, collection } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const ListaArticulos = () => {
+const ListaArticulos = (props) => {
   const [articulos, setArticulos] = useState([]);
   const q = query(collection(db, "articulos"));
   useEffect(() => {

@@ -20,7 +20,7 @@ import { getActivityById } from "../../service/service";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { theme } from "../../tailwind.config";
 import { doc, getDoc } from "firebase/firestore";
-import { db, ref, storage } from "../../utils/firebase";
+import { auth, db, ref, storage } from "../../utils/firebase";
 import { getDownloadURL } from "firebase/storage";
 
 
@@ -51,7 +51,7 @@ const AssociationActivityDetails = () => {
       actividad.ubicacion.latitude,
       actividad.ubicacion.longitude
     ).catch(console.error);
-    getDoc(doc(db, "asociaciones/" + actividad.asociacion)).then(
+    getDoc(doc(db, "asociaciones/" + auth.currentUser.uid)).then(
     (value) => {
     getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + value.data().fotoPerfil))
       .then((path) => {
