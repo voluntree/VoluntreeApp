@@ -137,6 +137,7 @@ const AssociationRegister = () => {
           seguidores: [],
           telefono: telefono,
           tipoAsociacion: "",
+          nuevo: false,
           representante: {
             dni: dni,
             nombre: nombreRepresentante,

@@ -97,6 +97,7 @@ const UserRegister = () => {
           descripcion: "",
           puntos: 0,
           siguiendo: [],
+          nuevo: true,
         }).then(() => {
           Alert.alert("¡Registrado con exito!");
           setSpinner(false);
