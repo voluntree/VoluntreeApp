@@ -82,7 +82,9 @@ const Login = () => {
         setSpinner(true);
         getDoc(doc(db, "voluntarios", auth.currentUser.uid))
           .then((value) => {
-            //nuevo.current = value.data().nuevo;
+            if (value.data() != undefined) {
+              nuevo.current = value.data().nuevo;
+            }
           })
           .then(() => {
             const user = userCredential.user;
