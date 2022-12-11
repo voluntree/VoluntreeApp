@@ -380,7 +380,7 @@ export async function deleteArticle(articulo) {
       t.delete(ref, articulo);
     });
   } catch (error) {
-    throw Error("Actualización fallida.");
+    throw Error("Borrado fallido.");
   }
 }
 

@@ -3,6 +3,8 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserInstance } from "../../service/LoginService";
+import { deleteArticle } from "../../service/service";
+import { Alert } from "react-native";
 
 const NewsScreen = () => {
   const route = useRoute();
@@ -10,21 +12,45 @@ const NewsScreen = () => {
   const { articulo, uri, asociacion, uriAsociacion } = route.params;
   const [user, setUser] = useState(getUserInstance());
 
-  useEffect(() => {});
+  useEffect(() => {},[]);
 
   const openToModify = () => {
     navigation.navigate("Modify Article", { articulo: articulo, uri: uri });
   };
 
+  const deleteNews = async () => {
+    try {
+      await deleteArticle(articulo)
+      Alert.alert("Borrado exitoso","El borrado se realizó correctamente")
+      navigation.navigate("News")
+    } catch (error) {
+      Alert.alert("Error",error.message)
+    }
+  }
+
   const ModifyButton = () => {
     return (
-      <View className="py-5">
+      <View className="py-2">
         {user.nombre == asociacion.nombre && (
           <TouchableOpacity
             className="w-auto p-3 items-center justify-center rounded-md bg-costas"
             onPress={openToModify}
           >
             <Text className="text-base text-ambiental">Modificar</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  };
+
+  const DeleteButton = () => {
+    return (
+      <View className="py-2">
+        {user.nombre == asociacion.nombre && (
+          <TouchableOpacity className="w-auto p-3 items-center justify-center rounded-md bg-rojo"
+          onPress={deleteNews}
+          >
+            <Text className="text-base text-blanco">Eliminar</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -82,7 +108,8 @@ const NewsScreen = () => {
             <Text className="text-sm mb-2 text-ambiental text-justify">
               {articulo.conclusion}
             </Text>
-            <ModifyButton/>
+            <ModifyButton />
+            <DeleteButton/>
           </View>
         </View>
       </ScrollView>

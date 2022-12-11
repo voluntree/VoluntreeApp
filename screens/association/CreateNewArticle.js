@@ -15,12 +15,13 @@ import { ref } from "firebase/storage";
 import { Button, Icon } from "react-native-elements";
 import { publishArticle } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { getUserInstance } from "../../service/LoginService";
 
 const CreateNewArticle = () => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const currentUser = "Green Peace";
+  const [currentUser,setCurrentUser] = useState(getUserInstance.nombre)
 
   useEffect(() => {
     async () => {
@@ -45,7 +46,7 @@ const CreateNewArticle = () => {
         storeImage();
         Alert.alert("Exito", "Articulo publicado exitosamente");
       } catch (error) {
-        Alert.alert("Error", error.toString());
+        Alert.alert("Error", error.message);
       }
     }
   }
@@ -130,7 +131,7 @@ const CreateNewArticle = () => {
             subtitulo: "",
             autor: "",
             fecha_publicacion: "",
-            asociacion: currentUser,
+            asociacion: currentUser.nombre,
             introduccion: "",
             cuerpo: "",
             conclusion: "",
