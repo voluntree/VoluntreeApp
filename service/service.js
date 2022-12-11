@@ -236,9 +236,7 @@ export async function getAssocID(assocName) {
 
 export async function getAsociacionByEmail(email) {
   const collecRef = collection(db, "asociaciones");
-  let asoc = await getDocs(
-    query(collecRef, where("correo", "==", email))
-  );
+  let asoc = await getDocs(query(collecRef, where("correo", "==", email)));
   asoc.docs.length > 0 ? (asoc = asoc.docs[0].data()) : (asoc = null);
   return asoc;
 }
@@ -375,6 +373,29 @@ export async function publishArticle(articulo) {
   }
 }
 
+export async function deleteArticle(articulo) {
+  const ref = doc(db, "articulos", articulo.titulo);
+  try {
+    await runTransaction(db, async (t) => {
+      t.delete(ref, articulo);
+    });
+  } catch (error) {
+    throw Error("Actualización fallida.");
+  }
+}
+
+export async function updateArticle(articulo, articuloViejo) {
+  const ref = doc(db, "articulos", articuloViejo.titulo);
+  try {
+    await runTransaction(db, async (t) => {
+        t.delete(ref); 
+        t.set(doc(db, "articulos", articulo.titulo), articulo);      
+    });
+  } catch (error) {
+    throw Error("Modificación fallida.");
+  }
+}
+
 //#endregion
 
 //#region Voluntarios
@@ -409,7 +430,6 @@ export async function getAssocByEmail(email) {
     return docSnap.docs[0];
   }
 }
-
 
 export async function getPoints(user, activity) {
   const userRef = doc(db, "voluntarios", user);
@@ -502,17 +522,20 @@ export async function deleteUserData(userID) {
 //#region chat
 export async function getUsersChatsList(user) {
   const acts = await getDocs(
-    query(collection(db, "actividades"), where("participantes", "array-contains", user))
+    query(
+      collection(db, "actividades"),
+      where("participantes", "array-contains", user)
+    )
   );
   const data = [];
-  acts.forEach(doc => data.push(doc.data()))
+  acts.forEach((doc) => data.push(doc.data()));
   return data;
 }
 export async function sendUserMessage(user, messageContent, fecha, activity) {
   const ref = doc(db, `chats/${activity}/messages/${fecha}`);
   try {
     await runTransaction(db, async (t) => {
-      t.set(ref, { user: {...user}, message: messageContent, date: fecha });
+      t.set(ref, { user: { ...user }, message: messageContent, date: fecha });
     });
   } catch (error) {
     console.log(error);
@@ -525,7 +548,7 @@ export async function retrieveChatLastMessage(activity) {
   try {
     const data = await getDocs(ref);
     data.forEach((doc) => resp.push(doc.data()));
-    return resp[resp.length-1];
+    return resp[resp.length - 1];
   } catch (error) {}
   return resp;
 }
@@ -546,9 +569,21 @@ export async function redeemPoints(user, productID) {
         //   stock: increment(-1),
         // });
       });
-      console.log("El usuario " + user.nombre + " ha canjeado " + productID.puntos + " puntos por el producto " + productID.nombre);
+      console.log(
+        "El usuario " +
+          user.nombre +
+          " ha canjeado " +
+          productID.puntos +
+          " puntos por el producto " +
+          productID.nombre
+      );
     } else {
-      console.log("El usuario " + user.nombre + " no tiene suficientes puntos para canjear el producto " + productID.nombre);
+      console.log(
+        "El usuario " +
+          user.nombre +
+          " no tiene suficientes puntos para canjear el producto " +
+          productID.nombre
+      );
     }
   } catch (e) {
     console.log(e);

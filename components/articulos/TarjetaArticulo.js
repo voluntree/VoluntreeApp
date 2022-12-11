@@ -14,7 +14,7 @@ const TarjetaArticulo = (props) => {
   const navigation = useNavigation();
   useEffect(() => {
     getData();
-  }, []);
+  }, [articulo]);
 
   function readArticle() {
     navigation.push("Articulo", {
@@ -35,7 +35,7 @@ const TarjetaArticulo = (props) => {
   return (
     <TouchableOpacity
       onPress={readArticle}
-      className="mx-2"
+      className="mx-2 w-90"
     >
       <View className = "absolute h-full w-0.5 bg-ambiental top-0 left-7"></View>
       <View className = "flex p-2">
@@ -45,10 +45,12 @@ const TarjetaArticulo = (props) => {
         <View className="flex-row justify-between items-center">
           <View className="flex-row">
             {asociacion != undefined ? (
-              <Image
+              <View className="rounded-full h-10 w-10 mr-2 bg-blanco">
+                <Image
                 className="rounded-full h-10 w-10 mr-2"
                 source={{ uri: uri2 }}
               />
+              </View>
             ) : (
               <></>
             )}

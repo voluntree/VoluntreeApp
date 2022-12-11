@@ -6,23 +6,17 @@ import { db } from "../../utils/firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ListaArticulos = (props) => {
+  const data = props.articulos;
   const [articulos, setArticulos] = useState([]);
-  const q = query(collection(db, "articulos"));
+  let q = query(collection(db, "articulos"));
   useEffect(() => {
-    getData();
+    if (props.mode != undefined && props.mode == "asociacion") q = props.query;
+    onSnapshot(q, (snapshot) => {
+      let art = [];
+      snapshot.docs.forEach((doc) => art.push(doc.data()));
+      setArticulos(art);
+    });
   }, []);
-
-  const getData = async () => {
-    onSnapshot(
-      q,
-      (snapshot) => (
-        {
-          id: snapshot.id,
-        },
-        setArticulos(snapshot.docs.map((doc) => doc.data()))
-      )
-    );
-  };
 
   const renderEmptyContainer = () => {
     return (
@@ -31,13 +25,13 @@ const ListaArticulos = (props) => {
   };
 
   return (
-    <SafeAreaView className = "bg-blanco h-full">
+    <SafeAreaView className="bg-blanco h-full w-full">
       <FlatList
-      data={articulos}
-      keyExtractor={(item) => item.titulo}
-      ListEmptyComponent={renderEmptyContainer()}
-      renderItem={({ item, index }) => <TarjetaArticulo articulo={item} />}
-    />
+        data={articulos}
+        keyExtractor={(item) => item.titulo}
+        ListEmptyComponent={renderEmptyContainer()}
+        renderItem={({ item, index }) => <TarjetaArticulo articulo={item} />}
+      />
     </SafeAreaView>
   );
 };
