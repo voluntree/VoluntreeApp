@@ -18,13 +18,8 @@ import { getActivityById, getAssocByEmail } from "../../service/service";
 const ListaActividadesAsociacion = () => {
   const [actividades, setActividades] = useState([]);
   const [asociacion, setAsociacion] = useState([])
-
   
-
   useEffect(() => {
-    
-      
-    
     const getActividades = async () => {
       getAssocByEmail(auth.currentUser.email).then((value) => {setAsociacion(value.data())
       const q = query(collection(db, "actividades"), where("asociacion", "==", value.data().nombre));

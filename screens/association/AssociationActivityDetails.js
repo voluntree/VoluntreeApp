@@ -153,18 +153,20 @@ const AssociationActivityDetails = () => {
         {/* Container asociacion y participantes */}
         <View className = "">
           <View className = "flex-row w-full h-fit items-center space-x-2">
-            <TouchableOpacity 
-              className="w-[70%] flex-row items-center space-x-2 py-1"
-              onPress={() => {goToAssocProfile()}}
-            >
+            <View className="w-[70%] flex-row items-center space-x-2 py-1" >
               <Image className = "h-12 w-12 rounded-full" source={{ uri: imagen }}/>
               <Text className = "text-base text-ambiental">{actividad.asociacion}</Text>
-            </TouchableOpacity>
-            <View className = "h-full w-0.5 bg-ambiental"></View>
-            <View className = "items-center grow flex-row justify-center space-x-1">
-              <Icon name="person" type="octicon" color={theme.colors.ambiental} />
-              <Text className = "text-base text-ambiental">{actividad.num_participantes}/{actividad.max_participantes}</Text>
             </View>
+            <View className = "h-full w-0.5 bg-ambiental"></View>
+            <TouchableOpacity 
+              className = "items-center justify-center grow"
+              onPress={openParticipantsList}  
+            >
+              <View className="flex-row space-x-1 items-center justify-center">
+                <Icon name="person" type="octicon" color={theme.colors.ambiental} />
+                <Text className = "text-base text-ambiental">{actividad.num_participantes}/{actividad.max_participantes}</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           {/* Separador */}
           <View className = "h-0.5 w-full bg-ambiental"></View>

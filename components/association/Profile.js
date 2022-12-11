@@ -56,13 +56,12 @@ const Profile = (props) => {
           <TouchableOpacity
             className="border border-[#b0dac7] bg-[#EFF8F4] rounded-lg w-1/2 h-8 justify-center items-center"
             onPress={() => {
-              // navigation.push("EditProfileAssoc", {
-              //   association: asociacion,
-              //   assocID: userID,
-              //   fotoPerfil: profielPhoto,
-              //   fondoPerfil: backgroundPhoto,
-              // });
-              console.log(asociacion);
+              navigation.push("EditProfileAssoc", {
+                association: asociacion,
+                assocID: userID,
+                fotoPerfil: profielPhoto,
+                fondoPerfil: backgroundPhoto,
+              });
             }}
           >
             <Text className="text-[#086841] text-sm font-bold">
@@ -147,7 +146,7 @@ const Profile = (props) => {
               <Text className="text-[#086841] text-sm text-justify p-2">
                 {asociacion?.descripcion
                   ? asociacion.descripcion
-                  : "Sin descripción"}
+                  : "*Sin descripción*"}
               </Text>
             </View>
           </View>
