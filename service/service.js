@@ -303,11 +303,15 @@ export async function removeLike(activityID, userID) {
 export async function followAsociation(userID, association) {
   const associationID = await getAssocID(association);
   const asociationRef = doc(db, "asociaciones", associationID);
+  const userRef = doc(db, "voluntarios", userID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
         seguidores: arrayUnion(userID),
         num_seguidores: increment(1),
+      });
+      t.update(userRef, {
+        siguiendo: arrayUnion(associationID),
       });
     });
   } catch (e) {
@@ -318,11 +322,15 @@ export async function followAsociation(userID, association) {
 export async function unfollowAsociation(userID, association) {
   const associationID = await getAssocID(association);
   const asociationRef = doc(db, "asociaciones", associationID);
+  const userRef = doc(db, "voluntarios", userID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
         seguidores: arrayRemove(userID),
         num_seguidores: increment(-1),
+      });
+      t.update(userRef, {
+        siguiendo: arrayRemove(associationID),
       });
     });
   } catch (e) {

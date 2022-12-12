@@ -19,7 +19,11 @@ import { auth, db } from "../../utils/firebase";
 import { collection, where, query, onSnapshot, doc } from "firebase/firestore";
 import ModalPerfil from "../../components/user/ModalPerfil";
 import { Image } from "react-native-elements";
-import { deleteUserData, getVoluntarioByID, getImageDownloadURL } from "../../service/service";
+import {
+  deleteUserData,
+  getVoluntarioByID,
+  getImageDownloadURL,
+} from "../../service/service";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../utils/firebase";
 import { ArbolesPlantados, CartIcon } from "../../icons/Icons";
@@ -31,6 +35,9 @@ const ProfileScreen = () => {
   const [usuario, setUsuario] = useState([]);
   const [profilefoto, setProfilefoto] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [siguiendo, setSiguiendo] = useState();
+
   const q = query(
     collection(db, "voluntarios"),
     where("correo", "==", user.email)
@@ -51,6 +58,7 @@ const ProfileScreen = () => {
             doc.data().fotoPerfil
         )
       );
+      setSiguiendo((doc.data().siguiendo.length));
     });
   }, []);
 
@@ -100,7 +108,15 @@ const ProfileScreen = () => {
 
   return (
     <TailwindProvider>
-      <SafeAreaView className="h-full w-full items-center bg-blanco pt-2">
+      <SafeAreaView className="h-full w-full items-center bg-blanco">
+        <View className="w-full pl-6 py-2">
+          <Text
+            className="grow-0 text-xl font-bold"
+            style={{ color: theme.colors.ambiental }}
+          >
+            {usuario.nombre + " " + usuario.apellidos}
+          </Text>
+        </View>
         {/* Contenedor principal*/}
         <View className="flex-row h-24 w-full items-center justify-around">
           {/* Avatar*/}
@@ -114,39 +130,47 @@ const ProfileScreen = () => {
           {/* Contenedor Info Usuario*/}
           <View className="w-7/12 space-y-2">
             {/*Nombre*/}
-            <View className={"flex-row w-max space-x-2 items-center justify-between"}>
-              <Text
-                className="grow-0 text-xl font-bold"
-                style={{ color: theme.colors.ambiental }}
+            <View
+              className={
+                "flex-row w-max space-x-2 items-center justify-between"
+              }
+            >
+              <TouchableOpacity
+                className="flex-row w-32 h-8 border-[1px] border-[#086841] rounded-lg justify-evenly items-center"
+                //style={{ backgroundColor: theme.colors.costas }}
+                onPress={() =>
+                  navigation.push("Following", { voluntario: usuario })
+                }
               >
-                {usuario.nombre + " " + usuario.apellidos}
-              </Text>
+                <Text className="font-bold" style={{ color: theme.colors.ambiental }}>{siguiendo}</Text>
+                <Text className="font-bold" style={{ color: theme.colors.ambiental }}>Siguiendo</Text>
+              </TouchableOpacity>
               {/*Tienda*/}
               <View className="flex-row space-x-2">
-              <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
-                <View
-                  className="rounded-lg justify-center items-center h-8 w-8"
-                  style={{ backgroundColor: theme.colors.costas }}
-                >
-                  {CartIcon(16,16)}
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("Tienda")}>
+                  <View
+                    className="rounded-lg justify-center items-center h-8 w-8"
+                    style={{ backgroundColor: theme.colors.costas }}
+                  >
+                    {CartIcon(16, 16)}
+                  </View>
+                </TouchableOpacity>
 
-              {/*Opciones*/}
-              <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
-                <View
-                  className="rounded-lg justify-center items-center h-8 w-8"
-                  style={{ backgroundColor: theme.colors.costas }}
-                >
-                  <Icon
-                    name="triangle-down"
-                    type="octicon"
-                    color={theme.colors.ambiental}
-                    size={24}
-                    onPress={() => setIsModalOpen(!isModalOpen)}
-                  />
-                </View>
-              </TouchableOpacity>
+                {/*Opciones*/}
+                <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
+                  <View
+                    className="rounded-lg justify-center items-center h-8 w-8"
+                    style={{ backgroundColor: theme.colors.costas }}
+                  >
+                    <Icon
+                      name="triangle-down"
+                      type="octicon"
+                      color={theme.colors.ambiental}
+                      size={24}
+                      onPress={() => setIsModalOpen(!isModalOpen)}
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
             {/* Contenedor Editar Perfil y Siguiendo */}
@@ -163,7 +187,7 @@ const ProfileScreen = () => {
                       voluntario: usuario,
                       userID: user.uid,
                       foto: profilefoto,
-                    })
+                    });
                   }}
                 >
                   <Text style={{ color: theme.colors.ambiental }}>
@@ -171,29 +195,11 @@ const ProfileScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
-              
+
               {/*Botón Siguiendo*/}
               <View
                 className="flex-grow h-8 rounded-lg"
                 style={{ backgroundColor: theme.colors.deportivo }}
-              >
-                <TouchableOpacity
-                  className="w-full h-full justify-center items-center"
-                  onPress={() =>
-                    navigation.push("Following", { voluntario: usuario })
-                  }
-                >
-                  <Text style={{ color: theme.colors.ambiental }}>
-                    Siguiendo
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-        </View>
-        <View
-                className="flex-grow h-8 rounded-lg"
-                style={{ backgroundColor: theme.colors.costas }}
               >
                 <TouchableOpacity
                   className="w-full h-full justify-center items-center"
@@ -202,14 +208,17 @@ const ProfileScreen = () => {
                       voluntario: usuario,
                       userID: user.uid,
                       foto: profilefoto,
-                    })
+                    });
                   }}
                 >
                   <Text style={{ color: theme.colors.ambiental }}>
-                    Historial actividades
+                    Historial
                   </Text>
                 </TouchableOpacity>
               </View>
+            </View>
+          </View>
+        </View>
         {/*Arboles plantados*/}
         <View className="py-2 bg-blanco items-center justify-center space-y-2">
           {/*Icono arbol*/}

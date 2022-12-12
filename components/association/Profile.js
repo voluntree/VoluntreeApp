@@ -92,14 +92,16 @@ const Profile = (props) => {
     }
   };
 
-  const follow = async () => {
-    await followAsociation(userID, asociacion.nombre);
-    setFollow(true);
+  const follow = () => {
+    followAsociation(userID, asociacion.nombre).then(() => {
+      setFollow(true);
+    });
   };
 
   const unfollow = () => {
-    unfollowAsociation(userID, asociacion.nombre);
-    setFollow(false);
+    unfollowAsociation(userID, asociacion.nombre).then(() => {
+      setFollow(false);
+    });
   };
 
   return (
