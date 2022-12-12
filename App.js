@@ -1,3 +1,4 @@
+import { LogBox } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { TailwindProvider } from "tailwindcss-react-native";
@@ -12,8 +13,8 @@ import { store } from "./store";
 
 const Stack = createNativeStackNavigator();
 
-
 export default function App() {
+  LogBox.ignoreAllLogs();
   return (
     <SafeAreaProvider>
       <NavigationContainer>
