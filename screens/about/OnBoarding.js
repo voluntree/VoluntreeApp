@@ -18,6 +18,9 @@ import { Dimensions } from "react-native";
 import { theme } from "../../tailwind.config";
 import { black, white } from "tailwindcss/colors";
 import { useNavigation } from "@react-navigation/native";
+import { auth } from "../../utils/firebase";
+import { getVoluntarioByID } from "../../service/service";
+import { isEmpty } from "@firebase/util";
 
 const { width, height } = Dimensions.get("window");
 
@@ -675,7 +678,8 @@ const OnBoarding = () => {
             backgroundColor: theme.colors.ambiental,
           }}
           onPress={() => {
-              navigation.navigate("UserHome");
+            if(!isEmpty(getVoluntarioByID(auth.currentUser.uid))){navigation.navigate("UserHome");}
+            else navigation.navigate("AssociationHome")  
           }}
         >
           <Text className = "font-extrabold text-costas">VAMOS!</Text>

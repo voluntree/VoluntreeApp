@@ -96,6 +96,7 @@ const UserRegister = () => {
           fechaDeNacimiento: "",
           descripcion: "",
           puntos: 0,
+          nuevo:true,
           siguiendo: [],
           nuevo: true,
         }).then(() => {
