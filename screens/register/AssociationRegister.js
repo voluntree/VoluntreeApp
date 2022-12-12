@@ -122,36 +122,47 @@ const AssociationRegister = () => {
     contraseña,
     telefono
   ) {
-    createUserWithEmailAndPassword(auth, email, contraseña)
-      .then((userCredential) => {
-        setSpinner(true);
-        const user = userCredential.user;
-        setDoc(doc(db, "asociaciones", user.uid), {
-          CIF: cif,
-          correo: email,
-          fotoPerfil: "default.png",
-          fondoPerfil: "defaultBackground.png",
-          descripcion: "",
-          nombre: nombreAsoc,
-          num_seguidores: 0,
-          seguidores: [],
-          telefono: telefono,
-          tipoAsociacion: "",
-          nuevo: false,
-          representante: {
-            dni: dni,
-            nombre: nombreRepresentante,
-            apellidos: apellidos,
-          },
-        }).then(() => {
-          setSpinner(false);
-          navigation.navigate("Login");
+    if (
+      (cif &&
+      email &&
+      nombreAsoc &&
+      dni &&
+      nombreRepresentante &&
+      apellidos && contraseña && contraseña2) !== ""
+    ) {
+      createUserWithEmailAndPassword(auth, email, contraseña)
+        .then((userCredential) => {
+          setSpinner(true);
+          const user = userCredential.user;
+          setDoc(doc(db, "asociaciones", user.uid), {
+            CIF: cif,
+            correo: email,
+            fotoPerfil: "default.png",
+            fondoPerfil: "defaultBackground.png",
+            descripcion: "",
+            nombre: nombreAsoc,
+            num_seguidores: 0,
+            seguidores: [],
+            telefono: telefono,
+            tipoAsociacion: "",
+            nuevo: false,
+            representante: {
+              dni: dni,
+              nombre: nombreRepresentante,
+              apellidos: apellidos,
+            },
+          }).then(() => {
+            setSpinner(false);
+            navigation.navigate("Login");
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          Alert.alert('Ha ocurrido un error al crear la cuenta');
         });
-      })
-      .catch((error) => {
-        console.log(error);
-        Alert.alert(error.message);
-      });
+    } else {
+      Alert.alert("Rellene todos los campos obligatorios");
+    }
   }
 
   return (
