@@ -171,6 +171,7 @@ const ProfileScreen = () => {
                   </Text>
                 </TouchableOpacity>
               </View>
+              
               {/*Botón Siguiendo*/}
               <View
                 className="flex-grow h-8 rounded-lg"
@@ -190,6 +191,25 @@ const ProfileScreen = () => {
             </View>
           </View>
         </View>
+        <View
+                className="flex-grow h-8 rounded-lg"
+                style={{ backgroundColor: theme.colors.costas }}
+              >
+                <TouchableOpacity
+                  className="w-full h-full justify-center items-center"
+                  onPress={() => {
+                    navigation.push("HistorialActividades", {
+                      voluntario: usuario,
+                      userID: user.uid,
+                      foto: profilefoto,
+                    })
+                  }}
+                >
+                  <Text style={{ color: theme.colors.ambiental }}>
+                    Historial actividades
+                  </Text>
+                </TouchableOpacity>
+              </View>
         {/*Arboles plantados*/}
         <View className="py-2 bg-blanco items-center justify-center space-y-2">
           {/*Icono arbol*/}
