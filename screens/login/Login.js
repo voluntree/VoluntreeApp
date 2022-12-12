@@ -81,16 +81,6 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSpinner(true);
-<<<<<<< Updated upstream
-        getDoc(doc(db, "voluntarios", auth.currentUser.uid))
-          .then((value) => {
-            if (value.data() != undefined) {
-              nuevo.current = value.data().nuevo;
-            }
-          })
-          .then(() => {
-=======
->>>>>>> Stashed changes
             const user = userCredential.user;
             const qVol = query(
               collection(db, "voluntarios"),
