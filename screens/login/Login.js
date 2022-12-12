@@ -42,6 +42,7 @@ import { LoginIcon } from "../../icons/Icons";
 import { Component } from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 import { theme } from "../../tailwind.config";
+import { getAsociacionByEmail } from "../../service/service";
 
 const Login = () => {
   useEffect(() => {
@@ -80,6 +81,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSpinner(true);
+<<<<<<< Updated upstream
         getDoc(doc(db, "voluntarios", auth.currentUser.uid))
           .then((value) => {
             if (value.data() != undefined) {
@@ -87,6 +89,8 @@ const Login = () => {
             }
           })
           .then(() => {
+=======
+>>>>>>> Stashed changes
             const user = userCredential.user;
             const qVol = query(
               collection(db, "voluntarios"),
@@ -94,6 +98,10 @@ const Login = () => {
             );
             getDocs(qVol).then((querySnapshot) => {
               if (!querySnapshot.empty) {
+                getDoc(doc(db, "voluntarios", auth.currentUser.uid))
+          .then((value) => {
+            nuevo.current = value.data().nuevo;
+          })
                 setUserAsVolunteer(querySnapshot.docs[0].id);
                 setSpinner(false);
                 if (nuevo.current == true) {
@@ -114,14 +122,20 @@ const Login = () => {
             );
             getDocs(qAsoc).then((querySnapshot) => {
               if (!querySnapshot.empty) {
+                getDoc(doc(db, "asociaciones", auth.currentUser.uid))
+          .then((value) => {
+            nuevo.current = value.data().nuevo;
+          })
                 setUserAsAssociation(email);
                 setSpinner(false);
-                navigation.navigate("AssociationHome");
+                if (nuevo.current == true) {
+                  navigation.navigate("OnBoarding");
+                } else {
+                  navigation.navigate("AssociationHome");}
               } else {
                 null;
               }
             });
-          });
       })
       .catch((error) => {
         setSpinner(false);
