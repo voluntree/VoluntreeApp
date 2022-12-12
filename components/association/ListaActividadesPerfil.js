@@ -14,7 +14,7 @@ import { View, Text, FlatList, Animated } from "react-native";
 import React, { useState, useEffect} from "react";
 import ActividadPerfil from "./ActividadPerfil";
 
-const ListaActividadesPerfil = () => {
+const ListaActividadesPerfil = (props) => {
   const [actividades, setActividades] = useState([]);
 
   const currentUser = {
@@ -23,7 +23,7 @@ const ListaActividadesPerfil = () => {
   };
 
   const q = query(
-    collection(db, "actividades"), where("asociacion", "==", currentUser.name)
+    collection(db, "actividades"), where("asociacion", "==", props.asociacion)
   );
 
   useEffect(() => {

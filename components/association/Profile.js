@@ -158,7 +158,7 @@ const Profile = (props) => {
             className="h-[62%]"
             contentContainerStyle={{ paddingBottom: 20, alignItems: "center" }}
           >
-            <ListaActividadesPerfil />
+            <ListaActividadesPerfil asociacion = {asociacion.nombre}/>
           </ScrollView>
         </View>
       )}

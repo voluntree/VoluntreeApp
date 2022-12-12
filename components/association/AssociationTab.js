@@ -217,22 +217,17 @@ const AssociationTab = () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <Image
-                  source={require("../../icons/inbox.png")}
-                  resizeMode="contain"
-                  style={{
-                    width: 25,
-                    height: 25,
-                    tintColor: focused ? theme.colors.ambiental : "#748c94",
-                  }}
-                />
+                <Icon name = "chat"
+                      type = "material"
+                      size = {30}
+                      color= {focused ? theme.colors.ambiental : "#748c94"}/>
                 <Text
                   style={{
                     color: focused ? theme.colors.ambiental : "#748c94",
                     fontSize: 12,
                   }}
                 >
-                  Inbox
+                  Chat
                 </Text>
               </View>
             ),

@@ -21,7 +21,7 @@ const CreateNewArticle = () => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [currentUser,setCurrentUser] = useState(getUserInstance.nombre)
+  const [currentUser,setCurrentUser] = useState(getUserInstance)
 
   useEffect(() => {
     async () => {
