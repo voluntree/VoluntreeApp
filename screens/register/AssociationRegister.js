@@ -11,6 +11,8 @@ import { app, auth, db } from "../../utils/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAvoidingView } from "react-native";
+import Svg, { Path } from "react-native-svg";
+import { theme } from "../../tailwind.config";
 
 const AssociationRegister = () => {
 
@@ -203,29 +205,46 @@ const AssociationRegister = () => {
                 <Text className=" font-semibold text-lg">
                   Datos del representante:
                 </Text>
-                <View className="space-y-2">
+                <View className="">
                   <View className="">
+                    <Text className="text-lg text-ambiental">
+                      Nombre del representante:
+                    </Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="Nombre*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setNombreRepresentante(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">Apellidos:</Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="Apellidos*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setApellidos(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">DNI:</Text>
                     <TextInput
                       autoComplete="off"
-                      underlineColor="blue"
-                      label="DNI*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setDni(text.trim())}
                     />
                   </View>
@@ -233,32 +252,52 @@ const AssociationRegister = () => {
                 <Text className=" font-semibold text-lg">
                   Datos de la asociación:
                 </Text>
-                <View className="space-y-2">
+                <View className="">
                   <View className="">
+                    <Text className="text-lg text-ambiental">
+                      Nombre de la asociacion:
+                    </Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="Nombre*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setNombreAsoc(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">CIF:</Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="CIF*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setCif(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">
+                      Correo electrónico:
+                    </Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="Email*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setEmail(text.trim())}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">Contraseña:</Text>
                     <TextInput
                       secureTextEntry={secureTextEntry}
                       right={
@@ -269,13 +308,20 @@ const AssociationRegister = () => {
                           }}
                         />
                       }
-                      underlineColor="blue"
-                      label="Contraseña*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setContraseña(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">
+                      Repetir contraseña:
+                    </Text>
                     <TextInput
                       secureTextEntry={secureTextEntry}
                       right={
@@ -286,30 +332,53 @@ const AssociationRegister = () => {
                           }}
                         />
                       }
-                      underlineColor="blue"
-                      label="Repetir contraseña*"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setContraseña2(text)}
                     />
                   </View>
                   <View className="">
+                    <Text className="text-lg text-ambiental">Teléfono:</Text>
                     <TextInput
-                      underlineColor="blue"
-                      label="Teléfono"
-                      mode="flat"
+                      textColor={theme.colors.ambiental}
+                      outlineStyle={{ borderWidth: 2 }}
+                      activeOutlineColor={theme.colors.comunitario}
+                      style={{ backgroundColor: "white" }}
+                      outlineColor={theme.colors.comunitario}
+                      autoCapitalize="none"
+                      mode="outlined"
                       onChangeText={(text) => setTelefono(text.trim())}
                     />
                   </View>
                 </View>
                 <Text>Todos los campos* son obligatorios</Text>
-                <TouchableOpacity className="" onPress={props.handleSubmit}>
-                  <View className="bg-[#80a8ff] h-12 w-full rounded-2xl items-center justify-center">
-                    <Text className="font-semibold text-base tracking-wide text-[#fff]">
-                      Registrarse
-                    </Text>
+                <View className="pb-24"></View>
+                <TouchableOpacity
+                  className=" absolute bottom-0 right-0"
+                  onPress={props.handleSubmit}
+                >
+                  <View className="mb-8">
+                    <Svg
+                      width="48"
+                      height="24"
+                      viewBox="0 0 26 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <Path
+                        d="M25.7071 8.70711C26.0976 8.31658 26.0976 7.68342 25.7071 7.2929L19.3431 0.928934C18.9526 0.538409 18.3195 0.538409 17.9289 0.928934C17.5384 1.31946 17.5384 1.95262 17.9289 2.34315L23.5858 8L17.9289 13.6569C17.5384 14.0474 17.5384 14.6805 17.9289 15.0711C18.3195 15.4616 18.9526 15.4616 19.3431 15.0711L25.7071 8.70711ZM-8.74228e-08 9L25 9L25 7L8.74228e-08 7L-8.74228e-08 9Z"
+                        fill="#086841"
+                      />
+                    </Svg>
                   </View>
                 </TouchableOpacity>
               </ScrollView>
+              
             )}
           </Formik>
           {spinner ? (

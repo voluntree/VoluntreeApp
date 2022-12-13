@@ -1,6 +1,7 @@
 import { View, Text, useWindowDimensions, Animated } from 'react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { theme } from '../../tailwind.config'
 
 const Paginator = ({data, scrollX}) => {
   const {width} = useWindowDimensions()
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   dot: {
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#80a8ff",
+    backgroundColor: theme.colors.ambiental,
     marginHorizontal: 8,
   },
 });

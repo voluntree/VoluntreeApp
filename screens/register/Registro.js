@@ -20,7 +20,7 @@ const Registro = () => {
   const viewConfig = useRef({viewAreaCoveragePercentThreshold: 50}).current;
 
   return (
-    <View className="">
+    <View className="bg-[#fff]">
       <View className="flex-3 items-center justify-center">
         <FlatList
           data={slides}
