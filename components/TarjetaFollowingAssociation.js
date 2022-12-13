@@ -11,7 +11,7 @@ const TarjetaFollowingAssociation = (props) => {
   const [imagen, setImagen] = useState()
   
   useEffect (() => {
-    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + props.asociacion.fotoPerfil))
+    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + props.asociacion.nombre + "/" + props.asociacion.fotoPerfil))
       .then((path) => {
         setImagen(path);
       });

@@ -6,12 +6,13 @@ import { storage } from "../../utils/firebase";
 import { theme } from "../../tailwind.config";
 import { deleteActivity, getActivityById } from "../../service/service";
 import { useNavigation } from "@react-navigation/native";
+import { getUserInstance } from "../../service/LoginService"
 
 const ActividadAsociacion = (props) => {
   const [uri, setUri] = useState();
   const reference = ref(
     storage,
-    "gs://voluntreepin.appspot.com/cardImages/" + props.imagen
+    "gs://voluntreepin.appspot.com/cardImages/" + getUserInstance().nombre + "/" + props.imagen
   );
   
   getDownloadURL(reference).then((path) => {

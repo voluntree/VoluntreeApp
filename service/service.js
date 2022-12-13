@@ -241,42 +241,42 @@ export async function getAsociacionByEmail(email) {
   return asoc;
 }
 
-export async function getFotoPerfilAsociacion(nombre) {
-  try {
-    const fotoPerfil = ref(
-      storage,
-      `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
-    );
-    await getDownloadURL(fotoPerfil)
-      .then((path) => {
-        return path;
-      })
-      .catch((error) => console.log(error));
-  } catch (error) {
-    Alert.alert(
-      "Error",
-      "El perfil de esta asociacion no se encuentra disponible."
-    );
-  }
-}
-export async function getFotoBGAsociacion(nombre) {
-  try {
-    const fotoPerfil = ref(
-      storage,
-      `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
-    );
-    await getDownloadURL(fotoPerfil)
-      .then((path) => {
-        return path;
-      })
-      .catch((error) => console.log(error));
-  } catch (error) {
-    Alert.alert(
-      "Error",
-      "El perfil de esta asociacion no se encuentra disponible."
-    );
-  }
-}
+// export async function getFotoPerfilAsociacion(nombre) {
+//   try {
+//     const fotoPerfil = ref(
+//       storage,
+//       `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
+//     );
+//     await getDownloadURL(fotoPerfil)
+//       .then((path) => {
+//         return path;
+//       })
+//       .catch((error) => console.log(error));
+//   } catch (error) {
+//     Alert.alert(
+//       "Error",
+//       "El perfil de esta asociacion no se encuentra disponible."
+//     );
+//   }
+// }
+// export async function getFotoBGAsociacion(nombre) {
+//   try {
+//     const fotoPerfil = ref(
+//       storage,
+//       `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
+//     );
+//     await getDownloadURL(fotoPerfil)
+//       .then((path) => {
+//         return path;
+//       })
+//       .catch((error) => console.log(error));
+//   } catch (error) {
+//     Alert.alert(
+//       "Error",
+//       "El perfil de esta asociacion no se encuentra disponible."
+//     );
+//   }
+// }
 
 export async function addLike(activityID, userID) {
   const actRef = doc(db, "actividades", activityID);

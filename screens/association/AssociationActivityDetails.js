@@ -22,6 +22,7 @@ import { theme } from "../../tailwind.config";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db, ref, storage } from "../../utils/firebase";
 import { getDownloadURL } from "firebase/storage";
+import { getUserInstance } from "../../service/LoginService";
 
 
 const AssociationActivityDetails = () => {
@@ -51,9 +52,9 @@ const AssociationActivityDetails = () => {
       actividad.ubicacion.latitude,
       actividad.ubicacion.longitude
     ).catch(console.error);
-    getDoc(doc(db, "asociaciones/" + auth.currentUser.uid)).then(
+    getDoc(doc(db, "asociaciones/" + getUserInstance().nombre)).then(
     (value) => {
-    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + value.data().fotoPerfil))
+    getDownloadURL(ref(storage,"gs://voluntreepin.appspot.com/profileImages/asociaciones/" + getUserInstance().nombre + "/" + value.data().fotoPerfil))
       .then((path) => {
         setImagen(path);
       })});

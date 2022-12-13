@@ -54,7 +54,7 @@ const ProfileScreen = () => {
       setUsuario(doc.data());
       setProfilefoto(
         await getImageDownloadURL(
-          "gs://voluntreepin.appspot.com/profileImages/voluntarios/" +
+          "gs://voluntreepin.appspot.com/profileImages/voluntarios/" + user.uid + "/" + 
             doc.data().fotoPerfil
         )
       );
