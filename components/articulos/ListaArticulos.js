@@ -20,7 +20,9 @@ const ListaArticulos = (props) => {
 
   const renderEmptyContainer = () => {
     return (
-      <Text style={{ marginTop: "90%" }}>No se han encontrado articulos</Text>
+      <Text className="text-center">
+        No hay articulos para mostrar
+      </Text>
     );
   };
 

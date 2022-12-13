@@ -13,9 +13,10 @@ import ListaActividadesPerfil from "../../components/association/ListaActividade
 
 const Profile = (props) => {
   const navigation = useNavigation();
-  const [asociacion, setAsociacion] = useState(props.asociacion);
   const fromUser = props.fromUser;
   const userID = props.userID;
+
+  const [asociacion, setAsociacion] = useState(props.asociacion);
   const [following, setFollow] = useState(false);
   const [profielPhoto, setProfilePhoto] = useState("");
   const [backgroundPhoto, setBackgroundPhoto] = useState("");
@@ -35,18 +36,34 @@ const Profile = (props) => {
     getImages(asoc);
   }
 
-  const getImages = async (asociacion) => {
-    let fotoPerfil = await getImageDownloadURL(
-      "profileImages/asociaciones/" + asociacion.fotoPerfil
-    );
-    if (fotoPerfil == null) fotoPerfil = "";
-    setProfilePhoto(fotoPerfil);
-
-    let fotoFondo = await getImageDownloadURL(
-      "profileImages/asociaciones/" + asociacion.fondoPerfil
-    );
-    if (fotoFondo == null) fotoFondo = "";
-    setBackgroundPhoto(fotoFondo);
+  const getImages = (asociacion) => {
+    if (asociacion.fotoPerfil == "default.png") {
+      getImageDownloadURL("profileImages/asociaciones/default.png").then((fotoPerfil) => {
+        if (fotoPerfil == null) fotoPerfil = "";
+        setProfilePhoto(fotoPerfil);
+      });
+    } else {
+      getImageDownloadURL(
+        "profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fotoPerfil
+      ).then((fotoPerfil)=>{
+        if (fotoPerfil == null) fotoPerfil = "";
+        setProfilePhoto(fotoPerfil);
+      })
+    }
+    
+    if (asociacion.fondoPerfil == "defaultBackground.png") {
+      getImageDownloadURL("profileImages/asociaciones/defaultBackground.png").then((fotoFondo) => {
+        if (fotoFondo == null) fotoFondo = "";
+        setBackgroundPhoto(fotoFondo);
+      });
+    } else {
+      getImageDownloadURL(
+        "profileImages/asociaciones/" + asociacion.fondoPerfil
+      ).then((fotoFondo)=>{
+        if (fotoFondo == null) fotoFondo = "";
+        setBackgroundPhoto(fotoFondo);
+      })
+    }
   };
 
   const EditOrFollow = () => {

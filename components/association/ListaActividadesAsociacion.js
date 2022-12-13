@@ -36,18 +36,27 @@ const ListaActividadesAsociacion = () => {
     getActividades();
   }, []);
 
+  const renderEmptyContainer = () => {
+    return (
+      <Text className="pt-9 px-5 text-center">
+        No hay ninguna actividad activa en estos momentos
+      </Text>
+    );
+  };
+
   return (
     <View>
       <FlatList
-      className="h-full scroll-pb-28 mb-56"
-      data={actividades}
-      keyExtractor={(item) => item.titulo}
-      renderItem={({ item, index }) => (
-        <ActividadAsociacion
-          titulo={item.titulo}
-          descripcion={item.descripcion}
-          tipo={item.tipo}
-          imagen={item.imagen}
+        className="h-full scroll-pb-28 mb-56"
+        data={actividades}
+        keyExtractor={(item) => item.titulo}
+        ListEmptyComponent={renderEmptyContainer()}
+        renderItem={({ item, index }) => (
+          <ActividadAsociacion
+            titulo={item.titulo}
+            descripcion={item.descripcion}
+            tipo={item.tipo}
+            imagen={item.imagen}
         />
       )}
     />

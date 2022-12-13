@@ -13,15 +13,10 @@ import { View, Button } from "react-native";
 
 const ProfileAssociation = () => {
   const currentUser = auth.currentUser;
-  const [asociacion, setAsociacion] = useState();
-
-  useEffect(() => {}, []);
 
   return (
     <Profile
       fromUser={false}
-      userID={currentUser.uid}
-      asociacion={asociacion}
       correoAsociacion={currentUser.email}
     />
   );

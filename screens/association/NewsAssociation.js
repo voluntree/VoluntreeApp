@@ -14,8 +14,6 @@ const NewsAssociation = () => {
     const navigation = useNavigation();
     const q = query(collection(db,"articulos"),where("asociacion","==",getUserInstance().nombre))
     
-
-
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
@@ -23,9 +21,9 @@ const NewsAssociation = () => {
     }, []);
 
     return (
-        <SafeAreaView className = "bg-blanco w-full h-full">
-            <View className =  "w-full bg-blanco items-center">
-                <Text className = "font-bold text-xl text-ambiental ">
+        <SafeAreaView className="bg-blanco w-full h-full">
+            <View className="w-full py-4 bg-blanco items-center">
+                <Text className="text-ambiental font-bold text-xl">
                     Mis Articulos
                 </Text>
                 <ListaArticulos mode="asociacion" query={q}/>
