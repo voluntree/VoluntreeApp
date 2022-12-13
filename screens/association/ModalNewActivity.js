@@ -18,7 +18,7 @@ import { createActivity, getAsociationByID } from "../../service/service";
 
 const ModalNewActivity = (props) => {
   const currentUser = auth.currentUser;
-  const [asociacion, setAsociacion] = useState();
+  const asociacion = props.asociacion;
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -44,9 +44,9 @@ const ModalNewActivity = (props) => {
       const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
-    getAsociationByID(currentUser.uid).then((asociacion) => {
-      setAsociacion(asociacion);
-    });
+    // getAsociationByID(currentUser.uid).then((asociacion) => {
+    //   setAsociacion(asociacion);
+    // });
   }, []);
 
   function getAddressFromCoordinates( latitude, longitude ) {
@@ -108,7 +108,7 @@ const ModalNewActivity = (props) => {
     setUploading(true);
     console.log(image);
     const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `cardImages/${filename}`;
+    const path = `cardImages/${asociacion.nombre}/${filename}`;
     const storageRef = ref(storage, path);
     const img = await fetch(image);
     const bytes = await img.blob();

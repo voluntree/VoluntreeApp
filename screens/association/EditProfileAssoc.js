@@ -66,7 +66,7 @@ const EditProfileAssoc = () => {
     setUploading(true);
     console.log(image);
     const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `/profileImages/asociaciones/${filename}`;
+    const path = `/profileImages/asociaciones/${association.nombre}/${filename}`;
     const storageRef = ref(storage, path);
     const img = await fetch(image);
     const bytes = await img.blob();
@@ -83,12 +83,13 @@ const EditProfileAssoc = () => {
       try {
         if (image != null) {
           await storeImage();
+          userData.fotoPerfil = image.substring(image.lastIndexOf("/") + 1);
           userData.fondoPerfil = association.fondoPerfil;
         } else {
           userData.fotoPerfil = association.fotoPerfil;
           userData.fondoPerfil = association.fondoPerfil;
         }
-        updateAssocProfile(userData, assocID).then(() => {
+        updateAssocProfile(userData, association.nombre).then(() => {
           Alert.alert("Éxito", "Perfil actualizado correctamente");
           navigation.goBack();
         })
@@ -131,7 +132,9 @@ const EditProfileAssoc = () => {
             telefono: association.telefono,
             correo: association.correo,
           }}
-          onSubmit={(values) => save(values)}
+          onSubmit={(values) => {
+            save(values);
+          }}
         >
           {(props) => (
             <View className="h-full w-full space-y-2">
@@ -236,7 +239,7 @@ const EditProfileAssoc = () => {
                   </Text>
                   <TextInput
                     className="h-auto w-full bg-[#dadada] rounded-md p-2"
-                    maxLength={100}
+                    maxLength={150}
                     multiline={true}
                     numberOfLines={4}
                     onChangeText={props.handleChange("descripcion")}

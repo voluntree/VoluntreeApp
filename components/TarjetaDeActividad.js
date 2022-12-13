@@ -34,7 +34,7 @@ const TarjetaDeActividad = (props) => {
 
   const reference = ref(
     storage,
-    "gs://voluntreepin.appspot.com/cardImages/" + actividad.imagen
+    "gs://voluntreepin.appspot.com/cardImages/" + actividad.asociacion + "/" + actividad.imagen
   );
   getDownloadURL(reference).then((path) => {
     setUri(path);

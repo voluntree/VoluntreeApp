@@ -20,6 +20,7 @@ import PostActivity from "../../screens/association/PostActivity";
 import ModalNewActivity from "../../screens/association/ModalNewActivity";
 import { theme } from "../../tailwind.config";
 import ChatListScreen from './../../screens/chat/ChatListScreen';
+import { getUserInstance } from "../../service/LoginService";
 
 const Tab = createBottomTabNavigator();
 
@@ -264,6 +265,7 @@ const AssociationTab = () => {
       <ModalNewActivity
         isActivityModalOpen={isActivityModalOpen}
         setActivityModalOpen={setActivityModalOpen}
+        asociacion={getUserInstance()}
       />
     </>
   );

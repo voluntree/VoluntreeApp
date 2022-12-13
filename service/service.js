@@ -241,42 +241,42 @@ export async function getAsociacionByEmail(email) {
   return asoc;
 }
 
-export async function getFotoPerfilAsociacion(nombre) {
-  try {
-    const fotoPerfil = ref(
-      storage,
-      `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
-    );
-    await getDownloadURL(fotoPerfil)
-      .then((path) => {
-        return path;
-      })
-      .catch((error) => console.log(error));
-  } catch (error) {
-    Alert.alert(
-      "Error",
-      "El perfil de esta asociacion no se encuentra disponible."
-    );
-  }
-}
-export async function getFotoBGAsociacion(nombre) {
-  try {
-    const fotoPerfil = ref(
-      storage,
-      `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
-    );
-    await getDownloadURL(fotoPerfil)
-      .then((path) => {
-        return path;
-      })
-      .catch((error) => console.log(error));
-  } catch (error) {
-    Alert.alert(
-      "Error",
-      "El perfil de esta asociacion no se encuentra disponible."
-    );
-  }
-}
+// export async function getFotoPerfilAsociacion(nombre) {
+//   try {
+//     const fotoPerfil = ref(
+//       storage,
+//       `gs://voluntreepin.appspot.com/${nombre}/perfil/logo.jpg`
+//     );
+//     await getDownloadURL(fotoPerfil)
+//       .then((path) => {
+//         return path;
+//       })
+//       .catch((error) => console.log(error));
+//   } catch (error) {
+//     Alert.alert(
+//       "Error",
+//       "El perfil de esta asociacion no se encuentra disponible."
+//     );
+//   }
+// }
+// export async function getFotoBGAsociacion(nombre) {
+//   try {
+//     const fotoPerfil = ref(
+//       storage,
+//       `gs://voluntreepin.appspot.com/${nombre}/perfil/backgroundPerfil.jpg`
+//     );
+//     await getDownloadURL(fotoPerfil)
+//       .then((path) => {
+//         return path;
+//       })
+//       .catch((error) => console.log(error));
+//   } catch (error) {
+//     Alert.alert(
+//       "Error",
+//       "El perfil de esta asociacion no se encuentra disponible."
+//     );
+//   }
+// }
 
 export async function addLike(activityID, userID) {
   const actRef = doc(db, "actividades", activityID);
@@ -303,11 +303,15 @@ export async function removeLike(activityID, userID) {
 export async function followAsociation(userID, association) {
   const associationID = await getAssocID(association);
   const asociationRef = doc(db, "asociaciones", associationID);
+  const userRef = doc(db, "voluntarios", userID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
         seguidores: arrayUnion(userID),
         num_seguidores: increment(1),
+      });
+      t.update(userRef, {
+        siguiendo: arrayUnion(associationID),
       });
     });
   } catch (e) {
@@ -318,11 +322,15 @@ export async function followAsociation(userID, association) {
 export async function unfollowAsociation(userID, association) {
   const associationID = await getAssocID(association);
   const asociationRef = doc(db, "asociaciones", associationID);
+  const userRef = doc(db, "voluntarios", userID);
   try {
     await runTransaction(db, async (t) => {
       t.update(asociationRef, {
         seguidores: arrayRemove(userID),
         num_seguidores: increment(-1),
+      });
+      t.update(userRef, {
+        siguiendo: arrayRemove(associationID),
       });
     });
   } catch (e) {

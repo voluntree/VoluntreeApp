@@ -136,7 +136,7 @@ const AssociationRegister = () => {
         .then((userCredential) => {
           setSpinner(true);
           const user = userCredential.user;
-          setDoc(doc(db, "asociaciones", user.uid), {
+          setDoc(doc(db, "asociaciones", nombreAsoc), {
             CIF: cif,
             correo: email,
             fotoPerfil: "default.png",

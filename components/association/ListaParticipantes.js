@@ -6,12 +6,21 @@ import TarjetaParticipante from '../TarjetaParticipante';
 
 const ListaParticipantes = (props) => {
   const [participantes, setParticipantes] = useState([])
+  const [UIDs, setUIDs] = useState([])
 
   async function getParticipantes(participantes) {
-    const getUser = participante => getDoc(doc(db, "voluntarios", participante));
+    const getUser = participante => {
+      getDoc(doc(db, "voluntarios", participante));
+      setUIDs(UIDs.push(participante));
+    }
     const promises = participantes.map(getUser);
     const users = await Promise.all(promises);
-    return users.map(user => user.data()).flat()
+    return users.map(user => {
+      return {
+        uid: user.id,
+        ...user.data()
+      }
+    }).flat()
   }
 
   useEffect(() => {
