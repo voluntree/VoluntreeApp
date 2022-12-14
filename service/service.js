@@ -159,16 +159,7 @@ export async function updateActivity(activity) {
   try {
     const docRef = doc(db, "actividades", activity.titulo);
     await updateDoc(docRef, activity);
-    console.log("Actividad actualizada correctamente");
-    /*Alert.alert(
-      "Éxito",
-      "La oferta de actividad se ha actualizado correctamente"
-    );*/
   } catch (error) {
-    /*Alert.alert(
-      "Error",
-      "Ha ocurrido un error al actualizar la actividad. Inténtelo de nuevo más tarde."
-    );*/
     console.error("Error al actualizar la actividad", error);
   }
 }
