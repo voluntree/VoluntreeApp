@@ -44,23 +44,7 @@ const HistorialActividades = () => {
   const dateValue =undefined;
   const order=0;
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
-  if (hasGalleryPermission === false) {
-    <Text>No tiene acceso a la galería</Text>;
-  }
-
-  useEffect(() => {
-    (async () => {
-      const galleryStatus =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      setHasGalleryPermission(galleryStatus.status === "granted");
-    })();
-  }, []);
+ 
 
 
   return (
