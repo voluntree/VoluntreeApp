@@ -29,7 +29,7 @@ const Profile = (props) => {
     } else {
       initDataFromAssociation().catch();
     }
-  }, [profielPhoto]);
+  }, [profielPhoto, backgroundPhoto]);
 
   async function initDataFromAssociation() {
     const asoc = await getAsociacionByEmail(props.correoAsociacion);

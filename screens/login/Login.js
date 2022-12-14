@@ -87,11 +87,9 @@ const Login = () => {
         if (voluntario.data() == undefined) {
           getAsociacionByEmail(email).then((asoc) => {
             if (asoc != undefined) {
-              console.log(asoc.nombre);
               const asocRef = doc(db, "asociaciones", asoc.nombre);
               setUserAsAssociation(email);
-              nuevo.current = asoc.nuevo;
-              if (nuevo == true) {
+              if (asoc.nuevo == true) {
                 setSpinner(false);
                 navigation.navigate("OnBoarding");
                 updateDoc(asocRef, {
