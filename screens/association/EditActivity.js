@@ -137,11 +137,11 @@ const EditActivity = () => {
   const ChooseImage = () => {
     if (image == null) {
         return (
-            <Image source={{ uri: uri }} style={{ width: 215, height: 120 }} />
+            <Image source={{ uri: uri }} style={{ width: 300, height: 120 }} />
         );
     } else {
         return (
-            <Image source={{ uri: image }} style={{ width: 215, height: 120 }} />
+            <Image source={{ uri: image }} style={{ width: 300, height: 120 }} />
         );
     }
   };
