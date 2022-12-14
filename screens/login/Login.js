@@ -42,7 +42,8 @@ import { LoginIcon } from "../../icons/Icons";
 import { Component } from "react";
 import Svg, { ClipPath, Defs, G, Path, Rect } from "react-native-svg";
 import { theme } from "../../tailwind.config";
-import { getAsociacionByEmail } from "../../service/service";
+import { getAsociacionByEmail, getAsociationByID, getVoluntarioByID } from "../../service/service";
+import { isEmpty } from "@firebase/util";
 
 const Login = () => {
   useEffect(() => {
@@ -53,6 +54,7 @@ const Login = () => {
   const clearFields = () => {
     setEmail("");
     setPassword("");
+    setSpinner(false);
   };
 
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -78,76 +80,65 @@ const Login = () => {
   const navigation = useNavigation();
 
   const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSpinner(true);
-            const user = userCredential.user;
-            const qVol = query(
-              collection(db, "voluntarios"),
-              where("correo", "==", email.toLowerCase())
-            );
-            getDocs(qVol).then((querySnapshot) => {
-              if (!querySnapshot.empty) {
-                getDoc(doc(db, "voluntarios", auth.currentUser.uid))
-          .then((value) => {
-            nuevo.current = value.data().nuevo;
-          })
-                setUserAsVolunteer(querySnapshot.docs[0].id);
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      const voluntarioRef = doc(db, "voluntarios", auth.currentUser.uid);
+      getDoc(voluntarioRef).then((voluntario) => {
+        console.log(voluntario.data())
+        if (voluntario.data() == undefined) {
+          getAsociacionByEmail(email).then((asoc) => {
+            if (asoc != undefined) {
+              console.log(asoc.nombre);
+              const asocRef = doc(db, "asociaciones", asoc.nombre);
+              setUserAsAssociation(email);
+              nuevo.current = asoc.nuevo;
+              if (nuevo == true) {
                 setSpinner(false);
-                if (nuevo.current == true) {
-                  navigation.navigate("OnBoarding");
-                  updateDoc(doc(db, "voluntarios", auth.currentUser.uid), {
-                    nuevo: false,
-                  });
-                } else {
-                  navigation.navigate("UserHome");
-                }
+                navigation.navigate("OnBoarding");
+                updateDoc(asocRef, {
+                  nuevo: false,
+                });
               } else {
-                null;
-              }
-            });
-            const qAsoc = query(
-              collection(db, "asociaciones"),
-              where("correo", "==", email.toLowerCase())
-            );
-            getDocs(qAsoc).then((querySnapshot) => {
-              if (!querySnapshot.empty) {
-                getDoc(doc(db, "asociaciones", auth.currentUser.uid))
-          .then((value) => {
-            nuevo.current = value.data().nuevo;
-          })
-                setUserAsAssociation(email);
                 setSpinner(false);
-                if (nuevo.current == true) {
-                  navigation.navigate("OnBoarding");
-                } else {
-                  navigation.navigate("AssociationHome");}
-              } else {
-                null;
+                navigation.navigate("AssociationHome");
               }
+            }
+          });
+        } else {
+          setUserAsVolunteer(auth.currentUser.uid);
+          nuevo.current = voluntario.data().nuevo;
+          if (nuevo == true) {
+            setSpinner(false);
+            navigation.navigate("OnBoarding");
+            updateDoc(voluntarioRef, {
+              nuevo: false,
             });
+          } else {
+            setSpinner(false);
+            navigation.navigate("UserHome");
+          }
+        }
       })
-      .catch((error) => {
-        setSpinner(false);
+    }).catch((error) => {
+        setSpinner(false)
         const errorCode = error.code;
         const errorMessage = error.message;
         switch (errorCode) {
-          case "auth/invalid-email":
-            Alert.alert("Advertencia", "Correo inválido");
-            break;
+            case "auth/invalid-email":
+              Alert.alert("Advertencia", "Correo inválido");
+              break;
 
-          case "auth/wrong-password":
-            Alert.alert("Advertencia", "Contraseña Incorrecta");
-            break;
+            case "auth/wrong-password":
+              Alert.alert("Advertencia", "Contraseña Incorrecta");
+              break;
 
-          case "auth/user-not-found":
-            Alert.alert("Advertencia", "Correo electrónico no registrado");
+            case "auth/user-not-found":
+              Alert.alert("Advertencia", "Correo electrónico no registrado");
 
-          default:
-            // Alert.alert(errorCode);
-            Alert.alert("Advertencia", "Error al iniciar sesión");
+            default:
+              // Alert.alert(errorCode);
+              Alert.alert("Advertencia", "Error al iniciar sesión");
         }
-      });
+    })
   };
 
   return (
@@ -519,7 +510,9 @@ const Login = () => {
       ) : null}
       <TouchableOpacity
         className=" absolute bottom-0 right-0"
-        onPress={handleSignIn}
+        onPress={() => {
+          console.log("Entrando al onpress"), setSpinner(true), handleSignIn();
+        }}
       >
         <View className="m-8">
           <Svg

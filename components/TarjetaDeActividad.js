@@ -86,7 +86,7 @@ const TarjetaDeActividad = (props) => {
   return (
     <TouchableOpacity onPress={openCard} className = "mb-4">
       {/* Contenedor principal */}
-      <View className="rounded-xl p-4 w-full bg-costas">
+      <View className="rounded-xl p-4 w-full bg-blanco ">
         {/* Contenedor contenido */}
         <View className="flex justify-between">
           {/* Titulo */}
@@ -111,7 +111,7 @@ const TarjetaDeActividad = (props) => {
             </Text>
           </View>
           {/* Separador vertical */}
-          <View className = "w-full h-0.5 bg-costas"
+          <View className = "w-full h-0.5"
                 style = {{backgroundColor: setTextColor()}}></View>
           {/* Contenedor ubicacion, fecha y favoritos */}
           <View className="flex flex-row justify-between items-center h-20">
