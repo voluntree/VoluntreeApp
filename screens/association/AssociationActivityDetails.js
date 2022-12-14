@@ -97,7 +97,7 @@ const AssociationActivityDetails = () => {
 
   function setTextColor(){
     switch(actividad.tipo){
-      case "educación":
+      case "educacion":
       case "costas":
       case "deportivo":
       case "comunitario": return theme.colors.ambiental; break
@@ -108,7 +108,7 @@ const AssociationActivityDetails = () => {
 
   function setActiveColor(){
     switch(actividad.tipo){
-      case "educación": return theme.colors.educacion; break
+      case "educacion": return theme.colors.educacion; break
       case "ambiental": return theme.colors.ambiental; break
       case "costas": return theme.colors.costas; break
       case "deportivo": return theme.colors.deportivo; break
