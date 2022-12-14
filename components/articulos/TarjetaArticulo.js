@@ -29,7 +29,7 @@ const TarjetaArticulo = (props) => {
     setUri(await getImageDownloadURL(articulo.imagen));
     let asoc = await getAssociationByName(articulo.asociacion);
     setAsociacion(asoc);
-    setUri2(await getImageDownloadURL("profileImages/asociaciones/" + asoc.fotoPerfil));
+    setUri2(await getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asoc.nombre + "/" + asoc.fotoPerfil));
   }
 
   return (

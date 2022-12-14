@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../utils/firebase";
@@ -10,6 +10,7 @@ import {
   getAsociacionByEmail,
 } from "../../service/service";
 import ListaActividadesPerfil from "../../components/association/ListaActividadesPerfil";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Profile = (props) => {
   const navigation = useNavigation();
@@ -28,7 +29,7 @@ const Profile = (props) => {
     } else {
       initDataFromAssociation().catch();
     }
-  }, []);
+  }, [profielPhoto, backgroundPhoto]);
 
   async function initDataFromAssociation() {
     const asoc = await getAsociacionByEmail(props.correoAsociacion);
@@ -38,27 +39,40 @@ const Profile = (props) => {
 
   const getImages = (asociacion) => {
     if (asociacion.fotoPerfil == "default.png") {
-      getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/default.png").then((fotoPerfil) => {
+      getImageDownloadURL(
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/default.png"
+      ).then((fotoPerfil) => {
         setProfilePhoto(fotoPerfil);
       });
     } else {
       getImageDownloadURL(
-        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fotoPerfil
-      ).then((fotoPerfil)=>{
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
+          asociacion.nombre +
+          "/" +
+          asociacion.fotoPerfil
+      ).then((fotoPerfil) => {
         setProfilePhoto(fotoPerfil);
-      })
+      });
     }
-    
-    if (asociacion.fondoPerfil == "defaultBackground.jpg" ||asociacion.fondoPerfil == "defaultBackground.png") {
-      getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/defaultBackground.jpg").then((fotoFondo) => {
+
+    if (
+      asociacion.fondoPerfil == "defaultBackground.jpg" ||
+      asociacion.fondoPerfil == "defaultBackground.png"
+    ) {
+      getImageDownloadURL(
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/defaultBackground.jpg"
+      ).then((fotoFondo) => {
         setBackgroundPhoto(fotoFondo);
       });
     } else {
       getImageDownloadURL(
-        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fondoPerfil
-      ).then((fotoFondo)=>{
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" +
+          asociacion.nombre +
+          "/" +
+          asociacion.fondoPerfil
+      ).then((fotoFondo) => {
         setBackgroundPhoto(fotoFondo);
-      })
+      });
     }
   };
 
@@ -118,61 +132,68 @@ const Profile = (props) => {
   };
 
   return (
-    <View className = "h-full w-full">
-      {asociacion != undefined && (
-        <View className="h-full w-full">
-          {/* Contenedor PERFIL */}
-          <View className="space-y-2">
-            {/* Contenedor FOTO_PERFIL & NOMBRE & BOTON */}
-            <View className="">
-              {/* IMAGEN FONDO */}
-              <View className="h-full w-full absolute z-10 bg-[#fff] opacity-70" />
-              <Image
-                source={{ uri: backgroundPhoto }}
-                className="absolute w-full h-full"
-              />
+    <SafeAreaView>
+      <View className="h-full w-full">
+        {asociacion != undefined && (
+          <View className="h-full w-full">
+            {/* Contenedor PERFIL */}
+            <View className="space-y-2">
+              {/* Contenedor FOTO_PERFIL & NOMBRE & BOTON */}
+              <View className="">
+                {/* IMAGEN FONDO */}
+                <View className="h-full w-full absolute z-10 bg-[#fff] opacity-70" />
+                <Image
+                  source={{ uri: backgroundPhoto }}
+                  className="absolute w-full h-full"
+                />
 
-              <View className="flex-row z-20 mt-12 pl-4 space-x-2">
-                {/* FOTO_PERFIL */}
-                <View className="h-24 w-24 bg-[#fff] rounded-full justify-center items-center">
-                  <Image
-                    className="w-20 h-20 rounded-full"
-                    source={{ uri: profielPhoto }}
-                  />
-                </View>
-
-                {/* NOMBRE & BOTON*/}
-                <View className="flex-1 p-2 justify-center space-y-2">
-                  {/* NOMBRE */}
-                  <View className="">
-                    <Text className="text-3xl text-[#086841] font-bold">
-                      {asociacion?.nombre}
-                    </Text>
+                <View className="flex-row z-20 my-8 pl-4 space-x-2">
+                  {/* FOTO_PERFIL */}
+                  <View className="h-24 w-24 bg-[#fff] rounded-full justify-center items-center">
+                    <Image
+                      className="w-20 h-20 rounded-full"
+                      source={{ uri: profielPhoto }}
+                    />
                   </View>
 
-                  {/* BOTON */}
-                  <EditOrFollow />
+                  {/* NOMBRE & BOTON*/}
+                  <View className="flex-1 p-2 justify-center space-y-2">
+                    {/* NOMBRE */}
+                    <View className="">
+                      <Text className="text-3xl text-[#086841] font-bold">
+                        {asociacion?.nombre}
+                      </Text>
+                    </View>
+
+                    {/* BOTON */}
+                    <EditOrFollow />
+                  </View>
                 </View>
               </View>
-            </View>
 
-            {/* Contenedor DESCRIPCION */}
-            <View className="p-1">
-              <Text className="text-[#086841] text-sm text-justify p-2">
-                {asociacion?.descripcion
-                  ? asociacion.descripcion
-                  : "*Sin descripción*"}
-              </Text>
+              {/* Contenedor DESCRIPCION */}
+              <View className="p-1">
+                <Text className="text-[#086841] text-[16px] text-center p-2">
+                  {asociacion?.descripcion
+                    ? asociacion.descripcion
+                    : "*Sin descripción*"}
+                </Text>
+              </View>
+            </View>
+            <View className="items-center">
+              <View className="w-[90%] border-t-[1px] border-[#aaaaaa] justify-center" />
+            </View>
+            {/* Contenedor ACTIVIDADES */}
+            <View className="mt-2">
+              <ListaActividadesPerfil
+                asociacion={asociacion.nombre}
+                fromUser={fromUser}
+              />
             </View>
           </View>
-          <View className="items-center">
-            <View className="w-[90%] border-t-[1px] border-[#aaaaaa] justify-center" />
-          </View>
-          {/* Contenedor ACTIVIDADES */}
-            <ListaActividadesPerfil asociacion = {asociacion.nombre} fromUser = {fromUser}/>
-        </View>
-      )}
-    </View>
+        )}
+      </View>
+    </SafeAreaView>
   );
 };
 

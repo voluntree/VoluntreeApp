@@ -46,12 +46,11 @@ const ListaActividadesAsociacion = () => {
 
   return (
       <FlatList
-        className="h-full w-full px-4 scroll-pb-28 mb-56"
+        className="h-full w-full bg-blanco px-4 scroll-pb-28 mb-56"
         data={actividades}
         keyExtractor={(item) => item.titulo}
         ListEmptyComponent={renderEmptyContainer()}
         renderItem={({ item, index }) => (
-          console.log(item.imagen),
           <ActividadAsociacion
             titulo={item.titulo}
             descripcion={item.descripcion}

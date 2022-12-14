@@ -21,6 +21,7 @@ import { useNavigation } from "@react-navigation/native";
 import { auth } from "../../utils/firebase";
 import { getVoluntarioByID } from "../../service/service";
 import { isEmpty } from "@firebase/util";
+import { getUserInstance } from "../../service/LoginService";
 
 const { width, height } = Dimensions.get("window");
 
@@ -678,8 +679,8 @@ const OnBoarding = () => {
             backgroundColor: theme.colors.ambiental,
           }}
           onPress={() => {
-            if(!isEmpty(getVoluntarioByID(auth.currentUser.uid))){navigation.navigate("UserHome");}
-            else navigation.navigate("AssociationHome")  
+            if(getUserInstance().type == "association"){navigation.navigate("AssociationHome");}
+            else navigation.navigate("UserHome")  
           }}
         >
           <Text className = "font-extrabold text-costas">VAMOS!</Text>
