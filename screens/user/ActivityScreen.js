@@ -96,7 +96,7 @@ const ActivityScreen = () => {
 
   const goToAssocProfile = () => {
     getAssociationByName(actividad.asociacion).then((value) => {
-      navigation.navigate("Association", {
+      navigation.navigate("AssocFromVol", {
         asociacion: value,
       });
     });

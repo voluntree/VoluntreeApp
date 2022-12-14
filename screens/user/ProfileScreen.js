@@ -183,7 +183,7 @@ const ProfileScreen = () => {
                 <TouchableOpacity
                   className="w-full h-full justify-center items-center"
                   onPress={() => {
-                    navigation.push("EditProfile", {
+                    navigation.push("EditProfileVol", {
                       voluntario: usuario,
                       userID: user.uid,
                       foto: profilefoto,

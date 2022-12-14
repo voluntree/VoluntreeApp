@@ -1,17 +1,14 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, Image, Animated} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../../screens/user/HomeScreen';
-import { theme } from '../../tailwind.config';
-import MapTabScreenStack from '../../screens/MapTabScreenStack';
-import HomeTabScreenStack from '../../screens/HomeTabScreenStack';
-import ProfileTabScreenStack from '../../screens/ProfileTabScreenStack';
-import NewsTabScreenStack from '../../screens/NewsTabScreenStack';
+import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon, ProfileIconFocused, MapIconFocused, HomeIconFocused, NewsIconFocused, ChatIconFocused, ChatIcon} from '../../icons/Icons';
 
-import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon, ProfileIconFocused, MapIconFocused, HomeIconFocused, NewsIconFocused, ChatIconFocused, ChatIcon} from '../../icons/Icons'
-import { useState } from 'react';
-import { black } from 'tailwindcss/colors';
+import HomeScreen from '../../screens/user/HomeScreen';
+import ListaArticulos from '../articulos/ListaArticulos';
+import MapScreen from '../../screens/user/MapScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
+import ProfileScreen from '../../screens/user/ProfileScreen';
+
 
 
 const Tab = createBottomTabNavigator()
@@ -37,8 +34,8 @@ export function TabNavigator(){
     return (
       <Tab.Navigator {...{ screenOptions }}>
         <Tab.Screen
-          name="HomeTab"
-          component={HomeTabScreenStack}
+          name="Home"
+          component={HomeScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
@@ -58,7 +55,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Noticias"
-          component={NewsTabScreenStack}
+          component={ListaArticulos}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
@@ -78,7 +75,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="MapTab"
-          component={MapTabScreenStack}
+          component={MapScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
@@ -118,7 +115,7 @@ export function TabNavigator(){
         />
         <Tab.Screen
           name="Perfil"
-          component={ProfileTabScreenStack}
+          component={ProfileScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
