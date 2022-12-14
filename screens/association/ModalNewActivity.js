@@ -86,7 +86,7 @@ const ModalNewActivity = (props) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [16,9],
       quality: 1,
     });
 
@@ -262,7 +262,7 @@ const ModalNewActivity = (props) => {
                       { label: "Comunitario", value: "comunitario" },
                       { label: "Cultural", value: "cultural" },
                       { label: "Deportivo", value: "deportivo" },
-                      { label: "Educación", value: "educación" },
+                      { label: "Educación", value: "educacion" },
                     ]}
                     labelField="label"
                     valueField="value"
