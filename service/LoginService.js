@@ -5,7 +5,6 @@ let data = {};
 function setData(userData) {
   data = userData;
   setToUniqueSchema();
-  console.log(data);
 }
 
 function setToUniqueSchema() {
