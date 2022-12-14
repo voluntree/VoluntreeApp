@@ -11,9 +11,8 @@ const ModalPerfil = (props) => {
   };
 
   const modalStyle = {
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -29,19 +28,19 @@ const ModalPerfil = (props) => {
       <Modal
         visible={props.isModalOpen}
         transparent={true}
-        animationType={"slide"}
+        animationType="fade"
       >
         <Modal
           visible={props.isModalOpen}
           transparent={true}
-          animationType={"fade"}
+         
         >
-          <View className="h-full w-full absolute bg-[#27272a] opacity-70"></View>
+          <View className="h-full w-full absolute bg-[#ffffff] opacity-70"></View>
         </Modal>
-        <View className="justify-end flex-1">
-          <View style={modalStyle}>
+        <View className="flex-1 justify-center items-center">
+          <View className="space-y-4 rounded-xl bg-[#fff] items-center w-10/12 pb-6" style={modalStyle}>
             <View className="justify-center w-full flex-row items-center">
-              <Text className="font-bold text-base">Opciones</Text>
+              <Text className="font-bold text-lg text-ambiental">Opciones</Text>
               <View className="absolute right-0">
                 <Icon
                   name="x"
@@ -55,17 +54,16 @@ const ModalPerfil = (props) => {
               </View>
             </View>
             <TouchableOpacity 
-              className="mb-1" 
+              className="w-40 h-8 bg-[#EFF8F4] border-[1px] border-[#b0dac7] justify-center items-center rounded-lg" 
               onPress={props.onCerrarSesion}
             >
-              <View className="h-8 bg-[#F0F0F0] justify-center items-center">
-                <Text className="font-bold">Cerrar Sesión</Text>
-              </View>
+              <Text className="font-bold">Cerrar Sesión</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={props.onBorrarCuenta}>
-              <View className="h-8 bg-[#F0F0F0] justify-center items-center">
-                <Text className="font-bold color-[#ff0000]">Borrar Cuenta</Text>
-              </View>
+            <TouchableOpacity 
+              className="w-40 h-8 bg-[#EFF8F4] border-[1px] border-[#ff0000] justify-center items-center rounded-lg"
+              onPress={props.onBorrarCuenta}
+            >
+              <Text className="font-bold color-[#ff0000]">Borrar Cuenta</Text>
             </TouchableOpacity>
           </View>
         </View>

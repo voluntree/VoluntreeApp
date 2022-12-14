@@ -21,6 +21,7 @@ import ModalNewActivity from "../../screens/association/ModalNewActivity";
 import { theme } from "../../tailwind.config";
 import ChatListScreen from './../../screens/chat/ChatListScreen';
 import { getUserInstance } from "../../service/LoginService";
+import {HomeIcon, NewsIcon, ShopIcon, InboxIcon, ProfileIcon, MapIcon, ProfileIconFocused, MapIconFocused, HomeIconFocused, NewsIconFocused, ChatIconFocused, ChatIcon} from '../../icons/Icons';
 
 const Tab = createBottomTabNavigator();
 
@@ -162,45 +163,37 @@ const AssociationTab = () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <Icon
-                    name="park"
-                    type="material"
-                    color={focused ? theme.colors.ambiental : "#748c94"}
-                    size={30}
-                />
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? HomeIconFocused(32, 32, "#fff")
+                    : HomeIcon(26, 26, "#fff")}
+                </View>
 
-                <Text
-                  style={{
-                    color: focused ? theme.colors.ambiental : "#748c94",
-                    fontSize: 12,
-                  }}
-                >
-                  Home
-                </Text>
+                {!focused ? (
+                  <Text className="text-[10px]">Inicio</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Inicio</Text>
+                )}
               </View>
             ),
           }}
         />
         <Tab.Screen
-          name="News"
+          name="Noticias"
           component={NewsAssociation}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <Icon
-                    name="article"
-                    type="material"
-                    color={focused ? theme.colors.ambiental : "#748c94"}
-                    size={30}
-                />
-                <Text
-                  style={{
-                    color: focused ? theme.colors.ambiental : "#748c94",
-                    fontSize: 12,
-                  }}
-                >
-                  News
-                </Text>
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? NewsIconFocused(32, 32, "#fff")
+                    : NewsIcon(26, 26, "#fff")}
+                </View>
+                {!focused ? (
+                  <Text className="bottom-0 text-[10px]">Noticias</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Noticias</Text>
+                )}
               </View>
             ),
           }}
@@ -213,23 +206,21 @@ const AssociationTab = () => {
           }}
         />
         <Tab.Screen
-          name="Inbox"
+          name="Chat"
           component={ChatListScreen}
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <Icon name = "chat"
-                      type = "material"
-                      size = {30}
-                      color= {focused ? theme.colors.ambiental : "#748c94"}/>
-                <Text
-                  style={{
-                    color: focused ? theme.colors.ambiental : "#748c94",
-                    fontSize: 12,
-                  }}
-                >
-                  Chat
-                </Text>
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? ChatIconFocused(32, 32, "#fff", "4")
+                    : ChatIcon(26, 26, "#fff", "4")}
+                </View>
+                {!focused ? (
+                  <Text className="text-[10px]">Chat</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Chat</Text>
+                )}
               </View>
             ),
           }}
@@ -240,23 +231,16 @@ const AssociationTab = () => {
           options={{
             tabBarIcon: ({ focused }) => (
               <View className="items-center justify-center">
-                <Image
-                  source={require("../../icons/profile.png")}
-                  resizeMode="contain"
-                  style={{
-                    width: 25,
-                    height: 25,
-                    tintColor: focused ? theme.colors.ambiental : "#748c94",
-                  }}
-                />
-                <Text
-                  style={{
-                    color: focused ? theme.colors.ambiental : "#748c94",
-                    fontSize: 12,
-                  }}
-                >
-                  Profile
-                </Text>
+                <View className=" items-center rounded-lg" style={{}}>
+                  {focused
+                    ? ProfileIconFocused(32, 32, "#fff")
+                    : ProfileIcon(26, 26, "#fff")}
+                </View>
+                {!focused ? (
+                  <Text className="text-[10px]">Perfil</Text>
+                ) : (
+                  <Text className="font-bold text-[10px]">Perfil</Text>
+                )}
               </View>
             ),
           }}

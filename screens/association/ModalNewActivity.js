@@ -44,9 +44,6 @@ const ModalNewActivity = (props) => {
       const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
-    // getAsociationByID(currentUser.uid).then((asociacion) => {
-    //   setAsociacion(asociacion);
-    // });
   }, []);
 
   function getAddressFromCoordinates( latitude, longitude ) {
@@ -218,7 +215,10 @@ const ModalNewActivity = (props) => {
                     type="octicon"
                     size={30}
                     color="#086841"
-                    onPress={() => props.setActivityModalOpen(false)}
+                    onPress={() => {
+                      setImage(null);
+                      props.setActivityModalOpen(false)
+                    }}
                   />
                 </TouchableOpacity>
               </View>

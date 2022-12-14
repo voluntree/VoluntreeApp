@@ -168,6 +168,16 @@ export async function updateActivity(activity) {
 
 //#region Asociacion
 
+export async function deleteAssocData(asociacion) {
+  try {
+    const ref = doc(db, "asociaciones", asociacion.nombre);
+    await deleteDoc(ref);
+    console.log("La asociacion " + asociacion.nombre + " ha sido eliminado");
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export async function updateAssocProfile(newProfile, userID) {
   try {
     const userRef = doc(db, "asociaciones", userID);
