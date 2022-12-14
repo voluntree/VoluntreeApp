@@ -9,29 +9,29 @@ const Filtro = (props) => {
 
   const onPress = () => {
     setActivo(!activo)
-    props.AddCategoria(props.texto.toLowerCase(), !activo)
+    props.AddCategoria(props.value, !activo)
   }
  
   function setActiveColor(){
-    switch(props.texto){
-      case "Educación": return theme.colors.educacion; break
-      case "Ambiental": return theme.colors.ambiental; break
-      case "Costas": return theme.colors.costas; break
-      case "Deportivo": return theme.colors.deportivo; break
-      case "Comunitario": return theme.colors.comunitario; break
-      case "Cultural": return theme.colors.cultural; break
+    switch(props.value){
+      case "educacion": return theme.colors.educacion; break
+      case "ambiental": return theme.colors.ambiental; break
+      case "costas": return theme.colors.costas; break
+      case "deportivo": return theme.colors.deportivo; break
+      case "comunitario": return theme.colors.comunitario; break
+      case "cultural": return theme.colors.cultural; break
       default: return theme.colors.comunitario;
     }
   }
 
   function setTextColor(){
-    switch(props.texto){
-      case "Educación":
-      case "Costas":
-      case "Deportivo":
-      case "Comunitario": return theme.colors.ambiental; break
-      case "Cultural":
-      case "Ambiental": return theme.colors.costas
+    switch(props.value){
+      case "educacion":
+      case "costas":
+      case "deportivo":
+      case "comunitario": return theme.colors.ambiental; break
+      case "cultural":
+      case "ambiental": return theme.colors.costas
     }
   }
   return (

@@ -51,7 +51,6 @@ const ListaActividadesAsociacion = () => {
         keyExtractor={(item) => item.titulo}
         ListEmptyComponent={renderEmptyContainer()}
         renderItem={({ item, index }) => (
-          console.log(item.imagen),
           <ActividadAsociacion
             titulo={item.titulo}
             descripcion={item.descripcion}

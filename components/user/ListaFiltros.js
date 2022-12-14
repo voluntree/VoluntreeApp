@@ -9,31 +9,31 @@ const ListaFiltros = (props) => {
       id: 1,
       imagen: require("../../images/iconoLibros.jpg"),
       texto: "Educación",
+      valor: "educacion"
     },
     {
       id: 2,
-      imagen: require("../../images/iconoBotellaPlaya.jpg"),
-      texto: "Costas",
+      imagen: require("../../images/cultural.jpg"),
+      texto: "Cultural",
+      valor: "cultural"
     },
     {
       id: 3,
-      imagen: require("../../images/cultural.jpg"),
-      texto: "Cultural",
+      imagen: require("../../images/deportes.jpg"),
+      texto: "Deportivo",
+      valor: "deportivo"
     },
     {
       id: 4,
-      imagen: require("../../images/deportes.jpg"),
-      texto: "Deportivo",
+      imagen: require("../../images/comunitario.jpg"),
+      texto: "Comunitario",
+      valor: "comunitario"
     },
     {
       id: 5,
-      imagen: require("../../images/comunitario.jpg"),
-      texto: "Comunitario",
-    },
-    {
-      id: 6,
       imagen: require("../../images/arboles.jpg"),
       texto: "Ambiental",
+      valor: "ambiental"
     },
   ];
 
@@ -53,7 +53,7 @@ const ListaFiltros = (props) => {
   }
 
   const isActivo = (texto) => {
-    return props.lista.includes(texto.toLowerCase())
+    return props.lista.includes(texto)
   }
 
   return (
@@ -64,8 +64,9 @@ const ListaFiltros = (props) => {
         <Filtro
           imagen = {item.imagen}
           texto = {item.texto}
+          value = {item.valor}
           AddCategoria = {AddCategoria}
-          isActivo = {isActivo(item.texto)}
+          isActivo = {isActivo(item.valor)}
         />
       )}
      horizontal = {true}
