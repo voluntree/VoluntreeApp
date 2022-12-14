@@ -82,10 +82,12 @@ const Login = () => {
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
       const voluntarioRef = doc(db, "voluntarios", auth.currentUser.uid);
-      getDoc(voluntarioRef).then((doc) => {
-        if(doc.data() == undefined){
+      getDoc(voluntarioRef).then((voluntario) => {
+        console.log(voluntario.data())
+        if (voluntario.data() == undefined) {
           getAsociacionByEmail(email).then((asoc) => {
-            if(asoc != (undefined || null)){
+            if (asoc != undefined) {
+              console.log(asoc.nombre);
               const asocRef = doc(db, "asociaciones", asoc.nombre);
               setUserAsAssociation(email);
               nuevo.current = asoc.nuevo;
@@ -100,10 +102,10 @@ const Login = () => {
                 navigation.navigate("AssociationHome");
               }
             }
-          })
-        }else{
-          setUserAsVolunteer(auth.currentUser.uid)
-          nuevo.current = doc.data().nuevo;
+          });
+        } else {
+          setUserAsVolunteer(auth.currentUser.uid);
+          nuevo.current = voluntario.data().nuevo;
           if (nuevo == true) {
             setSpinner(false);
             navigation.navigate("OnBoarding");
