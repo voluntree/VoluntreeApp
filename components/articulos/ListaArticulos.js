@@ -1,9 +1,12 @@
-import { FlatList, Text } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import React, { useState, useEffect } from "react";
 import TarjetaArticulo from "./TarjetaArticulo";
 import { onSnapshot, query, collection } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Dimensions } from "react-native";
+
+const {width, height} = Dimensions.get('window')
 
 const ListaArticulos = (props) => {
   const data = props.articulos;
@@ -20,9 +23,12 @@ const ListaArticulos = (props) => {
 
   const renderEmptyContainer = () => {
     return (
-      <Text className="text-center">
+      <View style= {{height: height, width: width}} className = "justify-center">
+        <Text className="text-center">
         No hay articulos para mostrar
       </Text>
+      </View>
+      
     );
   };
 

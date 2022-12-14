@@ -215,7 +215,7 @@ const UserRegister = () => {
                 secureTextEntry={secureTextEntry}
                 right={
                   <TextInput.Icon
-                    name="eye"
+                    icon="eye"
                     onPress={() => {
                       setSecureTextEntry(!secureTextEntry);
                     }}
@@ -240,7 +240,7 @@ const UserRegister = () => {
                 }}
                 right={
                   <TextInput.Icon
-                    name="eye"
+                    icon="eye"
                     onPress={() => {
                       setSecureTextEntry2(!secureTextEntry2);
                     }}
