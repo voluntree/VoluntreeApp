@@ -26,10 +26,10 @@ const TarjetaArticulo = (props) => {
   }
 
   async function getData() {
-    setUri(await getImageDownloadURL("articulos/" + articulo.imagen));
+    setUri(await getImageDownloadURL("gs://voluntreepin.appspot.com/" + articulo.imagen));
     let asoc = await getAssociationByName(articulo.asociacion);
     setAsociacion(asoc);
-    setUri2(await getImageDownloadURL("profileImages/asociaciones/" + asoc.fotoPerfil));
+    setUri2(await getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asoc.nombre + "/" + asoc.fotoPerfil));
   }
 
   return (
