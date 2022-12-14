@@ -15,15 +15,15 @@ const HomeAssociation = () => {
     }, []);
 
     return (
-        <SafeAreaView className = "bg-blanco w-full h-full">
-            <View className="w-full py-4 bg-blanco items-center">
-                <Text className = "text-ambiental font-bold text-xl">
-                    Mis Actividades
-                </Text>
-                <ListaActividadesAsociacion/>
-            </View>
-        </SafeAreaView>
-    )
+      <SafeAreaView className="bg-blanco w-full h-full">
+        <View className="w-full py-4 bg-blanco items-center">
+          <Text className="text-ambiental pb-4 font-bold text-xl">
+            Mis Actividades
+          </Text>
+          <ListaActividadesAsociacion />
+        </View>
+      </SafeAreaView>
+    );
 }
 
 export default HomeAssociation;
