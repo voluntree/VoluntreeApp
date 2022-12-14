@@ -20,7 +20,7 @@ const ActividadAsociacion = (props) => {
   
   getDownloadURL(reference).then((path) => {
     setUri(path);
-  });
+  })
   
   const borrarActividad = () => {
     deleteActivity(props.titulo);
@@ -45,7 +45,7 @@ const ActividadAsociacion = (props) => {
             <Text className="text-xl font-bold w-[80%] text-ambiental">{props.titulo}</Text>
             <TouchableOpacity className = "bg-educacion absolute top-0 right-0 px-4 mb-0.5 rounded-full justify-center items-center"
 
-            onPress = {()=>console.log("Borrado")}>
+            onPress = {()=> borrarActividad()}>
             <Icon  
                 className = "my-1"
                 name= "recycle"

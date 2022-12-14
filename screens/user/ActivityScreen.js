@@ -211,7 +211,7 @@ const ActivityScreen = () => {
 
   function setTextColor() {
     switch (actividad.tipo) {
-      case "educación":
+      case "educacion":
       case "costas":
       case "deportivo":
       case "comunitario":
@@ -226,7 +226,7 @@ const ActivityScreen = () => {
 
   function setActiveColor() {
     switch (actividad.tipo) {
-      case "educación":
+      case "educacion":
         return theme.colors.educacion;
         break;
       case "ambiental":

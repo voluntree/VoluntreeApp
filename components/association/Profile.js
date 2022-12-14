@@ -23,7 +23,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     if (fromUser) {
-      getImages(asociacion).catch(console.error);
+      getImages(asociacion);
       setFollow(asociacion.seguidores.includes(userID));
     } else {
       initDataFromAssociation().catch();
@@ -38,29 +38,25 @@ const Profile = (props) => {
 
   const getImages = (asociacion) => {
     if (asociacion.fotoPerfil == "default.png") {
-      getImageDownloadURL("profileImages/asociaciones/default.png").then((fotoPerfil) => {
-        if (fotoPerfil == null) fotoPerfil = "";
+      getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/default.png").then((fotoPerfil) => {
         setProfilePhoto(fotoPerfil);
       });
     } else {
       getImageDownloadURL(
-        "profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fotoPerfil
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fotoPerfil
       ).then((fotoPerfil)=>{
-        if (fotoPerfil == null) fotoPerfil = "";
         setProfilePhoto(fotoPerfil);
       })
     }
     
-    if (asociacion.fondoPerfil == "defaultBackground.png") {
-      getImageDownloadURL("profileImages/asociaciones/defaultBackground.png").then((fotoFondo) => {
-        if (fotoFondo == null) fotoFondo = "";
+    if (asociacion.fondoPerfil == "defaultBackground.jpg" ||asociacion.fondoPerfil == "defaultBackground.png") {
+      getImageDownloadURL("gs://voluntreepin.appspot.com/profileImages/asociaciones/defaultBackground.jpg").then((fotoFondo) => {
         setBackgroundPhoto(fotoFondo);
       });
     } else {
       getImageDownloadURL(
-        "profileImages/asociaciones/" + asociacion.fondoPerfil
+        "gs://voluntreepin.appspot.com/profileImages/asociaciones/" + asociacion.nombre + "/" + asociacion.fondoPerfil
       ).then((fotoFondo)=>{
-        if (fotoFondo == null) fotoFondo = "";
         setBackgroundPhoto(fotoFondo);
       })
     }
@@ -122,15 +118,15 @@ const Profile = (props) => {
   };
 
   return (
-    <View>
+    <View className = "h-full w-full">
       {asociacion != undefined && (
-        <View className="pb-24">
+        <View className="h-full w-full">
           {/* Contenedor PERFIL */}
-          <View className="h-[38%] space-y-2">
+          <View className="space-y-2">
             {/* Contenedor FOTO_PERFIL & NOMBRE & BOTON */}
-            <View className="h-[65%]">
+            <View className="">
               {/* IMAGEN FONDO */}
-              <View className="h-[100%] w-[100%] absolute z-10 bg-[#fff] opacity-70" />
+              <View className="h-full w-full absolute z-10 bg-[#fff] opacity-70" />
               <Image
                 source={{ uri: backgroundPhoto }}
                 className="absolute w-full h-full"
@@ -161,7 +157,7 @@ const Profile = (props) => {
             </View>
 
             {/* Contenedor DESCRIPCION */}
-            <View className="h-[35%] p-1">
+            <View className="p-1">
               <Text className="text-[#086841] text-sm text-justify p-2">
                 {asociacion?.descripcion
                   ? asociacion.descripcion
@@ -173,12 +169,7 @@ const Profile = (props) => {
             <View className="w-[90%] border-t-[1px] border-[#aaaaaa] justify-center" />
           </View>
           {/* Contenedor ACTIVIDADES */}
-          <ScrollView
-            className="h-[62%]"
-            contentContainerStyle={{ paddingBottom: 20, alignItems: "center" }}
-          >
-            <ListaActividadesPerfil asociacion = {asociacion.nombre}/>
-          </ScrollView>
+            <ListaActividadesPerfil asociacion = {asociacion.nombre} fromUser = {fromUser}/>
         </View>
       )}
     </View>
