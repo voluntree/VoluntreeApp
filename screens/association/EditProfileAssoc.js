@@ -23,12 +23,13 @@ import { updateAssocProfile } from "../../service/service";
 const EditProfileAssoc = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const isProfile = true;
 
   const { association, assocID, fotoPerfil, fondoPerfil } = route.params;
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
-  const [uploading, setUploading] = useState(false);
+  const [imageBG, setImageBG] = useState(null);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -48,53 +49,106 @@ const EditProfileAssoc = () => {
     })();
   }, []);
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 4],
-      quality: 1,
-    });
+  const pickImage = async (isProfile) => {
+    let result
+    if (isProfile) {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+    } else {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [12.5, 5],
+        quality: 1,
+      });
+    }
 
     if (!result.cancelled) {
-      setImage(result.uri);
-      return result;
+      if (isProfile) {
+        setImage(result.uri);
+        return result;
+      } else {
+        setImageBG(result.uri);
+        return result;
+      }
     }
   };
 
-  const storeImage = async () => {
-    setUploading(true);
-    console.log(image);
-    const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `/profileImages/asociaciones/${association.nombre}/${filename}`;
-    const storageRef = ref(storage, path);
-    const img = await fetch(image);
-    const bytes = await img.blob();
+  const storeImage = async (isProfile) => {
+    let filename
+    let path
+    let storageRef
+    let img
+    let bytes
+    if (isProfile) {
+      filename = image.substring(image.lastIndexOf("/") + 1);
+      path = `/profileImages/asociaciones/${association.nombre}/${filename}`;
+      storageRef = ref(storage, path);
+      img = await fetch(image);
+      bytes = await img.blob();
+    } else {
+      filename = imageBG.substring(imageBG.lastIndexOf("/") + 1);
+      path = `/profileImages/asociaciones/${association.nombre}/${filename}`;
+      storageRef = ref(storage, path);
+      img = await fetch(imageBG);
+      bytes = await img.blob();
+    }
 
     try {
-      await uploadBytes(storageRef, bytes).then(setUploading(false));
+      await uploadBytes(storageRef, bytes);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const ChooseImage = () => {
+    if (imageBG == null) {
+      return (
+        <Image
+          source={{ uri: fondoPerfil }}
+          className="absolute z-10 h-full w-full rounded-xl"
+        />
+      )
+    } else {
+      return (
+        <Image
+          source={{ uri: imageBG }}
+          className="absolute z-10 h-full w-full rounded-xl"
+        />
+      )
     }
   };
 
   async function save(userData) {
     if (dataOK(userData)) {
       try {
-        if (image != null) {
-          await storeImage();
-          userData.fotoPerfil = image.substring(image.lastIndexOf("/") + 1);
-          userData.fondoPerfil = association.fondoPerfil;
-        } else {
+        if (image == null && imageBG == null) {
           userData.fotoPerfil = association.fotoPerfil;
           userData.fondoPerfil = association.fondoPerfil;
+        } else {
+          if (image != null) {
+            await storeImage(true);
+            userData.fotoPerfil = image;
+          } else {
+            userData.fotoPerfil = association.fotoPerfil;
+          }
+          if (imageBG != null) {
+            await storeImage(false);
+            userData.fondoPerfil = imageBG;
+          } else {
+            userData.fondoPerfil = association.fondoPerfil;
+          }
         }
         updateAssocProfile(userData, association.nombre).then(() => {
           Alert.alert("Éxito", "Perfil actualizado correctamente");
           navigation.goBack();
         })
       } catch (e) {
-        console.log(e);
+        console.error(e);
         Alert.alert(
           "Error",
           "Ha ocurrido un error al actualizar el perfil. Inténtelo de nuevo más tarde"
@@ -144,18 +198,24 @@ const EditProfileAssoc = () => {
                   <Icon name="arrow-back" type="ionicon" />
                 </TouchableOpacity>
                 <Text className="text-xl font-bold">Editar perfil</Text>
-                <TouchableOpacity onPress={props.handleSubmit}>
+                <TouchableOpacity onPress={() => {
+                    props.handleSubmit();
+                  }}
+                >
                   <Icon name="checkmark" type="ionicon" />
                 </TouchableOpacity>
               </View>
               {/* IMAGEN FONDO */}
               <View className="border rounded-xl mb-4">
-                <TouchableOpacity className="h-32 items-center justify-center">
-                  <Icon name="image" type="material" color="#000" size={30} />
-                  <Image
-                    source={{ uri: fondoPerfil }}
-                    className="absolute z-10 h-full w-full rounded-xl opacity-40"
-                  />
+                <TouchableOpacity 
+                  className="h-32 items-center justify-center"
+                  onPress={() => {
+                    pickImage(!isProfile).then((result) => {
+                      props.setFieldValue("fondoPerfil", result.uri);
+                    });
+                   }}
+                >
+                  <ChooseImage />
                 </TouchableOpacity>
               </View>
 
@@ -179,7 +239,7 @@ const EditProfileAssoc = () => {
                   <TouchableOpacity
                     className="h-14 w-28 bg-[#dadada] rounded-xl justify-center items-center"
                     onPress={() => {
-                      pickImage().then((result) => {
+                      pickImage(isProfile).then((result) => {
                         props.setFieldValue("fotoPerfil", result.uri);
                       });
                     }}
