@@ -1,4 +1,3 @@
-import { TailwindProvider } from "tailwindcss-react-native";
 import {
   TouchableOpacity,
   View,
@@ -10,7 +9,7 @@ import {
 import { auth, db, storage } from "../../utils/firebase";
 import { Button, Icon, ThemeConsumer } from "react-native-elements";
 import { useState, useEffect, useLayoutEffect } from "react";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -25,14 +24,12 @@ import {
   getImageDownloadURL,
 } from "../../service/service";
 import { theme } from "../../tailwind.config";
-import { getDownloadURL, ref } from "firebase/storage";
-import { doc, getDoc } from "firebase/firestore";
 
 const ActivityScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const { actividad, uri } = route.params;
-  const [imagen, setImagen] = useState();
+  const [imagen, setImagen] = useState(null);
   const [region, setRegion] = useState({});
   const currentUser = auth.currentUser;
   const [inscrito, setInscrito] = useState(false);
@@ -84,9 +81,9 @@ const ActivityScreen = () => {
     const asoc = await getAssociationByName(association);
     if (asoc !== null) {
       const img = await getImageDownloadURL(
-        "profileImages/asociaciones/" + asoc.fotoPerfil
+        "profileImages/asociaciones/" + asoc.nombre +"/" + asoc.fotoPerfil
       );
-      img != null ? setImagen(img) : setImagen("");
+      img != null ? setImagen(img) : setImagen(null);
     }
   };
 
@@ -375,7 +372,7 @@ const ActivityScreen = () => {
 
         {region.latitude != undefined ? (
           <View className="rounded-3xl overflow-hidden">
-            <MapView className="w-100 h-44 pb-5 " initialRegion={region}>
+            <MapView className="w-100 h-44 pb-5 " initialRegion={region} provider={PROVIDER_GOOGLE}> 
               <Marker coordinate={region} />
             </MapView>
           </View>
