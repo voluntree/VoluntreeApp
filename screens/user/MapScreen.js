@@ -217,7 +217,7 @@ const MapScreen = () => {
             <Callout
               tooltip
               onPress={() => {
-                getImageDownloadURL("cardImages/"+ marker.imagen).then(
+                getImageDownloadURL("cardImages/"+ marker.asociacion +"/"+ marker.imagen).then(
                   (resp) => openCard(marker,resp)
                 ).catch()
               }}

@@ -31,7 +31,7 @@ const ChatListItem = (props) => {
   }, []);
 
   async function initData() {
-    let src = await getImageDownloadURL("cardImages/" + item.imagen);
+    let src = await getImageDownloadURL("cardImages/"+ item.asociacion + "/" + item.imagen);
     setImg(src);
   }
 

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Button, Icon } from "react-native-elements";
 import { useState, useEffect, useLayoutEffect } from "react";
-import MapView from "react-native-maps";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 import { Marker } from "react-native-maps";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
@@ -197,7 +197,9 @@ const AssociationActivityDetails = () => {
 
           {region.latitude != undefined ? (
               <View className = "rounded-3xl overflow-hidden">
-                <MapView className="w-100 h-44 pb-5 " initialRegion={region}>
+                <MapView className="w-100 h-44 pb-5 " initialRegion={region}
+                provider={PROVIDER_GOOGLE}
+                >
                   <Marker coordinate={region} />
                 </MapView>
               </View>
