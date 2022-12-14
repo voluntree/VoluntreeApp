@@ -72,7 +72,7 @@ const EditProfile = () => {
     setUploading(true);
     console.log(image);
     const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `/profileImages/voluntarios/${filename}`;
+    const path = `/profileImages/voluntarios/${user.uid}/${filename}`;
     const storageRef = ref(storage, path);
     const img = await fetch(image);
     const bytes = await img.blob();

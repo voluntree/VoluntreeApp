@@ -16,7 +16,7 @@ const TarjetaParticipante = (props) => {
 
   const reference = ref(
     storage,
-    "gs://voluntreepin.appspot.com/profileImages/voluntarios/" + props.item.uid + "/" + props.item.fotoPerfil
+    "gs://voluntreepin.appspot.com/profileImages/voluntarios/" + props.item.fotoPerfil
   );
   useEffect(() => {
     getDownloadURL(reference).then((path) => {

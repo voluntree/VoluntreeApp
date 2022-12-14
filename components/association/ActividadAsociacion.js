@@ -7,6 +7,9 @@ import { theme } from "../../tailwind.config";
 import { deleteActivity, getActivityById } from "../../service/service";
 import { useNavigation } from "@react-navigation/native";
 import { getUserInstance } from "../../service/LoginService"
+import { Dimensions } from "react-native";
+
+const {width, height} = Dimensions.get('window')
 
 const ActividadAsociacion = (props) => {
   const [uri, setUri] = useState();
@@ -32,26 +35,31 @@ const ActividadAsociacion = (props) => {
   };
 
   return (
-    <TouchableOpacity className="px-4 py-1.5" onPress={openActivityDetails}>
-      <View className="relative shadow-2xl rounded-xl overflow-hidden">
-        <Image className="h-32 w-full" source={{ uri: uri }} />
-        <View className="h-32 w-full absolute bg-[#27272a] opacity-30"></View>
+    <TouchableOpacity onPress={openActivityDetails} className = "mb-4">
+      {/* Contenedor principal */}
+      <View className=" rounded-xl p-4 w-full bg-costas">
+        {/* Contenedor contenido */}
+        <View className="flex justify-between space-y-2">
+          {/* Titulo */}
+          <View className = "flex-row w-full justify-between items-baseline">
+            <Text className="text-xl font-bold w-[80%] text-ambiental">{props.titulo}</Text>
+            <TouchableOpacity className = "bg-educacion absolute top-0 right-0 px-4 mb-0.5 rounded-full justify-center items-center"
 
-        <View className="absolute w-full">
-          <Text className="text-2xl mt-1 text-center font-bold text-[#fffff1]">
-            {props.titulo}
-          </Text>
-        </View>
-        <View className="absolute ml-72 right-0 bottom-0 m-2">
-          <TouchableOpacity onPress={borrarActividad} className="bg-[#e62344] w-10 h-10 rounded-lg">
-            <Icon
-              className="pt-1"
-              name="delete"
-              type="material"
-              color="#ffffff"
-              size={28}
+            onPress = {()=>console.log("Borrado")}>
+            <Icon  
+                className = "my-1"
+                name= "recycle"
+                type="font-awesome"
+                color={theme.colors.cultural}
+                size={24}/>
+              </TouchableOpacity>
+          </View>
+          <View className="w-full">
+            <Image
+              className="rounded-md h-36 w-fit object-scale-down"
+              source={{ uri: uri }}
             />
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
