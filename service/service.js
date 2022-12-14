@@ -415,17 +415,10 @@ export async function getVoluntarioByID(id) {
     if (vol.exists()) {
       return vol.data();
     } else {
-      Alert.alert(
-        "Error",
-        "El perfil de este voluntario no se encuentra disponible."
-      );
+      
       return null;
     }
   } catch (e) {
-    Alert.alert(
-      "Error",
-      "Ha ocurrido un error al cargar el perfil de este voluntario."
-    );
   }
 }
 

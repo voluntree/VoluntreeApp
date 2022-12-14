@@ -11,7 +11,7 @@ const Buscador = (props) => {
 
   return (
     <View className="flex-row items-center space-x-2 mb-2">
-      <View className="flex-row items-center rounded-md bg-costas justify-between px-2">
+      <View className="flex-row items-center rounded-md bg-[#fff] border-2 border-ambiental justify-between px-2">
         <TextInput
           className="rounded-md w-4/5 h-10"
           style = {{color: theme.colors.ambiental}}
