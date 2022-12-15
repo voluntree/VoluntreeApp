@@ -44,9 +44,6 @@ const ModalNewActivity = (props) => {
       const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGalleryPermission(galleryStatus.status === "granted");
     };
-    // getAsociationByID(currentUser.uid).then((asociacion) => {
-    //   setAsociacion(asociacion);
-    // });
   }, []);
 
   function getAddressFromCoordinates( latitude, longitude ) {
@@ -86,7 +83,7 @@ const ModalNewActivity = (props) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [16,9],
       quality: 1,
     });
 
@@ -152,7 +149,7 @@ const ModalNewActivity = (props) => {
       return (
         <Image
           source={{ uri: image }}
-          style={{ width: 100, height: 100 }}
+          style={{ width: 300, height: 120 }}
         />
       )
     }
@@ -195,7 +192,8 @@ const ModalNewActivity = (props) => {
               values.duracion += "h";
               values.max_participantes = Number(values.max_participantes);
               storeImage();
-              createActivity(values);
+              await createActivity(values);
+              setImage(null);
               props.setActivityModalOpen(false);
             }
           }}
@@ -217,7 +215,10 @@ const ModalNewActivity = (props) => {
                     type="octicon"
                     size={30}
                     color="#086841"
-                    onPress={() => props.setActivityModalOpen(false)}
+                    onPress={() => {
+                      setImage(null);
+                      props.setActivityModalOpen(false)
+                    }}
                   />
                 </TouchableOpacity>
               </View>
@@ -262,7 +263,7 @@ const ModalNewActivity = (props) => {
                       { label: "Comunitario", value: "comunitario" },
                       { label: "Cultural", value: "cultural" },
                       { label: "Deportivo", value: "deportivo" },
-                      { label: "Educación", value: "educación" },
+                      { label: "Educación", value: "educacion" },
                     ]}
                     labelField="label"
                     valueField="value"

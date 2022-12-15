@@ -24,10 +24,8 @@ import {
   getVoluntarioByID,
   getImageDownloadURL,
 } from "../../service/service";
-import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../../utils/firebase";
 import { ArbolesPlantados, CartIcon } from "../../icons/Icons";
-import { truncateText } from "../../service/functions";
+
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -240,7 +238,7 @@ const ProfileScreen = () => {
           setIsModalOpen={setIsModalOpen}
           onCerrarSesion={onCerrarSesion}
           onBorrarCuenta={onBorrarCuenta}
-        ></ModalPerfil>
+        />
       </SafeAreaView>
     </TailwindProvider>
   );

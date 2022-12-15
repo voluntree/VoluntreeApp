@@ -22,6 +22,7 @@ import HistorialActividades from "../screens/user/HistorialActividades";
 import AssocFromUser from "../screens/user/AssocFromUser";
 import EditProfile from "../screens/user/EditProfile";
 import FollowingScreen from "../screens/user/FollowingScreen";
+import Donation from "../screens/user/Donation";
 
 const { Navigator, Screen } = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ const AppNavigator = () => (
 
         <Screen name='UserHome' component={TabNavigator}/>
         <Screen name="Activity" component={ActivityScreen}/>
+        <Screen name="Donacion" component={Donation}/>
         <Screen name='AssocFromVol' component={AssocFromUser}/>
         <Screen name='QRscanner' component={QRScanner}/>
         <Screen name='Following' component={FollowingScreen}/>

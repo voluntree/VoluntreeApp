@@ -48,7 +48,7 @@ const ListaActividadesPerfil = (props) => {
 
   return (
       <FlatList
-        className="h-full w-full px-4 "
+        className="h-full w-full px-4 mb-32"
         data={actividades}
         keyExtractor={(item) => item.titulo}
         ListEmptyComponent={renderEmptyContainer()}

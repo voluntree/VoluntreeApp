@@ -15,12 +15,11 @@ import { Dropdown } from "react-native-element-dropdown";
 import Slider from "@react-native-community/slider";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { Formik } from "formik";
-import MapView from "react-native-maps";
-import { Marker } from "react-native-maps";
 import * as ImagePicker from "expo-image-picker";
 import { storage, uploadBytes } from "../../utils/firebase";
 import { ref } from "firebase/storage";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
 import { updateActivity } from "../../service/service";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,6 +29,8 @@ const EditActivity = () => {
   const { actividad, uri } = route.params;
 
   const navigation = useNavigation();
+
+  const [ubicacion, setUbicacion] = useState(actividad.ubicacion);
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -43,6 +44,9 @@ const EditActivity = () => {
   );
 
   const [sliding, setSliding] = useState(false);
+
+  const google_api_key = "AIzaSyACpAdm3w3zmrvsSJ5KgKtNQff7nslAbj0";
+  const HERE_API_KEY = "wb6elsR3LLHIxv7GvWq834Sb5hNUbvdTYWk0PSYie44";
 
   useEffect(() => {
     async () => {
@@ -82,7 +86,7 @@ const EditActivity = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [16, 9],
       quality: 1,
     });
 
@@ -104,7 +108,7 @@ const EditActivity = () => {
     setUploading(true);
     console.log(image);
     const filename = image.substring(image.lastIndexOf("/") + 1);
-    const path = `cardImages/${filename}`;
+    const path = `cardImages/${actividad.asociacion}/${filename}`;
     const storageRef = ref(storage, path);
     const img = await fetch(image);
     const bytes = await img.blob();
@@ -133,20 +137,40 @@ const EditActivity = () => {
   const ChooseImage = () => {
     if (image == null) {
         return (
-            <Image source={{ uri: uri }} style={{ width: 100, height: 100 }} />
+            <Image source={{ uri: uri }} style={{ width: 300, height: 120 }} />
         );
     } else {
         return (
-            <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />
+            <Image source={{ uri: image }} style={{ width: 300, height: 120 }} />
         );
     }
   };
+
+  function getAddressFromCoordinates( latitude, longitude ) {
+    return new Promise((resolve) => {
+      const url = `https://revgeocode.search.hereapi.com/v1/revgeocode?apiKey=${HERE_API_KEY}&in=circle:${latitude},${longitude};r=100`
+      fetch(url)
+        .then(res => res.json())
+        .then((resJson) => {
+          // the response had a deeply nested structure :/
+          if (resJson) {
+            resolve(resJson.items[0].address)
+          } else {
+            resolve()
+          }
+        })
+        .catch((e) => {
+          console.log('Error in getAddressFromCoordinates', e)
+          resolve()
+        })
+    })
+  }
 
   return (
     <SafeAreaView className = "bg-blanco w-full h-full">
       <Formik
         initialValues={{
-          asociacion: "Green Peace",
+          asociacion: actividad.asociacion,
           titulo: actividad.titulo,
           tipo: actividad.tipo,
           num_participantes: actividad.num_participantes,
@@ -159,7 +183,7 @@ const EditActivity = () => {
           ubicacion: actividad.ubicacion,
           address: actividad.address
         }}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
           if (correctData(values)) {
             values.duracion.length == 1
               ? (values.duracion = values.duracion + "h")
@@ -171,7 +195,16 @@ const EditActivity = () => {
             } else {
               values.imagen = actividad.imagen;
             }
-            updateActivity(values);
+            values.address = await getAddressFromCoordinates(values.ubicacion.latitude, values.ubicacion.longitude)
+            try {
+              console.log("Actualizando actividad...")
+              await updateActivity(values);
+              Alert.alert("Actividad actualizada", "La actividad se ha actualizado correctamente");
+              navigation.goBack();
+            } catch (e) {
+              Alert.alert("Error", "No se ha podido actualizar la actividad. Inténtelo de nuevo más tarde");
+              console.log(e);
+            }
           }
         }}
       >
@@ -239,7 +272,9 @@ const EditActivity = () => {
                   data={[
                     { label: "Ambiental", value: "ambiental" },
                     { label: "Comunitario", value: "comunitario" },
-                    { label: "Educación", value: "educación" },
+                    { label: "Cultural", value: "cultural" },
+                    { label: "Deportivo", value: "deportivo" },
+                    { label: "Educación", value: "educacion" },
                   ]}
                   labelField="label"
                   valueField="value"
@@ -254,19 +289,54 @@ const EditActivity = () => {
             <View className="space-y-4 px-4">
               {/* Localización */}
               <View className="flex flex-row">
-                <Icon
-                  name="location"
-                  type="ionicon"
-                  size={22}
-                  color="#086841"
-                  style={{ marginTop: 8, marginRight: 5 }}
-                />
-                <TextInput
-                  className="border-b border-[#FEBBBB] text-sm text-ambiental h-8 w-8/12 pt-2"
-                  placeholder="Localización"
-                  placeholderTextColor={"#086841"}
-                />
-              </View>
+                  <Icon
+                    name="place"
+                    type="material"
+                    size={22}
+                    color="#086841"
+                    style={{ marginTop: 2, marginRight: 5 }}
+                  />
+                  <View className="absolute z-50 w-10/12 left-6 border-b border-[#FEBBBB]" >
+                    <GooglePlacesAutocomplete
+                        placeholder="Localización"
+                        fetchDetails={true}
+                        onPress={(data, details = null) => {
+                            setUbicacion({
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                            });
+                            props.setFieldValue("ubicacion", {
+                              latitude: details.geometry.location.lat,
+                              longitude: details.geometry.location.lng,
+                            });
+                        }}
+                        query={{
+                            key: google_api_key,
+                            language: 'es',
+                            components: 'country:es',
+                            radius: 30000,
+                            location: `${ubicacion.latitude}, ${ubicacion.longitude}`,
+                        }}
+                        textInputProps={{
+                            defaultValue: actividad.address.label,
+                            placeholderTextColor: "#086841",
+                            style: {
+                                fontSize: 14,
+                                color: "#086841",
+                                width: "100%",
+                                height: "100%",
+                            },
+                        }}
+                        styles={{
+                            listView: {
+                                backgroundColor: 'white',
+                                borderWidth: 1,
+                                borderColor: '#086841',
+                            },
+                        }}
+                    />
+                  </View>
+                </View>
               {/* Fecha */}
               <View className="flex flex-row">
                 <Icon
@@ -380,8 +450,7 @@ const EditActivity = () => {
             <TouchableOpacity
               className="items-center"
               onPress={() => {
-                // props.handleSubmit();
-                console.log(uri);
+                props.handleSubmit();
               }}
             >
               <View className="h-10 w-40 bg-costas rounded-md justify-center items-center">
