@@ -132,13 +132,13 @@ const EditProfileAssoc = () => {
         } else {
           if (image != null) {
             await storeImage(true);
-            userData.fotoPerfil = image;
+            userData.fotoPerfil = image.substring(image.lastIndexOf("/") + 1);
           } else {
             userData.fotoPerfil = association.fotoPerfil;
           }
           if (imageBG != null) {
             await storeImage(false);
-            userData.fondoPerfil = imageBG;
+            userData.fondoPerfil = imageBG.substring(imageBG.lastIndexOf("/") + 1);
           } else {
             userData.fondoPerfil = association.fondoPerfil;
           }
